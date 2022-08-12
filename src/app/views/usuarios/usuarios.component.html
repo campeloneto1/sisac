@@ -1,0 +1,142 @@
+<div class="wrapper">
+  <app-navbar></app-navbar>
+  <app-sidebar></app-sidebar>
+  <!--INICIO CONTENT WRAPPER-->
+  <div class="content-wrapper" style="min-height: 1604.44px">
+    <!--INICIO SECTION HEADER-->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Usuários</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/Inicio']">Início</a>
+              </li>
+              <li class="breadcrumb-item active">Usuários</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--FIM SECTION HEADER-->
+    <!--INICIO SECTION TABELA-->
+    <section class="content">
+      <!--INICIO CARD-->
+      <div class="card card-outline card-orange">
+        <!--INICIO HEADER CARD-->
+        <div class="card-header">
+          <div class="row">
+            <div class="col-sm-1">
+              <button 
+              data-toggle="modal"
+              data-target="#modalcad" 
+              type="button" 
+              class="btn btn-block btn-outline-primary">
+                <i class="nav-icon fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!--FIM HEADER CARD-->
+        <!--INICIO BODY CARD-->
+        <div class="card-body">
+          <!--INICIO TABLE CARD-->
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"
+            class="table table-hover table-head-fixed text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>GRADUAÇÃO</th>
+                <th>NOME</th>
+                <th>CPF</th>
+                <th>MATRÍCULA</th>
+                <th>PERFIL</th>
+                <th>OPÇÕES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of usuarios$" class="hovers">
+                <td>{{ data.id }}</td>
+                <td>{{ data.graduacao.nome }}</td>
+                <td>{{ data.nome }}</td>
+                <td>{{ data.cpf }}</td>
+                <td>{{ data.matricula }}</td>
+                <td>{{ data.perfil.nome }}</td>
+                <td>
+                  <span class="editdata">
+                    <i
+                      (click)="editar(data)"
+                      data-toggle="modal"
+                      data-target="#modalcad"
+                      class="right fas fa-edit text-primary point"
+                    ></i>
+                    <i
+                      (click)="deletar(data)"
+                      data-toggle="modal"
+                      data-target="#modaldel"
+                      class="right fas fa-trash text-danger point margin5"
+                    ></i>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!--FIM TABLE CARD-->
+        </div>
+        <!--FIM BODY CARD-->
+      </div>
+      <!--FIM CARD-->
+
+      <!--INICIO MODAL CADASTRO-->
+      <div
+        class="modal fade"
+        id="modalcad"        
+        aria-modal="true"
+        role="dialog"
+      >
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Extra Large Modal</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>One fine body…</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIM MODAL CADASTRO-->
+
+    </section>
+    <!--FIM SECTION TABELA-->
+  </div>
+  <!--FIM CONTENT WRAPPER-->
+  <app-footer></app-footer>
+</div>
