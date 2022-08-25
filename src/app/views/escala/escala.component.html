@@ -1,0 +1,76 @@
+<div class="body" *ngIf="data$">
+  <table>
+    <thead class="theadfix">
+      <img class="cabecalho" src="../../../assets/cabecalho.png" />
+      <br /><br />
+      <h3 class="cabecalho2">
+        {{ data$.escala_modelo.nome }} Nº {{ data$.codigo }}/{{
+          data$.created_at | date: "yyyy"
+        }}
+        - {{ data$.subunidade.abreviatura }}
+      </h3>
+      <h4 class="cabecalho2">Para o dia {{ dataesc }}</h4>
+    </thead>
+    <tbody>
+      <div class="corpo">
+        <br />
+
+        <div class="row">
+          <div class="col-sm-12" *ngFor="let data of data$.escala_modelo.modalidades">
+            <div class="card card-gray">
+              <div class="card-header">
+                <h3 class="card-title">{{data.modalidade.nome}}</h3>
+                
+              </div>
+
+              <div class="card-body">
+                <table class="table table-hover text-nowrap">                  
+                  <tbody>
+                    <tr *ngFor="let data2 of data.modalidade.postos">
+                      <td style="align-items: center; justify-content: center;">
+                        <h5>
+                            {{data2.posto.nome}}
+                        </h5>
+                      </td>
+                      <td *ngFor="let data3 of data2.posto.turnos">
+                        {{data3.turno.nome}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tbody>
+    <tfoot class="tfootfix">
+      <div class="row" *ngIf="user">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+          <p class="rodape2">
+            {{ user.subunidade?.nome }} – {{ user.subunidade.unidade?.nome
+            }}<br />
+            {{ user.subunidade?.rua }}, {{ user.subunidade?.numero }} -
+            {{ user.subunidade?.bairro }} | CEP:
+            {{ user.subunidade?.cep | mask: "00.000-00" }}
+            {{ user.subunidade.cidade?.nome }} /
+            {{ user.subunidade.cidade?.estado.uf }} <br />
+            Fones: {{ user.subunidade?.telefone1 | mask: "(00) 0000-0000" }} |
+            E-mail: {{ user.subunidade?.email }}<br />
+            <b>“Raça de Fortes, Povo de Bravos”</b>
+          </p>
+        </div>
+        <div class="col-sm-3">
+          <p class="rodape3">
+            <b>Usuário:</b> {{ user.graduacao?.abreviatura }}
+            {{ user.numeral }} {{ user.nome_guerra }}<br />
+            <b>Data:</b> {{ date | date: "dd/MM/yyyy HH:mm" }}
+          </p>
+        </div>
+      </div>
+
+      <img class="rodape" src="../../../assets/rodape.png" />
+    </tfoot>
+  </table>
+</div>

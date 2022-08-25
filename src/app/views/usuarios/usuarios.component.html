@@ -30,11 +30,13 @@
         <div class="card-header">
           <div class="row">
             <div class="col-sm-1">
-              <button 
-              data-toggle="modal"
-              data-target="#modalcad" 
-              type="button" 
-              class="btn btn-block btn-outline-primary">
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#modalcad"
+                type="button"
+                class="btn btn-block btn-outline-primary"
+                (click)="formcad.reset()"
+              >
                 <i class="nav-icon fas fa-plus"></i>
               </button>
             </div>
@@ -53,35 +55,45 @@
             <thead>
               <tr>
                 <th>ID</th>
+                <th>SUBUNIDADE</th>
                 <th>GRADUAÇÃO</th>
                 <th>NOME</th>
                 <th>CPF</th>
                 <th>MATRÍCULA</th>
                 <th>PERFIL</th>
+                
                 <th>OPÇÕES</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of usuarios$" class="hovers">
+              <tr *ngFor="let data of data$" class="hovers">
                 <td>{{ data.id }}</td>
+                <td>{{ data.subunidade.abreviatura }} - {{ data.subunidade.unidade.abreviatura }}</td>    
                 <td>{{ data.graduacao.nome }}</td>
-                <td>{{ data.nome }}</td>
-                <td>{{ data.cpf }}</td>
-                <td>{{ data.matricula }}</td>
+                <td><a [routerLink]="['/Usuario', data.id]">{{ data.nome }}</a></td>
+                <td>{{ data.cpf | mask: "000.000.000-00" }}</td>
+                <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
                 <td>{{ data.perfil.nome }}</td>
+                
                 <td>
                   <span class="editdata">
                     <i
                       (click)="editar(data)"
-                      data-toggle="modal"
-                      data-target="#modalcad"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalcad"
                       class="right fas fa-edit text-primary point"
+                      data-toggle="tooltip" 
+                      data-placement="top" 
+                      title="Editar"
                     ></i>
                     <i
                       (click)="deletar(data)"
-                      data-toggle="modal"
-                      data-target="#modaldel"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modaldel"
                       class="right fas fa-trash text-danger point margin5"
+                      data-toggle="tooltip" 
+                      data-placement="top" 
+                      title="Excluir"
                     ></i>
                   </span>
                 </td>
@@ -95,45 +107,572 @@
       <!--FIM CARD-->
 
       <!--INICIO MODAL CADASTRO-->
-      <div
-        class="modal fade"
-        id="modalcad"        
-        aria-modal="true"
-        role="dialog"
-      >
+      <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Extra Large Modal</h4>
+              <h4 class="modal-title">Cadastrar</h4>
               <button
                 type="button"
                 class="close"
-                data-dismiss="modal"
+                data-bs-dismiss="modal"
                 aria-label="Close"
               >
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body">
-              <p>One fine body…</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button
-                type="button"
-                class="btn btn-default"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
+            <!--FORM CADASTRO-->
+            <form [formGroup]="formcad" (ngSubmit)="salvar()">
+              <div class="modal-body">
+                <!--INICIO ROW 1-->
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="nome"
+                        >Nome<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="nome"
+                        required
+                        minlength="6"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="nome"
+                        placeholder="Nome"
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.nome.invalid &&
+                            (formcad.controls.nome.dirty ||
+                              formcad.controls.nome.touched)
+                        }"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="cpf"
+                        >CPF<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="cpf"
+                        required
+                        mask="000.000.000-00"
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.cpf.invalid &&
+                            (formcad.controls.cpf.dirty ||
+                              formcad.controls.cpf.touched)
+                        }"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="cpf"
+                        placeholder="CPF"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="data_nascimento"
+                        >Data Nasc.<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="data_nascimento"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.data_nascimento.invalid &&
+                            (formcad.controls.data_nascimento.dirty ||
+                              formcad.controls.data_nascimento.touched)
+                        }"
+                        type="date"
+                        class="form-control form-control-border"
+                        id="data_nascimento"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="sexo_id"
+                        >Sexo<span class="text-danger">*</span></label
+                      >
+                      <select
+                        formControlName="sexo_id"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.sexo_id.invalid &&
+                            (formcad.controls.sexo_id.dirty ||
+                              formcad.controls.sexo_id.touched)
+                        }"
+                        class="custom-select form-control-border"
+                        id="sexo_id"
+                      >
+                        <option></option>
+                        <option value="2">Feminino</option>
+                        <option value="1">Masculino</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!--FIM ROW 1-->
+                <!--INICIO ROW 2-->
+                <div class="row">
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="telefone1"
+                        >Telefone 1<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="telefone1"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.telefone1.invalid &&
+                            (formcad.controls.telefone1.dirty ||
+                              formcad.controls.telefone1.touched)
+                        }"
+                        mask="(00) 00000-0000"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="telefone1"
+                        placeholder="Telefone 1"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="telefone2">Telefone 2</label>
+                      <input
+                        formControlName="telefone2"
+                        mask="(00) 00000-0000"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="telefone2"
+                        placeholder="Telefone 2"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="email">E-mail</label>
+                      <input
+                        formControlName="email"
+                        type="email"
+                        class="form-control form-control-border"
+                        id="email"
+                        placeholder="E-mail"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--FIM ROW 2-->
+                <!--INICIO ROW 3-->
+                <div class="row">
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="graduacao_id"
+                        >Graduação<span class="text-danger">*</span></label
+                      >
+                      <select
+                        formControlName="graduacao_id"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.graduacao_id.invalid &&
+                            (formcad.controls.graduacao_id.dirty ||
+                              formcad.controls.graduacao_id.touched)
+                        }"
+                        class="custom-select form-control-border"
+                        id="graduacao_id"
+                      >
+                        <option></option>
+                        <option
+                          *ngFor="let data of graduacoes$"
+                          value="{{ data.id }}"
+                        >
+                          {{ data.nome }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="nome_guerra"
+                        >Nome Guerra<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="nome_guerra"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.nome_guerra.invalid &&
+                            (formcad.controls.nome_guerra.dirty ||
+                              formcad.controls.nome_guerra.touched)
+                        }"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="nome_guerra"
+                        placeholder="Nome Guerra"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="numeral">Numeral</label>
+                      <input
+                        formControlName="numeral"
+                        type="number"
+                        max="99999"
+                        min="0"
+                        class="form-control form-control-border"
+                        id="numeral"
+                        placeholder="Numeral"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="matricula"
+                        >Matrícula<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="matricula"
+                        required
+                        mask="000.000-0-0"
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.matricula.invalid &&
+                            (formcad.controls.matricula.dirty ||
+                              formcad.controls.matricula.touched)
+                        }"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="matricula"
+                        placeholder="Matrícula"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="data_ingresso"
+                        >Data Ingr.<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="data_ingresso"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.data_ingresso.invalid &&
+                            (formcad.controls.data_ingresso.dirty ||
+                              formcad.controls.data_ingresso.touched)
+                        }"
+                        type="date"
+                        class="form-control form-control-border"
+                        id="data_ingresso"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--FIM ROW 3-->
+                <!--INICIO ROW 4-->
+                <div class="row">
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="pais_id">País</label>
+                      <select
+                        (change)="getEstados()"
+                        formControlName="pais_id"
+                        class="custom-select form-control-border"
+                        id="pais_id"
+                      >
+                        <option></option>
+                        <option
+                          *ngFor="let data of paises$"
+                          value="{{ data.id }}"
+                        >
+                          {{ data.nome }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="estado_id">Estado</label>
+                      <select
+                        (change)="getCidades()"
+                        formControlName="estado_id"
+                        class="custom-select form-control-border"
+                        id="estado_id"
+                      >
+                        <option></option>
+                        <option
+                          *ngFor="let data of estados$"
+                          value="{{ data.id }}"
+                        >
+                          {{ data.nome }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="cidade">Cidade</label>
+                      <ngx-select-dropdown 
+                        [config]="config" 
+                        [options]="cidades$"
+                        formControlName="cidade"
+                        
+                        >
+                        
+                      </ngx-select-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="cep">CEP</label>
+                      <input
+                        formControlName="cep"
+                        mask="00.000-000"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="cep"
+                        placeholder="Cep"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--FIM ROW 4-->
+                <!--INICIO ROW 5-->
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="rua">Rua</label>
+                      <input
+                        formControlName="rua"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="rua"
+                        placeholder="Rua"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="numero">Número</label>
+                      <input
+                        formControlName="numero"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="numero"
+                        placeholder="Número"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="bairro">Bairro</label>
+                      <input
+                        formControlName="bairro"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="bairro"
+                        placeholder="Bairro"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="complemento">Complemento</label>
+                      <input
+                        formControlName="complemento"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="complemento"
+                        placeholder="Complemento"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--FIM ROW 5-->
+                <!--INICIO ROW 6-->
+                <div class="row">
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="perfil_id"
+                        >Perfil<span class="text-danger">*</span></label
+                      >
+                      <select
+                        formControlName="perfil_id"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.perfil_id.invalid &&
+                            (formcad.controls.perfil_id.dirty ||
+                              formcad.controls.perfil_id.touched)
+                        }"
+                        class="custom-select form-control-border"
+                        id="perfil_id"
+                      >
+                        <option></option>
+                        <option
+                          *ngFor="let data of perfis$"
+                          value="{{ data.id }}"
+                        >
+                          {{ data.nome }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="unidade_id"
+                        >Unidade<span class="text-danger">*</span></label
+                      >
+                      <select
+                        (change)="getSubunidades()"
+                        formControlName="unidade_id"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.unidade_id.invalid &&
+                            (formcad.controls.unidade_id.dirty ||
+                              formcad.controls.unidade_id.touched)
+                        }"
+                        class="custom-select form-control-border"
+                        id="unidade_id"
+                      >
+                        <option></option>
+                        <option
+                          *ngFor="let data of unidades$"
+                          value="{{ data.id }}"
+                        >
+                          {{ data.nome }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="subunidade_id"
+                        >SubUnidade<span class="text-danger">*</span></label
+                      >
+                      <select
+                        (change)="getSetores()"
+                        formControlName="subunidade_id"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.subunidade_id.invalid &&
+                            (formcad.controls.subunidade_id.dirty ||
+                              formcad.controls.subunidade_id.touched)
+                        }"
+                        class="custom-select form-control-border"
+                        id="subunidade_id"
+                      >
+                        <option></option>
+                        <option
+                          *ngFor="let data of subunidades$"
+                          value="{{ data.id }}"
+                        >
+                          {{ data.nome }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="setor_id"
+                        >Setor<span class="text-danger">*</span></label
+                      >
+                      <select
+                        formControlName="setor_id"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.setor_id.invalid &&
+                            (formcad.controls.setor_id.dirty ||
+                              formcad.controls.setor_id.touched)
+                        }"
+                        class="custom-select form-control-border"
+                        id="setor_id"
+                      >
+                        <option></option>
+                        <option
+                          *ngFor="let data of setores$"
+                          value="{{ data.id }}"
+                        >
+                          {{ data.nome }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!--INICIO ROW 6-->
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  data-bs-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button
+                  [disabled]="!formcad.valid"
+                  data-bs-dismiss="modal"
+                  type="submit"
+                  class="btn btn-success"
+                >
+                  Salvar
+                </button>
+              </div>
+            </form>
+            <!--FIM FORM CADASTRO-->
           </div>
         </div>
       </div>
       <!--FIM MODAL CADASTRO-->
 
+      <!--INICIO MODAL DELETE-->
+      <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
+        <div class="modal-dialog ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Excluir</h4>
+              <button
+                type="button"
+                class="close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <p>Tem certeza que deseja excluir o usuário <b>{{excluir$?.nome}}</b>?</p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button
+                (click)="confirm()"
+                data-bs-dismiss="modal"
+                type="button"
+                class="btn btn-danger"
+              >
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIM MODAL DELETE-->
     </section>
     <!--FIM SECTION TABELA-->
   </div>

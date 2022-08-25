@@ -1,0 +1,53 @@
+<div class="body" *ngIf="data$">
+  <table>
+    <thead>
+      <img class="cabecalho" src="../../../assets/cabecalho.png" />
+    </thead>
+    <tbody>
+      <div class="corpo">
+        <br />
+        <h4>
+          {{ data$.documento_tipo.nome }} Nº {{ data$.codigo }}/{{
+            data$.created_at | date: "yyyy"
+          }}
+          - {{ data$.subunidade.abreviatura }}
+        </h4>
+        <br />
+        <h5>
+          Fortaleza - CE, {{ datadoc }}
+        </h5>
+        <br /><br />
+        <div [innerHTML]="data$.corpo"></div>
+      </div>
+    </tbody>
+    <tfoot>
+      <div class="row" *ngIf="user">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+          <p class="rodape2">
+            {{ user.subunidade?.nome }} – {{ user.subunidade.unidade?.nome
+            }}<br />
+            {{ user.subunidade?.rua }}, {{ user.subunidade?.numero }} -
+            {{ user.subunidade?.bairro }} | CEP:
+            {{ user.subunidade?.cep | mask: "00.000-00" }}
+            {{ user.subunidade.cidade?.nome }} /
+            {{ user.subunidade.cidade?.estado.uf }} <br />
+            Fones: {{ user.subunidade?.telefone1 | mask: "(00) 0000-0000" }} |
+            E-mail: {{ user.subunidade?.email }}<br />
+            <b>“Raça de Fortes, Povo de Bravos”</b>
+          </p>
+        </div>
+        <div class="col-sm-3">
+          <p class="rodape3">
+            <b>Usuário:</b> {{ user.graduacao?.abreviatura }} {{ user.numeral }}
+            {{ user.nome_guerra }}<br />
+            <b>Data:</b> {{ date | date: "dd/MM/yyyy HH:mm" }}
+          </p>
+        </div>
+
+      </div>
+      
+      <img class="rodape" src="../../../assets/rodape.png" />
+    </tfoot>
+  </table>
+</div>

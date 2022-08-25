@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  menu1 = false;
+  menu2 = false;
+
+  constructor() { 
+    this.menu1 = false;
+    this.menu2 = false;
+  }
 
   ngOnInit(): void {
   }

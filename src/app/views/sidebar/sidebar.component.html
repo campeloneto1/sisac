@@ -1,12 +1,12 @@
 <aside class="main-sidebar sidebar-dark-orange elevation-4">
   <a href="" class="brand-link">
     <img
-      src="../../dist/img/AdminLTELogo.png"
+      src="../../../assets/casamil.png"
       alt="AdminLTE Logo"
       class="brand-image img-circle elevation-3"
       style="opacity: 0.8"
     />
-    <span class="brand-text font-weight-light">AdminLTE 3</span>
+    <span class="brand-text font-weight-light">SISAC</span>
   </a>
 
   <div class="sidebar">
@@ -17,16 +17,82 @@
         role="menu"
         data-accordion="false"
       >
-      <li class="nav-item">
-        <a [routerLink]="['/Inicio']" [routerLinkActive]="['active']" class="nav-link">
-          <i class="nav-icon fas fa-home"></i>
-          <p>
-            Início            
-          </p>
-        </a>
-      </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a
+            [routerLink]="['/Inicio']"
+            [routerLinkActive]="['active']"
+            class="nav-link"
+          >
+            <i class="nav-icon fas fa-home"></i>
+            <p>Início</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            [routerLink]="['/Documentos']"
+            [routerLinkActive]="['active']"
+            class="nav-link"
+          >
+            <i class="nav-icon fas fa-file-text"></i>
+            <p>Documentos</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            [routerLink]="['/Escalas']"
+            [routerLinkActive]="['active']"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-calendar"></i>
+            <p>Escalas</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            [routerLink]="['/Irsos']"
+            [routerLinkActive]="['active']"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-clock"></i>
+            <p>IRSOs</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            [routerLink]="['/Afastamentos']"
+            [routerLinkActive]="['active']"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-medkit"></i>
+            <p>Afastamentos</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            [routerLink]="['/Publicacoes']"
+            [routerLinkActive]="['active']"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-list-alt"></i>
+            <p>Publicações</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            [routerLink]="['/Usuarios']"
+            [routerLinkActive]="['active']"
+            class="nav-link"
+          >
+            <i class="nav-icon fas fa-users"></i>
+            <p>Usuários</p>
+          </a>
+        </li>
+        <li
+          class="nav-item point"
+          (click)="menu1 = !menu1"
+          [ngClass]="{ 'menu-is-opening menu-open': menu1 == true }"
+        >
+          <a  class="nav-link">
             <i class="nav-icon fas fa-cogs"></i>
             <p>
               Administrador
@@ -35,26 +101,162 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a [routerLink]="['/Usuarios']" [routerLinkActive]="['active']" class="nav-link">
+              <a
+                [routerLink]="['/Cidades']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
                 <i class="far fa-circle nav-icon"></i>
-                <p>Usuários</p>
+                <p>Cidades</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="../../index2.html" class="nav-link">
+              <a
+                [routerLink]="['/Estados']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
                 <i class="far fa-circle nav-icon"></i>
-                <p>Dashboard v2</p>
+                <p>Estados</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="../../index3.html" class="nav-link">
+              <a
+                [routerLink]="['/Graduacoes']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
                 <i class="far fa-circle nav-icon"></i>
-                <p>Dashboard v3</p>
+                <p>Graduações</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Paises']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Países</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Subunidades']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>SubUnidades</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Tipos-Afastamentos']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tipos de Afastamentos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Tipos-Documentos']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tipos de Documentos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Tipos-Publicacoes']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tipos de Publicações</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Unidades']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Unidades</p>
               </a>
             </li>
           </ul>
         </li>
-        
+        <li
+          class="nav-item point"
+          (click)="menu2 = !menu2"
+          [ngClass]="{ 'menu-is-opening menu-open': menu2 == true }"
+        >
+          <a  class="nav-link">
+            <i class="nav-icon fas fa-cog"></i>
+            <p>
+              Gestor
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Modalidades']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Modalidades</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Escalas-Modelos']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Modelos de Escalas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Postos']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Postos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Setores']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Setores</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Turnos']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Turnos</p>
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </nav>
   </div>

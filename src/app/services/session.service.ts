@@ -1,56 +1,72 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SessionService {
-
   private user: any;
   private token: any;
 
-  constructor(private http: HttpClient) { }
-
-  check(){
-    if(this.token){
-      return true;
-    }else{
-      if(localStorage.getItem('token')){
-        this.setToken(localStorage.getItem('token'));
-        var teste = this.http.get(environment.url+"check").subscribe(data => {
-          this.setUser(data)
+  constructor(private http: HttpClient) {
+    if (localStorage.getItem('token')) {
+      this.setToken(localStorage.getItem('token'));
+      var teste = this.http
+        .get(environment.url + 'check')
+        .subscribe((data) => {
+          this.setUser(data);
           //console.log(data);
-          return true;
-        });
-        
-        return teste;
-      }else{
-        return false;
-      }
-      
+          //return true;
+        });      
     }
   }
 
-  setSession(data:any){
+  check() {
+    if (this.token) {
+      return true;
+    } else {
+      if (localStorage.getItem('token')) {
+        this.setToken(localStorage.getItem('token'));
+        var teste = this.http
+          .get(environment.url + 'check')
+          .subscribe((data) => {
+            this.setUser(data);
+            //console.log(data);
+            return true;
+          });
+
+        return teste;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  setSession(data: any) {
     this.user = data.user;
     this.token = data.token;
     localStorage.setItem('token', data.token);
   }
 
-  setUser(data:any){
+  setUser(data: any) {
     this.user = data;
   }
 
-  getUser(){
+  getUser() {
     return this.user;
   }
 
-  setToken(data:any){
+  setToken(data: any) {
     this.token = data;
   }
 
-  getToken(){
+  getToken() {
     return this.token;
+  }
+
+  logout(){
+    localStorage.clear();
   }
 }

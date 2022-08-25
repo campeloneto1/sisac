@@ -59,7 +59,7 @@
     </li>
 
     <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
+      <a class="nav-link" data-bs-toggle="dropdown" href="#">
         <i class="far fa-bell"></i>
         <span class="badge badge-warning navbar-badge">15</span>
       </a>
@@ -85,6 +85,39 @@
           >See All Notifications</a
         >
       </div>
+    </li>
+    <li class="nav-item dropdown user-menu">
+      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#dropmenu" aria-expanded="false">
+        <img src="../../../assets/casamil.png" class="user-image img-circle elevation-2" alt="User Image">        
+        <span class="d-none d-md-inline">{{user.nome}}</span>
+      </a>
+      <ul id="dropmenu" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <!-- User image -->
+        <li class="user-header bg-olive">
+          <img src="../../../assets/casamil.png" class="img-circle elevation-2" alt="User Image">
+
+          <p>
+            {{user.nome}}
+            <small></small>
+          </p>
+        </li>
+        <!-- Menu Body -->
+        <li class="user-body">
+          <div class="row">
+            
+            <div class="col-12 text-center">
+              <a data-toggle="modal" data-target="#modalpass" class="point">Alterar senha</a>
+            </div>
+            
+          </div>
+          <!-- /.row -->
+        </li>
+        <!-- Menu Footer-->
+        <li class="user-footer">
+          <a [routerLink]="['/perfil']" class="btn btn-default btn-flat">Perfil</a>
+          <a (click)="logout()" class="btn btn-default btn-flat float-right">Sair</a>
+        </li>
+      </ul>
     </li>
     <!--
     <li class="nav-item">

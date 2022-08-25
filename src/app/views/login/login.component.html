@@ -9,6 +9,7 @@
         <form [formGroup]="formcad" (ngSubmit)="entrar()">
           <div class="input-group mb-3">
             <input 
+            autofocus
             formControlName="usuario"
             mask="000.000.000-00" 
             required 
@@ -43,7 +44,7 @@
             <div class="col-8">
               <div class="icheck-primary">
                 <input type="checkbox" id="remember" />
-                <label for="remember"> Remember Me </label>
+                <label for="remember"> Lembrar-me </label>
               </div>
             </div>
 
