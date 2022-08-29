@@ -69,8 +69,8 @@
                   <td>{{ data.id }}</td>  
                   <td>{{ data.subunidade.abreviatura }} - {{ data.subunidade.unidade.abreviatura }}</td>  
                   <td>{{ data.tipo_publicacao?.nome }}</td>               
-                  <td>{{ data.user?.nome }}</td>  
-                  <td>{{ data.user?.matricula }}</td>    
+                  <td><a [routerLink]="['/Usuario', data.user?.id]">{{ data.user?.nome }}</a></td>  
+                  <td>{{ data.user?.matricula | mask:'000.000-0-0' }}</td>    
                   <td>{{ data.boletim}}</td>     
                   <td style="max-width: 500px; white-space: normal;" [innerHTML]="data.descricao"></td>          
                   <td>

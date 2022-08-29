@@ -9,7 +9,8 @@
     width: 210mm;
     height: 297mm;
   }
-
+  /*padding-left: 100px;
+    padding-right: 80px;
   thead {
     position:fixed;
     left:0px;
@@ -20,13 +21,14 @@
     position:fixed;
     left:0px;
     bottom:0px;
-  }
+    margin-top:  160px;
+  }*/
 
   .corpo {
-    margin-top:  160px;
     padding-left: 100px;
     padding-right: 80px;
-  
+    
+    
     text-align: justify;
   }
 }
@@ -58,7 +60,7 @@
   padding-left: 100px;
   padding-right: 80px;
 
-  
+  text-align: justify;
 }
 
 .rodape {

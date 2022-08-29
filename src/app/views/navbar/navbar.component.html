@@ -89,7 +89,7 @@
     <li class="nav-item dropdown user-menu">
       <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#dropmenu" aria-expanded="false">
         <img src="../../../assets/casamil.png" class="user-image img-circle elevation-2" alt="User Image">        
-        <span class="d-none d-md-inline">{{user.nome}}</span>
+        <span class="d-none d-md-inline">{{user?.nome}}</span>
       </a>
       <ul id="dropmenu" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
         <!-- User image -->
@@ -97,7 +97,7 @@
           <img src="../../../assets/casamil.png" class="img-circle elevation-2" alt="User Image">
 
           <p>
-            {{user.nome}}
+            {{user?.nome}}
             <small></small>
           </p>
         </li>

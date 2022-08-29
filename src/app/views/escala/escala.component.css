@@ -10,24 +10,30 @@
     height: 297mm;
   }
 
-  .theadfix {
+   /*
+  thead {
     position:fixed;
     left:0px;
     top:0px;
   }
 
-  .tfootfix {
+  tfoot {
     position:fixed;
     left:0px;
     bottom:0px;
-  }
+    margin-top:  160px;
+  }margin-top:  250px;*/
 
   .corpo {
-    margin-top:  250px;
+    
     padding-left: 100px;
     padding-right: 80px;
   
     text-align: justify;
+  }
+
+  .noprint{
+    display: none;
   }
 }
 
@@ -65,6 +71,8 @@
   padding-right: 80px;
 
   text-align: justify;
+
+  margin-bottom: 300px;
 }
 
 .rodape {
@@ -94,4 +102,36 @@
 
   position: relative;
   top: 60px;
+}
+
+
+
+/* ------------------------------------------ */
+
+.tablehead{
+  background-color: slategrey;
+}
+
+
+.headth{
+  font-size: 25px;
+  color: white;
+}
+
+.postotitle{
+  background-color: rgb(165, 172, 179);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: whitesmoke;
+
+  min-width: 33%;
+  width: 33%;
+  max-width: 33%;
+}
+
+.turnord{
+  min-width: 33%;
+  width: 33%;
+  max-width: 33%;
 }

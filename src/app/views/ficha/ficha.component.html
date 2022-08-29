@@ -1,0 +1,40 @@
+<div id="" class="container-fluid print">
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="3" class="text-center">
+              {{ data$.subunidade?.abreviatura }} - FICHA DE ALTERAÇÃO<br />
+              {{ data$.graduacao?.abreviatura }} {{ data$.numeral }}
+              {{ data$.nome }} - MAT: {{ data$.matricula }}
+            </th>
+          </tr>
+          <tr class="text-center">
+            <th>TIPO</th>
+            <th>DESCRIÇÃO</th>
+            <th>BOLETIM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of data$.publicacoes">
+            <td class="text-center">
+              {{ data.tipo_publicacao.nome | uppercase }}
+            </td>
+            <td [innerHtml]="data.descricao"></td>
+            <td class="text-center">
+              {{ data.boletim | uppercase }}
+            </td>
+          </tr>
+        </tbody>
+        <tfoot *ngIf="user" class="text-right">
+           <th colspan="3">
+            <b>Usuário:</b> {{ user.graduacao?.abreviatura }}
+            {{ user.numeral }} {{ user.nome_guerra }}<br />
+            <b>Data:</b> {{ date | date: "dd/MM/yyyy HH:mm" }}         
+           </th>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

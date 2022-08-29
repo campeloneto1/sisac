@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
+import { ToastrService } from 'ngx-toastr';
+
 import { EscalasService } from '../../services/escalas.service';
+import { UsuariosService } from '../../services/usuarios.service';
+import { EscalasUsersService } from '../../services/escalas-users.service';
 import { EscalasModelosService } from '../../services/escalas-modelos.service';
 import { SessionService } from '../../services/session.service';
 
@@ -13,9 +18,35 @@ export class EscalaComponent implements OnInit {
 
   data$: any;
   modalidades$: any;
+  usuarios$: any;
 
   user: any;
   date = new Date();
+
+  turno$: any;
+
+  cadusu = false;
+  usus = [];
+
+  modalidade_id = 0;
+  posto_id = 0;
+  turno_id = 0;
+
+  config = {
+    displayFn:(item: any) => { return item.nome+'('+item.matricula+')'; } ,//to support flexible text displaying for each item
+    displayKey:"nome", //if objects array passed which key to be displayed defaults to description
+    search:true, //true/false for the search functionlity defaults to false,
+    height: '400px', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
+    placeholder:'Usuário', // text to be displayed when no item is selected defaults to Select,
+    customComparator: ()=>{}, // a custom function using which user wants to sort the items. default is undefined and Array.sort() will be used in that case,
+    limitTo: 0, // number thats limits the no of options displayed in the UI (if zero, options will not be limited)
+    moreText: 'outros', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
+    noResultsFound: 'Nenhum resultado encontrado!', // text to be displayed when no items are found while searching
+    searchPlaceholder:'Pesquisar', // label thats displayed in search input,
+    searchOnKey: undefined ,// key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+    clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
+    inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
+  }
 
   month = [
     'janeiro',
@@ -48,9 +79,12 @@ export class EscalaComponent implements OnInit {
   dataesc = '';
 
   constructor(
+    private toastr: ToastrService,
     private route: ActivatedRoute,
     private escalas: EscalasService,
+    private escalasusers: EscalasUsersService,
     private escalasmodelos: EscalasModelosService,
+    private usuarios: UsuariosService,
     private session: SessionService
   ) {}
 
@@ -59,11 +93,17 @@ export class EscalaComponent implements OnInit {
     const userid = Number(routeParams.get('id'));
 
     this.escalas.show(userid).subscribe((data) => {
+      //console.log(data);
       this.data$ = data;
       //@ts-ignore
       var date2 = new Date(data.data);
+      //console.log(date2);
       //@ts-ignore
       this.dataesc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear()+' ('+this.diasemana[date2.getDay()]+')';
+    });
+
+    this.usuarios.index().subscribe((data) => {
+      this.usuarios$ = data;
     });
    
     this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()]+' de '+this.date.getFullYear();
@@ -74,4 +114,59 @@ export class EscalaComponent implements OnInit {
     }, 1000);
   }
 
+  refresh(){
+    this.escalas.show(this.data$.id).subscribe(data => {
+      this.data$ = data;
+    });
+  }
+
+  getTurno(data:any, data2:any, data3:any){
+    //console.log(data);
+    this.turno$ = data3;
+
+    this.modalidade_id = data.modalidade.id;
+    this.posto_id = data2.posto.id;
+    this.turno_id = data3.turno.id;
+  }
+
+  getUsus(){
+    this.cadusu = true;
+    this.usus = [];
+  }
+
+  postUsuarios(){
+    var teste = [];
+    teste[0] = this.data$.id;   
+    teste[1] = this.modalidade_id;
+    teste[2] = this.posto_id;
+    teste[3] = this.turno_id;
+    teste[4] = this.usus;
+
+    this.escalasusers.store(teste).subscribe(data => {
+      if(data == 1){
+        this.refresh();   
+        this.usus = [];
+        this.toastr.success('Informação excluída com sucesso!');  
+      }
+    });
+  }
+
+  deletarUsu(data: any){
+    let isExecuted = confirm("Tem certeza que deseja excluir "+data.user.nome+"?");
+
+    if(isExecuted){
+      this.escalasusers.destroy(data.id).subscribe(data => {
+        if(data == 1){
+          this.refresh();   
+          
+          this.toastr.success('Informação excluída com sucesso!');  
+        }
+      });
+    }  
+  }
+
+  filterUsus(usus:any, modalidade:any, posto:any, turno:any){
+    //@ts-ignore
+    return usus.filter(p => p.modalidade_id == modalidade && p.posto_id == posto && p.turno_id == turno );
+  }
 }

@@ -114,6 +114,11 @@
                     <a class="nav-link" href="#afastamentos" data-bs-toggle="tab">Afastamentos</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" href="#escalas" data-bs-toggle="tab"
+                      >Escalas</a
+                    >
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="#irso" data-bs-toggle="tab"
                       >IRSO</a
                     >
@@ -124,6 +129,13 @@
                 <div class="tab-content">
                   <!--INICIO PUBLICACOES-->
                   <div class="active tab-pane" id="publicacoes">
+                    <a target="_blank" style="float: right;" [routerLink]="['/Ficha', data$.id]"><i
+
+                      class="right fa fa-print text-primary point"
+                      data-toggle="tooltip" 
+                      data-placement="top" 
+                      title="Ficha"
+                    ></i></a>
                     <table class="table table-hover text-nowrap">
                       <thead>
                         <tr>
@@ -219,6 +231,47 @@
                     ></pagination-controls>
                   </div>
                   <!--FIM LTS-->
+                  <!--INICIO ESCALAS-->
+                  <div class="tab-pane" id="escalas">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                          <tr>
+                            <th>MODALIDADE</th>
+                            <th>POSTO</th>
+                            <th>TURNO</th>                        
+                            <th>DATA</th>                        
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            *ngFor="
+                              let data of data$.escalas
+                                | paginate
+                                  : {
+                                      id: 'pagesc',
+                                      itemsPerPage: 10,
+                                      currentPage: r
+                                    }
+                            "
+                          >
+                            <td>{{ data.modalidade?.nome }}</td>
+                            <td>{{ data.posto?.nome }}</td>
+                            <td>{{ data.turno?.nome }} ({{ data.turno?.data_ini }} às {{ data.turno?.data_fim }})</td>
+                            <td><a target="_blank"  [routerLink]="['/Escala', data$.id]">{{ data.escala?.data | date:'dd/MM/yyyy' }}</a></td>
+                           
+                          </tr>
+                        </tbody>
+                      </table>
+  
+                      <pagination-controls
+                        id="pagesc"
+                        (pageChange)="s = $event"
+                        previousLabel="Anterior"
+                        nextLabel="Próximo"
+                        screenReaderCurrentLabel="Você está na página"
+                      ></pagination-controls>
+                  </div>
+                  <!--FIM ESCALAS-->
                   <!--INICIO IRSO-->
                   <div class="tab-pane" id="irso">
                     <table class="table table-hover text-nowrap">
@@ -241,7 +294,7 @@
                                     }
                             "
                           >
-                            <td>{{ data.irso.nome }}</td>
+                            <td><a target="_blank"  [routerLink]="['/Irso', data$.id]">{{ data.irso.nome }}</a></td>
                             <td>{{ data.irso.data | date: 'dd/MM/yyyy' }}</td>
                             <td>{{ data.irso.hora }}</td>
                            

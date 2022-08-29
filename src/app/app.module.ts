@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,13 +8,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 
-import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { NgxMaskModule } from 'ngx-mask'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { DataTablesModule } from "angular-datatables";
 import { SelectDropDownModule } from 'ngx-select-dropdown'
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { LoginComponent } from './views/login/login.component';
 import { InicioComponent } from './views/inicio/inicio.component';
@@ -50,6 +49,7 @@ import { EscalasModelosComponent } from './views/escalas-modelos/escalas-modelos
 import { AfastamentosTiposComponent } from './views/afastamentos-tipos/afastamentos-tipos.component';
 import { EscalaComponent } from './views/escala/escala.component';
 import { ModalidadesComponent } from './views/modalidades/modalidades.component';
+import { FichaComponent } from './views/ficha/ficha.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +86,8 @@ import { ModalidadesComponent } from './views/modalidades/modalidades.component'
     EscalasModelosComponent,
     AfastamentosTiposComponent,
     EscalaComponent,
-    ModalidadesComponent
+    ModalidadesComponent,
+    FichaComponent
   ],
   imports: [
     BrowserModule,
@@ -95,12 +96,12 @@ import { ModalidadesComponent } from './views/modalidades/modalidades.component'
     ReactiveFormsModule,
     HttpClientModule,
     NgxMaskModule.forRoot(),
-    BrowserAnimationsModule, // required animations module
+    BrowserAnimationsModule, 
     ToastrModule.forRoot({
-      timeOut: 10000,
+      timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-    }), // ToastrModule added
+    }), 
     DataTablesModule,
     SelectDropDownModule,
     AngularEditorModule,

@@ -14,6 +14,7 @@ import { EscalaComponent } from './views/escala/escala.component';
 import { EscalasComponent } from './views/escalas/escalas.component';
 import { EscalasModelosComponent } from './views/escalas-modelos/escalas-modelos.component';
 import { EstadosComponent } from './views/estados/estados.component';
+import { FichaComponent } from './views/ficha/ficha.component';
 import { GraduacoesComponent } from './views/graduacoes/graduacoes.component';
 import { IrsoComponent } from './views/irso/irso.component';
 import { IrsosComponent } from './views/irsos/irsos.component';
@@ -84,6 +85,11 @@ const routes: Routes = [
     path: 'Estados',
     canActivate: [AuthGuard],
     component: EstadosComponent,
+  },
+  {
+    path: 'Ficha/:id',
+    canActivate: [AuthGuard],
+    component: FichaComponent,
   },
   {
     path: 'Graduacoes',

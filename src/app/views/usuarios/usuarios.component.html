@@ -77,11 +77,18 @@
                 
                 <td>
                   <span class="editdata">
+                    <!--<a target="_blank" [routerLink]="['/Ficha', data.id]"><i
+
+                      class="right fa fa-print text-primary point"
+                      data-toggle="tooltip" 
+                      data-placement="top" 
+                      title="Ficha"
+                    ></i></a>-->
                     <i
                       (click)="editar(data)"
                       data-bs-toggle="modal"
                       data-bs-target="#modalcad"
-                      class="right fas fa-edit text-primary point"
+                      class="right fas fa-edit text-primary point margin5"
                       data-toggle="tooltip" 
                       data-placement="top" 
                       title="Editar"

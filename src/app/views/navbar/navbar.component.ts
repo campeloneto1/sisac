@@ -19,8 +19,8 @@ export class NavbarComponent implements OnInit {
 
     setTimeout( () => {
       this.user = this.session.getUser();
-      console.log(this.user);
-    }, 500);
+      //console.log(this.user);
+    }, 1000);
 
   }
 

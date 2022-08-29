@@ -62,9 +62,9 @@
                 <th>MATRÍCULA</th>
                 <th>DATA</th>
                 <th>DIAS</th>
-                <th>DATA FIM</th>
+                <!--<th>DATA FIM</th>-->
                 <th>APTO</th>                
-                <th>OBJETO SERVIÇO</th>
+                <!--<th>OBJETO SERVIÇO</th>-->
                 <th>DATA COPEM</th>
                 <th>RESULTADO</th>
                 <th>OPÇÕES</th>
@@ -79,17 +79,17 @@
                   {{ data.subunidade.unidade.abreviatura }}
                 </td>
                 <td>{{ data.afastamento_tipo?.nome }}</td>
-                <td>{{ data.user?.nome }}</td>
-                <td>{{ data.user?.matricula }}</td>
+                <td><a [routerLink]="['/Usuario', data.user?.id]">{{ data.user?.nome }}</a></td>
+                <td>{{ data.user?.matricula  | mask:'000.000-0-0' }}</td>
                 <td>{{ data.data | date: "dd/MM/yyyy" }}</td>
                 <td>{{ data.dias }}</td>
-                <td>{{ data.data_fim | date: "dd/MM/yyyy" }}</td>
+                <!--<td>{{ data.data_fim | date: "dd/MM/yyyy" }}</td>-->
                 <td>{{ data.apto | date: "dd/MM/yyyy" }}</td>
                 
-                <td>
+                <!--<td>
                   <span *ngIf="data.objeto_servico">Sim</span>
                   <span *ngIf="!data.objeto_servico">Não</span>
-                </td>
+                </td>-->
                 <td>{{ data.copem | date: "dd/MM/yyyy" }}</td>
                 <td>
                   <span *ngIf="data.resultado == 1">Apto a seguir</span>
