@@ -33,7 +33,12 @@ export class PaisesComponent implements OnInit,OnDestroy {
 
   constructor(
     private toastr: ToastrService,
-    private paises: PaisesService) { }
+    private paises: PaisesService) {
+      this.paises.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+     }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -41,10 +46,7 @@ export class PaisesComponent implements OnInit,OnDestroy {
       pageLength: 10
     };
 
-    this.paises.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
     
   }
 

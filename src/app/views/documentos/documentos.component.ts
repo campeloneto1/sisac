@@ -23,17 +23,16 @@ export class DocumentosComponent implements OnInit, OnDestroy {
   excluir$: any;
 
   editorConfig: AngularEditorConfig = {
-    editable: true,
+      editable: true,
       spellcheck: true,
-      height: '500',
-      minHeight: '500',
-      maxHeight: '500',
+      height: '350',
+      minHeight: '350',
+      maxHeight: '350',
       width: 'auto',
-      minWidth: '0',
       translate: 'yes',
       enableToolbar: true,
       showToolbar: true,
-      placeholder: 'Enter text here...',
+      placeholder: 'Informe aqui o texto do documento...',
       defaultParagraphSeparator: '',
       defaultFontName: '',
       defaultFontSize: '',
@@ -84,7 +83,13 @@ export class DocumentosComponent implements OnInit, OnDestroy {
   constructor(
     private toastr: ToastrService,
     private documentos: DocumentosService,
-    private tiposdocumentos: TiposDocumentosService) { }
+    private tiposdocumentos: TiposDocumentosService) {
+      this.documentos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+  
+     }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -92,11 +97,7 @@ export class DocumentosComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.documentos.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
-
+    
     this.tiposdocumentos.index().subscribe(data => {
       this.tiposdocumentos$ = data;
     }); 

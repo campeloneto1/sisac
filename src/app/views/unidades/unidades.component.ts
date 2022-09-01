@@ -62,7 +62,12 @@ export class UnidadesComponent implements OnInit, OnDestroy {
     private estados: EstadosService,
     private paises: PaisesService,
     private unidades: UnidadesService,
-    private usuarios: UsuariosService) { }
+    private usuarios: UsuariosService) { 
+      this.unidades.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -70,10 +75,7 @@ export class UnidadesComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.unidades.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
 
     this.usuarios.index().subscribe(data => {
       this.usuarios$ = data;

@@ -4,6 +4,11 @@
 
 @media print {
  
+tr{page-break-inside: avoid; 
+  page-break-after: auto;}
 }
 
 
+
+tr{page-break-inside: avoid; 
+  page-break-after: auto;}

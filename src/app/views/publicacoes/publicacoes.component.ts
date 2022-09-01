@@ -104,7 +104,12 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private usuarios: UsuariosService,
     private usuariospublicacoes: UsuariosPublicacoesService,
-    private tipospublicacoes: TiposPublicacoesService) { }
+    private tipospublicacoes: TiposPublicacoesService) { 
+      this.usuariospublicacoes.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -112,10 +117,7 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.usuariospublicacoes.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
 
     this.tipospublicacoes.index().subscribe(data => {
       this.tipospublicacoes$ = data;

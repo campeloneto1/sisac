@@ -58,7 +58,13 @@ export class EscalasModelosComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private escalasmodelos: EscalasModelosService,
     private escalasmodalidades: EscalasModalidadesService,
-    private modalidades: ModalidadesService) { }
+    private modalidades: ModalidadesService) { 
+      this.escalasmodelos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+  
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -66,11 +72,7 @@ export class EscalasModelosComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.escalasmodelos.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
-
+    
     this.modalidades.index().subscribe(data => {
       this.modalidades$ = data;
     });

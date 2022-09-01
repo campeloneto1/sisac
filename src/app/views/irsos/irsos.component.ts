@@ -61,7 +61,13 @@ export class IrsosComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private irsos: IrsosService,
     private irsosusers: IrsosUsersService,
-    private usuarios: UsuariosService) { }
+    private usuarios: UsuariosService) {
+
+      this.irsos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+     }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -69,10 +75,7 @@ export class IrsosComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.irsos.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
 
 
     this.usuarios.index().subscribe(data => {

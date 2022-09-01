@@ -1,6 +1,6 @@
-<div class="wrapper">
-    <app-navbar></app-navbar>
-    <app-sidebar></app-sidebar>
+<!--<div class="wrapper">
+  <app-navbar></app-navbar>
+  <app-sidebar></app-sidebar>-->
   <div class="content-wrapper" style="min-height: 1604.44px">
     <section class="content-header">
       <div class="container-fluid">
@@ -18,31 +18,52 @@
     </section>
 
     <section class="content">
-        
       <div class="row">
         <div class="col-sm-3">
           <div class="info-box shadow-sm">
-            <span class="info-box-icon bg-success"><i class="fa fa-users"></i></span>
+            <span class="info-box-icon bg-success"
+              ><i class="fa fa-users"></i
+            ></span>
             <div class="info-box-content">
-            <span class="info-box-text"><b>Policiais</b></span>
-            <span class="info-box-number">{{quantpm}}</span>
+              <span class="info-box-text"><b>Policiais</b></span>
+              <span class="info-box-number">{{ quantpm }}</span>
             </div>
-            
-            </div>
+          </div>
         </div>
         <div class="col-sm-3">
           <div class="info-box shadow-sm">
-            <span class="info-box-icon bg-danger"><i class="fa fa-medkit"></i></span>
+            <span class="info-box-icon bg-danger"
+              ><i class="fa fa-medkit"></i
+            ></span>
             <div class="info-box-content">
-            <span class="info-box-text"><b>Afastamentos</b></span>
-            <span class="info-box-number">{{quantafast}}</span>
+              <span class="info-box-text"><b>Afastamentos</b></span>
+              <span class="info-box-number">{{ quantafast }}</span>
             </div>
-            
-            </div>
+          </div>
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Por Setores</h3>
+            </div>
+            <div class="card-body p-0">
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <span class="nav-link" *ngFor="let data of quantasetores">
+                    {{data.nome}}
+                    <span class="float-right">{{data.quant}}</span>
+                  </span>
+                </li>                
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3"></div>
+      </div>
     </section>
   </div>
-  <app-footer></app-footer>
-</div>
+  <!--<app-footer></app-footer>
+</div>-->

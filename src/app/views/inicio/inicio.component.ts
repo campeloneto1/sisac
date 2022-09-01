@@ -10,6 +10,7 @@ import { InicioService } from '../../services/inicio.service';
 export class InicioComponent implements OnInit {
   quantpm: any;
   quantafast: any;
+  quantasetores: any;
 
   constructor(private inicio: InicioService) {}
 
@@ -20,6 +21,10 @@ export class InicioComponent implements OnInit {
 
     this.inicio.getAfast().subscribe((data) => {
       this.quantafast = data;
+    });
+
+    this.inicio.getSetores().subscribe((data) => {
+      this.quantasetores = data;
     });
   }
 }

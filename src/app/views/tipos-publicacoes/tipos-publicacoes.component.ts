@@ -32,7 +32,12 @@ export class TiposPublicacoesComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
-    private tipopublicacoes: TiposPublicacoesService) { }
+    private tipopublicacoes: TiposPublicacoesService) { 
+      this.tipopublicacoes.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -40,10 +45,7 @@ export class TiposPublicacoesComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.tipopublicacoes.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+   
     
   }
 

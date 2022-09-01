@@ -16,4 +16,8 @@ export class InicioService {
   getAfast(){
     return this.http.get(environment.url+"inicio-afast");
   }
+
+  getSetores(){
+    return this.http.get(environment.url+"inicio-setores");
+  }
 }

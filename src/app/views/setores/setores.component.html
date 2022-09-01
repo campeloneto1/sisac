@@ -1,6 +1,6 @@
-<div class="wrapper">
+<!--<div class="wrapper">
   <app-navbar></app-navbar>
-  <app-sidebar></app-sidebar>
+  <app-sidebar></app-sidebar>-->
   <!--INICIO CONTENT WRAPPER-->
   <div class="content-wrapper" style="min-height: 1604.44px">
     <!--INICIO SECTION HEADER-->
@@ -44,7 +44,7 @@
         </div>
         <!--FIM HEADER CARD-->
         <!--INICIO BODY CARD-->
-        <div class="card-body">
+        <div class="card-body" style="overflow-x: scroll;">
           <!--INICIO TABLE CARD-->
           <table
             datatable
@@ -57,10 +57,11 @@
                 <th>ID</th>
                 <th>SUBUNIDADE</th>
                 <th>NOME</th>
-                <th>EMAIL</th>
+                <!--<th>EMAIL</th>-->
                 <th>TELEFONE 1</th>
                 <th>COMANDANTE</th>
                 <th>SUBCOMANDANTE</th>
+                <th>ESCALA</th>
                 <th>OPÇÕES</th>
               </tr>
             </thead>
@@ -72,10 +73,14 @@
                   {{ data.subunidade?.unidade.abreviatura }}
                 </td>
                 <td>{{ data.nome }}</td>
-                <td>{{ data.email }}</td>
+                <!--<td>{{ data.email }}</td>-->
                 <td>{{ data.telefone1 | mask: "(00) 00000-0000" }}</td>
                 <td>{{ data.comandante?.nome }}</td>
                 <td>{{ data.subcomandante?.nome }}</td>
+                <td>
+                  <span *ngIf="data.escala">Sim</span>
+                  <span *ngIf="!data.escala">Não</span>
+                </td>
                 <td>
                   <span class="editdata">
                     <i
@@ -219,6 +224,17 @@
                             (formcad.controls.abreviatura.dirty ||
                               formcad.controls.abreviatura.touched)
                         }"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="escala"> Aparece Escala</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        formControlName="escala"
+                        id="escala"
                       />
                     </div>
                   </div>
@@ -388,5 +404,5 @@
     <!--FIM SECTION TABELA-->
   </div>
   <!--FIM CONTENT WRAPPER-->
-  <app-footer></app-footer>
-</div>
+  <!--<app-footer></app-footer>
+</div>-->

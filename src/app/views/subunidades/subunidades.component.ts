@@ -67,7 +67,12 @@ export class SubunidadesComponent implements OnInit, OnDestroy {
     private paises: PaisesService,
     private subunidades: SubunidadesService,
     private unidades: UnidadesService,
-    private usuarios: UsuariosService) { }
+    private usuarios: UsuariosService) {
+      this.subunidades.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+     }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -75,10 +80,7 @@ export class SubunidadesComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.subunidades.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+   
 
     this.unidades.index().subscribe(data => {
       this.unidades$ = data;

@@ -63,7 +63,13 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
     private toastr: ToastrService,
     private usuarios: UsuariosService,
     private usuariosafastamentos: UsuariosAfastamentosService,
-    private afastamentostipos: AfastamentosTiposService) { }
+    private afastamentostipos: AfastamentosTiposService) { 
+
+      this.usuariosafastamentos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -71,10 +77,7 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
       pageLength: 10
     };
 
-    this.usuariosafastamentos.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
 
 
     this.usuarios.index().subscribe(data => {

@@ -1,137 +1,109 @@
-@page {
-  size: A4;
-  margin: 0;
+/* Styles go here */
+
+.page-header, .page-header-space {
+  height: 200px;
+  display: none;
 }
 
-@media print {
-  html,
-  body {
-    width: 210mm;
-    height: 297mm;
-  }
-
-   /*
-  thead {
-    position:fixed;
-    left:0px;
-    top:0px;
-  }
-
-  tfoot {
-    position:fixed;
-    left:0px;
-    bottom:0px;
-    margin-top:  160px;
-  }margin-top:  250px;*/
-
-  .corpo {
-    
-    padding-left: 100px;
-    padding-right: 80px;
-  
-    text-align: justify;
-  }
-
-  .noprint{
-    display: none;
-  }
+.page-footer, .page-footer-space {
+  height: 200px;
+  display: none;
 }
 
-.body {
-  height: 100%;
-  min-height: 100%;
-
+.page-footer {
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  min-width: 100%;
 
-  overflow: hidden;
+}
+
+.page-header {
+  position: fixed;
+  top: 0mm;
+  width: 100%;
+
 }
 
 .cabecalho {
   width: 100%;
-  min-width: 100%;
-
-  height: 150px;
-  min-height: 150px;
-
-  padding-top: 20px;
-}
-
-  
-.cabecalho2 {
-  width: 100%;
-  min-width: 100%;
-
-  text-align: center;
-}
-
-.corpo {
-
-  padding-left: 100px;
-  padding-right: 80px;
-
-  text-align: justify;
-
-  margin-bottom: 300px;
+  height: 35mm;
 }
 
 .rodape {
+  width: 100%;
+  height: 20mm;
+}
 
+.rodape2 {
+  position: relative;
+  top: 40px;
+}
+
+.page {
+  page-break-after: always;
+  padding: 0 10mm 0 20mm;
+  text-align: justify;
+}
+
+@page {
+  margin: 0;
+  -webkit-print-color-adjust: exact; 
+}
+
+@media print {
+   .thead {display: table-header-group;} 
+   .tfoot {display: table-footer-group;}
+   
+   body {margin: 0;}
+
+   .noprint{
+    display: none;
+   }
+
+   .page-header, .page-header-space {
+    height: 200px;
+    display: block;
+  }
+  
+  .page-footer, .page-footer-space {
+    height: 200px;
+    display: block;
+  }
+}
+
+/* inicio config table */
+
+.tableesc {
+  font-size: 10;
   width: 100%;
   min-width: 100%;
-
-  height: 120px;
-  min-height: 120px;
 }
 
-.rodape2{
-  
-  font-size: 14PX;
-
+.titlemodalidade {
   width: 100%;
-  min-width: 100%;    
-  text-align: center;    
-
-  position: relative;
-  top: 50px;
-}
-
-.rodape3{
-  
-  font-size: 14PX;  
-
-  position: relative;
-  top: 60px;
-}
-
-
-
-/* ------------------------------------------ */
-
-.tablehead{
-  background-color: slategrey;
-}
-
-
-.headth{
-  font-size: 25px;
-  color: white;
-}
-
-.postotitle{
-  background-color: rgb(165, 172, 179);
   text-align: center;
   justify-content: center;
-  align-items: center;
-  color: whitesmoke;
+  background-color: #00701a;
+  color: #ffffff;
 
-  min-width: 33%;
-  width: 33%;
-  max-width: 33%;
 }
 
-.turnord{
-  min-width: 33%;
-  width: 33%;
-  max-width: 33%;
+.titlemodalidade2 {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  background-color: #43a047;
+  
 }
+
+.colposto{
+  background-color: #76d275;
+  
+}
+
+.coltable {
+  padding: 5px;
+  width: 33%;
+}
+
+/* fim config table */

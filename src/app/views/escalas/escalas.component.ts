@@ -53,7 +53,14 @@ export class EscalasComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private escalas: EscalasService,
-    private escalasmodelos: EscalasModelosService) { }
+    private escalasmodelos: EscalasModelosService) { 
+
+      this.escalas.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+  
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -61,11 +68,7 @@ export class EscalasComponent implements OnInit {
       pageLength: 10
     };
 
-    this.escalas.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
-
+    
     this.escalasmodelos.index().subscribe(data => {
       this.escalasmodelos$ = data;
     });

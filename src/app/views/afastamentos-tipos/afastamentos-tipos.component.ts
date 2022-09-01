@@ -31,7 +31,13 @@ export class AfastamentosTiposComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
-    private afastamentostipos: AfastamentosTiposService) { }
+    private afastamentostipos: AfastamentosTiposService) { 
+      this.afastamentostipos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -39,10 +45,7 @@ export class AfastamentosTiposComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.afastamentostipos.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
     
   }
 

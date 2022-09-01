@@ -40,6 +40,7 @@ export class SetoresComponent implements OnInit, OnDestroy {
     
     comandante_id: new FormControl(''),  
     subcomandante_id: new FormControl(''),  
+    escala: new FormControl(''),
   });
 
   // We use this trigger because fetching the list of persons can be quite long,
@@ -51,7 +52,12 @@ export class SetoresComponent implements OnInit, OnDestroy {
     private unidades: UnidadesService,
     private subunidades: SubunidadesService,
     private setores: SetoresService,
-    private usuarios: UsuariosService) { }
+    private usuarios: UsuariosService) { 
+      this.setores.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -59,10 +65,7 @@ export class SetoresComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.setores.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
 
     this.unidades.index().subscribe(data => {
       this.unidades$ = data;

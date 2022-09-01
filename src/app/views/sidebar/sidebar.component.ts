@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,13 +10,21 @@ export class SidebarComponent implements OnInit {
 
   menu1 = false;
   menu2 = false;
+  user: any;
 
-  constructor() { 
+  constructor(private session: SessionService) { 
     this.menu1 = false;
     this.menu2 = false;
+    
+      
+    setTimeout( () => {
+      this.user = this.session.getUser();
+    }, 1000);
   }
 
   ngOnInit(): void {
+    
+    
   }
 
 }

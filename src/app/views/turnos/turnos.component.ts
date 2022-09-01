@@ -33,7 +33,12 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
-    private turnos: TurnosService) { }
+    private turnos: TurnosService) { 
+      this.turnos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -41,10 +46,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.turnos.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
     
   }
 

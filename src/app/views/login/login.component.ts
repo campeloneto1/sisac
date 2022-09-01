@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { AppComponent } from 'src/app/app.component';
 import { ToastrService } from 'ngx-toastr';
 
 import { LoginService } from '../../services/login.service';
-import { SessionService } from '../..//services/session.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -22,10 +22,12 @@ export class LoginComponent implements OnInit {
   constructor(private toastr: ToastrService,
     private router: Router,
     private session: SessionService,
-    private login: LoginService) { }
+    private login: LoginService,
+    private appcom: AppComponent) { }
 
   ngOnInit(): void {
-    
+    this.appcom.token = false;
+    this.session.logout();
   }
 
   entrar(){
@@ -38,7 +40,10 @@ export class LoginComponent implements OnInit {
         if(data.token){
           //@ts-ignore
           this.session.setSession(data);
+          this.appcom.token = true;
+          this.appcom.logado = true;
           this.router.navigate(['/Inicio']);
+
         }
       },
       err => {

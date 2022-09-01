@@ -58,7 +58,12 @@ export class PostosComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private postos: PostosService,
     private turnos: TurnosService,
-    private postosturnos: PostosTurnosService) { }
+    private postosturnos: PostosTurnosService) { 
+      this.postos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -66,10 +71,7 @@ export class PostosComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.postos.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+   
 
     this.turnos.index().subscribe(data => {
       this.turnos$ = data;

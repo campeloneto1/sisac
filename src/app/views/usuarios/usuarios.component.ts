@@ -101,18 +101,20 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private usuarios: UsuariosService,
     private unidades: UnidadesService,
     private subunidades: SubunidadesService,
-    private setores: SetoresService) { }
+    private setores: SetoresService) {
+
+      this.usuarios.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+
+     }
 
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10
     };
-
-    this.usuarios.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
 
     this.graduacoes.index().subscribe(data => {
       this.graduacoes$ = data;      
@@ -128,7 +130,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
     this.unidades.index().subscribe(data => {
       this.unidades$ = data;      
-    }); 
+    });
     //console.log(this.usuarios.getUsuarios());
     
   }
@@ -186,16 +188,16 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.setores$ = data;
     });  
     //@ts-ignore
-    this.estados.where(data.cidade.estado.pais_id).subscribe(data => {
+    this.estados.where(data.cidade?.estado?.pais_id).subscribe(data => {
       this.estados$ = data;
     });
     //@ts-ignore
-    this.cidades.where(data.cidade.estado_id).subscribe(data => {
+    this.cidades.where(data.cidade?.estado_id).subscribe(data => {
       this.cidades$ = data;
     });
     this.formcad.patchValue(data);
-    this.formcad.controls.estado_id.patchValue(data.cidade.estado_id);
-    this.formcad.controls.pais_id.patchValue(data.cidade.estado.pais_id);
+    this.formcad.controls.estado_id.patchValue(data.cidade?.estado_id);
+    this.formcad.controls.pais_id.patchValue(data.cidade?.estado?.pais_id);
     this.formcad.controls.unidade_id.patchValue(data.subunidade.unidade_id);
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentosService } from '../../services/documentos.service';
 import { SessionService } from '../../services/session.service';
+import { AppComponent } from 'src/app/app.component';
 @Component({
   selector: 'app-documento',
   templateUrl: './documento.component.html',
@@ -35,8 +36,11 @@ export class DocumentoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private documentos: DocumentosService,
-    private session: SessionService
-  ) {}
+    private session: SessionService,
+    private apcom: AppComponent
+  ) {
+    this.apcom.token = false;
+  }
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;

@@ -30,7 +30,12 @@ export class GraduacoesComponent implements OnInit,OnDestroy {
 
   constructor(
     private toastr: ToastrService,
-    private graduacoes: GraduacoesService) { }
+    private graduacoes: GraduacoesService) {
+      this.graduacoes.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+     }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -38,10 +43,7 @@ export class GraduacoesComponent implements OnInit,OnDestroy {
       pageLength: 10
     };
 
-    this.graduacoes.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
     
   }
 

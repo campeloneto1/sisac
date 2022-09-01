@@ -32,7 +32,12 @@ export class TiposDocumentosComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
-    private tiposdocumentos: TiposDocumentosService) { }
+    private tiposdocumentos: TiposDocumentosService) { 
+      this.tiposdocumentos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -40,10 +45,7 @@ export class TiposDocumentosComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.tiposdocumentos.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+   
     
   }
 

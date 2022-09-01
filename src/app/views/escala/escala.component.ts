@@ -6,8 +6,10 @@ import { ToastrService } from 'ngx-toastr';
 import { EscalasService } from '../../services/escalas.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { EscalasUsersService } from '../../services/escalas-users.service';
-import { EscalasModelosService } from '../../services/escalas-modelos.service';
+import { SetoresService } from '../../services/setores.service';
 import { SessionService } from '../../services/session.service';
+
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-escala',
@@ -19,6 +21,7 @@ export class EscalaComponent implements OnInit {
   data$: any;
   modalidades$: any;
   usuarios$: any;
+  setores$: any;
 
   user: any;
   date = new Date();
@@ -83,10 +86,19 @@ export class EscalaComponent implements OnInit {
     private route: ActivatedRoute,
     private escalas: EscalasService,
     private escalasusers: EscalasUsersService,
-    private escalasmodelos: EscalasModelosService,
     private usuarios: UsuariosService,
-    private session: SessionService
-  ) {}
+    private setores: SetoresService,
+    private session: SessionService,
+    private apcom: AppComponent
+  ) {
+    this.apcom.token = false;
+
+    this.usuarios.index().subscribe((data) => {
+      this.usuarios$ = data;
+    });
+
+   
+  }
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
@@ -102,14 +114,15 @@ export class EscalaComponent implements OnInit {
       this.dataesc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear()+' ('+this.diasemana[date2.getDay()]+')';
     });
 
-    this.usuarios.index().subscribe((data) => {
-      this.usuarios$ = data;
-    });
+   
    
     this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()]+' de '+this.date.getFullYear();
 
     setTimeout( () => {
       this.user = this.session.getUser();
+      this.setores.where2(this.user.subunidade_id).subscribe((data) => {
+        this.setores$ = data;
+      });
       //console.log(this.user);
     }, 1000);
   }

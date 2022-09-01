@@ -17,6 +17,10 @@ export class SetoresService {
     return this.http.get(environment.url+"setores/"+id+"/where");
   }
 
+  where2(id:number){
+    return this.http.get(environment.url+"setores/"+id+"/where2");
+  }
+
   show(id:number){
     return this.http.get(environment.url+"setores/"+id);
   }

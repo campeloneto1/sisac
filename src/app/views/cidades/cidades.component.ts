@@ -39,7 +39,13 @@ export class CidadesComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private cidades: CidadesService,
     private estados: EstadosService,
-    private paises: PaisesService) { }
+    private paises: PaisesService) {
+      
+    this.cidades.index().subscribe(data => {
+      this.data$ = data;
+      this.dtTrigger.next();
+    }); 
+     }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -47,10 +53,6 @@ export class CidadesComponent implements OnInit, OnDestroy {
       pageLength: 10
     };
 
-    this.cidades.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
 
     this.paises.index().subscribe(data => {
       this.paises$ = data;

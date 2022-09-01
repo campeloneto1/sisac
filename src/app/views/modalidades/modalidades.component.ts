@@ -59,7 +59,12 @@ export class ModalidadesComponent implements OnInit {
     private toastr: ToastrService,
     private modalidades: ModalidadesService,
     private modalidadespostos: ModalidadesPostosService,
-    private postos: PostosService) { }
+    private postos: PostosService) { 
+      this.modalidades.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next();
+      }); 
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -67,10 +72,7 @@ export class ModalidadesComponent implements OnInit {
       pageLength: 10
     };
 
-    this.modalidades.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
 
     this.postos.index().subscribe(data => {
       this.postos$ = data;

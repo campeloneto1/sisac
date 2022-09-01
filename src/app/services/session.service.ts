@@ -68,5 +68,12 @@ export class SessionService {
 
   logout(){
     localStorage.clear();
+    var teste = this.http
+    .get(environment.url + 'logout')
+    .subscribe((data) => {
+      this.token = null;
+      this.user = null;
+      //console.log(data);      
+    });
   }
 }
