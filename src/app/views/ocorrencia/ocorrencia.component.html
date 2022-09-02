@@ -1,8 +1,12 @@
-<div class="page-header" style="text-align: center; margin-bottom: 10px;" *ngIf="data$">
+<div
+  class="page-header"
+  style="text-align: center; margin-bottom: 10px"
+  *ngIf="data$"
+>
   <img src="../../../assets/cabecalho.png" class="cabecalho" />
   <br />
   <h4>
-    {{ data$.documento_tipo.nome }} Nº {{ data$.codigo }}/{{
+    {{ data$.ocorrencia?.nome }} Nº {{ data$.codigo }}/{{
       data$.created_at | date: "yyyy"
     }}
     - {{ data$.subunidade.abreviatura }}
@@ -10,12 +14,11 @@
 </div>
 
 <div class="page-footer" *ngIf="data$">
-  <div class="row rodape2 " *ngIf="user" >
+  <div class="row rodape2" *ngIf="user">
     <div class="col-sm-3"></div>
     <div class="col-sm-6 text-center">
       <p>
-        {{ user.subunidade?.nome }} – {{ user.subunidade.unidade?.nome
-        }}<br />
+        {{ user.subunidade?.nome }} – {{ user.subunidade.unidade?.nome }}<br />
         {{ user.subunidade?.rua }}, {{ user.subunidade?.numero }} -
         {{ user.subunidade?.bairro }} | CEP:
         {{ user.subunidade?.cep | mask: "00.000-00" }}
@@ -37,15 +40,12 @@
   <img src="../../../assets/rodape.png" class="rodape" />
 </div>
 
-<table style="width: 100%; min-width: 100%;" *ngIf="data$">
-
+<table style="width: 100%; min-width: 100%" *ngIf="data$">
   <thead class="thead">
     <tr>
       <td>
         <!--place holder for the fixed-position header-->
-        <div class="page-header-space">
-          
-        </div>
+        <div class="page-header-space"></div>
       </td>
     </tr>
   </thead>
@@ -54,27 +54,38 @@
     <tr>
       <td>
         <!--*** CONTENT GOES HERE ***
-        <div class="page">PAGE 1</div>
-        <div class="page">PAGE 2</div>-->
-        <div class="page" >
+          <div class="page">PAGE 1</div>
+          <div class="page">PAGE 2</div>-->
+        <div class="page">
           <div class="noprint text-center">
             <img src="../../../assets/cabecalho.png" class="cabecalho" />
             <br />
             <h4>
-              {{ data$.documento_tipo.nome }} Nº {{ data$.codigo }}/{{
+              {{ data$.ocorrencia?.nome }} Nº {{ data$.codigo }}/{{
                 data$.created_at | date: "yyyy"
               }}
               - {{ data$.subunidade.abreviatura }}
             </h4>
           </div>
-          
-          <br />
-          <h5>
-            Fortaleza - CE, {{ datadoc }}
-          </h5>
-          <br /><br />
-          <div [innerHTML]="data$.corpo"></div>
 
+          
+          <br /><br />
+          <br />
+          <h5>Fortaleza - CE, {{ datadoc }}</h5>
+          <br /><br />
+          
+          <h5>
+            <b>Escala:</b> {{ data$.escala?.escala_modelo.nome }} Nº
+            {{ data$.escala?.codigo }}/{{ data$.escala?.created_at | date: "yyyy" }}<br />
+            <b>Data:</b> {{ data$.escala?.data | date: "dd/MM/yyyy" }}
+          </h5>
+          <br />
+          <div [innerHTML]="data$.descricao"></div>
+          <br /><br /><br />
+          <div class="text-center">
+            <p>{{data$.user.nome}}</p>
+            <p>Mat.: {{data$.user.matricula | mask: '000.000-0-0'}}</p>
+          </div>
         </div>
       </td>
     </tr>
@@ -84,12 +95,8 @@
     <tr>
       <td>
         <!--place holder for the fixed-position footer-->
-        <div class="page-footer-space">
-          
-          
-        </div>
+        <div class="page-footer-space"></div>
       </td>
     </tr>
   </tfoot>
-
 </table>

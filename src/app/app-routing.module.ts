@@ -22,10 +22,13 @@ import { ModalidadesComponent } from './views/modalidades/modalidades.component'
 import { PaisesComponent } from './views/paises/paises.component';
 import { PostosComponent } from './views/postos/postos.component';
 import { PublicacoesComponent } from './views/publicacoes/publicacoes.component';
+import { OcorrenciaComponent } from './views/ocorrencia/ocorrencia.component';
+import { OcorrenciasComponent } from './views/ocorrencias/ocorrencias.component';
 import { SetoresComponent } from './views/setores/setores.component';
 import { SubunidadesComponent } from './views/subunidades/subunidades.component';
 import { TiposPublicacoesComponent } from './views/tipos-publicacoes/tipos-publicacoes.component';
 import { TiposDocumentosComponent } from './views/tipos-documentos/tipos-documentos.component';
+import { TiposOcorrenciasComponent } from './views/tipos-ocorrencias/tipos-ocorrencias.component';
 import { TurnosComponent } from './views/turnos/turnos.component';
 import { UnidadesComponent } from './views/unidades/unidades.component';
 import { UsuariosComponent } from './views/usuarios/usuarios.component';
@@ -112,6 +115,16 @@ const routes: Routes = [
     component: ModalidadesComponent,
   },
   {
+    path: 'Ocorrencia/:id',
+    canActivate: [AuthGuard],
+    component: OcorrenciaComponent,
+  },
+  {
+    path: 'Ocorrencias',
+    canActivate: [AuthGuard],
+    component: OcorrenciasComponent,
+  },
+  {
     path: 'Paises',
     canActivate: [AuthGuard],
     component: PaisesComponent,
@@ -150,6 +163,11 @@ const routes: Routes = [
     path: 'Tipos-Publicacoes',
     canActivate: [AuthGuard],
     component: TiposPublicacoesComponent,
+  },
+  {
+    path: 'Tipos-Ocorrencias',
+    canActivate: [AuthGuard],
+    component: TiposOcorrenciasComponent,
   },
   {
     path: 'Unidades',

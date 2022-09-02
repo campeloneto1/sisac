@@ -68,7 +68,16 @@
             <p>IRSOs</p>
           </a>
         </li>
-       
+        <li *ngIf="user.perfil?.oficial_dia" class="nav-item">
+          <a
+            [routerLink]="['/Ocorrencias']"
+            [routerLinkActive]="['active']"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-cab"></i>
+            <p>Ocorrências</p>
+          </a>
+        </li>
         <li *ngIf="user.perfil?.publicacoes" class="nav-item">
           <a
             [routerLink]="['/Publicacoes']"
@@ -171,6 +180,16 @@
               >
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tipos de Documentos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Tipos-Ocorrencias']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tipos de Ocorrências</p>
               </a>
             </li>
             <li class="nav-item">

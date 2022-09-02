@@ -69,6 +69,27 @@
     height: 200px;
     display: block;
   }
+
+  .titlemodalidade {
+
+    background-color: #00701a !important;
+    color: #ffffff;
+    
+    -webkit-print-color-adjust: exact; 
+  
+  }
+  
+  .titlemodalidade2 {
+    background-color: #43a047 !important;
+    -webkit-print-color-adjust: exact; 
+    
+  }
+  
+  .colposto{
+    background-color: #76d275 !important;
+    -webkit-print-color-adjust: exact; 
+    
+  }
 }
 
 /* inicio config table */
@@ -85,6 +106,7 @@
   justify-content: center;
   background-color: #00701a;
   color: #ffffff;
+  -webkit-print-color-adjust: exact; 
 
 }
 
@@ -93,11 +115,13 @@
   text-align: center;
   justify-content: center;
   background-color: #43a047;
+  -webkit-print-color-adjust: exact; 
   
 }
 
 .colposto{
   background-color: #76d275;
+  -webkit-print-color-adjust: exact; 
   
 }
 

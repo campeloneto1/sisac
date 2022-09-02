@@ -50,6 +50,9 @@ import { AfastamentosTiposComponent } from './views/afastamentos-tipos/afastamen
 import { EscalaComponent } from './views/escala/escala.component';
 import { ModalidadesComponent } from './views/modalidades/modalidades.component';
 import { FichaComponent } from './views/ficha/ficha.component';
+import { TiposOcorrenciasComponent } from './views/tipos-ocorrencias/tipos-ocorrencias.component';
+import { OcorrenciasComponent } from './views/ocorrencias/ocorrencias.component';
+import { OcorrenciaComponent } from './views/ocorrencia/ocorrencia.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +90,10 @@ import { FichaComponent } from './views/ficha/ficha.component';
     AfastamentosTiposComponent,
     EscalaComponent,
     ModalidadesComponent,
-    FichaComponent
+    FichaComponent,
+    TiposOcorrenciasComponent,
+    OcorrenciasComponent,
+    OcorrenciaComponent
   ],
   imports: [
     BrowserModule,

@@ -61,6 +61,21 @@
         <div class="page">
           <!--INICIO TABLE MODALIDADE-->
           <div style="width: 100%; min-width: 100%">
+            <div class="noprint text-center">
+              <img src="../../../assets/cabecalho.png" class="cabecalho " />
+              <h3>
+                <b
+                  >{{ data$.escala_modelo?.nome }} Nº {{ data$.codigo }}/{{
+                    data$.created_at | date: "yyyy"
+                  }}
+                  - {{ data$.subunidade.abreviatura }}</b
+                >
+              </h3>
+              <h4>Para o dia {{ dataesc }}</h4>
+            </div>
+           
+
+
             <table
               style="width: 100%; min-width: 100%; margin-bottom: 5px"
               class="table table-bordered"
@@ -91,7 +106,10 @@
                   </td>
                   <td *ngFor="let data3 of data2.posto.turnos" class="coltable">
                     <b>{{ data3.turno.nome }} </b>
-                    <span *ngIf="data3.turno.hora_ini">({{ data3.turno.hora_ini }} às {{ data3.turno.hora_ini }})</span>
+                    <span *ngIf="data3.turno.hora_ini"
+                      >({{ data3.turno.hora_ini }} às
+                      {{ data3.turno.hora_ini }})</span
+                    >
                     <span style="float: right">
                       <button
                         data-bs-toggle="modal"
@@ -127,25 +145,28 @@
             </table>
 
             <table
-              style="width: 100%; min-width: 100%; margin-bottom: 5px"
+              
               class="table table-bordered"
             >
               <thead>
                 <tr>
-                  <th colspan="5" class="p-0 titlemodalidade">
+                  <th class="p-0 titlemodalidade">
                     ATIVIDADE DE APOIO (Horário 08h00 às 17h00)
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of setores$">
-                  <td colspan="5" class="text-center">
-                    {{data.nome}}
-                  </td>
-                  <td class="text-center">
-                    
-                  </td>
-                </tr>
+                <div class="row" *ngFor="let data of setores$" style="width: 99.9%; margin-left: 0.8px;">
+                  <div class="col-sm-12 text-center p-0 titlemodalidade2" style="border:1px solid #dee2e6" >
+                    <b>{{ data.nome | uppercase }}</b>
+                  </div>
+                  <div class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6" *ngFor="let user of data.users">
+                    {{ user.graduacao.abreviatura }}
+                    {{ user.numeral }}
+                    {{ user.nome_guerra }}
+                    ({{ user.telefone1 }})
+                  </div>
+                </div>
               </tbody>
             </table>
           </div>
