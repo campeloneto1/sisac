@@ -25,6 +25,7 @@ export class EscalaComponent implements OnInit {
 
   user: any;
   date = new Date();
+  antiga = false;
 
   turno$: any;
 
@@ -109,12 +110,20 @@ export class EscalaComponent implements OnInit {
       this.data$ = data;
       //@ts-ignore
       var date2 = new Date(data.data);
+      //@ts-ignore
+      //var date2.setDate(date3.getDate());
+
+      if(this.date > date2){
+        //console.log('entrou');
+        this.antiga = true;
+      }
+
       //console.log(date2);
       //@ts-ignore
       this.dataesc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear()+' ('+this.diasemana[date2.getDay()]+')';
     });
 
-   
+    
    
     this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()]+' de '+this.date.getFullYear();
 

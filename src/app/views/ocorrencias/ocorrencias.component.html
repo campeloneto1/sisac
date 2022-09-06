@@ -55,7 +55,7 @@
                 <thead>
                   <tr>
                     <th>ID</th>               
-                    <!--<th>ESCALA</th>-->
+                    <!----><th>ESCALA</th>
                     <th>TIPO OCORRÊNCIA</th>  
                     <th>CÓDIGO</th>                  
                     <th>TÍTULO</th>  
@@ -66,7 +66,7 @@
                 <tbody>
                   <tr *ngFor="let data of data$" class="hovers">
                     <td>{{ data.id }}</td>  
-                    <!--<td><a target="_blank" [routerLink]="['/Escala', data.escala?.id]">{{ data.escala?.codigo }}/{{data.escala?.created_at | date:'yyyy'}}</a></td>  -->
+                    <!----><td><a target="_blank" [routerLink]="['/Escala', data.escala?.id]">{{ data.escala?.codigo }}/{{data.escala?.created_at | date:'yyyy'}}</a></td>  
                     <td>{{ data.ocorrencia?.nome }}</td>  
                     <td>{{ data.codigo }}/{{data.created_at | date:'yyyy'}}</td>               
                     <td>{{ data.titulo }}</td>  
@@ -128,7 +128,7 @@
                   <div class="modal-body">
                     <!--INICIO ROW 1-->
                     <div class="row">    
-                        <!--<div class="col-sm-2">
+                        <!----><div class="col-sm-2">
                             <div class="form-group">
                               <label for="escala_id">Escala<span class="text-danger">*</span></label>
                               <select
@@ -152,7 +152,7 @@
                                 </option>
                               </select>
                             </div>
-                          </div>-->              
+                          </div>              
                         <div class="col-sm-2">
                           <div class="form-group">
                             <label for="ocorrencia_id">Tipo Ocorrência<span class="text-danger">*</span></label>
