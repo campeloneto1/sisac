@@ -111,7 +111,7 @@ export class EscalaComponent implements OnInit {
       //@ts-ignore
       var date2 = new Date(data.data);
       //@ts-ignore
-      //var date2.setDate(date3.getDate());
+      //var date2.setDate(date5.getDate()+1);
 
       if(this.date > date2){
         //console.log('entrou');
@@ -145,10 +145,12 @@ export class EscalaComponent implements OnInit {
   getTurno(data:any, data2:any, data3:any){
     //console.log(data);
     this.turno$ = data3;
-
-    this.modalidade_id = data.modalidade.id;
-    this.posto_id = data2.posto.id;
-    this.turno_id = data3.turno.id;
+    //console.log(data);
+    //console.log(data2);
+    //console.log(data3);
+    this.modalidade_id = data.id;
+    this.posto_id = data2.id;
+    this.turno_id = data3.id;
   }
 
   getUsus(){
@@ -163,7 +165,7 @@ export class EscalaComponent implements OnInit {
     teste[2] = this.posto_id;
     teste[3] = this.turno_id;
     teste[4] = this.usus;
-
+    console.log(teste);
     this.escalasusers.store(teste).subscribe(data => {
       if(data == 1){
         this.refresh();   
@@ -174,10 +176,10 @@ export class EscalaComponent implements OnInit {
   }
 
   deletarUsu(data: any){
-    let isExecuted = confirm("Tem certeza que deseja excluir "+data.user.nome+"?");
+    let isExecuted = confirm("Tem certeza que deseja excluir "+data.nome+"?");
 
     if(isExecuted){
-      this.escalasusers.destroy(data.id).subscribe(data => {
+      this.escalasusers.destroy(data.pivot.id).subscribe(data => {
         if(data == 1){
           this.refresh();   
           
@@ -189,6 +191,6 @@ export class EscalaComponent implements OnInit {
 
   filterUsus(usus:any, modalidade:any, posto:any, turno:any){
     //@ts-ignore
-    return usus.filter(p => p.modalidade_id == modalidade && p.posto_id == posto && p.turno_id == turno );
+    return usus.filter(p => p.pivot.modalidade_id == modalidade && p.pivot.posto_id == posto && p.pivot.turno_id == turno );
   }
 }

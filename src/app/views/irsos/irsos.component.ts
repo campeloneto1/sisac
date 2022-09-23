@@ -145,10 +145,10 @@ export class IrsosComponent implements OnInit, OnDestroy {
   }
 
   deletarusu(data:any){
-    let isExecuted = confirm("Tem certeza que deseja excluir "+data.user.nome+"?");
+    let isExecuted = confirm("Tem certeza que deseja excluir "+data.nome+"?");
 
     if(isExecuted){
-      this.irsosusers.destroy(data.id).subscribe(data => {
+      this.irsosusers.destroy(data.pivot.id).subscribe(data => {
         if(data == 1){
           this.refresh();   
           this.irsos.show(this.irso$.id).subscribe(data => {

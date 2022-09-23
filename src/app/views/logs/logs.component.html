@@ -8,14 +8,14 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Modelos</h1>
+                <h1>Logs</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item">
                     <a [routerLink]="['/Inicio']">Início</a>
                   </li>
-                  <li class="breadcrumb-item active">Modelos</li>
+                  <li class="breadcrumb-item active">Logs</li>
                 </ol>
               </div>
             </div>
@@ -28,19 +28,7 @@
           <div class="card card-outline card-orange">
             <!--INICIO HEADER CARD-->
             <div class="card-header">
-              <div class="row">
-                <div class="col-sm-1">
-                  <button
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalcad"
-                    type="button"
-                    class="btn btn-block btn-outline-primary"
-                    (click)="formcad.reset()"
-                  >
-                    <i class="nav-icon fas fa-plus"></i>
-                  </button>
-                </div>
-              </div>
+             
             </div>
             <!--FIM HEADER CARD-->
             <!--INICIO BODY CARD-->
@@ -55,17 +43,26 @@
                 <thead>
                   <tr>
                     <th>ID</th>                  
-                    <th>MARCA</th>       
-                    <th>NOME</th>                  
+                    <th>USUÁRIO</th>       
+                    <th>MENSAGEM</th>  
+                    <th>TABELA</th>  
+                    <th>FK</th>  
+                    <th>AÇÃO</th>                  
+                    <th>OBJETO</th>  
+                    <th>OBJETO ANT.</th>  
                     <th>OPÇÕES</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of data$" class="hovers">
                     <td>{{ data.id }}</td>                
-                    <td>{{ data.marca.nome }}</td> 
-                    <td>{{ data.nome }}</td> 
-                                
+                    <td>{{ data.user.nome }}</td> 
+                    <td>{{ data.mensagem }}</td>     
+                    <td>{{ data.table }}</td>     
+                    <td>{{ data.fk }}</td>                
+                    <td>{{ data.action }}</td>     
+                    <td style="max-width: 400px; white-space: normal;">{{ data.object }}</td>     
+                    <td style="max-width: 400px; white-space: normal;">{{ data.object_old }}</td>     
                     <td>
                       <span class="editdata">
                         <i
@@ -97,88 +94,7 @@
           </div>
           <!--FIM CARD-->
     
-          <!--INICIO MODAL CADASTRO-->
-          <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-xl">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Cadastrar</h4>
-                  <button
-                    type="button"
-                    class="close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <!--FORM CADASTRO-->
-                <form [formGroup]="formcad" (ngSubmit)="salvar()">
-                  <div class="modal-body">
-                    <!--INICIO ROW 1-->
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                              <label for="marca">Marca</label>
-                              <ngx-select-dropdown 
-                                [config]="config" 
-                                [options]="marcas$"
-                                formControlName="marca"
-                                
-                                >
-                                
-                              </ngx-select-dropdown>
-                            </div>
-                          </div>
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label for="nome"
-                            >Nome<span class="text-danger">*</span></label
-                          >
-                          <input
-                            formControlName="nome"
-                            required
-                            type="text"
-                            class="form-control form-control-border"
-                            id="nome"
-                            placeholder="Nome"
-                            [ngClass]="{
-                              'is-invalid':
-                                formcad.controls.nome.invalid &&
-                                (formcad.controls.nome.dirty ||
-                                  formcad.controls.nome.touched)
-                            }"
-                          />
-                        </div>
-                      </div>
-                     
-                    </div>
-                    <!--FIM ROW 1-->
-  
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      [disabled]="!formcad.valid"
-                      data-bs-dismiss="modal"
-                      type="submit"
-                      class="btn btn-success"
-                    >
-                      Salvar
-                    </button>
-                  </div>
-                </form>
-                <!--FIM FORM CADASTRO-->
-              </div>
-            </div>
-          </div>
-          <!--FIM MODAL CADASTRO-->
+          
     
           <!--INICIO MODAL DELETE-->
           <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
@@ -197,7 +113,7 @@
                 </div>
     
                 <div class="modal-body">
-                  <p>Tem certeza que deseja excluir o modelo <b>{{excluir$?.nome}}</b>?</p>
+                  <p>Tem certeza que deseja excluir o log <b>{{excluir$?.id}}</b>?</p>
                 </div>
                 <div class="modal-footer">
                   <button

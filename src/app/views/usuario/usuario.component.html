@@ -294,9 +294,9 @@
                                     }
                             "
                           >
-                            <td><a target="_blank"  [routerLink]="['/Irso', data$.id]">{{ data.irso.nome }}</a></td>
-                            <td>{{ data.irso.data | date: 'dd/MM/yyyy' }}</td>
-                            <td>{{ data.irso.hora }}</td>
+                            <td><a target="_blank"  [routerLink]="['/Irso', data.pivot.id]">{{ data.nome }}</a></td>
+                            <td>{{ data.data | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ data.hora }}</td>
                            
                           </tr>
                         </tbody>

@@ -84,7 +84,7 @@
               <thead>
                 <tr>
                   <th colspan="3" class="p-0 titlemodalidade">
-                    {{ data.modalidade.nome | uppercase }}
+                    {{ data.nome | uppercase }}
                   </th>
                 </tr>
                 <!--<tr class="titlemodalidade2">
@@ -100,15 +100,15 @@
                 </tr>-->
               </thead>
               <tbody>
-                <tr *ngFor="let data2 of data.modalidade.postos">
+                <tr *ngFor="let data2 of data.postos">
                   <td class="text-center coltable colposto">
-                    <b>{{ data2.posto.nome | uppercase }}</b>
+                    <b>{{ data2.nome | uppercase }}</b>
                   </td>
-                  <td *ngFor="let data3 of data2.posto.turnos" class="coltable">
-                    <b>{{ data3.turno.nome }} </b>
-                    <span *ngIf="data3.turno.hora_ini"
-                      >({{ data3.turno.hora_ini }} às
-                      {{ data3.turno.hora_ini }})</span
+                  <td *ngFor="let data3 of data2.turnos" class="coltable">
+                    <b>{{ data3.nome }} </b>
+                    <span *ngIf="data3.hora_ini"
+                      >({{ data3.hora_ini }} às
+                      {{ data3.hora_ini }})</span
                     >
                     <span style="float: right">
                       <button
@@ -128,16 +128,16 @@
                         *ngFor="
                           let data4 of filterUsus(
                             data$.usuarios,
-                            data.modalidade_id,
-                            data2.posto_id,
-                            data3.turno_id
+                            data.pivot.modalidade_id,
+                            data2.pivot.posto_id,
+                            data3.pivot.turno_id
                           )
                         "
                       >
-                        {{ data4.user.graduacao.abreviatura }}
-                        {{ data4.user.numeral }}
-                        {{ data4.user.nome_guerra }}
-                        ({{ data4.user.telefone1 }})
+                        {{ data4.graduacao.abreviatura }}
+                        {{ data4.numeral }}
+                        {{ data4.nome_guerra }}
+                        ({{ data4.telefone1 }})
                       </li>
                     </ul>
                   </td>
@@ -256,12 +256,12 @@
                         "
                         class="hovers"
                       >
-                        <td>{{ data.id }}</td>
-                        <td>{{ data.user.graduacao.nome }}</td>
-                        <td>{{ data.user.numeral | mask: "00.000" }}</td>
-                        <td>{{ data.user.nome }}</td>
+                        <td>{{ data.pivot.id }}</td>
+                        <td>{{ data.graduacao.nome }}</td>
+                        <td>{{ data.numeral | mask: "00.000" }}</td>
+                        <td>{{ data.nome }}</td>
                         <td>
-                          {{ data.user.matricula | mask: "000.000-0-0" }}
+                          {{ data.matricula | mask: "000.000-0-0" }}
                         </td>
                         <td>
                           <span class="editdata">

@@ -4,14 +4,14 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { MarcasService } from '../../services/marcas.service';
+import { ArmamentosTiposService } from '../../services/armamentos-tipos.service';
 
 @Component({
-  selector: 'app-marcas',
-  templateUrl: './marcas.component.html',
-  styleUrls: ['./marcas.component.css']
+  selector: 'app-armamentos-tipos',
+  templateUrl: './armamentos-tipos.component.html',
+  styleUrls: ['./armamentos-tipos.component.css']
 })
-export class MarcasComponent implements OnInit, OnDestroy {
+export class ArmamentosTiposComponent implements OnInit, OnDestroy {
 
   dtOptions: DataTables.Settings = {};
 
@@ -22,7 +22,6 @@ export class MarcasComponent implements OnInit, OnDestroy {
   formcad = new FormGroup({
     id: new FormControl(''),
     nome: new FormControl(''),  
-    tipo_id: new FormControl(''),   
 
   });
 
@@ -32,12 +31,13 @@ export class MarcasComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
-    private marcas: MarcasService) {
-      this.marcas.index().subscribe(data => {
+    private armamentostipos: ArmamentosTiposService) { 
+      this.armamentostipos.index().subscribe(data => {
         this.data$ = data;
         this.dtTrigger.next();
       }); 
-     }
+
+    }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -55,7 +55,7 @@ export class MarcasComponent implements OnInit, OnDestroy {
   }
 
   refresh(){
-    this.marcas.index().subscribe(data => {
+    this.armamentostipos.index().subscribe(data => {
       this.data$ = data;
     }); 
   }
@@ -68,7 +68,7 @@ export class MarcasComponent implements OnInit, OnDestroy {
   salvar(){
     if(this.formcad.value.id){
       //@ts-ignore
-      this.marcas.update(this.formcad.value, this.formcad.value.id).subscribe(data => {
+      this.armamentostipos.update(this.formcad.value, this.formcad.value.id).subscribe(data => {
         if(data == 1){
           this.refresh();
           this.formcad.reset();
@@ -76,7 +76,7 @@ export class MarcasComponent implements OnInit, OnDestroy {
         }
       });
     }else{
-      this.marcas.store(this.formcad.value).subscribe(data => {
+      this.armamentostipos.store(this.formcad.value).subscribe(data => {
         if(data == 1){
           this.refresh();
           this.formcad.reset();
@@ -91,7 +91,7 @@ export class MarcasComponent implements OnInit, OnDestroy {
   }
 
   confirm(){
-    this.marcas.destroy(this.excluir$.id).subscribe(data => {
+    this.armamentostipos.destroy(this.excluir$.id).subscribe(data => {
       if(data == 1){
         this.refresh();    
         this.toastr.success('Informação excluída com sucesso!');  

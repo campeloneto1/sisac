@@ -361,9 +361,9 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of irso$.usuarios" class="hovers">
-                    <td>{{ data.id }}</td>
-                    <td>{{ data.user.nome }}</td>
-                    <td>{{ data.user.matricula | mask: "000.000-0-0" }}</td>
+                    <td>{{ data.pivot.id }}</td>
+                    <td>{{ data.nome }}</td>
+                    <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
                     <td>
                       <span class="editdata">
                         <i

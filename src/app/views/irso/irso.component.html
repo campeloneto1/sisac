@@ -75,10 +75,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of data$.usuarios">
-              <td>{{ data.user.graduacao.abreviatura }}</td>
-              <td>{{ data.user.numeral | mask: "00.000" }}</td>
-              <td>{{ data.user.nome }}</td>
-              <td>{{ data.user.matricula | mask: "000.000-0-0" }}</td>
+              <td>{{ data.graduacao.abreviatura }}</td>
+              <td>{{ data.numeral | mask: "00.000" }}</td>
+              <td>{{ data.nome }}</td>
+              <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
             </tr>
           </tbody>
         </table>

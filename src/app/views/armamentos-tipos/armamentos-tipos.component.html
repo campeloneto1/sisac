@@ -1,5 +1,5 @@
-<!--<div class="wrapper">
-    <app-navbar></app-navbar>
+    <!--<div class="wrapper">
+<app-navbar></app-navbar>
     <app-sidebar></app-sidebar>-->
     <!--INICIO CONTENT WRAPPER-->
     <div class="content-wrapper" style="min-height: 1604.44px">
@@ -8,14 +8,14 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Marcas</h1>
+                <h1>Tipos de Armamentos</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item">
                     <a [routerLink]="['/Inicio']">Início</a>
                   </li>
-                  <li class="breadcrumb-item active">Marcas</li>
+                  <li class="breadcrumb-item active">Tipos de Armamentos</li>
                 </ol>
               </div>
             </div>
@@ -55,19 +55,14 @@
                 <thead>
                   <tr>
                     <th>ID</th>                  
-                    <th>NOME</th>       
-                    <th>TIPO</th>                  
+                    <th>NOME</th>                   
                     <th>OPÇÕES</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of data$" class="hovers">
                     <td>{{ data.id }}</td>                
-                    <td>{{ data.nome }}</td> 
-                    <td>
-                        <span *ngIf="data.tipo_id == 1">Automóvel</span>
-                        <span *ngIf="data.tipo_id == 2">Bélico</span>
-                    </td>                
+                    <td>{{ data.nome }}</td>                
                     <td>
                       <span class="editdata">
                         <i
@@ -119,29 +114,6 @@
                   <div class="modal-body">
                     <!--INICIO ROW 1-->
                     <div class="row">
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                              <label for="tipo_id"
-                                >Tipo<span class="text-danger">*</span></label
-                              >
-                              <select
-                                formControlName="tipo_id"
-                                required
-                                [ngClass]="{
-                                  'is-invalid':
-                                    formcad.controls.tipo_id.invalid &&
-                                    (formcad.controls.tipo_id.dirty ||
-                                      formcad.controls.tipo_id.touched)
-                                }"
-                                class="custom-select form-control-border"
-                                id="tipo_id"
-                              >
-                                <option></option>
-                                <option value="2">Bélico</option>
-                                <option value="1">Automovel</option>
-                              </select>
-                            </div>
-                          </div>
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label for="nome"
@@ -162,8 +134,7 @@
                             }"
                           />
                         </div>
-                      </div>
-                     
+                      </div>                    
                     </div>
                     <!--FIM ROW 1-->
   
@@ -209,7 +180,7 @@
                 </div>
     
                 <div class="modal-body">
-                  <p>Tem certeza que deseja excluir a marca <b>{{excluir$?.nome}}</b>?</p>
+                  <p>Tem certeza que deseja excluir o armamento <b>{{excluir$?.nome}}</b>?</p>
                 </div>
                 <div class="modal-footer">
                   <button

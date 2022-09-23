@@ -53,6 +53,9 @@ import { FichaComponent } from './views/ficha/ficha.component';
 import { TiposOcorrenciasComponent } from './views/tipos-ocorrencias/tipos-ocorrencias.component';
 import { OcorrenciasComponent } from './views/ocorrencias/ocorrencias.component';
 import { OcorrenciaComponent } from './views/ocorrencia/ocorrencia.component';
+import { LogsComponent } from './views/logs/logs.component';
+import { ArmamentosComponent } from './views/armamentos/armamentos.component';
+import { ArmamentosTiposComponent } from './views/armamentos-tipos/armamentos-tipos.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +96,10 @@ import { OcorrenciaComponent } from './views/ocorrencia/ocorrencia.component';
     FichaComponent,
     TiposOcorrenciasComponent,
     OcorrenciasComponent,
-    OcorrenciaComponent
+    OcorrenciaComponent,
+    LogsComponent,
+    ArmamentosComponent,
+    ArmamentosTiposComponent
   ],
   imports: [
     BrowserModule,

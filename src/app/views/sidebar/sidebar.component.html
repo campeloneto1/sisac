@@ -144,6 +144,37 @@
             </li>
             <li class="nav-item">
               <a
+                [routerLink]="['/Logs']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Logs</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Marcas']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Marcas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Modelos']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Modelos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
                 [routerLink]="['/Paises']"
                 [routerLinkActive]="['active']"
                 class="nav-link"
@@ -170,6 +201,16 @@
               >
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tipos de Afastamentos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Tipos-Armamentos']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tipos de Armamentos</p>
               </a>
             </li>
             <li class="nav-item">
@@ -228,6 +269,16 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                [routerLink]="['/Armamentos']"
+                [routerLinkActive]="['active']"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Armamentos</p>
+              </a>
+            </li>
             <li class="nav-item">
               <a
                 [routerLink]="['/Modalidades']"
