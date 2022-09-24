@@ -13,6 +13,7 @@ export class UsuarioComponent implements OnInit {
   q: number = 1;
   r: number = 1;
   s: number = 1;
+  t: number = 1;
 
   data$: any;
 

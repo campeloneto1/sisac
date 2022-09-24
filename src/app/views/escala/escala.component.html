@@ -135,7 +135,7 @@
                         "
                       >
                         {{ data4.graduacao.abreviatura }}
-                        {{ data4.numeral }}
+                        {{ data4.numeral | mask: '00.000' }}
                         {{ data4.nome_guerra }}
                         ({{ data4.telefone1 }})
                       </li>

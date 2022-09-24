@@ -4,6 +4,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { TiposPublicacoesService } from '../../services/tipos-publicacoes.service';
 import { UsuariosService } from '../../services/usuarios.service';
@@ -15,6 +17,8 @@ import { UsuariosPublicacoesService } from '../../services/usuarios-publicacoes.
   styleUrls: ['./publicacoes.component.css']
 })
 export class PublicacoesComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -102,13 +106,23 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private usuarios: UsuariosService,
     private usuariospublicacoes: UsuariosPublicacoesService,
     private tipospublicacoes: TiposPublicacoesService) { 
-      this.usuariospublicacoes.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+      
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.publicacoes){
+          this.usuariospublicacoes.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
     }
 
   ngOnInit(): void {

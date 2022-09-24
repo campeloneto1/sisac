@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { ModalidadesService } from '../../services/modalidades.service';
 import { ModalidadesPostosService } from '../../services/modalidades-postos.service';
@@ -13,7 +15,9 @@ import { PostosService } from '../../services/postos.service';
   templateUrl: './modalidades.component.html',
   styleUrls: ['./modalidades.component.css']
 })
-export class ModalidadesComponent implements OnInit {
+export class ModalidadesComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   p: number = 1;
 
@@ -57,13 +61,23 @@ export class ModalidadesComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private modalidades: ModalidadesService,
     private modalidadespostos: ModalidadesPostosService,
     private postos: PostosService) { 
-      this.modalidades.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.gestor){
+          this.modalidades.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
+     
     }
 
   ngOnInit(): void {
@@ -157,10 +171,10 @@ export class ModalidadesComponent implements OnInit {
   }
 
   deletarposto(data:any){
-    let isExecuted = confirm("Tem certeza que deseja excluir "+data.posto.nome+"?");
+    let isExecuted = confirm("Tem certeza que deseja excluir "+data.nome+"?");
 
     if(isExecuted){
-      this.modalidadespostos.destroy(data.id).subscribe(data => {
+      this.modalidadespostos.destroy(data.pivot.id).subscribe(data => {
         if(data == 1){
           
           this.refresh();

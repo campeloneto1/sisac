@@ -25,6 +25,7 @@ import { MarcasComponent } from './views/marcas/marcas.component';
 import { ModelosComponent } from './views/modelos/modelos.component';
 import { ModalidadesComponent } from './views/modalidades/modalidades.component';
 import { PaisesComponent } from './views/paises/paises.component';
+import { PerfisComponent } from './views/perfis/perfis.component';
 import { PostosComponent } from './views/postos/postos.component';
 import { PublicacoesComponent } from './views/publicacoes/publicacoes.component';
 import { OcorrenciaComponent } from './views/ocorrencia/ocorrencia.component';
@@ -158,6 +159,11 @@ const routes: Routes = [
     path: 'Paises',
     canActivate: [AuthGuard],
     component: PaisesComponent,
+  },
+  {
+    path: 'Perfis',
+    canActivate: [AuthGuard],
+    component: PerfisComponent,
   },
   {
     path: 'Postos',

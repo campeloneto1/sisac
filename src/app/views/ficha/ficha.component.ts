@@ -37,11 +37,20 @@ export class FichaComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private usuarios: UsuariosService,
     private session: SessionService,
     private apcom: AppComponent
   ) {
-    this.apcom.token = false
+   
+    setTimeout( () => {
+      this.user = this.session.getUser();
+      if(this.user.perfil.usuarios){
+        this.apcom.token = false
+      }else{
+        this.router.navigate(['/Inicio']);
+      }
+    }, 1000);
   }
 
   ngOnInit(): void {

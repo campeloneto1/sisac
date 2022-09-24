@@ -31,6 +31,7 @@
             <div class="row">
               <div class="col-sm-1">
                 <button
+                *ngIf="user.perfil.escalas_cad"
                   data-bs-toggle="modal"
                   data-bs-target="#modalcad"
                   type="button"
@@ -58,7 +59,7 @@
                   <th>DATA</th>
                   <th>CÓDIGO</th> 
                   <th>MODELO</th> 
-                  <th>ESCALAR</th> 
+                  <!--<th>ESCALAR</th> -->
                   <th>OPÇÕES</th>
                 </tr>
               </thead>
@@ -66,9 +67,9 @@
                 <tr *ngFor="let data of data$" class="hovers">
                   <td>{{ data.id }}</td>
                   <td>{{ data.data | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ data.codigo }}/{{ data.created_at | date: 'yyyy' }}</td>
+                  <td><a target="_blank" [routerLink]="['/Escala', data.id]">{{ data.codigo }}/{{ data.created_at | date: 'yyyy' }}</a></td>
                   <td>{{ data.escala_modelo.nome }}</td>
-                  <td>
+                  <!--<td>
                     <a target="_blank" [routerLink]="['/Escala', data.id]">
                       <i                                                                       
                         class="right fas fa-align-justify text-primary point"
@@ -77,10 +78,11 @@
                         title="Escalar"
                       ></i>
                     </a>
-                  </td>
+                  </td>-->
                   <td>
                     <span class="editdata">
                       <i
+                      *ngIf="user.perfil.escalas_edt"
                         (click)="editar(data)"
                         data-bs-toggle="modal"
                         data-bs-target="#modalcad"
@@ -90,6 +92,7 @@
                         title="Editar"
                       ></i>
                       <i
+                      *ngIf="user.perfil.escalas_del"
                         (click)="deletar(data)"
                         data-bs-toggle="modal"
                         data-bs-target="#modaldel"

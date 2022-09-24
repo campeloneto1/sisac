@@ -1,152 +1,190 @@
 <!--<div class="wrapper">
   <app-navbar></app-navbar>
   <app-sidebar></app-sidebar>-->
-  <div class="content-wrapper" style="min-height: 1604.44px">
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Usuário</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">
-                <a [routerLink]="['/Inicio']">Início</a>
-              </li>
-              <li class="breadcrumb-item active">Usuário</li>
-            </ol>
-          </div>
+<div class="content-wrapper" style="min-height: 1604.44px">
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Usuário</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/Inicio']">Início</a>
+            </li>
+            <li class="breadcrumb-item active">Usuário</li>
+          </ol>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="content" *ngIf="data$">
-      <!--  INICIO PROFILE  -->
+  <section class="content" *ngIf="data$">
+    <!--  INICIO PROFILE  -->
 
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-3">
-            <div class="card card-orange card-outline">
-              <div class="card-body box-profile">
-                <!--<div class="text-center">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card card-orange card-outline">
+            <div class="card-body box-profile">
+              <!--<div class="text-center">
                   <img
                     class="profile-user-img img-fluid img-circle"
                     src="../../dist/img/user4-128x128.jpg"
                     alt="User profile picture"
                   />
                 </div>-->
-                <h3 class="profile-username text-center">{{ data$.nome }}</h3>
-                <p class="text-muted text-center">
-                  {{ data$.graduacao.abreviatura }}
-                  {{ data$.numeral | mask: "00.000" }}
-                  {{ data$.nome_guerra }}
-                </p>
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item" *ngIf="data$.graduacao">
-                    <b>Graduação</b>
-                    <a class="float-right">{{ data$.graduacao.nome }}</a>
-                  </li>
-                  <li class="list-group-item" *ngIf="data$.numeral">
-                    <b>Numeral</b>
-                    <a class="float-right">{{
-                      data$.numeral | mask: "00.000"
+              <h3 class="profile-username text-center">{{ data$.nome }}</h3>
+              <p class="text-muted text-center">
+                {{ data$.graduacao.abreviatura }}
+                {{ data$.numeral | mask: "00.000" }}
+                {{ data$.nome_guerra }}
+              </p>
+             
+              <ul class="list-group list-group-unbordered mb-3">
+                <li class="list-group-item" *ngIf="data$.graduacao">
+                  <b>Graduação</b>
+                  <a class="float-right">{{ data$.graduacao.nome }}</a>
+                </li>
+                <li class="list-group-item" *ngIf="data$.numeral">
+                  <b>Numeral</b>
+                  <a class="float-right">{{
+                    data$.numeral | mask: "00.000"
                     }}</a>
-                  </li>
-                  <li class="list-group-item" *ngIf="data$.matricula">
-                    <b>Matrícula</b>
-                    <a class="float-right">{{
-                      data$.matricula | mask: "000.000-0-0"
+                </li>
+                <li class="list-group-item" *ngIf="data$.matricula">
+                  <b>Matrícula</b>
+                  <a class="float-right">{{
+                    data$.matricula | mask: "000.000-0-0"
                     }}</a>
-                  </li>
-                  <li class="list-group-item" *ngIf="data$.cpf">
-                    <b>CPF</b>
-                    <a class="float-right">{{
-                      data$.cpf | mask: "000.000.000-00"
+                </li>
+                <li class="list-group-item" *ngIf="data$.cpf">
+                  <b>CPF</b>
+                  <a class="float-right">{{
+                    data$.cpf | mask: "000.000.000-00"
                     }}</a>
-                  </li>
-                  <li class="list-group-item" *ngIf="data$.telefone1">
-                    <b>Telefone 1</b>
-                    <a class="float-right">{{
-                      data$.telefone1 | mask: "(00) 00000-0000"
+                </li>
+                <li class="list-group-item" *ngIf="data$.data_nascimento">
+                  <b>Data Nascimento</b>
+                  <a class="float-right">{{ data$.data_nascimento | date: 'dd/MM/yyyy' }}</a>
+                </li>
+                <li class="list-group-item" *ngIf="data$.sexo_id">
+                  <b>Sexo</b>
+                  <a class="float-right">
+                    <span *ngIf="data$.sexo_id == 1">Masculino</span>
+                    <span *ngIf="data$.sexo_id == 2">Feminino</span>
+                  </a>
+                </li>
+                <li class="list-group-item" *ngIf="data$.cpf">
+                  <b>CPF</b>
+                  <a class="float-right">{{
+                    data$.cpf | mask: "000.000.000-00"
                     }}</a>
-                  </li>
-                  <li class="list-group-item" *ngIf="data$.telefone2">
-                    <b>Telefone 2</b>
-                    <a class="float-right">{{
-                      data$.telefone2 | mask: "(00) 00000-0000)"
+                </li>
+                <li class="list-group-item" *ngIf="data$.telefone1">
+                  <b>Telefone 1</b>
+                  <a class="float-right">{{
+                    data$.telefone1 | mask: "(00) 00000-0000"
                     }}</a>
-                  </li>
-                  <li class="list-group-item" *ngIf="data$.email">
-                    <b>E-mail</b> <a class="float-right">{{ data$.email }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="card card-orange card-outline" *ngIf="data$.rua">
-              <div class="card-header">
-                <b>Endereço</b>
-              </div>
-              <div class="card-body">
-                {{ data$.rua }}
-                <span *ngIf="data$.numero">, {{ data$.numero }}</span>
-                <span *ngIf="data$.bairro">, {{ data$.bairro }}</span>
-                <span *ngIf="data$.cidade">, {{ data$.cidade.nome }}</span>
-                <span *ngIf="data$.estado">, {{ data$.estado.nome }}</span>
-                <span *ngIf="data$.pais">- {{ data$.pais.uf }}</span>
-              </div>
+                </li>
+                <li class="list-group-item" *ngIf="data$.telefone2">
+                  <b>Telefone 2</b>
+                  <a class="float-right">{{
+                    data$.telefone2 | mask: "(00) 00000-0000)"
+                    }}</a>
+                </li>
+                <li class="list-group-item" *ngIf="data$.email">
+                  <b>E-mail</b> <a class="float-right">{{ data$.email }}</a>
+                </li>
+                <li class="list-group-item" *ngIf="data$.setor">
+                  <b>Setor</b> <a class="float-right">{{ data$.setor?.nome }}</a>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div class="col-md-9">
-            <div class="card card-orange card-outline">
-              <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                  <li class="nav-item">
-                    <a
-                      class="nav-link active"
-                      href="#publicacoes"
-                      data-bs-toggle="tab"
-                      >Publicações</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#afastamentos" data-bs-toggle="tab">Afastamentos</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#escalas" data-bs-toggle="tab"
-                      >Escalas</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#irso" data-bs-toggle="tab"
-                      >IRSO</a
-                    >
-                  </li>
-                </ul>
-              </div>
-              <div class="card-body" style="overflow-x: scroll;">
-                <div class="tab-content">
-                  <!--INICIO PUBLICACOES-->
-                  <div class="active tab-pane" id="publicacoes">
-                    <a target="_blank" style="float: right;" [routerLink]="['/Ficha', data$.id]"><i
+          <div class="card card-orange card-outline" *ngIf="data$.rua">
+            <div class="card-header">
+              <b>Endereço</b>
+            </div>
+            <div class="card-body">
+              {{ data$.rua }}
+              <span *ngIf="data$.numero">, {{ data$.numero }}</span>
+              <span *ngIf="data$.bairro">, {{ data$.bairro }}</span>
+              <span *ngIf="data$.cidade">, {{ data$.cidade.nome }}</span>
+              <span *ngIf="data$.estado">, {{ data$.estado.nome }}</span>
+              <span *ngIf="data$.pais">- {{ data$.pais.uf }}</span>
+            </div>
+          </div>
+        </div>
 
-                      class="right fa fa-print text-primary point"
-                      data-toggle="tooltip" 
-                      data-placement="top" 
-                      title="Ficha"
-                    ></i></a>
-                    <table class="table table-hover text-nowrap">
-                      <thead>
-                        <tr>
-                          <th>TIPO</th>
-                          <th>DESCRIÇÃO</th>
-                          <th>BOLETIM</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          *ngFor="
+        <div class="col-md-9">
+          <div class="card card-orange card-outline">
+            <div class="card-header p-2">
+              <ul class="nav nav-pills">
+                <li class="nav-item ">
+                  <a class="nav-link active" href="#informacoes" data-bs-toggle="tab">Informações</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="#afastamentos" data-bs-toggle="tab">Afastamentos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#armamento" data-bs-toggle="tab">Armamentos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#escalas" data-bs-toggle="tab">Escalas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#irso" data-bs-toggle="tab">IRSO</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " href="#publicacoes" data-bs-toggle="tab">Publicações</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body" style="overflow-x: scroll;">
+              <div class="tab-content">
+                <!--INICIO INFORMACOES-->
+                <div class="active tab-pane" id="informacoes">
+
+                  <dl class="row">
+
+                    <dt class="col-sm-3">Boletim Inclusão:</dt>
+                    <dd class="col-sm-8">{{ data$.boletim_inclusao }}</dd>
+
+                    <dt class="col-sm-3">Data Ingresso:</dt>
+                    <dd class="col-sm-8">{{ data$.data_ingresso | date: 'dd/MM/yyyy' }}</dd>
+
+                    <dt class="col-sm-3">Boletim Entrada:</dt>
+                    <dd class="col-sm-8">{{ data$.boletim_entrada }}</dd>
+
+                    <dt class="col-sm-3">Data Apresentação:</dt>
+                    <dd class="col-sm-8">{{ data$.data_apresentacao | date: 'dd/MM/yyyy' }}</dd>
+
+                    <dt class="col-sm-3">Boletim Saída:</dt>
+                    <dd class="col-sm-8">{{ data$.boletim_saida }}</dd>
+
+
+                  </dl>
+
+                </div>
+                <!--FIM INFORMACOES-->
+                <!--INICIO PUBLICACOES-->
+                <div class="tab-pane" id="publicacoes">
+                  <a target="_blank" style="float: right;" [routerLink]="['/Ficha', data$.id]"><i
+                      class="right fa fa-print text-primary point" data-toggle="tooltip" data-placement="top"
+                      title="Ficha"></i></a>
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>TIPO</th>
+                        <th>DESCRIÇÃO</th>
+                        <th>BOLETIM</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
                             let data of data$.publicacoes
                               | paginate
                                 : {
@@ -154,45 +192,39 @@
                                     itemsPerPage: 10,
                                     currentPage: p
                                   }
-                          "
-                        >
-                          <td>{{ data.tipo_publicacao.nome }}</td>
-                          <td style="max-width: 500px; text-align: justify; white-space: normal;" [innerHTML]="data.descricao"></td>
-                          <td>{{ data.boletim }}</td>
-                          
-                        </tr>
-                      </tbody>
-                    </table>
+                          ">
+                        <td>{{ data.tipo_publicacao.nome }}</td>
+                        <td style="max-width: 500px; text-align: justify; white-space: normal;"
+                          [innerHTML]="data.descricao"></td>
+                        <td>{{ data.boletim }}</td>
 
-                    
-                    <pagination-controls
-                      id="pagpubli"
-                      (pageChange)="p = $event"
-                      previousLabel="Anterior"
-                      nextLabel="Próximo"
-                      screenReaderCurrentLabel="Você está na página"
-                    ></pagination-controls>
-                  </div>
-                  <!--FIM PUBLICACOES-->
-                  <!--INICIO LTS-->
-                  <div class="tab-pane" id="afastamentos">
-                    <table class="table table-hover text-nowrap">
-                      <thead>
-                        <tr>
-                          <th>TIPO AFASTAMENTO</th>
-                          <th>DATA</th>
-                          <th>DIAS</th>
-                          <th>DATA FIM</th>
-                          <th>APTO</th>
-                          <th>CID</th>
-                          <th>OBJETO SERVIÇO</th>
-                          <th>DATA COPEM</th>
-                          <th>RESULTADO</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          *ngFor="
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+                  <pagination-controls id="pagpubli" (pageChange)="p = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                </div>
+                <!--FIM PUBLICACOES-->
+                <!--INICIO LTS-->
+                <div class="tab-pane" id="afastamentos">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>TIPO AFASTAMENTO</th>
+                        <th>DATA</th>
+                        <th>DIAS</th>
+                        <th>DATA FIM</th>
+                        <th>APTO</th>
+                        <th>CID</th>
+                        <th>OBJETO SERVIÇO</th>
+                        <th>DATA COPEM</th>
+                        <th>RESULTADO</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
                             let data of data$.afastamentos
                               | paginate
                                 : {
@@ -200,51 +232,44 @@
                                     itemsPerPage: 10,
                                     currentPage: q
                                   }
-                          "
-                        >
-                          <td>{{ data.afastamento_tipo.nome }}</td>
-                          <td>{{ data.data | date: "dd/MM/yyyy" }}</td>
-                          <td>{{ data.dias }}</td>
-                          <td>{{ data.data_fim | date: "dd/MM/yyyy" }}</td>
-                          <td>{{ data.apto | date: "dd/MM/yyyy" }}</td>
-                          <td>{{ data.cid }}</td>
-                          <td>
-                            <span *ngIf="data.objeto_servico">Sim</span>
-                            <span *ngIf="!data.objeto_servico">Não</span>
-                          </td>
-                          <td>{{ data.copem | date: "dd/MM/yyyy" }}</td>
-                          <td>
-                            <span *ngIf="data.resultado == 1">Apto a seguir</span>
-                            <span *ngIf="data.resultado == 2">Sem Observações</span>
-                            <span *ngIf="data.resultado == 3">Serviços leves</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                          ">
+                        <td>{{ data.afastamento_tipo.nome }}</td>
+                        <td>{{ data.data | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.dias }}</td>
+                        <td>{{ data.data_fim | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.apto | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.cid }}</td>
+                        <td>
+                          <span *ngIf="data.objeto_servico">Sim</span>
+                          <span *ngIf="!data.objeto_servico">Não</span>
+                        </td>
+                        <td>{{ data.copem | date: "dd/MM/yyyy" }}</td>
+                        <td>
+                          <span *ngIf="data.resultado == 1">Apto a seguir</span>
+                          <span *ngIf="data.resultado == 2">Sem Observações</span>
+                          <span *ngIf="data.resultado == 3">Serviços leves</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
 
-                    <pagination-controls
-                      id="paglts"
-                      (pageChange)="q = $event"
-                      previousLabel="Anterior"
-                      nextLabel="Próximo"
-                      screenReaderCurrentLabel="Você está na página"
-                    ></pagination-controls>
-                  </div>
-                  <!--FIM LTS-->
-                  <!--INICIO ESCALAS-->
-                  <div class="tab-pane" id="escalas">
-                    <table class="table table-hover text-nowrap">
-                        <thead>
-                          <tr>
-                            <th>MODALIDADE</th>
-                            <th>POSTO</th>
-                            <th>TURNO</th>                        
-                            <th>DATA</th>                        
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            *ngFor="
+                  <pagination-controls id="paglts" (pageChange)="q = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                </div>
+                <!--FIM LTS-->
+                <!--INICIO ESCALAS-->
+                <div class="tab-pane" id="escalas">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>MODALIDADE</th>
+                        <th>POSTO</th>
+                        <th>TURNO</th>
+                        <th>DATA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
                               let data of data$.escalas
                                 | paginate
                                   : {
@@ -252,39 +277,33 @@
                                       itemsPerPage: 10,
                                       currentPage: s
                                     }
-                            "
-                          >
-                            <td>{{ data.modalidade?.nome }}</td>
-                            <td>{{ data.posto?.nome }}</td>
-                            <td>{{ data.turno?.nome }} ({{ data.turno?.data_ini }} às {{ data.turno?.data_fim }})</td>
-                            <td><a target="_blank"  [routerLink]="['/Escala', data$.id]">{{ data.escala?.data | date:'dd/MM/yyyy' }}</a></td>
-                           
-                          </tr>
-                        </tbody>
-                      </table>
-  
-                      <pagination-controls
-                        id="pagesc"
-                        (pageChange)="s = $event"
-                        previousLabel="Anterior"
-                        nextLabel="Próximo"
-                        screenReaderCurrentLabel="Você está na página"
-                      ></pagination-controls>
-                  </div>
-                  <!--FIM ESCALAS-->
-                  <!--INICIO IRSO-->
-                  <div class="tab-pane" id="irso">
-                    <table class="table table-hover text-nowrap">
-                        <thead>
-                          <tr>
-                            <th>NOME</th>
-                            <th>DATA</th>
-                            <th>HORA</th>                        
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            *ngFor="
+                            ">
+                        <td>{{ data.modalidade?.nome }}</td>
+                        <td>{{ data.posto?.nome }}</td>
+                        <td>{{ data.turno?.nome }} ({{ data.turno?.data_ini }} às {{ data.turno?.data_fim }})</td>
+                        <td><a target="_blank" [routerLink]="['/Escala', data$.id]">{{ data.escala?.data |
+                            date:'dd/MM/yyyy' }}</a></td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <pagination-controls id="pagesc" (pageChange)="s = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                </div>
+                <!--FIM ESCALAS-->
+                <!--INICIO IRSO-->
+                <div class="tab-pane" id="irso">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>NOME</th>
+                        <th>DATA</th>
+                        <th>HORA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
                               let data of data$.irsos
                                 | paginate
                                   : {
@@ -292,35 +311,76 @@
                                       itemsPerPage: 10,
                                       currentPage: r
                                     }
-                            "
-                          >
-                            <td><a target="_blank"  [routerLink]="['/Irso', data.pivot.id]">{{ data.nome }}</a></td>
-                            <td>{{ data.data | date: 'dd/MM/yyyy' }}</td>
-                            <td>{{ data.hora }}</td>
-                           
-                          </tr>
-                        </tbody>
-                      </table>
-  
-                      <pagination-controls
-                        id="pagirso"
-                        (pageChange)="r = $event"
-                        previousLabel="Anterior"
-                        nextLabel="Próximo"
-                        screenReaderCurrentLabel="Você está na página"
-                      ></pagination-controls>
-                  </div>
-                  <!--FIM IRSO-->
+                            ">
+                        <td><a target="_blank" [routerLink]="['/Irso', data.pivot.id]">{{ data.nome }}</a></td>
+                        <td>{{ data.data | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ data.hora }}</td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <pagination-controls id="pagirso" (pageChange)="r = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
                 </div>
+                <!--FIM IRSO-->
+                <!--INICIO ARMAMENTO-->
+                <div class="tab-pane" id="armamento">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>TIPO</th>
+                        <th>MARCA</th>
+                        <th>MODELO</th>
+                        <th>SERIAL</th>
+                        <th>DATA EMP.</th>
+                        <th>DATA DEV</th>
+                        <th>DANIFICADO</th>
+                        <th>EXTRAVIADO</th>
+                        <th>OBS.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                              let data of data$.armamentos
+                                | paginate
+                                  : {
+                                      id: 'pagarma',
+                                      itemsPerPage: 10,
+                                      currentPage: t
+                                    }
+                            ">
+                        <td>{{ data.armamento_tipo.nome }}</td>
+                        <td>{{ data.marca.nome }}</td>
+                        <td>{{ data.modelo.nome }}</td>
+                        <td>{{ data.serial }}</td>
+                        <td>{{ data.pivot.data_emp | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ data.pivot.data_dev | date: 'dd/MM/yyyy' }}</td>
+                        <td>
+                          <span *ngIf="data.pivot.danificado">Sim</span>
+                        </td>
+                        <td>
+                          <span *ngIf="data.pivot.extraviado">Sim</span>
+                        </td>
+                        <td style="max-width: 500px; white-space: normal;" [innerHTML]="data.pivot.observacoes"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <pagination-controls id="pagarma" (pageChange)="t = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                </div>
+                <!--FIM ARMAMENTO-->
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!--   FIM PROFILE  -->
-    </section>
-  </div>
-  <!--
+    <!--   FIM PROFILE  -->
+  </section>
+</div>
+<!--
   <app-footer></app-footer>
 </div>-->

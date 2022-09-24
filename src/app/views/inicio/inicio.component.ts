@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { InicioService } from '../../services/inicio.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-inicio',
@@ -8,11 +8,19 @@ import { InicioService } from '../../services/inicio.service';
   styleUrls: ['./inicio.component.css'],
 })
 export class InicioComponent implements OnInit {
+
+  user: any;
+
   quantpm: any;
   quantafast: any;
   quantasetores: any;
 
-  constructor(private inicio: InicioService) {}
+  constructor(private session: SessionService,
+    private inicio: InicioService) {
+      setTimeout( () => {
+        this.user = this.session.getUser();
+      }, 1000);
+    }
 
   ngOnInit(): void {
     this.inicio.getPm().subscribe((data) => {

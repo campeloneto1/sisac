@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { EscalasService } from '../../services/escalas.service';
 import { EscalasModelosService } from '../../services/escalas-modelos.service';
@@ -12,7 +14,9 @@ import { EscalasModelosService } from '../../services/escalas-modelos.service';
   templateUrl: './escalas.component.html',
   styleUrls: ['./escalas.component.css']
 })
-export class EscalasComponent implements OnInit {
+export class EscalasComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -52,13 +56,23 @@ export class EscalasComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private escalas: EscalasService,
     private escalasmodelos: EscalasModelosService) { 
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.escalas){
+          this.escalas.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
 
-      this.escalas.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+      
   
     }
 

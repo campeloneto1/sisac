@@ -4,6 +4,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { TiposDocumentosService } from '../../services/tipos-documentos.service';
 import { DocumentosService } from '../../services/documentos.service';
@@ -14,6 +16,8 @@ import { DocumentosService } from '../../services/documentos.service';
   styleUrls: ['./documentos.component.css']
 })
 export class DocumentosComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -82,12 +86,22 @@ export class DocumentosComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private documentos: DocumentosService,
     private tiposdocumentos: TiposDocumentosService) {
-      this.documentos.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+      
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.documentos){
+          this.documentos.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
   
      }
 

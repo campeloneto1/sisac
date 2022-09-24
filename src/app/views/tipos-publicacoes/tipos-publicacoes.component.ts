@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { TiposPublicacoesService } from '../../services/tipos-publicacoes.service';
 
@@ -12,6 +14,8 @@ import { TiposPublicacoesService } from '../../services/tipos-publicacoes.servic
   styleUrls: ['./tipos-publicacoes.component.css']
 })
 export class TiposPublicacoesComponent implements OnInit, OnDestroy {
+  
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -32,11 +36,21 @@ export class TiposPublicacoesComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+private router: Router,
     private tipopublicacoes: TiposPublicacoesService) { 
-      this.tipopublicacoes.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.administrador){
+          this.tipopublicacoes.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
+      
     }
 
   ngOnInit(): void {

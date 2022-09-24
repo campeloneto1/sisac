@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { IrsosService } from '../../services/irsos.service';
 import { IrsosUsersService } from '../../services/irsos-users.service';
@@ -14,6 +16,8 @@ import { UsuariosService } from '../../services/usuarios.service';
   styleUrls: ['./irsos.component.css']
 })
 export class IrsosComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -59,14 +63,24 @@ export class IrsosComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private irsos: IrsosService,
     private irsosusers: IrsosUsersService,
     private usuarios: UsuariosService) {
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.irsos){
+          this.irsos.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
 
-      this.irsos.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+     
      }
 
   ngOnInit(): void {

@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { CidadesService } from '../../services/cidades.service';
 import { EstadosService } from '../../services/estados.service';
@@ -14,6 +16,8 @@ import { PaisesService } from '../../services/paises.service';
   styleUrls: ['./cidades.component.css']
 })
 export class CidadesComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -37,14 +41,24 @@ export class CidadesComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private cidades: CidadesService,
     private estados: EstadosService,
     private paises: PaisesService) {
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.administrador){
+          this.cidades.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
       
-    this.cidades.index().subscribe(data => {
-      this.data$ = data;
-      this.dtTrigger.next();
-    }); 
+    
      }
 
   ngOnInit(): void {

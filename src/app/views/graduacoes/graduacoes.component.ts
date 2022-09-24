@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { GraduacoesService } from '../../services/graduacoes.service';
 
@@ -12,6 +14,8 @@ import { GraduacoesService } from '../../services/graduacoes.service';
   styleUrls: ['./graduacoes.component.css']
 })
 export class GraduacoesComponent implements OnInit,OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -30,11 +34,21 @@ export class GraduacoesComponent implements OnInit,OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+private router: Router,
     private graduacoes: GraduacoesService) {
-      this.graduacoes.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.administrador){
+          this.graduacoes.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
+      
      }
 
   ngOnInit(): void {

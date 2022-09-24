@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -85,6 +85,7 @@ export class EscalaComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
+private router: Router,
     private escalas: EscalasService,
     private escalasusers: EscalasUsersService,
     private usuarios: UsuariosService,
@@ -92,11 +93,20 @@ export class EscalaComponent implements OnInit {
     private session: SessionService,
     private apcom: AppComponent
   ) {
-    this.apcom.token = false;
+    setTimeout( () => {
+      this.user = this.session.getUser();
+      if(this.user.perfil.administrador){
+        this.apcom.token = false;
 
-    this.usuarios.index().subscribe((data) => {
-      this.usuarios$ = data;
-    });
+        this.usuarios.index().subscribe((data) => {
+          this.usuarios$ = data;
+        });
+      }else{
+        this.router.navigate(['/Inicio']);
+      }
+    }, 1000);
+
+   
 
    
   }
@@ -109,16 +119,17 @@ export class EscalaComponent implements OnInit {
       //console.log(data);
       this.data$ = data;
       //@ts-ignore
-      var date2 = new Date(data.data);
+      var date5 = new Date(data.data);
+      var date2 = new Date();
       //@ts-ignore
-      //var date2.setDate(date5.getDate()+1);
+      date2.setDate(date5.getDate()+1);
 
       if(this.date > date2){
         //console.log('entrou');
         this.antiga = true;
       }
-
-      //console.log(date2);
+      //var teste = date2.getDate()+1;
+      //console.log(teste);
       //@ts-ignore
       this.dataesc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear()+' ('+this.diasemana[date2.getDay()]+')';
     });

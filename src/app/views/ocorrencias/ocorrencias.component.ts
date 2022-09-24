@@ -4,6 +4,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { TiposOcorrenciasService } from '../../services/tipos-ocorrencias.service';
 import { OcorrenciasService } from '../../services/ocorrencias.service';
@@ -14,7 +16,9 @@ import { EscalasService } from '../../services/escalas.service';
   templateUrl: './ocorrencias.component.html',
   styleUrls: ['./ocorrencias.component.css']
 })
-export class OcorrenciasComponent implements OnInit {
+export class OcorrenciasComponent implements OnInit,OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -84,15 +88,25 @@ export class OcorrenciasComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private escalas: EscalasService,
     private ocorrencias: OcorrenciasService,
     private tiposocorrencias: TiposOcorrenciasService) {
-      this.ocorrencias.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.oficial_dia){
+          this.ocorrencias.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
+      
   
-     }
+    }
 
   ngOnInit(): void {
     this.dtOptions = {

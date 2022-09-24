@@ -31,6 +31,7 @@
           <div class="row">
             <div class="col-sm-1">
               <button
+              *ngIf="user.perfil.usuarios_cad"
                 data-bs-toggle="modal"
                 data-bs-target="#modalcad"
                 type="button"
@@ -60,7 +61,7 @@
                 <th>NOME</th>
                 <th>CPF</th>
                 <th>MATRÍCULA</th>
-                <th>PERFIL</th>
+                <th *ngIf="user.perfil.administrador">PERFIL</th>
                 
                 <th>OPÇÕES</th>
               </tr>
@@ -73,7 +74,7 @@
                 <td><a [routerLink]="['/Usuario', data.id]">{{ data.nome }}</a></td>
                 <td>{{ data.cpf | mask: "000.000.000-00" }}</td>
                 <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
-                <td>{{ data.perfil.nome }}</td>
+                <td *ngIf="user.perfil.administrador">{{ data.perfil.nome }}</td>
                 
                 <td>
                   <span class="editdata">
@@ -85,6 +86,7 @@
                       title="Ficha"
                     ></i></a>-->
                     <i
+                    *ngIf="user.perfil.usuarios_edt"
                       (click)="editar(data)"
                       data-bs-toggle="modal"
                       data-bs-target="#modalcad"
@@ -94,6 +96,7 @@
                       title="Editar"
                     ></i>
                     <i
+                    *ngIf="user.perfil.usuarios_del"
                       (click)="deletar(data)"
                       data-bs-toggle="modal"
                       data-bs-target="#modaldel"
@@ -359,28 +362,96 @@
                       />
                     </div>
                   </div>
+                 
+                </div>
+                <!--FIM ROW 3-->
+                <!--INICIO ROW 3.1-->
+                <div class="row">
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="boletim_inclusao"
+                        >Boletim Inclusão</label
+                      >
+                      <input
+                        formControlName="boletim_inclusao"
+                                                
+                        type="text"
+                        class="form-control form-control-border"
+                        id="boletim_inclusao"
+                      />
+                    </div>
+                  </div>
                   <div class="col-sm-2">
                     <div class="form-group">
                       <label for="data_ingresso"
-                        >Data Ingr.<span class="text-danger">*</span></label
+                        >Data Ingresso</label
                       >
                       <input
                         formControlName="data_ingresso"
-                        required
-                        [ngClass]="{
-                          'is-invalid':
-                            formcad.controls.data_ingresso.invalid &&
-                            (formcad.controls.data_ingresso.dirty ||
-                              formcad.controls.data_ingresso.touched)
-                        }"
+                        
+                        
                         type="date"
                         class="form-control form-control-border"
                         id="data_ingresso"
                       />
                     </div>
                   </div>
+                 
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="boletim_entrada"
+                        >Boletim Entrada<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="boletim_entrada"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.boletim_entrada.invalid &&
+                            (formcad.controls.boletim_entrada.dirty ||
+                              formcad.controls.boletim_entrada.touched)
+                        }"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="boletim_entrada"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="data_apresentacao"
+                        >Data Apresentação<span class="text-danger">*</span></label
+                      >
+                      <input
+                        formControlName="data_apresentacao"
+                        required
+                        [ngClass]="{
+                          'is-invalid':
+                            formcad.controls.data_apresentacao.invalid &&
+                            (formcad.controls.data_apresentacao.dirty ||
+                              formcad.controls.data_apresentacao.touched)
+                        }"
+                        type="date"
+                        class="form-control form-control-border"
+                        id="data_apresentacao"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="boletim_saida"
+                        >Boletim Saída</label
+                      >
+                      <input
+                        formControlName="boletim_saida"
+                        type="text"
+                        class="form-control form-control-border"
+                        id="boletim_saida"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <!--FIM ROW 3-->
+                <!--FIM ROW 3.1-->
                 <!--INICIO ROW 4-->
                 <div class="row">
                   <div class="col-sm-2">
@@ -503,7 +574,7 @@
                 <!--FIM ROW 5-->
                 <!--INICIO ROW 6-->
                 <div class="row">
-                  <div class="col-sm-2">
+                  <div class="col-sm-2" *ngIf="user.perfil.administrador">
                     <div class="form-group">
                       <label for="perfil_id"
                         >Perfil<span class="text-danger">*</span></label

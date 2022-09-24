@@ -18,7 +18,7 @@ export class MarcasService {
   }
 
   where(id:number){
-    return this.http.get(environment.url+"marcas/"+id);
+    return this.http.get(environment.url+"marcas/"+id+"/where");
   }
 
   store(data:any){

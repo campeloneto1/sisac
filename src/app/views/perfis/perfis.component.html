@@ -1,1 +1,480 @@
-<p>perfis works!</p>
+<!--<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>-->
+<!--INICIO CONTENT WRAPPER-->
+<div class="content-wrapper" style="min-height: 1604.44px">
+    <!--INICIO SECTION HEADER-->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Perfís</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="['/Inicio']">Início</a>
+                        </li>
+                        <li class="breadcrumb-item active">Perfís</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--FIM SECTION HEADER-->
+    <!--INICIO SECTION TABELA-->
+    <section class="content">
+        <!--INICIO CARD-->
+        <div class="card card-outline card-orange">
+            <!--INICIO HEADER CARD-->
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <button data-bs-toggle="modal" data-bs-target="#modalcad" type="button"
+                            class="btn btn-block btn-outline-primary" (click)="formcad.reset()">
+                            <i class="nav-icon fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!--FIM HEADER CARD-->
+            <!--INICIO BODY CARD-->
+            <div class="card-body" style="overflow-x: scroll;">
+                <!--INICIO TABLE CARD-->
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                    class="table table-hover table-head-fixed text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NOME</th>
+                            <th>ADMINISTRADOR</th>
+                            <th>GESTOR</th>
+                            <th>OFD</th>
+                            <th>AFASTAMENTOS</th>
+                            <th>ARMAMENTOS</th>
+                            <th>DOCUMENTOS</th>
+                            <th>ESCALAS</th>
+                            <th>IRSOS</th>
+                            <th>PUBLICAÇÕES</th>
+                            <th>USUÁRIOS</th>
+                            <th>OPÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of data$" class="hovers">
+                            <td>{{ data.id }}</td>
+                            <td>{{ data.nome }}</td>
+                            <td style="text-align: center; ">
+                                <span *ngIf="data.administrador"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.administrador"><i class="fas fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                               
+                                <span *ngIf="data.gestor"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.gestor"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                              
+                                <span *ngIf="data.oficial_dia"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.oficial_dia"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
+                                <span *ngIf="data.afastamentos"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.afastamentos"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
+                                <span *ngIf="data.armamentos"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.armamentos"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
+                                <span *ngIf="data.documentos"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.documentos"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
+                                <span *ngIf="data.escalas"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.escalas"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
+                                <span *ngIf="data.irsos"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.irsos"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
+                                <span *ngIf="data.publicacoes"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.publicacoes"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
+                                <span *ngIf="data.usuarios"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.usuarios"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td>
+                                <span class="editdata">
+                                    <i (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
+                                        class="right fas fa-edit text-primary point" data-toggle="tooltip"
+                                        data-placement="top" title="Editar"></i>
+                                    <i (click)="deletar(data)" data-bs-toggle="modal" data-bs-target="#modaldel"
+                                        class="right fas fa-trash text-danger point margin5" data-toggle="tooltip"
+                                        data-placement="top" title="Excluir"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--FIM TABLE CARD-->
+            </div>
+            <!--FIM BODY CARD-->
+        </div>
+        <!--FIM CARD-->
+
+        <!--INICIO MODAL CADASTRO-->
+        <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cadastrar</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <!--FORM CADASTRO-->
+                    <form [formGroup]="formcad" (ngSubmit)="salvar()">
+                        <div class="modal-body">
+                            <!--INICIO ROW 1-->
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="nome">Nome<span class="text-danger">*</span></label>
+                                        <input formControlName="nome" required type="text"
+                                            class="form-control form-control-border" id="nome" placeholder="Nome"
+                                            [ngClass]="{
+                              'is-invalid':
+                                formcad.controls.nome.invalid &&
+                                (formcad.controls.nome.dirty ||
+                                  formcad.controls.nome.touched)
+                            }" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--FIM ROW 1-->
+
+                            <!-- INICIO ROW GESTÃO-->
+                            <div class="row">
+                                <h5><b>Gestão</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="administrador">Administrador</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="administrador" id="administrador" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="gestor">Gestor</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="gestor" id="gestor" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="oficial_dia">Oficial de Dia</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="oficial_dia" id="oficial_dia" />
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <!-- FIM ROW GESTÃO-->
+
+                            <!-- INICIO ROW AFASTAMENTOS-->
+                            <div class="row">
+                                <h5><b>Afastamentos</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="afastamentos">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="afastamentos" id="afastamentos" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="afastamentos_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="afastamentos_cad" id="afastamentos_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="afastamentos_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="afastamentos_edt" id="afastamentos_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="afastamentos_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="afastamentos_del" id="afastamentos_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW AFASTAMENTOS-->
+
+                            <!-- INICIO ROW ARMAMENTOS-->
+                            <div class="row">
+                                <h5><b>Armamentos</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="armamentos">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="armamentos" id="armamentos" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="armamentos_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="armamentos_cad" id="armamentos_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="armamentos_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="armamentos_edt" id="armamentos_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="armamentos_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="armamentos_del" id="armamentos_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW ARMAMENTOS-->
+
+                             <!-- INICIO ROW DOCUMENTOS-->
+                             <div class="row">
+                                <h5><b>Documentos</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="documentos">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="documentos" id="documentos" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="documentos_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="documentos_cad" id="documentos_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="documentos_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="documentos_edt" id="documentos_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="documentos_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="documentos_del" id="documentos_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW DOCUMENTOS-->
+
+                            <!-- INICIO ROW ESCALAS-->
+                            <div class="row">
+                                <h5><b>Escalas</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="escalas">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="escalas" id="escalas" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="escalas_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="escalas_cad" id="escalas_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="escalas_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="escalas_edt" id="escalas_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="escalas_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="escalas_del" id="escalas_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW ESCALAS-->
+
+                            <!-- INICIO ROW IRSOS-->
+                            <div class="row">
+                                <h5><b>Irsos</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="irsos">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="irsos" id="irsos" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="irsos_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="irsos_cad" id="irsos_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="irsos_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="irsos_edt" id="irsos_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="irsos_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="irsos_del" id="irsos_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW IRSOS-->
+
+                            <!-- INICIO ROW PUBLICAÇÕES-->
+                            <div class="row">
+                                <h5><b>Publicações</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="publicacoes">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="publicacoes" id="publicacoes" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="publicacoes_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="publicacoes_cad" id="publicacoes_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="publicacoes_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="publicacoes_edt" id="publicacoes_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="publicacoes_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="publicacoes_del" id="publicacoes_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW PUBLICAÇÕES-->
+
+                            <!-- INICIO ROW USUÁRIOS-->
+                            <div class="row">
+                                <h5><b>Usuários</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="usuarios">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="usuarios" id="usuarios" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="usuarios_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="usuarios_cad" id="usuarios_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="usuarios_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="usuarios_edt" id="usuarios_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="usuarios_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="usuarios_del" id="usuarios_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW USUÁRIOS-->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                                Cancelar
+                            </button>
+                            <button [disabled]="!formcad.valid" data-bs-dismiss="modal" type="submit"
+                                class="btn btn-success">
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
+                    <!--FIM FORM CADASTRO-->
+                </div>
+            </div>
+        </div>
+        <!--FIM MODAL CADASTRO-->
+
+        <!--INICIO MODAL DELETE-->
+        <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Excluir</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Tem certeza que deseja excluir o perfil <b>{{excluir$?.nome}}</b>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button (click)="confirm()" data-bs-dismiss="modal" type="button" class="btn btn-danger">
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--FIM MODAL DELETE-->
+    </section>
+    <!--FIM SECTION TABELA-->
+</div>
+<!--FIM CONTENT WRAPPER-->
+<!--<app-footer></app-footer>
+    </div>-->

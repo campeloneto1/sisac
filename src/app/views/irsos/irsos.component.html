@@ -31,6 +31,7 @@
           <div class="row">
             <div class="col-sm-1">
               <button
+              *ngIf="user.perfil.irsos_cad"
                 data-bs-toggle="modal"
                 data-bs-target="#modalcad"
                 type="button"
@@ -59,7 +60,7 @@
                 <th>NOME</th>
                 <th>DATA</th>
                 <th>HORA</th>
-                <th>POLICIAIS</th>
+                <th>USUÁRIOS</th>
                 <th>OPÇÕES</th>
               </tr>
             </thead>
@@ -84,7 +85,7 @@
                     "
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Policiais"
+                    title="Usuários"
                   ></i>
                 </td>
                 <td>
@@ -96,6 +97,7 @@
                       title="Imprimir"
                     ></i></a>
                     <i
+                    *ngIf="user.perfil.irsos_edt"
                       (click)="editar(data)"
                       data-bs-toggle="modal"
                       data-bs-target="#modalcad"
@@ -105,6 +107,7 @@
                       title="Editar"
                     ></i>
                     <i
+                    *ngIf="user.perfil.irsos_del"
                       (click)="deletar(data)"
                       data-bs-toggle="modal"
                       data-bs-target="#modaldel"

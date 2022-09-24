@@ -318,10 +318,10 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of posto$.turnos" class="hovers">
-                    <td>{{ data.id }}</td>
-                    <td>{{ data.turno.nome }}</td>
-                    <td>{{ data.turno.hora_ini }}</td>
-                    <td>{{ data.turno.hora_fim }}</td>
+                    <td>{{ data.pivot.id }}</td>
+                    <td>{{ data.nome }}</td>
+                    <td>{{ data.hora_ini }}</td>
+                    <td>{{ data.hora_fim }}</td>
                     <td>
                       <span class="editdata">
                         <i

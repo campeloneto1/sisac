@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { PostosService } from '../../services/postos.service';
 import { PostosTurnosService } from '../../services/postos-turnos.service';
@@ -14,6 +16,8 @@ import { TurnosService } from '../../services/turnos.service';
   styleUrls: ['./postos.component.css']
 })
 export class PostosComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -56,13 +60,24 @@ export class PostosComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private postos: PostosService,
     private turnos: TurnosService,
     private postosturnos: PostosTurnosService) { 
-      this.postos.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+     
+
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.gestor){
+          this.postos.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
     }
 
   ngOnInit(): void {
@@ -156,10 +171,10 @@ export class PostosComponent implements OnInit, OnDestroy {
   }
 
   deletartur(data:any){
-    let isExecuted = confirm("Tem certeza que deseja excluir "+data.turno.nome+"?");
+    let isExecuted = confirm("Tem certeza que deseja excluir "+data.nome+"?");
 
     if(isExecuted){
-      this.postosturnos.destroy(data.id).subscribe(data => {
+      this.postosturnos.destroy(data.pivot.id).subscribe(data => {
         if(data == 1){
           
           this.refresh();

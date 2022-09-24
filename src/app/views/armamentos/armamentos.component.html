@@ -1,212 +1,341 @@
-    <!--<div class="wrapper">
+<!--<div class="wrapper">
 <app-navbar></app-navbar>
     <app-sidebar></app-sidebar>-->
-    <!--INICIO CONTENT WRAPPER-->
-    <div class="content-wrapper" style="min-height: 1604.44px">
-        <!--INICIO SECTION HEADER-->
-        <section class="content-header">
-          <div class="container-fluid">
-            <div class="row mb-2">
-              <div class="col-sm-6">
-                <h1>Armamentos</h1>
-              </div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item">
-                    <a [routerLink]="['/Inicio']">Início</a>
-                  </li>
-                  <li class="breadcrumb-item active">Armamentos</li>
-                </ol>
-              </div>
-            </div>
+<!--INICIO CONTENT WRAPPER-->
+<div class="content-wrapper" style="min-height: 1604.44px">
+  <!--INICIO SECTION HEADER-->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Armamentos</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/Inicio']">Início</a>
+            </li>
+            <li class="breadcrumb-item active">Armamentos</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--FIM SECTION HEADER-->
+  <!--INICIO SECTION TABELA-->
+  <section class="content">
+    <!--INICIO CARD-->
+    <div class="card card-outline card-orange">
+      <!--INICIO HEADER CARD-->
+      <div class="card-header">
+        <div class="row">
+          <div class="col-sm-1">
+            <button *ngIf="user.perfil.armamentos_cad" data-bs-toggle="modal" data-bs-target="#modalcad" type="button"
+              class="btn btn-block btn-outline-primary" (click)="formcad.reset()">
+              <i class="nav-icon fas fa-plus"></i>
+            </button>
           </div>
-        </section>
-        <!--FIM SECTION HEADER-->
-        <!--INICIO SECTION TABELA-->
-        <section class="content">
-          <!--INICIO CARD-->
-          <div class="card card-outline card-orange">
-            <!--INICIO HEADER CARD-->
-            <div class="card-header">
+        </div>
+      </div>
+      <!--FIM HEADER CARD-->
+      <!--INICIO BODY CARD-->
+      <div class="card-body" style="overflow-x: scroll;">
+        <!--INICIO TABLE CARD-->
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+          class="table table-hover table-head-fixed text-nowrap">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>TIPO</th>
+              <th>MARCA</th>
+              <th>MODELO</th>
+              <th>SERIAL</th>
+              <th>DATA VENC.</th>
+              <th>USUÁRIOS</th>
+              <th>OPÇÕES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of data$" class="hovers">
+              <td>{{ data.id }}</td>
+              <td>{{ data.armamento_tipo.nome }}</td>
+              <td>{{ data.marca.nome }}</td>
+              <td>{{ data.modelo.nome }}</td>
+              <td>{{ data.serial }}</td>
+              <td>{{ data.data_venc | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                <i (click)="showUsuarios(data)" data-bs-toggle="modal" data-bs-target="#modalusu"
+                  class="right fa fa-users point" [ngClass]="
+                  data.usuarios[0] ? 'text-primary' : 'text-secondary'
+                " data-toggle="tooltip" data-placement="top" title="Usuários"></i>
+              </td>
+              <td>
+                <span class="editdata">
+                  <i *ngIf="user.perfil.armamentos_edt" (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
+                    class="right fas fa-edit text-primary point" data-toggle="tooltip" data-placement="top"
+                    title="Editar"></i>
+                  <i *ngIf="user.perfil.armamentos_del" (click)="deletar(data)" data-bs-toggle="modal" data-bs-target="#modaldel"
+                    class="right fas fa-trash text-danger point margin5" data-toggle="tooltip" data-placement="top"
+                    title="Excluir"></i>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!--FIM TABLE CARD-->
+      </div>
+      <!--FIM BODY CARD-->
+    </div>
+    <!--FIM CARD-->
+
+    <!--INICIO MODAL CADASTRO-->
+    <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Cadastrar</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <!--FORM CADASTRO-->
+          <form [formGroup]="formcad" (ngSubmit)="salvar()">
+            <div class="modal-body">
+              <!--INICIO ROW 1-->
               <div class="row">
-                <div class="col-sm-1">
-                  <button
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalcad"
-                    type="button"
-                    class="btn btn-block btn-outline-primary"
-                    (click)="formcad.reset()"
-                  >
-                    <i class="nav-icon fas fa-plus"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!--FIM HEADER CARD-->
-            <!--INICIO BODY CARD-->
-            <div class="card-body" style="overflow-x: scroll;">
-              <!--INICIO TABLE CARD-->
-              <table
-                datatable
-                [dtOptions]="dtOptions"
-                [dtTrigger]="dtTrigger"
-                class="table table-hover table-head-fixed text-nowrap"
-              >
-                <thead>
-                  <tr>
-                    <th>ID</th>                  
-                    <th>NOME</th>                   
-                    <th>OPÇÕES</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let data of data$" class="hovers">
-                    <td>{{ data.id }}</td>                
-                    <td>{{ data.nome }}</td>                
-                    <td>
-                      <span class="editdata">
-                        <i
-                          (click)="editar(data)"
-                          data-bs-toggle="modal"
-                          data-bs-target="#modalcad"
-                          class="right fas fa-edit text-primary point"
-                          data-toggle="tooltip" 
-                          data-placement="top" 
-                          title="Editar"
-                        ></i>
-                        <i
-                          (click)="deletar(data)"
-                          data-bs-toggle="modal"
-                          data-bs-target="#modaldel"
-                          class="right fas fa-trash text-danger point margin5"
-                          data-toggle="tooltip" 
-                          data-placement="top" 
-                          title="Excluir"
-                        ></i>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <!--FIM TABLE CARD-->
-            </div>
-            <!--FIM BODY CARD-->
-          </div>
-          <!--FIM CARD-->
-    
-          <!--INICIO MODAL CADASTRO-->
-          <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-xl">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Cadastrar</h4>
-                  <button
-                    type="button"
-                    class="close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <!--FORM CADASTRO-->
-                <form [formGroup]="formcad" (ngSubmit)="salvar()">
-                  <div class="modal-body">
-                    <!--INICIO ROW 1-->
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label for="nome"
-                            >Nome<span class="text-danger">*</span></label
-                          >
-                          <input
-                            formControlName="nome"
-                            required
-                            type="text"
-                            class="form-control form-control-border"
-                            id="nome"
-                            placeholder="Nome"
-                            [ngClass]="{
-                              'is-invalid':
-                                formcad.controls.nome.invalid &&
-                                (formcad.controls.nome.dirty ||
-                                  formcad.controls.nome.touched)
-                            }"
-                          />
-                        </div>
-                      </div>                    
-                    </div>
-                    <!--FIM ROW 1-->
-  
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="armamento_tipo">Tipo<span class="text-danger">*</span></label>
+                    <ngx-select-dropdown required [config]="config" [options]="armamentostipos$"
+                      formControlName="armamento_tipo">
+                    </ngx-select-dropdown>
                   </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      [disabled]="!formcad.valid"
-                      data-bs-dismiss="modal"
-                      type="submit"
-                      class="btn btn-success"
-                    >
-                      Salvar
-                    </button>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="marca">Marca<span class="text-danger">*</span></label>
+                    <ngx-select-dropdown required [config]="config2" [options]="marcas$" formControlName="marca"
+                      (change)="getModelos()">
+                    </ngx-select-dropdown>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="modelo">Modelo<span class="text-danger">*</span></label>
+                    <ngx-select-dropdown required [config]="config3" [options]="modelos$" formControlName="modelo">
+                    </ngx-select-dropdown>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="serial">Serial<span class="text-danger">*</span></label>
+                    <input formControlName="serial" required type="text" class="form-control form-control-border"
+                      id="serial" placeholder="Serial" [ngClass]="{
+                              'is-invalid':
+                                formcad.controls.serial.invalid &&
+                                (formcad.controls.serial.dirty ||
+                                  formcad.controls.serial.touched)
+                            }" />
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="data_venc">Data Venc.</label>
+                    <input formControlName="data_venc" type="date" class="form-control form-control-border"
+                      id="data_venc" placeholder="Data Venc." />
+                  </div>
+                </div>
+
+              </div>
+              <!--FIM ROW 1-->
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                Cancelar
+              </button>
+              <button [disabled]="!formcad.valid" data-bs-dismiss="modal" type="submit" class="btn btn-success">
+                Salvar
+              </button>
+            </div>
+          </form>
+          <!--FIM FORM CADASTRO-->
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL CADASTRO-->
+
+    <!--INICIO MODAL DELETE-->
+    <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Excluir</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <p>Tem certeza que deseja excluir o armamento <b>{{excluir$?.serial}}</b>?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+              Cancelar
+            </button>
+            <button (click)="confirm()" data-bs-dismiss="modal" type="button" class="btn btn-danger">
+              Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL DELETE-->
+
+    <!--INICIO MODAL USUARIOS-->
+    <div class="modal fade" id="modalusu" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">
+              Usuários
+              <button type="button" class="btn  btn-outline-primary" (click)="cadusu()">
+                <i class="nav-icon fas fa-plus"></i>
+              </button>
+            </h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+
+          <div class="modal-body" *ngIf="armamento$">
+
+            <div class="card card-olive" *ngIf="cadus">
+              <div class="card-header">
+                <h3 class="card-title">Cadastrar Policial</h3>
+              </div>
+              <div class="card-body">
+                <form [formGroup]="formcad2" (ngSubmit)="cadastrarusu()">
+                  <div class="row" *ngIf="!formcad2.value.id">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="user">Usuário<span class="text-danger">*</span></label>
+                        <ngx-select-dropdown required [config]="config4" [options]="usuarios$" formControlName="user">
+
+                        </ngx-select-dropdown>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label for="data_emp">Data Emp.<span class="text-danger">*</span></label>
+                        <input formControlName="data_emp" required type="date" class="form-control form-control-border"
+                          id="data_emp" placeholder="Data Emp." />
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label for="quant">Quantidade</label>
+                        <input formControlName="quant" type="number" min="0" max="100"
+                          class="form-control form-control-border" id="quant" placeholder="Quant." />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="formcad2.value.id">
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label for="data_dev">Data Dev.<span class="text-danger">*</span></label>
+                        <input formControlName="data_dev" required type="date" class="form-control form-control-border"
+                          id="data_dev" placeholder="Data Dev." />
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label for="danificado">Danificado</label>
+                        <br />
+                        <input type="checkbox" formControlName="danificado" id="danificado" />
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label for="extraviado">Extraviado</label>
+                        <br />
+                        <input type="checkbox" formControlName="extraviado" id="extraviado" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="observacoes">Observações</label>
+                        <angular-editor formControlName="observacoes" id="observacoes" [config]="editorConfig">
+                        </angular-editor>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-2">
+
+                      <button [disabled]="!formcad2.valid" style="margin-top: 30px;" type="submit"
+                        class="btn btn-success">
+                        Cadastrar
+                      </button>
+                    </div>
                   </div>
                 </form>
-                <!--FIM FORM CADASTRO-->
               </div>
             </div>
+
+            <table class="table table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>NOME</th>
+                  <th>MATRÍCULA</th>
+                  <th>DATA EMP.</th>
+                  <th>DATA DEV</th>
+                  <th>DANIFICADO</th>
+                  <th>EXTRAVIADO</th>
+                  <th>OBS.</th>
+                  <th>OPÇÕES</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of armamento$.usuarios" class="hovers">
+                  <td>{{ data.pivot.id }}</td>
+                  <td>{{ data.nome }}</td>
+                  <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
+                  <td>{{ data.pivot.data_emp | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ data.pivot.data_dev | date:'dd/MM/yyyy' }}</td>
+                  <td>
+                    <span *ngIf="data.pivot.danificado">Sim</span>
+                  </td>
+                  <td><span *ngIf="data.pivot.extraviado">Sim</span></td>
+                  <td style="max-width: 500px; white-space: normal;" [innerHTML]="data.pivot.observacoes"></td>
+                  <td>
+                    <span class="editdata">
+                      <i (click)="devarmamento(data)" class="right fa fa-download text-primary point margin5"
+                        data-toggle="tooltip" data-placement="top" title="Receber Armamento"></i>
+                      <i *ngIf="!data.pivot.data_dev" (click)="deletarusu(data)"
+                        class="right fas fa-trash text-danger point margin5" data-toggle="tooltip" data-placement="top"
+                        title="Excluir"></i>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <!--FIM MODAL CADASTRO-->
-    
-          <!--INICIO MODAL DELETE-->
-          <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
-            <div class="modal-dialog ">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Excluir</h4>
-                  <button
-                    type="button"
-                    class="close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-    
-                <div class="modal-body">
-                  <p>Tem certeza que deseja excluir o armamento <b>{{excluir$?.nome}}</b>?</p>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-default"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    (click)="confirm()"
-                    data-bs-dismiss="modal"
-                    type="button"
-                    class="btn btn-danger"
-                  >
-                    Excluir
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+              Fechar
+            </button>
           </div>
-          <!--FIM MODAL DELETE-->
-        </section>
-        <!--FIM SECTION TABELA-->
+        </div>
       </div>
-      <!--FIM CONTENT WRAPPER-->
-      <!--<app-footer></app-footer>
+    </div>
+    <!--FIM MODAL USUARIOS-->
+  </section>
+  <!--FIM SECTION TABELA-->
+</div>
+<!--FIM CONTENT WRAPPER-->
+<!--<app-footer></app-footer>
     </div>-->
-    

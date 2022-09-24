@@ -31,6 +31,7 @@
             <div class="row">
               <div class="col-sm-1">
                 <button
+                *ngIf="user.perfil.publicacoes_cad"
                   data-bs-toggle="modal"
                   data-bs-target="#modalcad"
                   type="button"
@@ -72,10 +73,11 @@
                   <td><a [routerLink]="['/Usuario', data.user?.id]">{{ data.user?.nome }}</a></td>  
                   <td>{{ data.user?.matricula | mask:'000.000-0-0' }}</td>    
                   <td>{{ data.boletim}}</td>     
-                  <td style="max-width: 500px; white-space: normal;" [innerHTML]="data.descricao"></td>          
+                  <td style="max-width: 500px; white-space: normal;"  [innerHTML]="data.descricao"></td>          
                   <td>
                     <span class="editdata">
                       <i
+                      *ngIf="user.perfil.publicacoes_edt"
                         (click)="editar(data)"
                         data-bs-toggle="modal"
                         data-bs-target="#modalcad"
@@ -85,6 +87,7 @@
                         title="Editar"
                       ></i>
                       <i
+                      *ngIf="user.perfil.publicacoes_del"
                         (click)="deletar(data)"
                         data-bs-toggle="modal"
                         data-bs-target="#modaldel"

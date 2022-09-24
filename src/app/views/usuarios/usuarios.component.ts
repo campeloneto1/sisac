@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { CidadesService } from '../../services/cidades.service';
 import { EstadosService } from '../../services/estados.service';
@@ -22,6 +24,8 @@ import { SetoresService } from '../../services/setores.service';
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -81,6 +85,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     estado_id: new FormControl(''),
     pais_id: new FormControl(''),
 
+    boletim_inclusao: new FormControl(''),
+    boletim_entrada: new FormControl(''),
+    data_apresentacao: new FormControl(''),
+    boletim_saida: new FormControl(''),
+
     unidade_id: new FormControl(''),
     subunidade_id: new FormControl(''),
     setor_id: new FormControl(''),
@@ -93,6 +102,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private cidades: CidadesService,
     private estados: EstadosService,
     private graduacoes: GraduacoesService,
@@ -102,11 +113,19 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private unidades: UnidadesService,
     private subunidades: SubunidadesService,
     private setores: SetoresService) {
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.usuarios){
+          this.usuarios.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
 
-      this.usuarios.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+      
 
      }
 
@@ -202,6 +221,9 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   salvar(){
+    if(!this.user.perfil.administador){
+      this.formcad.controls.perfil_id.patchValue('4');
+    }
     //@ts-ignore
     this.formcad.controls.cidade_id.patchValue(this.formcad.value.cidade.id);
     if(this.formcad.value.id){

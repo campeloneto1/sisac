@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { EscalasModelosService } from '../../services/escalas-modelos.service';
 import { EscalasModalidadesService } from '../../services/escalas-modalidades.service';
@@ -14,6 +16,8 @@ import { ModalidadesService } from '../../services/modalidades.service';
   styleUrls: ['./escalas-modelos.component.css']
 })
 export class EscalasModelosComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   p: number = 1;
 
@@ -56,13 +60,24 @@ export class EscalasModelosComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private escalasmodelos: EscalasModelosService,
     private escalasmodalidades: EscalasModalidadesService,
     private modalidades: ModalidadesService) { 
-      this.escalasmodelos.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+     
+
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.gestor){
+          this.escalasmodelos.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
   
     }
 
@@ -156,10 +171,10 @@ export class EscalasModelosComponent implements OnInit, OnDestroy {
   }
 
   deletarmodal(data:any){
-    let isExecuted = confirm("Tem certeza que deseja excluir "+data.modalidade.nome+"?");
+    let isExecuted = confirm("Tem certeza que deseja excluir "+data.nome+"?");
 
     if(isExecuted){
-      this.escalasmodalidades.destroy(data.id).subscribe(data => {
+      this.escalasmodalidades.destroy(data.pivot.id).subscribe(data => {
         if(data == 1){
           
           this.refresh();

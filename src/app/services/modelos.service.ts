@@ -18,7 +18,7 @@ export class ModelosService {
   }
 
   where(id:number){
-    return this.http.get(environment.url+"modelos/"+id);
+    return this.http.get(environment.url+"modelos/"+id+"/where");
   }
 
   store(data:any){

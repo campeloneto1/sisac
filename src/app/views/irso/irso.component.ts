@@ -38,11 +38,20 @@ export class IrsoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private irsos: IrsosService,
     private session: SessionService,
     private apcom: AppComponent
   ) {
-    this.apcom.token = false;
+    
+    setTimeout( () => {
+      this.user = this.session.getUser();
+      if(this.user.perfil.irsos){
+        this.apcom.token = false;
+      }else{
+        this.router.navigate(['/Inicio']);
+      }
+    }, 1000);
   }
 
   ngOnInit(): void {

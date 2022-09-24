@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { ArmamentosTiposService } from '../../services/armamentos-tipos.service';
 
@@ -12,6 +14,8 @@ import { ArmamentosTiposService } from '../../services/armamentos-tipos.service'
   styleUrls: ['./armamentos-tipos.component.css']
 })
 export class ArmamentosTiposComponent implements OnInit, OnDestroy {
+
+  user: any;
 
   dtOptions: DataTables.Settings = {};
 
@@ -31,12 +35,21 @@ export class ArmamentosTiposComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private armamentostipos: ArmamentosTiposService) { 
-      this.armamentostipos.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
-
+      
+      setTimeout( () => {
+        this.user = this.session.getUser();
+        if(this.user.perfil.administrador){
+          this.armamentostipos.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+      }, 1000);
     }
 
   ngOnInit(): void {

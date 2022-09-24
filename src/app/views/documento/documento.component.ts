@@ -35,20 +35,25 @@ export class DocumentoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private documentos: DocumentosService,
     private session: SessionService,
     private apcom: AppComponent
   ) {
-    this.apcom.token = false;
+    setTimeout( () => {
+      this.user = this.session.getUser();
+      if(this.user.perfil.documentos){
+        this.apcom.token = false;
+      }else{
+        this.router.navigate(['/Inicio']);
+      }
+    }, 1000);
   }
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const userid = Number(routeParams.get('id'));
 
-    
-
-    
     this.documentos.show(userid).subscribe((data) => {
       this.data$ = data;
       //@ts-ignore

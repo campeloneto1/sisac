@@ -31,6 +31,7 @@
             <div class="row">
               <div class="col-sm-1">
                 <button
+                *ngIf="user.perfil.documentos_cad"
                   data-bs-toggle="modal"
                   data-bs-target="#modalcad"
                   type="button"
@@ -76,6 +77,7 @@
                         title="Imprimir"
                       ></i></a>
                       <i
+                      *ngIf="user.perfil.documentos_edt"
                         (click)="editar(data)"
                         data-bs-toggle="modal"
                         data-bs-target="#modalcad"
@@ -85,6 +87,7 @@
                         title="Editar"
                       ></i>
                       <i
+                      *ngIf="user.perfil.documentos_del"
                         (click)="deletar(data)"
                         data-bs-toggle="modal"
                         data-bs-target="#modaldel"
