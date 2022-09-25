@@ -17,9 +17,9 @@ export class InicioComponent implements OnInit {
 
   constructor(private session: SessionService,
     private inicio: InicioService) {
-      setTimeout( () => {
+      
         this.user = this.session.getUser();
-      }, 1000);
+     
     }
 
   ngOnInit(): void {

@@ -39,7 +39,7 @@ export class ArmamentosTiposComponent implements OnInit, OnDestroy {
     private router: Router,
     private armamentostipos: ArmamentosTiposService) { 
       
-      setTimeout( () => {
+      
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.armamentostipos.index().subscribe(data => {
@@ -49,7 +49,7 @@ export class ArmamentosTiposComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+      
     }
 
   ngOnInit(): void {

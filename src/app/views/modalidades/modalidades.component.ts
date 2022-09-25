@@ -66,7 +66,6 @@ export class ModalidadesComponent implements OnInit, OnDestroy {
     private modalidades: ModalidadesService,
     private modalidadespostos: ModalidadesPostosService,
     private postos: PostosService) { 
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.gestor){
           this.modalidades.index().subscribe(data => {
@@ -76,7 +75,6 @@ export class ModalidadesComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
      
     }
 

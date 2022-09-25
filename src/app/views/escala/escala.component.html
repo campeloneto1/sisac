@@ -161,11 +161,14 @@
                   <div class="col-sm-12 text-center p-0 titlemodalidade2" style="border:1px solid #dee2e6" >
                     <b>{{ data.nome | uppercase }}</b>
                   </div>
-                  <div class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6" *ngFor="let user of data.users">
-                    {{ user.graduacao.abreviatura }}
-                    {{ user.numeral }}
-                    {{ user.nome_guerra }}
-                    ({{ user.telefone1 }})
+                  <div class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6" *ngFor="let setuser of data.users">
+                    <span *ngIf="setuser">
+                      {{ setuser.graduacao?.abreviatura }}
+                      {{ setuser.numeral }}
+                      {{ setuser.nome_guerra }}
+                      ({{ setuser.telefone1 }})
+                    </span>
+                    <span *ngIf="!setuser">**************</span>
                   </div>
                 </div>
               </tbody>

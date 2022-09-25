@@ -41,7 +41,7 @@ export class PaisesComponent implements OnInit,OnDestroy {
     private router: Router,
 
     private paises: PaisesService) {
-      setTimeout( () => {
+
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.paises.index().subscribe(data => {
@@ -51,7 +51,7 @@ export class PaisesComponent implements OnInit,OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+
       
      }
 

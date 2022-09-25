@@ -39,7 +39,7 @@ export class AfastamentosTiposComponent implements OnInit, OnDestroy {
     private router: Router,
     private afastamentostipos: AfastamentosTiposService) { 
       
-      setTimeout( () => {
+     
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.afastamentostipos.index().subscribe(data => {
@@ -49,7 +49,7 @@ export class AfastamentosTiposComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+      
 
     }
 

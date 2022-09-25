@@ -59,7 +59,7 @@ export class SetoresComponent implements OnInit, OnDestroy {
     private subunidades: SubunidadesService,
     private setores: SetoresService,
     private usuarios: UsuariosService) { 
-      setTimeout( () => {
+
         this.user = this.session.getUser();
         if(this.user.perfil.gestor){
           this.setores.index().subscribe(data => {
@@ -69,7 +69,6 @@ export class SetoresComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
     }
 
   ngOnInit(): void {

@@ -2,7 +2,7 @@
     <app-navbar></app-navbar>
     <app-sidebar></app-sidebar>-->
     <!--INICIO CONTENT WRAPPER-->
-    <div class="content-wrapper" style="min-height: 1604.44px">
+    <div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
       <!--INICIO SECTION HEADER-->
       <section class="content-header">
         <div class="container-fluid">
@@ -60,6 +60,7 @@
                   <th>CÓDIGO</th> 
                   <th>MODELO</th> 
                   <!--<th>ESCALAR</th> -->
+                  <th>DISPENSAS</th>
                   <th>OPÇÕES</th>
                 </tr>
               </thead>
@@ -79,6 +80,22 @@
                       ></i>
                     </a>
                   </td>-->
+                  <td>
+                    
+                      <i            
+                        [ngClass]="
+                          data.dispensas[0] ? 'text-primary' : 'text-secondary'
+                        "          
+                        (click)="showDispensas(data)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modaldisp"                                               
+                        class="right fa fa-user-times  point"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Dispensas"
+                      ></i>
+                    
+                  </td>
                   <td>
                     <span class="editdata">
                       <i
@@ -238,6 +255,110 @@
           </div>
         </div>
         <!--FIM MODAL DELETE-->
+
+        <!--INICIO MODAL DISPENSAS-->
+      <div class="modal fade" id="modaldisp" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                Dispensas
+                <button
+                  type="button"
+                  class="btn  btn-outline-primary"
+                  (click)="caddispe()"
+                >
+                  <i class="nav-icon fas fa-plus"></i>
+                </button>
+              </h4>
+              <button
+                type="button"
+                class="close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+
+            <div class="modal-body" *ngIf="escala$">
+
+              <div class="card card-olive" *ngIf="caddisp">
+                <div class="card-header">
+                  <h3 class="card-title">Cadastrar Policial</h3>                 
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="disps">Usuário</label>
+                              <ngx-select-dropdown 
+                                [config]="config2" 
+                                [options]="usuarios$"
+                                [multiple]="true"
+                                [(ngModel)]="disps"
+                                >
+                                
+                              </ngx-select-dropdown>
+                            </div>
+                          </div>
+                          <div class="col-sm-2">
+                            <button
+                              [disabled]="!disps[0]"
+                                style="margin-top: 30px;"
+                                type="button"
+                                class="btn btn-success"
+                                (click)="cadastrardisp()"
+                            >
+                                Cadastrar
+                            </button>
+                          </div>
+                    </div>
+                </div>
+              </div>
+
+              <table class="table table-hover text-nowrap">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>NOME</th>
+                    <th>MATRÍCULA</th>
+                    <th>OPÇÕES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of escala$.dispensas" class="hovers">
+                    <td>{{ data.pivot.id }}</td>
+                    <td>{{ data.nome }}</td>
+                    <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
+                    <td>
+                      <span class="editdata">
+                        <i
+                          (click)="deletardisp(data)"
+                          class="right fas fa-trash text-danger point margin5"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Excluir"
+                        ></i>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-bs-dismiss="modal"
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIM MODAL DISPENSAS-->
           
       </section>
       <!--FIM SECTION TABELA-->

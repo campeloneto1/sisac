@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import { PerfisService } from '../../services/perfis.service';
 
@@ -12,6 +14,9 @@ import { PerfisService } from '../../services/perfis.service';
   styleUrls: ['./perfis.component.css']
 })
 export class PerfisComponent implements OnInit,OnDestroy {
+  
+  user: any;
+
   dtOptions: DataTables.Settings = {};
 
   data$: any;
@@ -69,11 +74,21 @@ export class PerfisComponent implements OnInit,OnDestroy {
 
   constructor(
     private toastr: ToastrService,
+    private session: SessionService,
+    private router: Router,
     private perfis: PerfisService) {
-      this.perfis.index().subscribe(data => {
-        this.data$ = data;
-        this.dtTrigger.next();
-      }); 
+
+        this.user = this.session.getUser();
+        if(this.user.perfil.administrador){
+          this.perfis.index().subscribe(data => {
+            this.data$ = data;
+            this.dtTrigger.next();
+          }); 
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+
+      
      }
 
   ngOnInit(): void {

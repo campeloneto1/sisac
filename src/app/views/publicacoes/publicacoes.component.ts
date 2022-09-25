@@ -111,8 +111,7 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
     private usuarios: UsuariosService,
     private usuariospublicacoes: UsuariosPublicacoesService,
     private tipospublicacoes: TiposPublicacoesService) { 
-      
-      setTimeout( () => {
+
         this.user = this.session.getUser();
         if(this.user.perfil.publicacoes){
           this.usuariospublicacoes.index().subscribe(data => {
@@ -122,7 +121,6 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
     }
 
   ngOnInit(): void {

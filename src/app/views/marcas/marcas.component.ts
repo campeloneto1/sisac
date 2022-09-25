@@ -39,7 +39,6 @@ export class MarcasComponent implements OnInit, OnDestroy {
     private session: SessionService,
 private router: Router,
     private marcas: MarcasService) {
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.marcas.index().subscribe(data => {
@@ -49,8 +48,6 @@ private router: Router,
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
-      
      }
 
   ngOnInit(): void {

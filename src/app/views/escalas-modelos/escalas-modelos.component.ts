@@ -65,9 +65,6 @@ export class EscalasModelosComponent implements OnInit, OnDestroy {
     private escalasmodelos: EscalasModelosService,
     private escalasmodalidades: EscalasModalidadesService,
     private modalidades: ModalidadesService) { 
-     
-
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.gestor){
           this.escalasmodelos.index().subscribe(data => {
@@ -77,8 +74,6 @@ export class EscalasModelosComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
-  
     }
 
   ngOnInit(): void {

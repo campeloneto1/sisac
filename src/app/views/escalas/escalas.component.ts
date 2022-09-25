@@ -8,6 +8,8 @@ import { SessionService } from '../../services/session.service';
 
 import { EscalasService } from '../../services/escalas.service';
 import { EscalasModelosService } from '../../services/escalas-modelos.service';
+import { EscalasDispensasService } from '../../services/escalas-dispensas.service';
+import { UsuariosService } from '../../services/usuarios.service';
 
 @Component({
   selector: 'app-escalas',
@@ -22,8 +24,13 @@ export class EscalasComponent implements OnInit, OnDestroy {
 
   data$: any;
   escalasmodelos$: any;
+  usuarios$: any;
 
   excluir$: any;
+
+  escala$: any;
+  caddisp = false;
+  disps = [];
 
   config = {
     displayFn:(item: any) => { return item.nome; } ,//to support flexible text displaying for each item
@@ -31,6 +38,22 @@ export class EscalasComponent implements OnInit, OnDestroy {
     search:true, //true/false for the search functionlity defaults to false,
     height: '400px', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
     placeholder:'Modelo Escala', // text to be displayed when no item is selected defaults to Select,
+    customComparator: ()=>{}, // a custom function using which user wants to sort the items. default is undefined and Array.sort() will be used in that case,
+    limitTo: 0, // number thats limits the no of options displayed in the UI (if zero, options will not be limited)
+    moreText: 'outros', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
+    noResultsFound: 'Nenhum resultado encontrado!', // text to be displayed when no items are found while searching
+    searchPlaceholder:'Pesquisar', // label thats displayed in search input,
+    searchOnKey: undefined ,// key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+    clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
+    inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
+  }
+
+  config2 = {
+    displayFn:(item: any) => { return item.nome+' ('+item.matricula+')'; } ,//to support flexible text displaying for each item
+    displayKey:"nome", //if objects array passed which key to be displayed defaults to description
+    search:true, //true/false for the search functionlity defaults to false,
+    height: '400px', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
+    placeholder:'Policial', // text to be displayed when no item is selected defaults to Select,
     customComparator: ()=>{}, // a custom function using which user wants to sort the items. default is undefined and Array.sort() will be used in that case,
     limitTo: 0, // number thats limits the no of options displayed in the UI (if zero, options will not be limited)
     moreText: 'outros', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
@@ -59,8 +82,10 @@ export class EscalasComponent implements OnInit, OnDestroy {
     private session: SessionService,
     private router: Router,
     private escalas: EscalasService,
-    private escalasmodelos: EscalasModelosService) { 
-      setTimeout( () => {
+    private escalasmodelos: EscalasModelosService,
+    private escalasdispensas: EscalasDispensasService,
+    private usuarios: UsuariosService) { 
+     
         this.user = this.session.getUser();
         if(this.user.perfil.escalas){
           this.escalas.index().subscribe(data => {
@@ -70,10 +95,7 @@ export class EscalasComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
 
-      
-  
     }
 
   ngOnInit(): void {
@@ -85,6 +107,10 @@ export class EscalasComponent implements OnInit, OnDestroy {
     
     this.escalasmodelos.index().subscribe(data => {
       this.escalasmodelos$ = data;
+    });
+
+    this.usuarios.index().subscribe(data => {
+      this.usuarios$ = data;
     });
     
   }
@@ -142,5 +168,45 @@ export class EscalasComponent implements OnInit, OnDestroy {
     })
   }
 
+  showDispensas(data:any){
+    this.escala$ = data;
+    this.disps = [];
+  }
 
+  caddispe(){
+    this.caddisp = true;
+  }
+
+  deletardisp(data:any){
+    let isExecuted = confirm("Tem certeza que deseja excluir "+data.nome+"?");
+
+    if(isExecuted){
+      this.escalasdispensas.destroy(data.pivot.id).subscribe(data => {
+        if(data == 1){
+          this.refresh();   
+          this.escalas.show(this.escala$.id).subscribe(data => {
+            this.escala$ = data;
+          });
+          this.toastr.success('Informação excluída com sucesso!');  
+        }
+      });
+    }    
+  }
+
+  cadastrardisp(){
+    //console.log(this.usus);
+    var teste = [];
+    teste[0] = this.escala$.id;
+    teste[1] = this.disps;
+    this.escalasdispensas.store(teste).subscribe(data => {
+      this.disps = [];
+      this.caddisp = false;
+      this.refresh();   
+          this.escalas.show(this.escala$.id).subscribe(data => {
+            this.escala$ = data;
+          });
+          this.toastr.success('Informação cadastrada com sucesso!');  
+    });
+    //console.log(teste);
+  }
 }

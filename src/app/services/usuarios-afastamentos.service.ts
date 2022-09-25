@@ -17,6 +17,10 @@ export class UsuariosAfastamentosService {
     return this.http.get(environment.url+"usuarios-afastamentos/"+id);
   }
 
+  ativos(){
+    return this.http.get(environment.url+"usuarios-afastamentos-ativos");
+  }
+
   store(data:any){
     return this.http.post(environment.url+"usuarios-afastamentos",data);
   }

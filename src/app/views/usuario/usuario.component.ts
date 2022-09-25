@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuariosService } from '../../services/usuarios.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-usuario',
@@ -8,6 +9,8 @@ import { UsuariosService } from '../../services/usuarios.service';
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
+
+  user: any;
 
   p: number = 1;
   q: number = 1;
@@ -18,15 +21,26 @@ export class UsuarioComponent implements OnInit {
   data$: any;
 
   constructor(private route: ActivatedRoute,
-    private usuarios: UsuariosService) { }
+    private session: SessionService,
+    private router: Router,
+    private usuarios: UsuariosService) {
+      
+        this.user = this.session.getUser();
+        if(this.user.perfil.gestor){
+          const routeParams = this.route.snapshot.paramMap;
+          const userid = Number(routeParams.get('id'));
+
+          this.usuarios.show(userid).subscribe(data => {
+            this.data$ = data;
+          });
+        }else{
+          this.router.navigate(['/Inicio']);
+        }
+     
+     }
 
   ngOnInit(): void {
-    const routeParams = this.route.snapshot.paramMap;
-    const userid = Number(routeParams.get('id'));
-
-    this.usuarios.show(userid).subscribe(data => {
-      this.data$ = data;
-    });
+    
   }
 
 }

@@ -46,7 +46,7 @@ export class CidadesComponent implements OnInit, OnDestroy {
     private cidades: CidadesService,
     private estados: EstadosService,
     private paises: PaisesService) {
-      setTimeout( () => {
+      
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.cidades.index().subscribe(data => {
@@ -56,7 +56,7 @@ export class CidadesComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+      
       
     
      }

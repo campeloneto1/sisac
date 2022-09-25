@@ -69,8 +69,7 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
     private usuarios: UsuariosService,
     private usuariosafastamentos: UsuariosAfastamentosService,
     private afastamentostipos: AfastamentosTiposService) { 
-      setTimeout( () => {
-        this.user = this.session.getUser();
+      this.user = this.session.getUser();
         if(this.user.perfil.afastamentos){
           this.usuariosafastamentos.index().subscribe(data => {
             this.data$ = data;
@@ -79,7 +78,7 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+      
     }
 
   ngOnInit(): void {

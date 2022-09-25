@@ -8,7 +8,7 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { EscalasUsersService } from '../../services/escalas-users.service';
 import { SetoresService } from '../../services/setores.service';
 import { SessionService } from '../../services/session.service';
-
+import { UsuariosAfastamentosService } from '../../services/usuarios-afastamentos.service';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
@@ -22,6 +22,7 @@ export class EscalaComponent implements OnInit {
   modalidades$: any;
   usuarios$: any;
   setores$: any;
+  usuariosafastamentos$: any;
 
   user: any;
   date = new Date();
@@ -91,23 +92,19 @@ private router: Router,
     private usuarios: UsuariosService,
     private setores: SetoresService,
     private session: SessionService,
+    private usuariosafastamentos: UsuariosAfastamentosService,
     private apcom: AppComponent
   ) {
-    setTimeout( () => {
+    this.apcom.token = false;
+      
       this.user = this.session.getUser();
       if(this.user.perfil.administrador){
-        this.apcom.token = false;
-
         this.usuarios.index().subscribe((data) => {
           this.usuarios$ = data;
         });
       }else{
-        this.router.navigate(['/Inicio']);
+        this.router.navigate(['/']);
       }
-    }, 1000);
-
-   
-
    
   }
 
@@ -134,17 +131,21 @@ private router: Router,
       this.dataesc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear()+' ('+this.diasemana[date2.getDay()]+')';
     });
 
-    
-   
     this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()]+' de '+this.date.getFullYear();
 
     setTimeout( () => {
       this.user = this.session.getUser();
       this.setores.where2(this.user.subunidade_id).subscribe((data) => {
         this.setores$ = data;
+        this.usuariosafastamentos.ativos().subscribe((data) => {
+          this.usuariosafastamentos$ = data;
+          this.filterdisp();
+        });
+        
       });
-      //console.log(this.user);
-    }, 1000);
+      
+      
+    }, 500);
   }
 
   refresh(){
@@ -204,4 +205,33 @@ private router: Router,
     //@ts-ignore
     return usus.filter(p => p.pivot.modalidade_id == modalidade && p.pivot.posto_id == posto && p.pivot.turno_id == turno );
   }
+
+  filterdisp(){
+    for (let index = 0; index < this.setores$.length; index++) {
+      for (let index2 = 0; index2 < this.setores$[index].users.length; index2++) {
+        for (let index3 = 0; index3 < this.data$.dispensas.length; index3++) {
+          if(this.setores$[index].users[index2]){
+            if(this.setores$[index].users[index2].id == this.data$.dispensas[index3].id){
+              delete this.setores$[index].users[index2];           
+            }
+          }
+          
+        }   
+      }     
+    }
+
+    for (let index = 0; index < this.setores$.length; index++) {
+      for (let index2 = 0; index2 < this.setores$[index].users.length; index2++) {
+        for (let index3 = 0; index3 < this.usuariosafastamentos$.length; index3++) {
+          if(this.setores$[index].users[index2]){
+            if(this.setores$[index].users[index2].id == this.usuariosafastamentos$[index3].user_id){
+              delete this.setores$[index].users[index2];           
+            }
+          }
+          
+        }   
+      }     
+    }
+  }
+
 }

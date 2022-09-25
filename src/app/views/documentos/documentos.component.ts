@@ -91,7 +91,7 @@ export class DocumentosComponent implements OnInit, OnDestroy {
     private documentos: DocumentosService,
     private tiposdocumentos: TiposDocumentosService) {
       
-      setTimeout( () => {
+      
         this.user = this.session.getUser();
         if(this.user.perfil.documentos){
           this.documentos.index().subscribe(data => {
@@ -101,7 +101,7 @@ export class DocumentosComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+      
   
      }
 

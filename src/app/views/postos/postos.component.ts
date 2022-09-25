@@ -65,9 +65,7 @@ export class PostosComponent implements OnInit, OnDestroy {
     private postos: PostosService,
     private turnos: TurnosService,
     private postosturnos: PostosTurnosService) { 
-     
 
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.gestor){
           this.postos.index().subscribe(data => {
@@ -77,7 +75,7 @@ export class PostosComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+;
     }
 
   ngOnInit(): void {

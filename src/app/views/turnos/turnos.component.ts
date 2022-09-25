@@ -41,7 +41,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
     private router: Router,
     private turnos: TurnosService) { 
 
-      setTimeout( () => {
+  
         this.user = this.session.getUser();
         if(this.user.perfil.gestor){
           this.turnos.index().subscribe(data => {
@@ -51,7 +51,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+     
       
     }
 

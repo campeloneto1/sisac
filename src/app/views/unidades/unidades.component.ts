@@ -68,7 +68,7 @@ private router: Router,
     private paises: PaisesService,
     private unidades: UnidadesService,
     private usuarios: UsuariosService) { 
-      setTimeout( () => {
+     
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.unidades.index().subscribe(data => {
@@ -78,7 +78,7 @@ private router: Router,
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+   
       
     }
 

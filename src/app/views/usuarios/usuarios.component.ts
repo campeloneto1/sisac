@@ -113,7 +113,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private unidades: UnidadesService,
     private subunidades: SubunidadesService,
     private setores: SetoresService) {
-      setTimeout( () => {
+      
         this.user = this.session.getUser();
         if(this.user.perfil.usuarios){
           this.usuarios.index().subscribe(data => {
@@ -123,9 +123,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
-
-      
 
      }
 
@@ -221,7 +218,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   salvar(){
-    if(!this.user.perfil.administador){
+    if(!this.user.perfil.administador && !this.formcad.value.perfil_id){
       this.formcad.controls.perfil_id.patchValue('4');
     }
     //@ts-ignore

@@ -93,7 +93,6 @@ export class OcorrenciasComponent implements OnInit,OnDestroy {
     private escalas: EscalasService,
     private ocorrencias: OcorrenciasService,
     private tiposocorrencias: TiposOcorrenciasService) {
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.oficial_dia){
           this.ocorrencias.index().subscribe(data => {
@@ -103,7 +102,6 @@ export class OcorrenciasComponent implements OnInit,OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
       
   
     }

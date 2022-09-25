@@ -73,7 +73,7 @@ export class SubunidadesComponent implements OnInit, OnDestroy {
     private subunidades: SubunidadesService,
     private unidades: UnidadesService,
     private usuarios: UsuariosService) {
-      setTimeout( () => {
+
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.subunidades.index().subscribe(data => {
@@ -83,7 +83,7 @@ export class SubunidadesComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+
       
      }
 

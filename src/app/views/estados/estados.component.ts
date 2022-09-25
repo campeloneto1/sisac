@@ -43,7 +43,6 @@ export class EstadosComponent implements OnInit, OnDestroy {
     private router: Router,   
     private estados: EstadosService,
     private paises: PaisesService) { 
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.estados.index().subscribe(data => {
@@ -53,8 +52,6 @@ export class EstadosComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
-      
     }
 
   ngOnInit(): void {

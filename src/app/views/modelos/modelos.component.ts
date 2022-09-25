@@ -60,7 +60,6 @@ export class ModelosComponent implements OnInit, OnDestroy {
 private router: Router,
     private marcas: MarcasService,
     private modelos: ModelosService) {
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.modelos.index().subscribe(data => {
@@ -70,7 +69,6 @@ private router: Router,
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
       
      }
 

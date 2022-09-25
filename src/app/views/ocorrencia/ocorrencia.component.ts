@@ -42,14 +42,13 @@ export class OcorrenciaComponent implements OnInit {
     private session: SessionService,
     private apcom: AppComponent
   ) {
-    setTimeout( () => {
+      this.apcom.token = false;
       this.user = this.session.getUser();
       if(this.user.perfil.oficial_dia){
-        this.apcom.token = false;
+        
       }else{
-        this.router.navigate(['/Inicio']);
+        this.router.navigate(['/']);
       }
-    }, 1000);
     
   }
 

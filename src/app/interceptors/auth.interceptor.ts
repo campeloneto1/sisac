@@ -11,12 +11,16 @@ import {SessionService} from '../services/session.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private session: SessionService) {}
+  token$: any;
+
+  constructor(private session: SessionService) {
+    this.token$ = this.session.getToken();
+  }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     request = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${this.token$}`,
         // Website you wish to allow to connect
         
 

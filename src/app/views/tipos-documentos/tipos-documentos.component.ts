@@ -39,7 +39,7 @@ export class TiposDocumentosComponent implements OnInit, OnDestroy {
     private session: SessionService,
 private router: Router,
     private tiposdocumentos: TiposDocumentosService) { 
-      setTimeout( () => {
+
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.tiposdocumentos.index().subscribe(data => {
@@ -49,7 +49,7 @@ private router: Router,
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+
      
     }
 

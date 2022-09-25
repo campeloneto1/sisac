@@ -11,7 +11,24 @@ export class SessionService {
   private token: any;
 
   constructor(private http: HttpClient) {
-    if (localStorage.getItem('token')) {
+    try {
+      //console.log(sessionStorage.getItem('usuario'));
+      var temp = localStorage.getItem('token')?.length;
+      var temp2 = localStorage.getItem('user')?.length;
+      if (localStorage.getItem('user')) {
+        //@ts-ignore
+        this.setUser(JSON.parse(atob(localStorage.getItem('user')?.substr(0, temp2 - 3))));
+      }
+
+      if (localStorage.getItem('token')) {
+        //@ts-ignore
+        this.setToken(atob(localStorage.getItem('token')?.substr(0, temp - 3)));
+      }
+    }
+    catch (e) {
+      //localStorage.clear();
+    }
+    /*if (localStorage.getItem('token')) {
       this.setToken(localStorage.getItem('token'));
       var teste = this.http
         .get(environment.url + 'check')
@@ -20,34 +37,18 @@ export class SessionService {
           //console.log(data);
           //return true;
         });      
-    }
+    }*/
   }
 
   check() {
-    if (this.token) {
-      return true;
-    } else {
-      if (localStorage.getItem('token')) {
-        this.setToken(localStorage.getItem('token'));
-        var teste = this.http
-          .get(environment.url + 'check')
-          .subscribe((data) => {
-            this.setUser(data);
-            //console.log(data);
-            return true;
-          });
-
-        return teste;
-      } else {
-        return false;
-      }
-    }
+    return true;
   }
 
   setSession(data: any) {
     this.user = data.user;
     this.token = data.token;
-    localStorage.setItem('token', data.token);
+    localStorage.setItem('token', btoa(data.token) + 'A4A');
+    localStorage.setItem('user', btoa(JSON.stringify(data.user)) + 'APM');
   }
 
   setUser(data: any) {
@@ -66,14 +67,14 @@ export class SessionService {
     return this.token;
   }
 
-  logout(){
+  logout() {
     localStorage.clear();
     var teste = this.http
-    .get(environment.url + 'logout')
-    .subscribe((data) => {
-      this.token = null;
-      this.user = null;
-      //console.log(data);      
-    });
+      .get(environment.url + 'logout')
+      .subscribe((data) => {
+        this.token = null;
+        this.user = null;
+        //console.log(data);      
+      });
   }
 }

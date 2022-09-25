@@ -68,7 +68,6 @@ export class IrsosComponent implements OnInit, OnDestroy {
     private irsos: IrsosService,
     private irsosusers: IrsosUsersService,
     private usuarios: UsuariosService) {
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.irsos){
           this.irsos.index().subscribe(data => {
@@ -78,9 +77,6 @@ export class IrsosComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
-
-     
      }
 
   ngOnInit(): void {

@@ -189,7 +189,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
     private usuariosarmamentos: UsuariosArmamentosService) { 
       
 
-      setTimeout( () => {
+      
         this.user = this.session.getUser();
         if(this.user.perfil.armamentos){
           this.armamentos.index().subscribe(data => {
@@ -199,7 +199,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
+     
 
     }
 

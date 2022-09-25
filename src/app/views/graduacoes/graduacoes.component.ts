@@ -37,7 +37,6 @@ export class GraduacoesComponent implements OnInit,OnDestroy {
     private session: SessionService,
 private router: Router,
     private graduacoes: GraduacoesService) {
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.graduacoes.index().subscribe(data => {
@@ -47,8 +46,6 @@ private router: Router,
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
-      
      }
 
   ngOnInit(): void {

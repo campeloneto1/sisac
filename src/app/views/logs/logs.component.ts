@@ -39,7 +39,6 @@ export class LogsComponent implements OnInit, OnDestroy {
     private session: SessionService,
 private router: Router,
     private logs: LogsService) {
-      setTimeout( () => {
         this.user = this.session.getUser();
         if(this.user.perfil.administrador){
           this.logs.index().subscribe(data => {
@@ -49,7 +48,6 @@ private router: Router,
         }else{
           this.router.navigate(['/Inicio']);
         }
-      }, 1000);
       
   }
 
