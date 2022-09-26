@@ -23,6 +23,7 @@
     "admin-lte": "^3.2.0",
     "angular-admin-lte": "^4.0.0",
     "angular-datatables": "^14.0.0",
+    "angularx-qrcode": "^14.0.0",
     "bootstrap": "^5.2.0",
     "datatables.net": "^1.12.1",
     "datatables.net-dt": "^1.12.1",

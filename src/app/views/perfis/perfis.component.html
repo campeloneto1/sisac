@@ -47,16 +47,19 @@
                         <tr>
                             <th>ID</th>
                             <th>NOME</th>
-                            <th>ADMINISTRADOR</th>
+                            <th>ADM</th>
                             <th>GESTOR</th>
                             <th>OFD</th>
-                            <th>AFASTAMENTOS</th>
-                            <th>ARMAMENTOS</th>
-                            <th>DOCUMENTOS</th>
-                            <th>ESCALAS</th>
+                            <th>AFAST</th>
+                            <th>ARM</th>
+                            <th>DOC</th>
+                            <th>EMP</th>
+                            <th>ESC</th>
                             <th>IRSOS</th>
-                            <th>PUBLICAÇÕES</th>
-                            <th>USUÁRIOS</th>
+                            <th>OCOR</th>
+                            <th>PUBLI</th>
+                            <th>USUS</th>
+                            <th>VEI</th>
                             <th>OPÇÕES</th>
                         </tr>
                     </thead>
@@ -95,6 +98,11 @@
                             </td>
                             <td style="text-align: center; ">
                           
+                                <span *ngIf="data.emprestimos"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.emprestimos"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
                                 <span *ngIf="data.escalas"><i class="fa fa-check-square" aria-hidden="true"></i></span>
                                 <span *ngIf="!data.escalas"><i class="fa fa-square-o" aria-hidden="true"></i></span>
                             </td>
@@ -105,6 +113,11 @@
                             </td>
                             <td style="text-align: center; ">
                           
+                                <span *ngIf="data.ocorrencias"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.ocorrencias"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
                                 <span *ngIf="data.publicacoes"><i class="fa fa-check-square" aria-hidden="true"></i></span>
                                 <span *ngIf="!data.publicacoes"><i class="fa fa-square-o" aria-hidden="true"></i></span>
                             </td>
@@ -112,6 +125,11 @@
                           
                                 <span *ngIf="data.usuarios"><i class="fa fa-check-square" aria-hidden="true"></i></span>
                                 <span *ngIf="!data.usuarios"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+                            </td>
+                            <td style="text-align: center; ">
+                          
+                                <span *ngIf="data.veiculos"><i class="fa fa-check-square" aria-hidden="true"></i></span>
+                                <span *ngIf="!data.veiculos"><i class="fa fa-square-o" aria-hidden="true"></i></span>
                             </td>
                             <td>
                                 <span class="editdata">
@@ -187,7 +205,13 @@
                                       <input type="checkbox" formControlName="oficial_dia" id="oficial_dia" />
                                     </div>
                                 </div>
-                               
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="permanente">Permanente</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="permanente" id="permanente" />
+                                    </div>
+                                </div>
                             </div>
                             <!-- FIM ROW GESTÃO-->
 
@@ -293,6 +317,40 @@
                             </div>
                             <!-- FIM ROW DOCUMENTOS-->
 
+                            <!-- INICIO ROW EMPRESTIMOS-->
+                            <div class="row">
+                                <h5><b>Emprestimos</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="emprestimos">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="emprestimos" id="emprestimos" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="emprestimos_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="emprestimos_cad" id="emprestimos_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="emprestimos_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="emprestimos_edt" id="emprestimos_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="emprestimos_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="emprestimos_del" id="emprestimos_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW EMPRESTIMOS-->
+
                             <!-- INICIO ROW ESCALAS-->
                             <div class="row">
                                 <h5><b>Escalas</b></h5>
@@ -361,6 +419,42 @@
                             </div>
                             <!-- FIM ROW IRSOS-->
 
+                            
+
+                            <!-- INICIO ROW OCORRENCIAS-->
+                            <div class="row">
+                                <h5><b>Ocorrências</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="ocorrencias">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="ocorrencias" id="ocorrencias" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="ocorrencias_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="ocorrencias_cad" id="ocorrencias_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="ocorrencias_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="ocorrencias_edt" id="ocorrencias_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="ocorrencias_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="ocorrencias_del" id="ocorrencias_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW OCORRENCIAS-->
+
                             <!-- INICIO ROW PUBLICAÇÕES-->
                             <div class="row">
                                 <h5><b>Publicações</b></h5>
@@ -428,6 +522,40 @@
                                 </div>
                             </div>
                             <!-- FIM ROW USUÁRIOS-->
+
+                            <!-- INICIO ROW VEÍCULOS-->
+                            <div class="row">
+                                <h5><b>Veículos</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="veiculos">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="veiculos" id="veiculos" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="veiculos_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="veiculos_cad" id="veiculos_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="veiculos_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="veiculos_edt" id="veiculos_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="veiculos_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="veiculos_del" id="veiculos_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW VEÍCULOS-->
 
                         </div>
                         <div class="modal-footer">

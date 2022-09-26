@@ -14,6 +14,9 @@ export class InicioComponent implements OnInit {
   quantpm: any;
   quantafast: any;
   quantasetores: any;
+  emprestimos: any;
+  trocaoleo: any;
+  vencimentos: any;
 
   constructor(private session: SessionService,
     private inicio: InicioService) {
@@ -33,6 +36,18 @@ export class InicioComponent implements OnInit {
 
     this.inicio.getSetores().subscribe((data) => {
       this.quantasetores = data;
+    });
+
+    this.inicio.getEmprestimos().subscribe((data) => {
+      this.emprestimos = data;
+    });
+
+    this.inicio.getTrocaOleo().subscribe((data) => {
+      this.trocaoleo = data;
+    });
+
+    this.inicio.getVencimentos().subscribe((data) => {
+      this.vencimentos = data;
     });
   }
 }

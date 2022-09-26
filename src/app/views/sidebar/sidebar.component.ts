@@ -15,16 +15,11 @@ export class SidebarComponent implements OnInit {
   constructor(private session: SessionService) { 
     this.menu1 = false;
     this.menu2 = false;
-    
-      
-    setTimeout( () => {
-      this.user = this.session.getUser();
-    }, 1000);
+    this.user = this.session.getUser();
   }
 
   ngOnInit(): void {
-    
-    
+
   }
 
 }

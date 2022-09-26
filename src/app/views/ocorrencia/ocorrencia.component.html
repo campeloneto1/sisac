@@ -15,7 +15,17 @@
 
 <div class="page-footer" *ngIf="data$">
   <div class="row rodape2" *ngIf="user">
-    <div class="col-sm-3"></div>
+    <div class="col-sm-3 text-center">
+      <qrcode
+        [qrdata]="'http://localhost:4200/Documento/1'"
+        [allowEmptyString]="true"
+        [cssClass]="'center'"
+        [elementType]="'canvas'"
+        [errorCorrectionLevel]="'H'"
+        [scale]="1"
+        [width]="100"
+      ></qrcode>
+    </div>
     <div class="col-sm-6 text-center">
       <p>
         {{ user.subunidade?.nome }} – {{ user.subunidade.unidade?.nome }}<br />
@@ -70,7 +80,6 @@
 
           
           <br /><br />
-          <br />
           <h5>Fortaleza - CE, {{ datadoc }}</h5>
           <br /><br />
           
@@ -83,8 +92,8 @@
           <div [innerHTML]="data$.descricao"></div>
           <br /><br /><br />
           <div class="text-center">
-            <p>{{data$.user.nome}}</p>
-            <p>Mat.: {{data$.user.matricula | mask: '000.000-0-0'}}</p>
+            <b>{{data$.user.nome}}</b><br />
+            Mat.: {{data$.user.matricula | mask: '000.000-0-0'}}
           </div>
         </div>
       </td>

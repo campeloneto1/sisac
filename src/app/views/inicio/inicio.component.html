@@ -19,7 +19,7 @@
 
     <section class="content">
       <div class="row">
-        <div *ngIf="user.perfil.usuarios" class="col-sm-3">
+        <div *ngIf="user.perfil.usuarios" class="col-sm-2">
           <div class="info-box shadow-sm">
             <span class="info-box-icon bg-success"
               ><i class="fa fa-users"></i
@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="user.perfil.afastamentos" class="col-sm-3">
+        <div *ngIf="user.perfil.afastamentos" class="col-sm-2">
           <div class="info-box shadow-sm">
             <span class="info-box-icon bg-danger"
               ><i class="fa fa-medkit"></i
@@ -44,24 +44,145 @@
       </div>
 
       <div class="row">
-        <div *ngIf="user.perfil.usuarios" class="col-sm-3">
+        <!--INICIO USUARIOS POR SETOR-->
+        <div *ngIf="user.perfil.usuarios" class="col-sm-4">
           <div class="card card-outline card-orange">
             <div class="card-header">
-              <h3 class="card-title">Por Setores</h3>
+              <h3 class="card-title">Policiais por Setores</h3>
             </div>
             <div class="card-body p-0">
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <span class="nav-link" *ngFor="let data of quantasetores">
-                    {{data.nome}}
-                    <span class="float-right">{{data.quant}}</span>
-                  </span>
-                </li>                
-              </ul>
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>SETOR</th>                  
+                    <th>QUANT</th>     
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of quantasetores" class="hovers">
+                    <td>{{ data.nome }}</td>                
+                    <td>{{ data.quant }}</td> 
+                   
+                  </tr>
+                </tbody>
+              </table>
+
+             
             </div>
           </div>
         </div>
-        <div class="col-sm-3"></div>
+        <!--FIM USUARIOS POR SETOR-->
+        <!--INICIO EMPRESTIMOS-->
+        <div *ngIf="user.perfil.emprestimos" class="col-sm-4">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Veículos Emprestados</h3>
+            </div>
+            <div class="card-body p-0">
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>                  
+                    <th>MARCA/MODELO</th>     
+                    <th>PLACA</th> 
+                    <th>USUÁRIO</th>
+                    <th>DATA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of emprestimos" class="hovers">
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.veiculo.marca.nome }} / {{ data.veiculo.modelo.nome }}</td> 
+                    <td>
+                      <span *ngIf="!data.veiculo.placa_esp">{{ data.veiculo.placa }}</span>
+                      <span *ngIf="data.veiculo.placa_esp">{{ data.veiculo.placa_esp }}</span>
+                    </td> 
+                    <td>{{ data.usuario.graduacao.abreviatura }} {{ data.usuario.numeral }} {{ data.usuario.nome_guerra }}</td> 
+                    <td>{{ data.data_saida | date:'dd/MM/yyyy' }}</td> 
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--FIM EMPRESTIMOS-->
+        <!--INICIO TROCA OLEO-->
+        <div *ngIf="user.perfil.veiculos" class="col-sm-4">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Próximas Trocas de Óleo</h3>
+            </div>
+            <div class="card-body p-0">
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>                  
+                    <th>MARCA</th>     
+                    <th>MODELO</th> 
+                    <th>PLACA</th> 
+                    <th>KM ATUAL</th>
+                    <th>TROCA ÓLEO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of trocaoleo" class="hovers">
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.marca.nome }}</td> 
+                    <td>{{ data.modelo.nome }}</td> 
+                    <td>
+                      <span *ngIf="!data.placa_esp">{{ data.placa }}</span>
+                      <span *ngIf="data.placa_esp">{{ data.placa_esp }}</span>
+                    </td> 
+                    
+                    <td>{{ data.km_atual }}</td> 
+                    <td>{{ data.troca_oleo }}</td> 
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--FIM TROCA OLEO-->
+
+        <!--INICIO VENCIMENTOS-->
+        <div *ngIf="user.perfil.veiculos" class="col-sm-4">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Armamentos Próximos a Vencer</h3>
+            </div>
+            <div class="card-body p-0">
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>                  
+                    <th>MARCA</th>     
+                    <th>MODELO</th> 
+                    <th>SERIAL</th> 
+                    <th>DATA VENC.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of vencimentos" class="hovers">
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.marca.nome }}</td> 
+                    <td>{{ data.modelo.nome }}</td> 
+                    <td>{{ data.serial }}</td> 
+                    <td>{{ data.data_venc | date:'dd/MM/yyyy' }}</td> 
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--FIM VENCIMENTOS-->
       </div>
     </section>
   </div>

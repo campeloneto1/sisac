@@ -28,16 +28,6 @@ export class SessionService {
     catch (e) {
       //localStorage.clear();
     }
-    /*if (localStorage.getItem('token')) {
-      this.setToken(localStorage.getItem('token'));
-      var teste = this.http
-        .get(environment.url + 'check')
-        .subscribe((data) => {
-          this.setUser(data);
-          //console.log(data);
-          //return true;
-        });      
-    }*/
   }
 
   check() {

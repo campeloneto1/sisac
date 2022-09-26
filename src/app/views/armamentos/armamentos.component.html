@@ -300,7 +300,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of armamento$.usuarios" class="hovers">
+                <tr *ngFor="let data of armamento$.usuarios  | paginate
+                : {
+                    id: 'pagusus',
+                    itemsPerPage: 5,
+                    currentPage: p
+                  }" class="hovers"
+                  >
                   <td>{{ data.pivot.id }}</td>
                   <td>{{ data.nome }}</td>
                   <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
@@ -313,7 +319,10 @@
                   <td style="max-width: 500px; white-space: normal;" [innerHTML]="data.pivot.observacoes"></td>
                   <td>
                     <span class="editdata">
-                      <i (click)="devarmamento(data)" class="right fa fa-download text-primary point margin5"
+                      <a *ngIf="data.pivot.data_dev" target="_blank" [routerLink]="['/Armamento', data.id]"><i   
+                        class="right fa fa-print text-primary point" data-toggle="tooltip" data-placement="top"
+                        title="Imprimir"></i></a>
+                      <i *ngIf="!data.pivot.data_dev" (click)="devarmamento(data)" class="right fa fa-download text-primary point margin5"
                         data-toggle="tooltip" data-placement="top" title="Receber Armamento"></i>
                       <i *ngIf="!data.pivot.data_dev" (click)="deletarusu(data)"
                         class="right fas fa-trash text-danger point margin5" data-toggle="tooltip" data-placement="top"
@@ -323,6 +332,9 @@
                 </tr>
               </tbody>
             </table>
+
+            <pagination-controls id="pagusus" (pageChange)="p = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-bs-dismiss="modal">

@@ -7,6 +7,7 @@ import { EscalasService } from '../../services/escalas.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { EscalasUsersService } from '../../services/escalas-users.service';
 import { SetoresService } from '../../services/setores.service';
+import { SubunidadesService } from '../../services/subunidades.service';
 import { SessionService } from '../../services/session.service';
 import { UsuariosAfastamentosService } from '../../services/usuarios-afastamentos.service';
 import { AppComponent } from 'src/app/app.component';
@@ -27,7 +28,7 @@ export class EscalaComponent implements OnInit {
   user: any;
   date = new Date();
   antiga = false;
-
+  subunidade$: any;
   turno$: any;
 
   cadusu = false;
@@ -91,6 +92,7 @@ private router: Router,
     private escalasusers: EscalasUsersService,
     private usuarios: UsuariosService,
     private setores: SetoresService,
+    private subunidades: SubunidadesService,
     private session: SessionService,
     private usuariosafastamentos: UsuariosAfastamentosService,
     private apcom: AppComponent
@@ -129,6 +131,10 @@ private router: Router,
       //console.log(teste);
       //@ts-ignore
       this.dataesc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear()+' ('+this.diasemana[date2.getDay()]+')';
+
+      this.subunidades.show(this.data$.subunidade_id).subscribe((data) => {
+        this.subunidade$ = data;
+      });
     });
 
     this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()]+' de '+this.date.getFullYear();

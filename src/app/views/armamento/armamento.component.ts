@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DocumentosService } from '../../services/documentos.service';
+import { UsuariosArmamentosService } from '../../services/usuarios-armamentos.service';
 import { SubunidadesService } from '../../services/subunidades.service';
 import { SessionService } from '../../services/session.service';
 import { AppComponent } from 'src/app/app.component';
+
 @Component({
-  selector: 'app-documento',
-  templateUrl: './documento.component.html',
-  styleUrls: ['./documento.component.css'],
+  selector: 'app-armamento',
+  templateUrl: './armamento.component.html',
+  styleUrls: ['./armamento.component.css']
 })
-export class DocumentoComponent implements OnInit {
+export class ArmamentoComponent implements OnInit {
+
   data$: any;
 
   user: any;
@@ -38,7 +40,7 @@ export class DocumentoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private documentos: DocumentosService,
+    private armamentos: UsuariosArmamentosService,
     private session: SessionService,
     private subunidades: SubunidadesService,
     private apcom: AppComponent
@@ -46,7 +48,7 @@ export class DocumentoComponent implements OnInit {
     
       this.apcom.token = false;
       this.user = this.session.getUser();
-      if(this.user.perfil.documentos){
+      if(this.user.perfil.armamentos){
        
       }else{
         this.router.navigate(['/']);
@@ -58,14 +60,8 @@ export class DocumentoComponent implements OnInit {
     const routeParams = this.route.snapshot.paramMap;
     const userid = Number(routeParams.get('id'));
 
-    this.documentos.show(userid).subscribe((data) => {
+    this.armamentos.show(userid).subscribe((data) => {
       this.data$ = data;
-      //@ts-ignore
-      var date2 = new Date(data.created_at);
-      //@ts-ignore
-      //console.log(date2.getDate())
-      //@ts-ignore
-      this.datadoc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear();
 
       this.subunidades.show(this.data$.subunidade_id).subscribe(data => {
         this.subunidade = data;
@@ -80,4 +76,5 @@ export class DocumentoComponent implements OnInit {
       //console.log(this.user);
    
   }
+
 }

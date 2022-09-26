@@ -33,6 +33,12 @@
             <p>Documentos</p>
           </a>
         </li>
+        <li *ngIf="user.perfil?.emprestimos" class="nav-item">
+          <a [routerLink]="['/Emprestimos']" [routerLinkActive]="['active']" class="nav-link">
+            <i class="nav-icon fa fa-map"></i>
+            <p>Emprestimos</p>
+          </a>
+        </li>
         <li *ngIf="user.perfil?.escalas" class="nav-item">
           <a [routerLink]="['/Escalas']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-calendar"></i>
@@ -42,10 +48,10 @@
         <li *ngIf="user.perfil?.irsos" class="nav-item">
           <a [routerLink]="['/Irsos']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-clock"></i>
-            <p>IRSOs</p>
+            <p>Irsos</p>
           </a>
         </li>
-        <li *ngIf="user.perfil?.oficial_dia" class="nav-item">
+        <li *ngIf="user.perfil?.ocorrencias" class="nav-item">
           <a [routerLink]="['/Ocorrencias']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-cab"></i>
             <p>Ocorrências</p>
@@ -63,10 +69,16 @@
             <p>Usuários</p>
           </a>
         </li>
+        <li *ngIf="user.perfil?.veiculos" class="nav-item">
+          <a [routerLink]="['/Veiculos']" [routerLinkActive]="['active']" class="nav-link">
+            <i class="nav-icon fa fa-car"></i>
+            <p>Veículos</p>
+          </a>
+        </li>
         <li *ngIf="user.perfil?.administrador" class="nav-item point" (click)="menu1 = !menu1"
           [ngClass]="{ 'menu-is-opening menu-open': menu1 == true }">
           <a class="nav-link">
-            <i class="nav-icon fas fa-cogs"></i>
+            <i class="nav-icon fa fa-wrench"></i>
             <p>
               Administrador
               <i class="right fas fa-angle-left"></i>
@@ -77,6 +89,12 @@
               <a [routerLink]="['/Cidades']" [routerLinkActive]="['active']" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Cidades</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/Cores']" [routerLinkActive]="['active']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Cores</p>
               </a>
             </li>
             <li class="nav-item">
@@ -169,7 +187,7 @@
         <li *ngIf="user.perfil?.gestor" class="nav-item point" (click)="menu2 = !menu2"
           [ngClass]="{ 'menu-is-opening menu-open': menu2 == true }">
           <a class="nav-link">
-            <i class="nav-icon fas fa-cog"></i>
+            <i class="nav-icon fas fa-cogs"></i>
             <p>
               Gestor
               <i class="right fas fa-angle-left"></i>

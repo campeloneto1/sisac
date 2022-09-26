@@ -21,6 +21,8 @@ import { UsuariosArmamentosService } from '../../services/usuarios-armamentos.se
 })
 export class ArmamentosComponent implements OnInit, OnDestroy {
 
+  p = 1;
+
   user: any;
 
   dtOptions: DataTables.Settings = {};

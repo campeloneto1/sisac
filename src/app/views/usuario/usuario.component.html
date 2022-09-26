@@ -133,10 +133,13 @@
                   <a class="nav-link" href="#armamento" data-bs-toggle="tab">Armamentos</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="#emprestimos" data-bs-toggle="tab">Emprestimos</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="#escalas" data-bs-toggle="tab">Escalas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#irso" data-bs-toggle="tab">IRSO</a>
+                  <a class="nav-link" href="#irso" data-bs-toggle="tab">Irsos</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link " href="#publicacoes" data-bs-toggle="tab">Publicações</a>
@@ -155,6 +158,9 @@
 
                     <dt class="col-sm-3">Data Ingresso:</dt>
                     <dd class="col-sm-8">{{ data$.data_ingresso | date: 'dd/MM/yyyy' }}</dd>
+
+                    <dt class="col-sm-3">Tempo de Serviço:</dt>
+                    <dd class="col-sm-8">{{ temppm }}</dd>
 
                     <dt class="col-sm-3">Boletim Entrada:</dt>
                     <dd class="col-sm-8">{{ data$.boletim_entrada }}</dd>
@@ -207,7 +213,7 @@
                     nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
                 </div>
                 <!--FIM PUBLICACOES-->
-                <!--INICIO LTS-->
+                <!--INICIO AFASTAMENTOS-->
                 <div class="tab-pane" id="afastamentos">
                   <table class="table table-hover text-nowrap">
                     <thead>
@@ -256,7 +262,50 @@
                   <pagination-controls id="paglts" (pageChange)="q = $event" previousLabel="Anterior"
                     nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
                 </div>
-                <!--FIM LTS-->
+                <!--FIM AFASTAMENTOS-->
+                <!--INICIO EMPRESTIMOS-->
+                <div class="tab-pane" id="emprestimos">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>MARCA/MODELO</th>
+                        <th>PLACA</th>
+                        <th>PLACA ESP.</th>
+                        <th>DATA SAÍDA</th>
+                        <th>HORA SAÍDA</th>
+                        <th>KM INICIAL</th>
+                        <th>DATA CHEGADA</th>
+                        <th>HORA CHEGADA</th>
+                        <th>KM FINAL</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                              let data of data$.emprestimos
+                                | paginate
+                                  : {
+                                      id: 'pagemp',
+                                      itemsPerPage: 10,
+                                      currentPage: u
+                                    }
+                            ">
+                        <td>{{ data.marca?.nome }} / {{ data.modelo.nome }}</td>
+                        <td>{{ data.placa }}</td>
+                        <td>{{ data.placa_esp }}</td>
+                        <td>{{ data.pivot.data_saida | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.pivot.hora_saida }}</td>
+                        <td>{{ data.pivot.km_inicial }}</td>
+                        <td>{{ data.pivot.data_chegada | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.pivot.hora_chegada }}</td>
+                        <td>{{ data.pivot.km_final }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <pagination-controls id="pagemp" (pageChange)="u = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                </div>
+                <!--FIM EMPRESTIMOS-->
                 <!--INICIO ESCALAS-->
                 <div class="tab-pane" id="escalas">
                   <table class="table table-hover text-nowrap">

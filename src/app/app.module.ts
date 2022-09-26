@@ -15,6 +15,7 @@ import { DataTablesModule } from "angular-datatables";
 import { SelectDropDownModule } from 'ngx-select-dropdown'
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { LoginComponent } from './views/login/login.component';
 import { InicioComponent } from './views/inicio/inicio.component';
@@ -56,6 +57,11 @@ import { OcorrenciaComponent } from './views/ocorrencia/ocorrencia.component';
 import { LogsComponent } from './views/logs/logs.component';
 import { ArmamentosComponent } from './views/armamentos/armamentos.component';
 import { ArmamentosTiposComponent } from './views/armamentos-tipos/armamentos-tipos.component';
+import { CoresComponent } from './views/cores/cores.component';
+import { VeiculosComponent } from './views/veiculos/veiculos.component';
+import { EmprestimosComponent } from './views/emprestimos/emprestimos.component';
+import { EmprestimoComponent } from './views/emprestimo/emprestimo.component';
+import { ArmamentoComponent } from './views/armamento/armamento.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +105,12 @@ import { ArmamentosTiposComponent } from './views/armamentos-tipos/armamentos-ti
     OcorrenciaComponent,
     LogsComponent,
     ArmamentosComponent,
-    ArmamentosTiposComponent
+    ArmamentosTiposComponent,
+    CoresComponent,
+    VeiculosComponent,
+    EmprestimosComponent,
+    EmprestimoComponent,
+    ArmamentoComponent
   ],
   imports: [
     BrowserModule,
@@ -117,7 +128,8 @@ import { ArmamentosTiposComponent } from './views/armamentos-tipos/armamentos-ti
     DataTablesModule,
     SelectDropDownModule,
     AngularEditorModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    QRCodeModule
   ],
   providers: [
     AuthGuard,

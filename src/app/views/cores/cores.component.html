@@ -8,14 +8,14 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Ocorrências</h1>
+                <h1>Cores</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item">
                     <a [routerLink]="['/Inicio']">Início</a>
                   </li>
-                  <li class="breadcrumb-item active">Ocorrências</li>
+                  <li class="breadcrumb-item active">Cores</li>
                 </ol>
               </div>
             </div>
@@ -31,7 +31,6 @@
               <div class="row">
                 <div class="col-sm-1">
                   <button
-                    *ngIf="user.perfil.ocorrencias_cad"
                     data-bs-toggle="modal"
                     data-bs-target="#modalcad"
                     type="button"
@@ -55,43 +54,27 @@
               >
                 <thead>
                   <tr>
-                    <th>ID</th>               
-                    <!----><th>ESCALA</th>
-                    <th>TIPO OCORRÊNCIA</th>  
-                    <th>CÓDIGO</th>                  
-                    <th>TÍTULO</th>  
-                    <th>USUÁRIO</th>                         
+                    <th>ID</th>                  
+                    <th>NOME</th>     
                     <th>OPÇÕES</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of data$" class="hovers">
-                    <td>{{ data.id }}</td>  
-                    <!----><td><a target="_blank" [routerLink]="['/Escala', data.escala?.id]">{{ data.escala?.codigo }}/{{data.escala?.created_at | date:'yyyy'}}</a></td>  
-                    <td>{{ data.ocorrencia?.nome }}</td>  
-                    <td>{{ data.codigo }}/{{data.created_at | date:'yyyy'}}</td>               
-                    <td>{{ data.titulo }}</td>  
-                    <td>{{ data.user?.graduacao?.abreviatura }} {{ data.user?.numeral }} {{ data.user?.nome_guerra }}</td>                 
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.nome }}</td> 
                     <td>
                       <span class="editdata">
-                          <a target="_blank" [routerLink]="['/Ocorrencia', data.id]"><i
-                          class="right fas fa-print text-primary point"
-                          data-toggle="tooltip" 
-                          data-placement="top" 
-                          title="Imprimir"
-                        ></i></a>
                         <i
-                        *ngIf="user.perfil.ocorrencias_edt"
                           (click)="editar(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#modalcad"
-                          class="right fas fa-edit text-primary point margin5"
+                          class="right fas fa-edit text-primary point"
                           data-toggle="tooltip" 
                           data-placement="top" 
                           title="Editar"
                         ></i>
                         <i
-                        *ngIf="user.perfil.ocorrencias_del"
                           (click)="deletar(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#modaldel"
@@ -130,89 +113,32 @@
                 <form [formGroup]="formcad" (ngSubmit)="salvar()">
                   <div class="modal-body">
                     <!--INICIO ROW 1-->
-                    <div class="row">    
-                        <!----><div class="col-sm-2">
-                            <div class="form-group">
-                              <label for="escala_id">Escala<span class="text-danger">*</span></label>
-                              <select
-                                formControlName="escala_id"
-                                class="custom-select form-control-border"
-                                id="escala_id"
-                                required
-                                [ngClass]="{
-                                    'is-invalid':
-                                      formcad.controls.escala_id.invalid &&
-                                      (formcad.controls.escala_id.dirty ||
-                                        formcad.controls.escala_id.touched)
-                                  }"
-                              >
-                                <option></option>
-                                <option
-                                  *ngFor="let data of escalas$"
-                                  value="{{ data.id }}"
-                                >
-                                  {{ data.codigo }}/{{data.created_at | date:'yyyy'}}
-                                </option>
-                              </select>
-                            </div>
-                          </div>              
-                        <div class="col-sm-2">
-                          <div class="form-group">
-                            <label for="ocorrencia_id">Tipo Ocorrência<span class="text-danger">*</span></label>
-                            <select
-                              formControlName="ocorrencia_id"
-                              class="custom-select form-control-border"
-                              id="ocorrencia_id"
-                              required
-                              [ngClass]="{
-                                  'is-invalid':
-                                    formcad.controls.ocorrencia_id.invalid &&
-                                    (formcad.controls.ocorrencia_id.dirty ||
-                                      formcad.controls.ocorrencia_id.touched)
-                                }"
-                            >
-                              <option></option>
-                              <option
-                                *ngFor="let data of tiposocorrencias$"
-                                value="{{ data.id }}"
-                              >
-                                {{ data.nome }}
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-3">
-                          <div class="form-group">
-                            <label for="titulo">Título<span class="text-danger">*</span></label>
-                            <input
-                              formControlName="titulo"
-                              type="text"
-                              required
-                              [ngClass]="{
-                                  'is-invalid':
-                                    formcad.controls.titulo.invalid &&
-                                    (formcad.controls.titulo.dirty ||
-                                      formcad.controls.titulo.touched)
-                                }"
-                              class="form-control form-control-border"
-                              id="titulo"
-                              placeholder="Título"
-                            />
-                          </div>
-                        </div>
-                    </div>
-                    <!--FIM ROW 1-->
-  
-                     <!--INICIO ROW 2-->
-                     <div class="row">
-                      <div class="col-sm-12">
-                          <div class="form-group">
-                            <label for="descricao">Descrição<span class="text-danger">*</span></label>
-                            <angular-editor  required formControlName="descricao" id="descricao" [config]="editorConfig" ></angular-editor>
-                          </div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="nome"
+                            >Nome<span class="text-danger">*</span></label
+                          >
+                          <input
+                            formControlName="nome"
+                            required
+                            type="text"
+                            class="form-control form-control-border"
+                            id="nome"
+                            placeholder="Nome"
+                            [ngClass]="{
+                              'is-invalid':
+                                formcad.controls.nome.invalid &&
+                                (formcad.controls.nome.dirty ||
+                                  formcad.controls.nome.touched)
+                            }"
+                          />
                         </div>
                       </div>
-                      <!--FIM ROW 2-->
+                     
+                      
+                    </div>
+                    <!--FIM ROW 1-->
   
                   </div>
                   <div class="modal-footer">
@@ -256,7 +182,7 @@
                 </div>
     
                 <div class="modal-body">
-                  <p>Tem certeza que deseja excluir a cocorrência <b>{{excluir$?.titulo}}</b>?</p>
+                  <p>Tem certeza que deseja excluir a cor <b>{{excluir$?.nome}}</b>?</p>
                 </div>
                 <div class="modal-footer">
                   <button

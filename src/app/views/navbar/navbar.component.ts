@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../../services/session.service';
 import { LoginService } from '../../services/login.service';
+import { InicioService } from '../../services/inicio.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
@@ -11,8 +12,11 @@ export class NavbarComponent implements OnInit {
 
   user:any;
 
+  textsearch = '';
+
   constructor(private session: SessionService,
     private router: Router,
+    private inicio: InicioService,
     private login: LoginService) { }
 
   ngOnInit(): void {
@@ -31,6 +35,12 @@ export class NavbarComponent implements OnInit {
         this.session.logout();
         this.router.navigate(['/']);
       }
+    });
+  }
+
+  search(){
+    this.inicio.search(this.textsearch).subscribe(data => {
+      console.log(data);
     });
   }
 

@@ -7,11 +7,15 @@ import { LoginComponent } from './views/login/login.component';
 import { InicioComponent } from './views/inicio/inicio.component';
 import { AfastamentosComponent } from './views/afastamentos/afastamentos.component';
 import { AfastamentosTiposComponent } from './views/afastamentos-tipos/afastamentos-tipos.component';
+import { ArmamentoComponent } from './views/armamento/armamento.component';
 import { ArmamentosComponent } from './views/armamentos/armamentos.component';
 import { ArmamentosTiposComponent } from './views/armamentos-tipos/armamentos-tipos.component';
 import { CidadesComponent } from './views/cidades/cidades.component';
+import { CoresComponent } from './views/cores/cores.component';
 import { DocumentoComponent } from './views/documento/documento.component';
 import { DocumentosComponent } from './views/documentos/documentos.component';
+import { EmprestimoComponent } from './views/emprestimo/emprestimo.component';
+import { EmprestimosComponent } from './views/emprestimos/emprestimos.component';
 import { EscalaComponent } from './views/escala/escala.component';
 import { EscalasComponent } from './views/escalas/escalas.component';
 import { EscalasModelosComponent } from './views/escalas-modelos/escalas-modelos.component';
@@ -39,6 +43,7 @@ import { TurnosComponent } from './views/turnos/turnos.component';
 import { UnidadesComponent } from './views/unidades/unidades.component';
 import { UsuariosComponent } from './views/usuarios/usuarios.component';
 import { UsuarioComponent } from './views/usuario/usuario.component';
+import { VeiculosComponent } from './views/veiculos/veiculos.component';
 
 const routes: Routes = [
   {
@@ -61,6 +66,11 @@ const routes: Routes = [
     component: AfastamentosTiposComponent,
   },
   {
+    path: 'Armamento/:id',
+    canActivate: [AuthGuard],
+    component: ArmamentoComponent,
+  },
+  {
     path: 'Armamentos',
     canActivate: [AuthGuard],
     component: ArmamentosComponent,
@@ -76,6 +86,11 @@ const routes: Routes = [
     component: CidadesComponent,
   },
   {
+    path: 'Cores',
+    canActivate: [AuthGuard],
+    component: CoresComponent,
+  },
+  {
     path: 'Documento/:id',
     canActivate: [AuthGuard],
     component: DocumentoComponent,
@@ -84,6 +99,16 @@ const routes: Routes = [
     path: 'Documentos',
     canActivate: [AuthGuard],
     component: DocumentosComponent,
+  },
+  {
+    path: 'Emprestimo/:id',
+    canActivate: [AuthGuard],
+    component: EmprestimoComponent,
+  },
+  {
+    path: 'Emprestimos',
+    canActivate: [AuthGuard],
+    component: EmprestimosComponent,
   },
   {
     path: 'Escala/:id',
@@ -219,6 +244,16 @@ const routes: Routes = [
     path: 'Usuario/:id',
     canActivate: [AuthGuard],
     component: UsuarioComponent,
+  },
+  {
+    path: 'Veiculos',
+    canActivate: [AuthGuard],
+    component: VeiculosComponent,
+  },
+  {
+    path: '**',
+    canActivate: [AuthGuard],
+    component: LoginComponent,
   },
 ];
 

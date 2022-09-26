@@ -38,11 +38,12 @@
             <input
               class="form-control form-control-navbar"
               type="search"
-              placeholder="Search"
-              aria-label="Search"
+              placeholder="Pesquisar..."
+              aria-label="Pesquisar..."
+              [(ngModel)]="textsearch"
             />
             <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
+              <button (click)="search()" class="btn btn-navbar" type="submit">
                 <i class="fas fa-search"></i>
               </button>
               <button
@@ -86,13 +87,19 @@
         >
       </div>
     </li>
-    <li class="nav-item dropdown user-menu">
+    <li class="nav-item">
+      <a class="nav-link" (click)="logout()" title="Logout" role="button">
+        <i class="fas fa-sign-out"></i>
+      </a>
+    </li>
+   
+    <!--<li class="nav-item dropdown user-menu">
       <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#dropmenu" aria-expanded="false">
         <img src="../../../assets/casamil.png" class="user-image img-circle elevation-2" alt="User Image">        
         <span class="d-none d-md-inline">{{user?.nome}}</span>
       </a>
       <ul id="dropmenu" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <!-- User image -->
+        
         <li class="user-header bg-olive">
           <img src="../../../assets/casamil.png" class="img-circle elevation-2" alt="User Image">
 
@@ -101,7 +108,7 @@
             <small></small>
           </p>
         </li>
-        <!-- Menu Body -->
+        
         <li class="user-body">
           <div class="row">
             
@@ -110,15 +117,15 @@
             </div>
             
           </div>
-          <!-- /.row -->
+         
         </li>
-        <!-- Menu Footer-->
+       
         <li class="user-footer">
           <a [routerLink]="['/perfil']" class="btn btn-default btn-flat">Perfil</a>
           <a (click)="logout()" class="btn btn-default btn-flat float-right">Sair</a>
         </li>
       </ul>
-    </li>
+    </li>-->
     <!--
     <li class="nav-item">
       <a class="nav-link" data-widget="fullscreen" href="#" role="button">
