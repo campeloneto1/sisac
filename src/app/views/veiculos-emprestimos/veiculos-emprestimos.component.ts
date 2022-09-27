@@ -9,20 +9,20 @@ import { SessionService } from '../../services/session.service';
 
 import { VeiculosService } from '../../services/veiculos.service';
 import { UsuariosService } from '../../services/usuarios.service';
-import { EmprestimosService } from '../../services/emprestimos.service';
+import { VeiculosEmprestimosService } from '../../services/veiculos-emprestimos.service';
 
 @Component({
-  selector: 'app-emprestimos',
-  templateUrl: './emprestimos.component.html',
-  styleUrls: ['./emprestimos.component.css']
+  selector: 'app-veiculos-emprestimos',
+  templateUrl: './veiculos-emprestimos.component.html',
+  styleUrls: ['./veiculos-emprestimos.component.css']
 })
-export class EmprestimosComponent implements OnInit,OnDestroy {
+export class VeiculosEmprestimosComponent implements OnInit,OnDestroy {
 
   p = 1;
 
   user: any;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   data$: any;
   veiculos$: any;
@@ -142,12 +142,12 @@ export class EmprestimosComponent implements OnInit,OnDestroy {
     private toastr: ToastrService,
     private session: SessionService,
     private router: Router,
-    private emprestimos: EmprestimosService,
+    private emprestimos: VeiculosEmprestimosService,
     private veiculos: VeiculosService,
     private usuarios: UsuariosService) { 
 
         this.user = this.session.getUser();
-        if(this.user.perfil.emprestimos){
+        if(this.user.perfil.veiculos_emprestimos){
           this.emprestimos.index().subscribe(data => {
             this.data$ = data;
             this.dtTrigger.next();
@@ -162,7 +162,12 @@ export class EmprestimosComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      processing: true,
+      responsive: true,
+      order: [0, 'desc'],
+      dom: 'Bfrtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
     this.veiculos.index().subscribe(data => {

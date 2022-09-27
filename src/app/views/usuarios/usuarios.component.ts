@@ -27,7 +27,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   user: any;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   data$: any;
 
@@ -129,7 +129,12 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      processing: true,
+      responsive: true,
+      order: [3, 'asc'],
+      dom: 'Bfrtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
     this.graduacoes.index().subscribe(data => {

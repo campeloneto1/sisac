@@ -3,7 +3,7 @@
 </div>
 
 <div class="page-footer" *ngIf="data$">
-  <div class="row rodape2 " *ngIf="user" >
+  <div class="row rodape2 " *ngIf="user">
     <div class="col-sm-3"></div>
     <div class="col-sm-6 text-center">
       <p>
@@ -37,7 +37,7 @@
       <td>
         <!--place holder for the fixed-position header-->
         <div class="page-header-space">
-          
+
         </div>
       </td>
     </tr>
@@ -49,40 +49,61 @@
         <!--*** CONTENT GOES HERE ***
         <div class="page">PAGE 1</div>
         <div class="page">PAGE 2</div>-->
-        <div class="page" >
+        <div class="page">
           <div class="noprint">
             <img src="../../../assets/cabecalho.png" class="cabecalho" />
           </div>
           <br />
-        <h4 class="cabecalho2">
-          {{ data$.nome }}
-        </h4>
-        <br />
-        <h5><b>Data:</b> {{ data$.data | date: 'dd/MM/yyyy' }}</h5>
-        <h5><b>Horário:</b> {{ data$.hora }}</h5>
-        <br />
-        <h5>Fortaleza - CE, {{ datahj }}</h5>
-        <br /><br />
+          <div *ngFor="let data of data$">
+            <h4  class="cabecalho2">
+              {{ data.nome }}
+            </h4>
 
-        <table class="table table-hover text-nowrap tableprint" >
-          <thead>
-            <tr>
-              <th>GRAD</th>
-              <th>NUM</th>
-              <th>NOME</th>
-              <th>MATRÍCULA</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of data$.usuarios">
-              <td>{{ data.graduacao.abreviatura }}</td>
-              <td>{{ data.numeral | mask: "00.000" }}</td>
-              <td>{{ data.nome }}</td>
-              <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
-            </tr>
-          </tbody>
-        </table>
+            <br />
+            <div class="row">
+              <div class="col-sm-2">
+                <h5><b>Data:</b> {{ data.data | date: 'dd/MM/yyyy' }}</h5>
+              </div>
+              <div class="col-sm-2">
+                <h5><b>Horário:</b> {{ data.hora }}</h5>
+              </div>
+              <div class="col-sm-2">
+                <h5><b>Duração:</b> {{ data.duracao }} h</h5>
+              </div>
+            </div>
 
+            <br />
+  
+            <table style="margin-bottom: 50px;" class="table table-bordered  table-hover text-nowrap tableprint">
+              <thead>
+                <tr>
+                  <th>POSTO</th>
+                  <th>GRAD</th>
+                  <th>NUM</th>
+                  <th>NOME</th>
+                  <th>MATRÍCULA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data2 of data.usuarios">
+                  <td>{{ data2.posto.nome }}</td>
+                  <td>{{ data2.user.graduacao.abreviatura }}</td>
+                  <td>{{ data2.user.numeral | mask: "00.000" }}</td>
+                  <td>{{ data2.user.nome }}</td>
+                  <td>{{ data2.user.matricula | mask: "000.000-0-0" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <br />
+          <h5>Fortaleza - CE, {{ datahj }}</h5>
+          <br /><br />
+          <div class="text-center" *ngIf="subunidade.comandante">
+            <b>{{subunidade.comandante?.nome}}</b><br />
+            Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-0'}}<br />
+            Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
+          </div>
         </div>
       </td>
     </tr>
@@ -93,8 +114,8 @@
       <td>
         <!--place holder for the fixed-position footer-->
         <div class="page-footer-space">
-          
-          
+
+
         </div>
       </td>
     </tr>

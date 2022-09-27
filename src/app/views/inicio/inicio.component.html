@@ -50,7 +50,7 @@
             <div class="card-header">
               <h3 class="card-title">Policiais por Setores</h3>
             </div>
-            <div class="card-body p-0">
+            <div class="card-body table-responsive p-0">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >
@@ -75,12 +75,12 @@
         </div>
         <!--FIM USUARIOS POR SETOR-->
         <!--INICIO EMPRESTIMOS-->
-        <div *ngIf="user.perfil.emprestimos" class="col-sm-4">
+        <div *ngIf="user.perfil.veiculos_emprestimos" class="col-sm-4">
           <div class="card card-outline card-orange">
             <div class="card-header">
               <h3 class="card-title">Veículos Emprestados</h3>
             </div>
-            <div class="card-body p-0">
+            <div class="card-body table-responsive p-0">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >
@@ -116,7 +116,7 @@
             <div class="card-header">
               <h3 class="card-title">Próximas Trocas de Óleo</h3>
             </div>
-            <div class="card-body p-0">
+            <div class="card-body table-responsive p-0">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >
@@ -154,9 +154,9 @@
         <div *ngIf="user.perfil.veiculos" class="col-sm-4">
           <div class="card card-outline card-orange">
             <div class="card-header">
-              <h3 class="card-title">Armamentos Próximos a Vencer</h3>
+              <h3 class="card-title">Armamentos Próximos do Vencimento</h3>
             </div>
-            <div class="card-body p-0">
+            <div class="card-body table-responsive p-0">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >

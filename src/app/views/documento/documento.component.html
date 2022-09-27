@@ -86,9 +86,9 @@
           <div [innerHTML]="data$.corpo"></div>
           <br /><br /><br /><br />
           <div class="text-center" *ngIf="subunidade.comandante">
-            <b>{{subunidade.comandante.nome}}</b><br />
-            Mat.: {{subunidade.comandante.matricula | mask:'000.000-0-0'}}<br />
-            Comandante da {{subunidade.nome}} -  {{subunidade.unidade.nome}}
+            <b>{{subunidade.comandante?.nome}}</b><br />
+            Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-0'}}<br />
+            Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
           </div>
         </div>
       </td>

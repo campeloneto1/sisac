@@ -47,11 +47,6 @@ export class PerfisComponent implements OnInit,OnDestroy {
     documentos_edt: new FormControl(''),   
     documentos_del: new FormControl(''), 
 
-    emprestimos: new FormControl(''),   
-    emprestimos_cad: new FormControl(''),   
-    emprestimos_edt: new FormControl(''),   
-    emprestimos_del: new FormControl(''), 
-
     escalas: new FormControl(''),   
     escalas_cad: new FormControl(''),   
     escalas_edt: new FormControl(''),   
@@ -60,7 +55,17 @@ export class PerfisComponent implements OnInit,OnDestroy {
     irsos: new FormControl(''),   
     irsos_cad: new FormControl(''),   
     irsos_edt: new FormControl(''),   
-    irsos_del: new FormControl(''), 
+    irsos_del: new FormControl(''),
+    
+    materiais: new FormControl(''),   
+    materiais_cad: new FormControl(''),   
+    materiais_edt: new FormControl(''),   
+    materiais_del: new FormControl(''), 
+
+    materiais_emprestimos: new FormControl(''),   
+    materiais_emprestimos_cad: new FormControl(''),   
+    materiais_emprestimos_edt: new FormControl(''),   
+    materiais_emprestimos_del: new FormControl(''), 
 
     publicacoes: new FormControl(''),   
     publicacoes_cad: new FormControl(''),   
@@ -81,6 +86,11 @@ export class PerfisComponent implements OnInit,OnDestroy {
     veiculos_cad: new FormControl(''),   
     veiculos_edt: new FormControl(''),   
     veiculos_del: new FormControl(''), 
+
+    veiculos_emprestimos: new FormControl(''),   
+    veiculos_emprestimos_cad: new FormControl(''),   
+    veiculos_emprestimos_edt: new FormControl(''),   
+    veiculos_emprestimos_del: new FormControl(''),
 
   });
 

@@ -7,7 +7,7 @@
 
   <div class="sidebar">
     <nav class="mt-2">
-      <ul *ngIf="user" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+      <ul  class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
         data-accordion="false">
         <li class="nav-item">
           <a [routerLink]="['/Inicio']" [routerLinkActive]="['active']" class="nav-link">
@@ -33,10 +33,16 @@
             <p>Documentos</p>
           </a>
         </li>
-        <li *ngIf="user.perfil?.emprestimos" class="nav-item">
-          <a [routerLink]="['/Emprestimos']" [routerLinkActive]="['active']" class="nav-link">
-            <i class="nav-icon fa fa-map"></i>
-            <p>Emprestimos</p>
+        <li *ngIf="user.perfil?.materiais_emprestimos" class="nav-item">
+          <a [routerLink]="['/Emprestimos-Materiais']" [routerLinkActive]="['active']" class="nav-link">
+            <i class="nav-icon fa fa-shopping-basket"></i>
+            <p>Emprestimos de Materiais</p>
+          </a>
+        </li>
+        <li *ngIf="user.perfil?.veiculos_emprestimos" class="nav-item">
+          <a [routerLink]="['/Emprestimos-Veiculos']" [routerLinkActive]="['active']" class="nav-link">
+            <i class="nav-icon fa fa-tachometer"></i>
+            <p>Emprestimos de Veículos</p>
           </a>
         </li>
         <li *ngIf="user.perfil?.escalas" class="nav-item">
@@ -49,6 +55,12 @@
           <a [routerLink]="['/Irsos']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-clock"></i>
             <p>Irsos</p>
+          </a>
+        </li>
+        <li *ngIf="user.perfil?.materiais" class="nav-item">
+          <a [routerLink]="['/Materiais']" [routerLinkActive]="['active']" class="nav-link">
+            <i class="nav-icon fa fa-cubes"></i>
+            <p>Materiais</p>
           </a>
         </li>
         <li *ngIf="user.perfil?.ocorrencias" class="nav-item">
@@ -162,6 +174,12 @@
               <a [routerLink]="['/Tipos-Documentos']" [routerLinkActive]="['active']" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tipos de Documentos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/Tipos-Materiais']" [routerLinkActive]="['active']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tipos de Materiais</p>
               </a>
             </li>
             <li class="nav-item">

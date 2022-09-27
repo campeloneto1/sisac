@@ -25,7 +25,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
 
   user: any;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   cadus = false;
 
@@ -208,7 +208,12 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      processing: true,
+      responsive: true,
+      order: [[1, 'asc'],[2, 'asc'],[3, 'asc'],[4, 'asc']],
+      dom: 'Bfrtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
     this.marcas.where(2).subscribe(data => {

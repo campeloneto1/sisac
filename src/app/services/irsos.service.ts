@@ -17,6 +17,10 @@ export class IrsosService {
     return this.http.get(environment.url+"irsos/"+id);
   }
 
+  where(data:any){
+    return this.http.post(environment.url+"irsos-where",data);
+  }
+
   store(data:any){
     return this.http.post(environment.url+"irsos",data);
   }

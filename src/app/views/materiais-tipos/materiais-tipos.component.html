@@ -1,0 +1,212 @@
+    <!--<div class="wrapper">
+<app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>-->
+    <!--INICIO CONTENT WRAPPER-->
+    <div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+        <!--INICIO SECTION HEADER-->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Tipos de Materiais</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item">
+                    <a [routerLink]="['/Inicio']">Início</a>
+                  </li>
+                  <li class="breadcrumb-item active">Tipos de Materiais</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!--FIM SECTION HEADER-->
+        <!--INICIO SECTION TABELA-->
+        <section class="content">
+          <!--INICIO CARD-->
+          <div class="card card-outline card-orange">
+            <!--INICIO HEADER CARD-->
+            <div class="card-header">
+              <div class="row">
+                <div class="col-sm-1">
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalcad"
+                    type="button"
+                    class="btn btn-block btn-outline-primary"
+                    (click)="formcad.reset()"
+                  >
+                    <i class="nav-icon fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!--FIM HEADER CARD-->
+            <!--INICIO BODY CARD-->
+            <div class="card-body" style="overflow-x: scroll;">
+              <!--INICIO TABLE CARD-->
+              <table
+                datatable
+                [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger"
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>                  
+                    <th>NOME</th>                   
+                    <th>OPÇÕES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of data$" class="hovers">
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.nome }}</td>                
+                    <td>
+                      <span class="editdata">
+                        <i
+                          (click)="editar(data)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalcad"
+                          class="right fas fa-edit text-primary point"
+                          data-toggle="tooltip" 
+                          data-placement="top" 
+                          title="Editar"
+                        ></i>
+                        <i
+                          (click)="deletar(data)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modaldel"
+                          class="right fas fa-trash text-danger point margin5"
+                          data-toggle="tooltip" 
+                          data-placement="top" 
+                          title="Excluir"
+                        ></i>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!--FIM TABLE CARD-->
+            </div>
+            <!--FIM BODY CARD-->
+          </div>
+          <!--FIM CARD-->
+    
+          <!--INICIO MODAL CADASTRO-->
+          <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Cadastrar</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <!--FORM CADASTRO-->
+                <form [formGroup]="formcad" (ngSubmit)="salvar()">
+                  <div class="modal-body">
+                    <!--INICIO ROW 1-->
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="nome"
+                            >Nome<span class="text-danger">*</span></label
+                          >
+                          <input
+                            formControlName="nome"
+                            required
+                            type="text"
+                            class="form-control form-control-border"
+                            id="nome"
+                            placeholder="Nome"
+                            [ngClass]="{
+                              'is-invalid':
+                                formcad.controls.nome.invalid &&
+                                (formcad.controls.nome.dirty ||
+                                  formcad.controls.nome.touched)
+                            }"
+                          />
+                        </div>
+                      </div>                    
+                    </div>
+                    <!--FIM ROW 1-->
+  
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      [disabled]="!formcad.valid"
+                      data-bs-dismiss="modal"
+                      type="submit"
+                      class="btn btn-success"
+                    >
+                      Salvar
+                    </button>
+                  </div>
+                </form>
+                <!--FIM FORM CADASTRO-->
+              </div>
+            </div>
+          </div>
+          <!--FIM MODAL CADASTRO-->
+    
+          <!--INICIO MODAL DELETE-->
+          <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Excluir</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+    
+                <div class="modal-body">
+                  <p>Tem certeza que deseja excluir o material <b>{{excluir$?.nome}}</b>?</p>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    (click)="confirm()"
+                    data-bs-dismiss="modal"
+                    type="button"
+                    class="btn btn-danger"
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--FIM MODAL DELETE-->
+        </section>
+        <!--FIM SECTION TABELA-->
+      </div>
+      <!--FIM CONTENT WRAPPER-->
+      <!--<app-footer></app-footer>
+    </div>-->
+    

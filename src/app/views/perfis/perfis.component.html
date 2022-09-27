@@ -53,7 +53,6 @@
                             <th>AFAST</th>
                             <th>ARM</th>
                             <th>DOC</th>
-                            <th>EMP</th>
                             <th>ESC</th>
                             <th>IRSOS</th>
                             <th>OCOR</th>
@@ -96,11 +95,7 @@
                                 <span *ngIf="data.documentos"><i class="fa fa-check-square" aria-hidden="true"></i></span>
                                 <span *ngIf="!data.documentos"><i class="fa fa-square-o" aria-hidden="true"></i></span>
                             </td>
-                            <td style="text-align: center; ">
-                          
-                                <span *ngIf="data.emprestimos"><i class="fa fa-check-square" aria-hidden="true"></i></span>
-                                <span *ngIf="!data.emprestimos"><i class="fa fa-square-o" aria-hidden="true"></i></span>
-                            </td>
+                            
                             <td style="text-align: center; ">
                           
                                 <span *ngIf="data.escalas"><i class="fa fa-check-square" aria-hidden="true"></i></span>
@@ -317,39 +312,7 @@
                             </div>
                             <!-- FIM ROW DOCUMENTOS-->
 
-                            <!-- INICIO ROW EMPRESTIMOS-->
-                            <div class="row">
-                                <h5><b>Emprestimos</b></h5>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                      <label for="emprestimos">Consulta</label>
-                                      <br />
-                                      <input type="checkbox" formControlName="emprestimos" id="emprestimos" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                      <label for="emprestimos_cad">Cadastro</label>
-                                      <br />
-                                      <input type="checkbox" formControlName="emprestimos_cad" id="emprestimos_cad" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                      <label for="emprestimos_edt">Edição</label>
-                                      <br />
-                                      <input type="checkbox" formControlName="emprestimos_edt" id="emprestimos_edt" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                      <label for="emprestimos_del">Exclusão</label>
-                                      <br />
-                                      <input type="checkbox" formControlName="emprestimos_del" id="emprestimos_del" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- FIM ROW EMPRESTIMOS-->
+                            
 
                             <!-- INICIO ROW ESCALAS-->
                             <div class="row">
@@ -419,7 +382,73 @@
                             </div>
                             <!-- FIM ROW IRSOS-->
 
-                            
+                            <!-- INICIO ROW MATERIAIS-->
+                            <div class="row">
+                                <h5><b>Materiais</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="materiais">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="materiais" id="materiais" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="materiais_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="materiais_cad" id="materiais_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="materiais_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="materiais_edt" id="materiais_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="materiais_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="materiais_del" id="materiais_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW MATERIAIS-->
+
+                            <!-- INICIO ROW MATERIAIS EMPRESTIMOS-->
+                            <div class="row">
+                                <h5><b>Emprestimos de Materiais</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="materiais_emprestimos">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="materiais_emprestimos" id="materiais_emprestimos" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="materiais_emprestimos_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="materiais_emprestimos_cad" id="materiais_emprestimos_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="materiais_emprestimos_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="materiais_emprestimos_edt" id="materiais_emprestimos_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="materiais_emprestimos_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="materiais_emprestimos_del" id="materiais_emprestimos_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW MATERIAIS EMPRESTIMOS-->
 
                             <!-- INICIO ROW OCORRENCIAS-->
                             <div class="row">
@@ -556,6 +585,40 @@
                                 </div>
                             </div>
                             <!-- FIM ROW VEÍCULOS-->
+
+                            <!-- INICIO ROW VEICULOS EMPRESTIMOS-->
+                            <div class="row">
+                                <h5><b>Emprestimos de Veículos</b></h5>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="veiculos_emprestimos">Consulta</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="veiculos_emprestimos" id="veiculos_emprestimos" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="veiculos_emprestimos_cad">Cadastro</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="veiculos_emprestimos_cad" id="veiculos_emprestimos_cad" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="veiculos_emprestimos_edt">Edição</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="veiculos_emprestimos_edt" id="veiculos_emprestimos_edt" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="veiculos_emprestimos_del">Exclusão</label>
+                                      <br />
+                                      <input type="checkbox" formControlName="veiculos_emprestimos_del" id="veiculos_emprestimos_del" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIM ROW VEICULOS EMPRESTIMOS-->
 
                         </div>
                         <div class="modal-footer">

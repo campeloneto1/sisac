@@ -45,7 +45,7 @@
             </div>
             <!--FIM HEADER CARD-->
             <!--INICIO BODY CARD-->
-            <div class="card-body" style="overflow-x: scroll;">
+            <div class="card-body table-responsive p-2"  >
               <!--INICIO TABLE CARD-->
               <table
                 datatable
@@ -67,9 +67,9 @@
                 <tbody>
                   <tr *ngFor="let data of data$" class="hovers">
                     <td>{{ data.id }}</td>  
-                    <!----><td><a target="_blank" [routerLink]="['/Escala', data.escala?.id]">{{ data.escala?.codigo }}/{{data.escala?.created_at | date:'yyyy'}}</a></td>  
+                    <!----><td><a target="_blank" [routerLink]="['/Escala', data.escala?.id]">{{ data.escala?.codigo }}/{{data.escala?.created_at | date:'yyyy'}} ({{data.escala?.data | date:'dd/MM/yyyy'}})</a></td>  
                     <td>{{ data.ocorrencia?.nome }}</td>  
-                    <td>{{ data.codigo }}/{{data.created_at | date:'yyyy'}}</td>               
+                    <td>{{ data.codigo }}/{{data.created_at | date:'yyyy'}} </td>               
                     <td>{{ data.titulo }}</td>  
                     <td>{{ data.user?.graduacao?.abreviatura }} {{ data.user?.numeral }} {{ data.user?.nome_guerra }}</td>                 
                     <td>
@@ -81,7 +81,7 @@
                           title="Imprimir"
                         ></i></a>
                         <i
-                        *ngIf="user.perfil.ocorrencias_edt"
+                          *ngIf="user.perfil.ocorrencias_edt"
                           (click)="editar(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#modalcad"
@@ -91,7 +91,7 @@
                           title="Editar"
                         ></i>
                         <i
-                        *ngIf="user.perfil.ocorrencias_del"
+                          *ngIf="user.perfil.ocorrencias_del "
                           (click)="deletar(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#modaldel"
@@ -151,7 +151,7 @@
                                   *ngFor="let data of escalas$"
                                   value="{{ data.id }}"
                                 >
-                                  {{ data.codigo }}/{{data.created_at | date:'yyyy'}}
+                                  {{ data.codigo }}/{{data.created_at | date:'yyyy'}} ({{data.data | date:'dd/MM/yyyy'}})
                                 </option>
                               </select>
                             </div>

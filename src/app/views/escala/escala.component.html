@@ -98,9 +98,9 @@
                     <span *ngIf="data3.hora_ini">({{ data3.hora_ini }} às
                       {{ data3.hora_ini }})</span>
                     <span style="float: right">
-                      <button data-bs-toggle="modal" data-bs-target="#modalusu" type="button"
+                      <button *ngIf="user.perfil.escalas_cad && !antiga" data-bs-toggle="modal" data-bs-target="#modalusu" type="button"
                         class="btn btn-xs btn-outline-primary noprint" (click)="getTurno(data, data2, data3)"
-                        *ngIf="!antiga">
+                        >
                         <i class="nav-icon fas fa-plus"></i>
                       </button>
                     </span>

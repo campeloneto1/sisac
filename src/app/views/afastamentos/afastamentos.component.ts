@@ -18,7 +18,7 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
 
   user: any;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   
   data$: any;
   usuarios$: any;
@@ -84,7 +84,12 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      processing: true,
+      responsive: true,
+      order: [0, 'desc'],
+      dom: 'Bfrtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
     this.usuarios.index().subscribe(data => {

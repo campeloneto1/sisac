@@ -8,6 +8,7 @@ import { SessionService } from '../../services/session.service';
 
 import { IrsosService } from '../../services/irsos.service';
 import { IrsosUsersService } from '../../services/irsos-users.service';
+import { PostosService } from '../../services/postos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 
 @Component({
@@ -19,14 +20,16 @@ export class IrsosComponent implements OnInit, OnDestroy {
 
   user: any;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   data$: any;
+  postos$: any;
   usuarios$: any;
 
   irso$: any;
   cadus = false;
   usus = [];
+  posto_id = 0;
 
   excluir$: any;
 
@@ -46,13 +49,30 @@ export class IrsosComponent implements OnInit, OnDestroy {
     inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
   }
 
+  config2 = {
+    displayFn:(item: any) => { return item.nome; } ,//to support flexible text displaying for each item
+    displayKey:"nome", //if objects array passed which key to be displayed defaults to description
+    search:true, //true/false for the search functionlity defaults to false,
+    height: '400px', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
+    placeholder:'Posto', // text to be displayed when no item is selected defaults to Select,
+    customComparator: ()=>{}, // a custom function using which user wants to sort the items. default is undefined and Array.sort() will be used in that case,
+    limitTo: 0, // number thats limits the no of options displayed in the UI (if zero, options will not be limited)
+    moreText: 'outros', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
+    noResultsFound: 'Nenhum resultado encontrado!', // text to be displayed when no items are found while searching
+    searchPlaceholder:'Pesquisar', // label thats displayed in search input,
+    searchOnKey: undefined ,// key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+    clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
+    inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
+  }
+
 
   formcad = new FormGroup({
     id: new FormControl(''),
     subunidade_id: new FormControl(''),  
     nome: new FormControl(''),  
     data: new FormControl(''),  
-    hora: new FormControl(''),      
+    hora: new FormControl(''),  
+    duracao: new FormControl(''),      
     //descricao: new FormControl(''),  
 
   });
@@ -67,6 +87,7 @@ export class IrsosComponent implements OnInit, OnDestroy {
     private router: Router,
     private irsos: IrsosService,
     private irsosusers: IrsosUsersService,
+    private postos: PostosService,
     private usuarios: UsuariosService) {
         this.user = this.session.getUser();
         if(this.user.perfil.irsos){
@@ -82,14 +103,29 @@ export class IrsosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      processing: true,
+      responsive: true,
+      columnDefs: [ {
+        orderable: false,
+        className: 'select-checkbox',
+        targets:   0
+      } ],
+      select: {
+          style:    'os',
+          selector: 'td:first-child'
+      },
+      order: [1, 'desc'],
+      dom: 'Bfrtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
-
-    
-
 
     this.usuarios.index().subscribe(data => {
       this.usuarios$ = data;
+    }); 
+
+    this.postos.index().subscribe(data => {
+      this.postos$ = data;
     }); 
     
   }
@@ -107,6 +143,8 @@ export class IrsosComponent implements OnInit, OnDestroy {
 
   showUsuarios(data:any){
     this.irso$ = data;
+    this.posto_id = 0;
+    this.usus = [];
   }
 
 
@@ -152,13 +190,14 @@ export class IrsosComponent implements OnInit, OnDestroy {
 
   cadusu(){
     this.cadus = true;
+    this.posto_id = 0;
   }
 
   deletarusu(data:any){
-    let isExecuted = confirm("Tem certeza que deseja excluir "+data.nome+"?");
+    let isExecuted = confirm("Tem certeza que deseja excluir "+data.user.nome+"?");
 
     if(isExecuted){
-      this.irsosusers.destroy(data.pivot.id).subscribe(data => {
+      this.irsosusers.destroy(data.id).subscribe(data => {
         if(data == 1){
           this.refresh();   
           this.irsos.show(this.irso$.id).subscribe(data => {
@@ -171,12 +210,16 @@ export class IrsosComponent implements OnInit, OnDestroy {
   }
 
   cadastrarusu(){
-    //console.log(this.usus);
+    
     var teste = [];
     teste[0] = this.irso$.id;
-    teste[1] = this.usus;
+    //@ts-ignore
+    teste[1] = this.posto_id.id;
+    teste[2] = this.usus;
+
     this.irsosusers.store(teste).subscribe(data => {
       this.usus = [];
+      this.posto_id = 0;
       this.cadus = false;
       this.refresh();   
           this.irsos.show(this.irso$.id).subscribe(data => {
@@ -185,6 +228,18 @@ export class IrsosComponent implements OnInit, OnDestroy {
           this.toastr.success('Informação cadastrada com sucesso!');  
     });
     //console.log(teste);
+  }
+
+  print(){
+    //var ids: any = []; 
+    var ids: any = ''; 
+    var selection = $('#tableId').DataTable().rows({ selected: true } ).data().toArray();
+    selection.forEach(data => {
+      //ids.push(data[1]);
+      ids = ids+'-'+data[1];
+    });
+    //console.log(ids);
+    window.open('http://localhost:4200/Irso/'+ids, "_blank");
   }
 
 }

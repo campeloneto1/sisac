@@ -126,22 +126,22 @@
                 <li class="nav-item ">
                   <a class="nav-link active" href="#informacoes" data-bs-toggle="tab">Informações</a>
                 </li>
-                <li class="nav-item ">
+                <li *ngIf="user.perfil.afastamentos" class="nav-item ">
                   <a class="nav-link" href="#afastamentos" data-bs-toggle="tab">Afastamentos</a>
                 </li>
-                <li class="nav-item">
+                <li *ngIf="user.perfil.armamentos" class="nav-item">
                   <a class="nav-link" href="#armamento" data-bs-toggle="tab">Armamentos</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#emprestimos" data-bs-toggle="tab">Emprestimos</a>
+                <li *ngIf="user.perfil.veiculos_emprestimos" class="nav-item">
+                  <a class="nav-link" href="#veiculosemprestimos" data-bs-toggle="tab">Emp. de Veículos</a>
                 </li>
-                <li class="nav-item">
+                <li *ngIf="user.perfil.escalas" class="nav-item">
                   <a class="nav-link" href="#escalas" data-bs-toggle="tab">Escalas</a>
                 </li>
-                <li class="nav-item">
+                <li *ngIf="user.perfil.irsos" class="nav-item">
                   <a class="nav-link" href="#irso" data-bs-toggle="tab">Irsos</a>
                 </li>
-                <li class="nav-item">
+                <li *ngIf="user.perfil.publicacoes" class="nav-item">
                   <a class="nav-link " href="#publicacoes" data-bs-toggle="tab">Publicações</a>
                 </li>
               </ul>
@@ -263,8 +263,8 @@
                     nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
                 </div>
                 <!--FIM AFASTAMENTOS-->
-                <!--INICIO EMPRESTIMOS-->
-                <div class="tab-pane" id="emprestimos">
+                <!--INICIO  EMPRESTIMOS VEICULOS-->
+                <div class="tab-pane" id="veiculosemprestimos">
                   <table class="table table-hover text-nowrap">
                     <thead>
                       <tr>
@@ -281,10 +281,10 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="
-                              let data of data$.emprestimos
+                              let data of data$.emprestimosveiculos
                                 | paginate
                                   : {
-                                      id: 'pagemp',
+                                      id: 'pagempvei',
                                       itemsPerPage: 10,
                                       currentPage: u
                                     }
@@ -302,10 +302,10 @@
                     </tbody>
                   </table>
 
-                  <pagination-controls id="pagemp" (pageChange)="u = $event" previousLabel="Anterior"
+                  <pagination-controls id="pagempvei" (pageChange)="u = $event" previousLabel="Anterior"
                     nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
                 </div>
-                <!--FIM EMPRESTIMOS-->
+                <!--FIM EMPRESTIMOS VEICULOS-->
                 <!--INICIO ESCALAS-->
                 <div class="tab-pane" id="escalas">
                   <table class="table table-hover text-nowrap">

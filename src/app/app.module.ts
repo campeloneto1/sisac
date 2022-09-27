@@ -59,9 +59,13 @@ import { ArmamentosComponent } from './views/armamentos/armamentos.component';
 import { ArmamentosTiposComponent } from './views/armamentos-tipos/armamentos-tipos.component';
 import { CoresComponent } from './views/cores/cores.component';
 import { VeiculosComponent } from './views/veiculos/veiculos.component';
-import { EmprestimosComponent } from './views/emprestimos/emprestimos.component';
-import { EmprestimoComponent } from './views/emprestimo/emprestimo.component';
+import { VeiculosEmprestimosComponent } from './views/veiculos-emprestimos/veiculos-emprestimos.component';
+import { VeiculoEmprestimoComponent } from './views/veiculo-emprestimo/veiculo-emprestimo.component';
 import { ArmamentoComponent } from './views/armamento/armamento.component';
+import { MateriaisComponent } from './views/materiais/materiais.component';
+import { MateriaisTiposComponent } from './views/materiais-tipos/materiais-tipos.component';
+import { MateriaisEmprestimosComponent } from './views/materiais-emprestimos/materiais-emprestimos.component';
+import { MaterialEmprestimoComponent } from './views/material-emprestimo/material-emprestimo.component';
 
 @NgModule({
   declarations: [
@@ -108,9 +112,13 @@ import { ArmamentoComponent } from './views/armamento/armamento.component';
     ArmamentosTiposComponent,
     CoresComponent,
     VeiculosComponent,
-    EmprestimosComponent,
-    EmprestimoComponent,
-    ArmamentoComponent
+    VeiculosEmprestimosComponent,
+    VeiculoEmprestimoComponent,
+    ArmamentoComponent,
+    MateriaisComponent,
+    MateriaisTiposComponent,
+    MateriaisEmprestimosComponent,
+    MaterialEmprestimoComponent
   ],
   imports: [
     BrowserModule,

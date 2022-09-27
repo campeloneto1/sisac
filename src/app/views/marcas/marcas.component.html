@@ -67,6 +67,7 @@
                     <td>
                         <span *ngIf="data.tipo_id == 1">Automóvel</span>
                         <span *ngIf="data.tipo_id == 2">Bélico</span>
+                        <span *ngIf="data.tipo_id == 3">Material</span>
                     </td>                
                     <td>
                       <span class="editdata">
@@ -137,8 +138,10 @@
                                 id="tipo_id"
                               >
                                 <option></option>
-                                <option value="2">Bélico</option>
+                                
                                 <option value="1">Automovel</option>
+                                <option value="2">Bélico</option>
+                                <option value="3">Material</option>
                               </select>
                             </div>
                           </div>

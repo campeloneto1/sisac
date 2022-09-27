@@ -14,8 +14,6 @@ import { CidadesComponent } from './views/cidades/cidades.component';
 import { CoresComponent } from './views/cores/cores.component';
 import { DocumentoComponent } from './views/documento/documento.component';
 import { DocumentosComponent } from './views/documentos/documentos.component';
-import { EmprestimoComponent } from './views/emprestimo/emprestimo.component';
-import { EmprestimosComponent } from './views/emprestimos/emprestimos.component';
 import { EscalaComponent } from './views/escala/escala.component';
 import { EscalasComponent } from './views/escalas/escalas.component';
 import { EscalasModelosComponent } from './views/escalas-modelos/escalas-modelos.component';
@@ -26,6 +24,10 @@ import { IrsoComponent } from './views/irso/irso.component';
 import { IrsosComponent } from './views/irsos/irsos.component';
 import { LogsComponent } from './views/logs/logs.component';
 import { MarcasComponent } from './views/marcas/marcas.component';
+import { MateriaisComponent } from './views/materiais/materiais.component';
+import { MaterialEmprestimoComponent } from './views/material-emprestimo/material-emprestimo.component';
+import { MateriaisEmprestimosComponent } from './views/materiais-emprestimos/materiais-emprestimos.component';
+import { MateriaisTiposComponent } from './views/materiais-tipos/materiais-tipos.component';
 import { ModelosComponent } from './views/modelos/modelos.component';
 import { ModalidadesComponent } from './views/modalidades/modalidades.component';
 import { PaisesComponent } from './views/paises/paises.component';
@@ -44,6 +46,8 @@ import { UnidadesComponent } from './views/unidades/unidades.component';
 import { UsuariosComponent } from './views/usuarios/usuarios.component';
 import { UsuarioComponent } from './views/usuario/usuario.component';
 import { VeiculosComponent } from './views/veiculos/veiculos.component';
+import { VeiculoEmprestimoComponent } from './views/veiculo-emprestimo/veiculo-emprestimo.component';
+import { VeiculosEmprestimosComponent } from './views/veiculos-emprestimos/veiculos-emprestimos.component';
 
 const routes: Routes = [
   {
@@ -101,14 +105,24 @@ const routes: Routes = [
     component: DocumentosComponent,
   },
   {
-    path: 'Emprestimo/:id',
+    path: 'Emprestimo-Material/:id',
     canActivate: [AuthGuard],
-    component: EmprestimoComponent,
+    component: MaterialEmprestimoComponent,
   },
   {
-    path: 'Emprestimos',
+    path: 'Emprestimos-Materiais',
     canActivate: [AuthGuard],
-    component: EmprestimosComponent,
+    component: MateriaisEmprestimosComponent,
+  },
+  {
+    path: 'Emprestimo-Veiculo/:id',
+    canActivate: [AuthGuard],
+    component: VeiculoEmprestimoComponent,
+  },
+  {
+    path: 'Emprestimos-Veiculos',
+    canActivate: [AuthGuard],
+    component: VeiculosEmprestimosComponent,
   },
   {
     path: 'Escala/:id',
@@ -160,6 +174,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: MarcasComponent,
   },
+  {
+    path: 'Materiais',
+    canActivate: [AuthGuard],
+    component: MateriaisComponent,
+  },
+  
   {
     path: 'Modelos',
     canActivate: [AuthGuard],
@@ -221,6 +241,11 @@ const routes: Routes = [
     component: TiposDocumentosComponent,
   },
   {
+    path: 'Tipos-Materiais',
+    canActivate: [AuthGuard],
+    component: MateriaisTiposComponent,
+  },
+  {
     path: 'Tipos-Publicacoes',
     canActivate: [AuthGuard],
     component: TiposPublicacoesComponent,
@@ -245,6 +270,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: UsuarioComponent,
   },
+ 
   {
     path: 'Veiculos',
     canActivate: [AuthGuard],

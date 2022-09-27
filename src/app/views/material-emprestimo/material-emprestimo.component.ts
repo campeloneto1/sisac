@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmprestimosService } from '../../services/emprestimos.service';
+import { MateriaisEmprestimosService } from '../../services/materiais-emprestimos.service';
 import { SubunidadesService } from '../../services/subunidades.service';
 import { SessionService } from '../../services/session.service';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
-  selector: 'app-emprestimo',
-  templateUrl: './emprestimo.component.html',
-  styleUrls: ['./emprestimo.component.css']
+  selector: 'app-material-emprestimo',
+  templateUrl: './material-emprestimo.component.html',
+  styleUrls: ['./material-emprestimo.component.css']
 })
-export class EmprestimoComponent implements OnInit {
+export class MaterialEmprestimoComponent implements OnInit {
 
   data$: any;
 
@@ -40,7 +40,7 @@ export class EmprestimoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private emprestimos: EmprestimosService,
+    private materiais: MateriaisEmprestimosService,
     private session: SessionService,
     private subunidades: SubunidadesService,
     private apcom: AppComponent
@@ -48,7 +48,7 @@ export class EmprestimoComponent implements OnInit {
     
       this.apcom.token = false;
       this.user = this.session.getUser();
-      if(this.user.perfil.emprestimos){
+      if(this.user.perfil.materiais_emprestimos){
        
       }else{
         this.router.navigate(['/']);
@@ -60,7 +60,7 @@ export class EmprestimoComponent implements OnInit {
     const routeParams = this.route.snapshot.paramMap;
     const userid = Number(routeParams.get('id'));
 
-    this.emprestimos.show(userid).subscribe((data) => {
+    this.materiais.show(userid).subscribe((data) => {
       this.data$ = data;
 
       this.subunidades.show(this.data$.subunidade_id).subscribe(data => {

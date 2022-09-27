@@ -19,7 +19,7 @@ export class DocumentosComponent implements OnInit, OnDestroy {
 
   user: any;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   data$: any;
   tiposdocumentos$: any;
@@ -108,7 +108,12 @@ export class DocumentosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      processing: true,
+      responsive: true,
+      order: [0, 'desc'],
+      dom: 'Bfrtip',
+      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
     

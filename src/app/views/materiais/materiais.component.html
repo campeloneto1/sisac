@@ -1,0 +1,189 @@
+<!--<div class="wrapper">
+<app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>-->
+<!--INICIO CONTENT WRAPPER-->
+<div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+    <!--INICIO SECTION HEADER-->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Materiais</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/Inicio']">Início</a>
+              </li>
+              <li class="breadcrumb-item active">Materiais</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--FIM SECTION HEADER-->
+    <!--INICIO SECTION TABELA-->
+    <section class="content">
+      <!--INICIO CARD-->
+      <div class="card card-outline card-orange">
+        <!--INICIO HEADER CARD-->
+        <div class="card-header">
+          <div class="row">
+            <div class="col-sm-1">
+              <button *ngIf="user.perfil.materiais_cad" data-bs-toggle="modal" data-bs-target="#modalcad" type="button"
+                class="btn btn-block btn-outline-primary" (click)="formcad.reset()">
+                <i class="nav-icon fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!--FIM HEADER CARD-->
+        <!--INICIO BODY CARD-->
+        <div class="card-body table-responsive p-2" >
+          <!--INICIO TABLE CARD-->
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+            class="table table-hover table-head-fixed text-nowrap">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>TIPO</th>
+                <th>MARCA</th>
+                <th>MODELO</th>
+                <th>SERIAL</th>
+                <th>DATA VENC.</th>
+                <th>OPÇÕES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of data$" class="hovers">
+                <td>{{ data.id }}</td>
+                <td>{{ data.material_tipo.nome }}</td>
+                <td>{{ data.marca.nome }}</td>
+                <td>{{ data.modelo.nome }}</td>
+                <td>{{ data.serial }}</td>
+                <td>{{ data.data_venc | date: 'dd/MM/yyyy' }}</td>
+               
+                <td>
+                  <span class="editdata">
+                    <i *ngIf="user.perfil.materiais_edt" (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
+                      class="right fas fa-edit text-primary point" data-toggle="tooltip" data-placement="top"
+                      title="Editar"></i>
+                    <i *ngIf="user.perfil.materiais_del" (click)="deletar(data)" data-bs-toggle="modal" data-bs-target="#modaldel"
+                      class="right fas fa-trash text-danger point margin5" data-toggle="tooltip" data-placement="top"
+                      title="Excluir"></i>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!--FIM TABLE CARD-->
+        </div>
+        <!--FIM BODY CARD-->
+      </div>
+      <!--FIM CARD-->
+  
+      <!--INICIO MODAL CADASTRO-->
+      <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Cadastrar</h4>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <!--FORM CADASTRO-->
+            <form [formGroup]="formcad" (ngSubmit)="salvar()">
+              <div class="modal-body">
+                <!--INICIO ROW 1-->
+                <div class="row">
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="material_tipo">Tipo<span class="text-danger">*</span></label>
+                      <ngx-select-dropdown required [config]="config" [options]="materiaistipos$"
+                        formControlName="material_tipo">
+                      </ngx-select-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="marca">Marca<span class="text-danger">*</span></label>
+                      <ngx-select-dropdown required [config]="config2" [options]="marcas$" formControlName="marca"
+                        (change)="getModelos()">
+                      </ngx-select-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="modelo">Modelo<span class="text-danger">*</span></label>
+                      <ngx-select-dropdown required [config]="config3" [options]="modelos$" formControlName="modelo">
+                      </ngx-select-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="serial">Serial</label>
+                      <input formControlName="serial"  type="text" class="form-control form-control-border"
+                        id="serial" placeholder="Serial"  />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="data_venc">Data Venc.</label>
+                      <input formControlName="data_venc" type="date" class="form-control form-control-border"
+                        id="data_venc" placeholder="Data Venc." />
+                    </div>
+                  </div>
+  
+                </div>
+                <!--FIM ROW 1-->
+  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                  Cancelar
+                </button>
+                <button [disabled]="!formcad.valid" data-bs-dismiss="modal" type="submit" class="btn btn-success">
+                  Salvar
+                </button>
+              </div>
+            </form>
+            <!--FIM FORM CADASTRO-->
+          </div>
+        </div>
+      </div>
+      <!--FIM MODAL CADASTRO-->
+  
+      <!--INICIO MODAL DELETE-->
+      <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
+        <div class="modal-dialog ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Excluir</h4>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+  
+            <div class="modal-body">
+              <p>Tem certeza que deseja excluir o material <b>{{excluir$?.serial}}</b>?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                Cancelar
+              </button>
+              <button (click)="confirm()" data-bs-dismiss="modal" type="button" class="btn btn-danger">
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIM MODAL DELETE-->
+
+    </section>
+    <!--FIM SECTION TABELA-->
+  </div>
+  <!--FIM CONTENT WRAPPER-->
+  <!--<app-footer></app-footer>
+      </div>-->
