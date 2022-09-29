@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -27,7 +29,12 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   user: any;
 
+  url = environment.imagens;
+
   dtOptions: any = {};
+
+  filedata: any;
+  foto$: any;
 
   data$: any;
 
@@ -96,12 +103,18 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   });
 
+  cadformfoto = new FormGroup({
+    id: new FormControl(),
+    foto: new FormControl()
+  });
+
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
   dtTrigger: Subject<any> = new Subject<any>();
 
   constructor(
     private toastr: ToastrService,
+    private http: HttpClient,
     private session: SessionService,
     private router: Router,
     private cidades: CidadesService,
@@ -261,12 +274,30 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     })
   }
 
-  showPublicacoes(data:any){
-
+  foto(data: any){
+    this.foto$ = data;
   }
 
-  showLts(data:any){
+  fileEvent(e: any){
+    this.filedata = e.target.files[0];
+    //console.log(this.filedata);
 
+    var myFormData = new FormData();
+      const headers = new HttpHeaders();
+      headers.append('Content-Type', 'multipart/form-data');
+      headers.append('Accept', 'application/json');
+      myFormData.append('image', this.filedata);
+      myFormData.append('id', this.foto$.id);
+      /* Image Post Request */
+      this.http.post(environment.url+'usuarios-foto', myFormData, {
+      headers: headers
+      }).subscribe(data => {
+        if(data == 1){
+          this.cadformfoto.reset();
+          this.refresh();
+          this.toastr.success('Informação editada com sucesso!');  
+        }
+    });  
   }
   
 

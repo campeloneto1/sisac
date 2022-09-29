@@ -77,6 +77,17 @@ export class IrsosComponent implements OnInit, OnDestroy {
 
   });
 
+  formcad2 = new FormGroup({
+    id: new FormControl(''),
+    user: new FormControl(''),  
+    user_id: new FormControl(''),  
+    posto: new FormControl(''),  
+    posto_id: new FormControl(''),  
+        
+    //descricao: new FormControl(''),  
+
+  });
+
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
   dtTrigger: Subject<any> = new Subject<any>();
@@ -191,6 +202,7 @@ export class IrsosComponent implements OnInit, OnDestroy {
   cadusu(){
     this.cadus = true;
     this.posto_id = 0;
+    this.formcad2.reset();
   }
 
   deletarusu(data:any){
@@ -211,20 +223,16 @@ export class IrsosComponent implements OnInit, OnDestroy {
 
   cadastrarusu(){
     
-    var teste = [];
-    teste[0] = this.irso$.id;
-    //@ts-ignore
-    teste[1] = this.posto_id.id;
-    teste[2] = this.usus;
 
-    this.irsosusers.store(teste).subscribe(data => {
-      this.usus = [];
-      this.posto_id = 0;
+    this.formcad2.controls.id.patchValue(this.irso$.id);
+
+    this.irsosusers.store(this.formcad2.value).subscribe(data => {
       this.cadus = false;
       this.refresh();   
           this.irsos.show(this.irso$.id).subscribe(data => {
             this.irso$ = data;
           });
+          this.formcad2.reset();
           this.toastr.success('Informação cadastrada com sucesso!');  
     });
     //console.log(teste);

@@ -13,6 +13,10 @@ export class VeiculosService {
     return this.http.get(environment.url+"veiculos");
   }
 
+  index2(){
+    return this.http.get(environment.url+"veiculos2");
+  }
+
   show(id:number){
     return this.http.get(environment.url+"veiculos/"+id);
   }

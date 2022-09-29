@@ -4,6 +4,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { EscalasService } from '../../services/escalas.service';
+
 import { UsuariosService } from '../../services/usuarios.service';
 import { EscalasUsersService } from '../../services/escalas-users.service';
 import { SetoresService } from '../../services/setores.service';
@@ -25,9 +26,13 @@ export class EscalaComponent implements OnInit {
   setores$: any;
   usuariosafastamentos$: any;
 
+  ausente$: any;
+  opcao: any;
+
   user: any;
   date = new Date();
   antiga = false;
+  atual = false;
   subunidade$: any;
   turno$: any;
 
@@ -122,11 +127,18 @@ private router: Router,
       var date2 = new Date();
       //@ts-ignore
       date2.setDate(date5.getDate()+1);
-
+      var dateteste = this.date.getFullYear()+'-'+(this.date.getMonth()+1)+'-'+this.date.getDate();
+      var dateteste2 = date2.getFullYear()+'-'+(date2.getMonth()+1)+'-'+date2.getDate();
       if(this.date > date2){
         //console.log('entrou');
         this.antiga = true;
       }
+      
+      if(dateteste == dateteste2){
+        //console.log('entrou');
+        this.atual = true;
+      }
+      
       //var teste = date2.getDate()+1;
       //console.log(teste);
       //@ts-ignore
@@ -238,6 +250,25 @@ private router: Router,
         }   
       }     
     }
+  }
+
+  ausente(data:any){
+    this.opcao = null;
+    //console.log(data);
+    this.ausente$ = data;
+  }
+
+  registrar(){
+    var array = [];
+    array[0] = this.ausente$.pivot.id;
+    array[1] = this.opcao;
+    //console.log(array);
+    
+    this.escalasusers.falta(array).subscribe(data => {
+      if(data == 1){
+        this.toastr.success('Informação cadastrada com sucesso!'); 
+      }
+    });
   }
 
 }

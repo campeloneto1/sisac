@@ -13,20 +13,28 @@ export class InicioService {
     return this.http.get(environment.url+"search/"+data);
   }
 
-  getPm(){
-    return this.http.get(environment.url+"inicio-getpm");
+  getQuantPms(){
+    return this.http.get(environment.url+"inicio-quantpms");
   }
 
-  getAfast(){
-    return this.http.get(environment.url+"inicio-afast");
+  getQuantAfast(){
+    return this.http.get(environment.url+"inicio-quantafast");
+  }
+
+  getQuantVeiculos(){
+    return this.http.get(environment.url+"inicio-quantveiculos");
   }
 
   getSetores(){
     return this.http.get(environment.url+"inicio-setores");
   }
 
-  getEmprestimos(){
-    return this.http.get(environment.url+"inicio-emprestimos");
+  getMateriaisEmprestimos(){
+    return this.http.get(environment.url+"inicio-materiais-emprestimos");
+  }
+
+  getVeiculosEmprestimos(){
+    return this.http.get(environment.url+"inicio-veiculos-emprestimos");
   }
 
   getTrocaOleo(){

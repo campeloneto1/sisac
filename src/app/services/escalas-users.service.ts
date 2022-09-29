@@ -17,6 +17,10 @@ export class EscalasUsersService {
     return this.http.get(environment.url+"escalas-users/"+id);
   }
 
+  falta(data:any){
+    return this.http.post(environment.url+"escalas-users-falta",data);
+  }
+
   store(data:any){
     return this.http.post(environment.url+"escalas-users",data);
   }

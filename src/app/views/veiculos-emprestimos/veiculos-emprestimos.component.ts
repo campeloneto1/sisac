@@ -170,7 +170,7 @@ export class VeiculosEmprestimosComponent implements OnInit,OnDestroy {
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
-    this.veiculos.index().subscribe(data => {
+    this.veiculos.index2().subscribe(data => {
       this.veiculos$ = data;
     }); 
 

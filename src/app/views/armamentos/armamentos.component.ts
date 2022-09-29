@@ -160,6 +160,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
     modelo_id: new FormControl(''), 
     modelo: new FormControl(''), 
     data_venc: new FormControl(''), 
+    data_baixa: new FormControl(''), 
   });
 
   formcad2 = new FormGroup({

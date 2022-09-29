@@ -26,6 +26,8 @@ export class GraduacoesComponent implements OnInit,OnDestroy {
   formcad = new FormGroup({
     id: new FormControl(''),
     nome: new FormControl(''),  
+    abreviatura: new FormControl(''),  
+    ordem: new FormControl(''),  
   });
 
   // We use this trigger because fetching the list of persons can be quite long,

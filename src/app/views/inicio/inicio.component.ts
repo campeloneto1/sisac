@@ -13,8 +13,10 @@ export class InicioComponent implements OnInit {
 
   quantpm: any;
   quantafast: any;
+  quantaveiculos: any;
   quantasetores: any;
-  emprestimos: any;
+  materiaisemprestimos: any;
+  veiculosemprestimos: any;
   trocaoleo: any;
   vencimentos: any;
 
@@ -26,20 +28,28 @@ export class InicioComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.inicio.getPm().subscribe((data) => {
+    this.inicio.getQuantPms().subscribe((data) => {
       this.quantpm = data;
     });
 
-    this.inicio.getAfast().subscribe((data) => {
+    this.inicio.getQuantAfast().subscribe((data) => {
       this.quantafast = data;
+    });
+
+    this.inicio.getQuantVeiculos().subscribe((data) => {
+      this.quantaveiculos = data;
     });
 
     this.inicio.getSetores().subscribe((data) => {
       this.quantasetores = data;
     });
 
-    this.inicio.getEmprestimos().subscribe((data) => {
-      this.emprestimos = data;
+    this.inicio.getMateriaisEmprestimos().subscribe((data) => {
+      this.materiaisemprestimos = data;
+    });
+
+    this.inicio.getVeiculosEmprestimos().subscribe((data) => {
+      this.veiculosemprestimos = data;
     });
 
     this.inicio.getTrocaOleo().subscribe((data) => {

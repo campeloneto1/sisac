@@ -92,6 +92,7 @@ export class VeiculosComponent implements OnInit, OnDestroy {
     chassi: new FormControl(''), 
     km_inicial: new FormControl(''), 
     troca_oleo: new FormControl(''), 
+    data_baixa: new FormControl(''), 
   });
 
   // We use this trigger because fetching the list of persons can be quite long,

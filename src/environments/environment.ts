@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'http://192.168.0.2:8080/apisisac/public/api/'
+  url: 'http://192.168.0.2:8080/apisisac/public/api/',
+  imagens: 'http://192.168.0.2:8080/apisisac/public/imagens/'
 };
 
 /*

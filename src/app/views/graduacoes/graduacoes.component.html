@@ -55,14 +55,18 @@
               <thead>
                 <tr>
                   <th>ID</th>                  
-                  <th>NOME</th>                                      
+                  <th>NOME</th>      
+                  <th>ABREVIATURA</th>                                  
+                  <th>ORDEM</th>  
                   <th>OPÇÕES</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let data of data$" class="hovers">
                   <td>{{ data.id }}</td>                
-                  <td>{{ data.nome }}</td>               
+                  <td>{{ data.nome }}</td>    
+                  <td>{{ data.abreviatura }}</td>           
+                  <td>{{ data.ordem }}</td>
                   <td>
                     <span class="editdata">
                       <i
@@ -114,7 +118,7 @@
                 <div class="modal-body">
                   <!--INICIO ROW 1-->
                   <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                       <div class="form-group">
                         <label for="nome"
                           >Nome<span class="text-danger">*</span></label
@@ -134,7 +138,49 @@
                           }"
                         />
                       </div>
-                    </div>                   
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label for="abreviatura"
+                          >Abreviatura<span class="text-danger">*</span></label
+                        >
+                        <input
+                          formControlName="abreviatura"
+                          required
+                          type="text"
+                          class="form-control form-control-border"
+                          id="abreviatura"
+                          placeholder="Abreviatura"
+                          [ngClass]="{
+                            'is-invalid':
+                              formcad.controls.abreviatura.invalid &&
+                              (formcad.controls.abreviatura.dirty ||
+                                formcad.controls.abreviatura.touched)
+                          }"
+                        />
+                      </div>
+                    </div> 
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label for="ordem"
+                          >Ordem<span class="text-danger">*</span></label
+                        >
+                        <input
+                          formControlName="ordem"
+                          required
+                          type="text"
+                          class="form-control form-control-border"
+                          id="ordem"
+                          placeholder="Ordem"
+                          [ngClass]="{
+                            'is-invalid':
+                              formcad.controls.ordem.invalid &&
+                              (formcad.controls.ordem.dirty ||
+                                formcad.controls.ordem.touched)
+                          }"
+                        />
+                      </div>
+                    </div>                    
                   </div>
                   <!--FIM ROW 1-->
 

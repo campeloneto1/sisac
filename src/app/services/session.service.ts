@@ -31,7 +31,11 @@ export class SessionService {
   }
 
   check() {
-    return true;
+    if (localStorage.getItem('token')) {
+      return true;
+    }else{
+      return false;
+    }
   }
 
   setSession(data: any) {

@@ -51,6 +51,7 @@
               <th>MODELO</th>
               <th>SERIAL</th>
               <th>DATA VENC.</th>
+              <th>DATA BAIXA</th>
               <th>USUÁRIOS</th>
               <th>OPÇÕES</th>
             </tr>
@@ -63,18 +64,19 @@
               <td>{{ data.modelo.nome }}</td>
               <td>{{ data.serial }}</td>
               <td>{{ data.data_venc | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ data.data_baixa | date: 'dd/MM/yyyy' }}</td>
               <td>
-                <i (click)="showUsuarios(data)" data-bs-toggle="modal" data-bs-target="#modalusu"
+                <i  (click)="showUsuarios(data)" data-bs-toggle="modal" data-bs-target="#modalusu"
                   class="right fa fa-users point" [ngClass]="
                   data.usuarios[0] ? 'text-primary' : 'text-secondary'
                 " data-toggle="tooltip" data-placement="top" title="Usuários"></i>
               </td>
               <td>
                 <span class="editdata">
-                  <i *ngIf="user.perfil.armamentos_edt" (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
+                  <i *ngIf="user.perfil.armamentos_edt && !data.data_baixa" (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
                     class="right fas fa-edit text-primary point" data-toggle="tooltip" data-placement="top"
                     title="Editar"></i>
-                  <i *ngIf="user.perfil.armamentos_del" (click)="deletar(data)" data-bs-toggle="modal" data-bs-target="#modaldel"
+                  <i *ngIf="user.perfil.armamentos_del && !data.data_baixa" (click)="deletar(data)" data-bs-toggle="modal" data-bs-target="#modaldel"
                     class="right fas fa-trash text-danger point margin5" data-toggle="tooltip" data-placement="top"
                     title="Excluir"></i>
                 </span>
@@ -145,7 +147,13 @@
                       id="data_venc" placeholder="Data Venc." />
                   </div>
                 </div>
-
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="data_baixa">Data Baixa</label>
+                    <input formControlName="data_baixa" type="date" class="form-control form-control-border"
+                      id="data_baixa" placeholder="Data Baixa" />
+                  </div>
+                </div>
               </div>
               <!--FIM ROW 1-->
 
@@ -194,12 +202,12 @@
 
     <!--INICIO MODAL USUARIOS-->
     <div class="modal fade" id="modalusu" aria-modal="true" role="dialog">
-      <div class="modal-dialog modal-xl">
+      <div class="modal-dialog modal-xl" >
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">
               Usuários
-              <button type="button" class="btn  btn-outline-primary" (click)="cadusu()">
+              <button *ngIf="armamento$ && !armamento$.data_baixa" type="button" class="btn  btn-outline-primary" (click)="cadusu()">
                 <i class="nav-icon fas fa-plus"></i>
               </button>
             </h4>

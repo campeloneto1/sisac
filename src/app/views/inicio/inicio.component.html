@@ -41,6 +41,17 @@
             </div>
           </div>
         </div>
+        <div *ngIf="user.perfil.usuarios" class="col-sm-2">
+          <div class="info-box shadow-sm">
+            <span class="info-box-icon bg-primary"
+              ><i class="fa fa-car"></i
+            ></span>
+            <div class="info-box-content">
+              <span class="info-box-text"><b>Veiculos</b></span>
+              <span class="info-box-number">{{ quantaveiculos }}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="row">
@@ -74,7 +85,42 @@
           </div>
         </div>
         <!--FIM USUARIOS POR SETOR-->
-        <!--INICIO EMPRESTIMOS-->
+        <!--INICIO MATERIAIS EMPRESTIMOS -->
+        <div *ngIf="user.perfil.materiais_emprestimos" class="col-sm-4">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Materiais Emprestados</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>                  
+                    <th>MARCA/MODELO</th>     
+                    <th>SERIAL</th> 
+                    <th>USUÁRIO</th>
+                    <th>DATA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of materiaisemprestimos" class="hovers">
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.material.marca.nome }} / {{ data.material.modelo.nome }}</td> 
+                    <td>
+                      {{ data.material.serial }}                      
+                    </td> 
+                    <td>{{ data.usuario.graduacao.abreviatura }} {{ data.usuario.numeral }} {{ data.usuario.nome_guerra }}</td> 
+                    <td>{{ data.data_saida | date:'dd/MM/yyyy' }}</td> 
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--FIM MATERIAIS EMPRESTIMOS-->
+        <!--INICIO VEICULOS EMPRESTIMOS -->
         <div *ngIf="user.perfil.veiculos_emprestimos" class="col-sm-4">
           <div class="card card-outline card-orange">
             <div class="card-header">
@@ -94,7 +140,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of emprestimos" class="hovers">
+                  <tr *ngFor="let data of veiculosemprestimos" class="hovers">
                     <td>{{ data.id }}</td>                
                     <td>{{ data.veiculo.marca.nome }} / {{ data.veiculo.modelo.nome }}</td> 
                     <td>
@@ -109,7 +155,7 @@
             </div>
           </div>
         </div>
-        <!--FIM EMPRESTIMOS-->
+        <!--FIM VEICULOS EMPRESTIMOS-->
         <!--INICIO TROCA OLEO-->
         <div *ngIf="user.perfil.veiculos" class="col-sm-4">
           <div class="card card-outline card-orange">

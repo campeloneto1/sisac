@@ -98,9 +98,9 @@
                     <span *ngIf="data3.hora_ini">({{ data3.hora_ini }} às
                       {{ data3.hora_ini }})</span>
                     <span style="float: right">
-                      <button *ngIf="user.perfil.escalas_cad && !antiga" data-bs-toggle="modal" data-bs-target="#modalusu" type="button"
-                        class="btn btn-xs btn-outline-primary noprint" (click)="getTurno(data, data2, data3)"
-                        >
+                      <button *ngIf="user.perfil.escalas_cad && !antiga" data-bs-toggle="modal"
+                        data-bs-target="#modalusu" type="button" class="btn btn-xs btn-outline-primary noprint"
+                        (click)="getTurno(data, data2, data3)">
                         <i class="nav-icon fas fa-plus"></i>
                       </button>
                     </span>
@@ -114,10 +114,16 @@
                             data3.pivot.turno_id
                           )
                         ">
-                        {{ data4.graduacao.abreviatura }}
-                        {{ data4.numeral | mask: '00.000' }}
-                        {{ data4.nome_guerra }}
-                        ({{ data4.telefone1 }})
+                        <del *ngIf="data4.pivot.ausente || data4.pivot.atestado">{{ data4.graduacao.abreviatura }}
+                          {{ data4.numeral | mask: '00.000' }}
+                          {{ data4.nome_guerra }}
+                          ({{ data4.telefone1 }}) </del>
+                        <span *ngIf="!data4.pivot.ausente && !data4.pivot.atestado">{{ data4.graduacao.abreviatura }}
+                          {{ data4.numeral | mask: '00.000' }}
+                          {{ data4.nome_guerra }}
+                          ({{ data4.telefone1 }})<i *ngIf="data4.pivot.atrasado" class="nav-icon text-warning fas fa-clock"></i></span>
+                        <i *ngIf="!data4.pivot.ausente && !data4.pivot.atrasado && !data4.pivot.atestado && user.perfil.oficial_dia && atual" style="cursor: pointer;" (click)="ausente(data4)" data-bs-toggle="modal"
+                        data-bs-target="#modalausente" class="noprint text-danger nav-icon fa fa-user-times"></i> 
                       </li>
                     </ul>
                   </td>
@@ -153,7 +159,7 @@
             </table>
 
             <br /><br /><br /><br />
-            <div class="text-center" *ngIf="subunidade$.comandante">
+            <div class="text-center" *ngIf="subunidade$ && subunidade$.comandante">
               <b>{{subunidade$.comandante.nome}}</b><br />
               Mat.: {{subunidade$.comandante.matricula | mask:'000.000-0-0'}}<br />
               Comandante da {{subunidade$.nome}} - {{subunidade$.unidade.nome}}
@@ -248,6 +254,51 @@
             </div>
           </div>
           <!--FIM MODAL USUARIOS-->
+
+          <!--INICIO MODAL AUSENTE-->
+          <div class="modal fade" id="modalausente" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">
+                    Informar Ausente/Atraso
+                    
+                  </h4>
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+
+                <div class="modal-body" *ngIf="ausente$">
+                  <h3>O policial {{ausente$.nome}} está:</h3>
+
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" [(ngModel)]="opcao" value="1" type="radio" name="opcao">
+                      <label class="form-check-label">Ausente</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" [(ngModel)]="opcao" value="2" type="radio" name="opcao" >
+                      <label class="form-check-label">Atrasado</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" [(ngModel)]="opcao" value="3" type="radio" name="opcao" >
+                      <label class="form-check-label">Apresentou Atestado Médico</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button [disabled]="!opcao" (click)="registrar()" type="button" class="btn btn-success" data-bs-dismiss="modal">
+                    Confirmar
+                  </button>
+                  <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                    Fechar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--FIM MODAL AUSENTE-->
         </div>
       </td>
     </tr>

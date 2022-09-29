@@ -28,20 +28,21 @@
         <div class="col-md-3">
           <div class="card card-orange card-outline">
             <div class="card-body box-profile">
-              <!--<div class="text-center">
+              <div class="text-center">
                   <img
+                    *ngIf="data$.foto"
                     class="profile-user-img img-fluid img-circle"
-                    src="../../dist/img/user4-128x128.jpg"
-                    alt="User profile picture"
+                    src="{{url+data$.foto}}"
+                    alt="{{data$.nome_guerra}}"
                   />
-                </div>-->
+                </div>
               <h3 class="profile-username text-center">{{ data$.nome }}</h3>
               <p class="text-muted text-center">
                 {{ data$.graduacao.abreviatura }}
                 {{ data$.numeral | mask: "00.000" }}
                 {{ data$.nome_guerra }}
               </p>
-             
+
               <ul class="list-group list-group-unbordered mb-3">
                 <li class="list-group-item" *ngIf="data$.graduacao">
                   <b>Graduação</b>
@@ -132,14 +133,20 @@
                 <li *ngIf="user.perfil.armamentos" class="nav-item">
                   <a class="nav-link" href="#armamento" data-bs-toggle="tab">Armamentos</a>
                 </li>
+                <li *ngIf="user.perfil.materiais_emprestimos" class="nav-item">
+                  <a class="nav-link" href="#materiaisemprestimos" data-bs-toggle="tab">Emp. de Materiais</a>
+                </li>
                 <li *ngIf="user.perfil.veiculos_emprestimos" class="nav-item">
                   <a class="nav-link" href="#veiculosemprestimos" data-bs-toggle="tab">Emp. de Veículos</a>
-                </li>
+                </li>               
                 <li *ngIf="user.perfil.escalas" class="nav-item">
                   <a class="nav-link" href="#escalas" data-bs-toggle="tab">Escalas</a>
                 </li>
                 <li *ngIf="user.perfil.irsos" class="nav-item">
                   <a class="nav-link" href="#irso" data-bs-toggle="tab">Irsos</a>
+                </li>
+                <li *ngIf="user.perfil.usuarios" class="nav-item">
+                  <a class="nav-link" href="#promocoes" data-bs-toggle="tab">Promoções</a>
                 </li>
                 <li *ngIf="user.perfil.publicacoes" class="nav-item">
                   <a class="nav-link " href="#publicacoes" data-bs-toggle="tab">Publicações</a>
@@ -176,43 +183,7 @@
 
                 </div>
                 <!--FIM INFORMACOES-->
-                <!--INICIO PUBLICACOES-->
-                <div class="tab-pane" id="publicacoes">
-                  <a target="_blank" style="float: right;" [routerLink]="['/Ficha', data$.id]"><i
-                      class="right fa fa-print text-primary point" data-toggle="tooltip" data-placement="top"
-                      title="Ficha"></i></a>
-                  <table class="table table-hover text-nowrap">
-                    <thead>
-                      <tr>
-                        <th>TIPO</th>
-                        <th>DESCRIÇÃO</th>
-                        <th>BOLETIM</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="
-                            let data of data$.publicacoes
-                              | paginate
-                                : {
-                                    id: 'pagpubli',
-                                    itemsPerPage: 10,
-                                    currentPage: p
-                                  }
-                          ">
-                        <td>{{ data.tipo_publicacao.nome }}</td>
-                        <td style="max-width: 500px; text-align: justify; white-space: normal;"
-                          [innerHTML]="data.descricao"></td>
-                        <td>{{ data.boletim }}</td>
 
-                      </tr>
-                    </tbody>
-                  </table>
-
-
-                  <pagination-controls id="pagpubli" (pageChange)="p = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
-                </div>
-                <!--FIM PUBLICACOES-->
                 <!--INICIO AFASTAMENTOS-->
                 <div class="tab-pane" id="afastamentos">
                   <table class="table table-hover text-nowrap">
@@ -263,6 +234,90 @@
                     nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
                 </div>
                 <!--FIM AFASTAMENTOS-->
+                <!--INICIO ARMAMENTO-->
+                <div class="tab-pane" id="armamento">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>TIPO</th>
+                        <th>MARCA</th>
+                        <th>MODELO</th>
+                        <th>SERIAL</th>
+                        <th>DATA EMP.</th>
+                        <th>DATA DEV</th>
+                        <th>DANIFICADO</th>
+                        <th>EXTRAVIADO</th>
+                        <th>OBS.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                              let data of data$.armamentos
+                                | paginate
+                                  : {
+                                      id: 'pagarma',
+                                      itemsPerPage: 10,
+                                      currentPage: t
+                                    }
+                            ">
+                        <td>{{ data.armamento_tipo.nome }}</td>
+                        <td>{{ data.marca.nome }}</td>
+                        <td>{{ data.modelo.nome }}</td>
+                        <td>{{ data.serial }}</td>
+                        <td>{{ data.pivot.data_emp | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ data.pivot.data_dev | date: 'dd/MM/yyyy' }}</td>
+                        <td>
+                          <span *ngIf="data.pivot.danificado">Sim</span>
+                        </td>
+                        <td>
+                          <span *ngIf="data.pivot.extraviado">Sim</span>
+                        </td>
+                        <td style="max-width: 500px; white-space: normal;" [innerHTML]="data.pivot.observacoes"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <pagination-controls id="pagarma" (pageChange)="t = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                </div>
+                <!--FIM ARMAMENTO-->
+                <!--INICIO  EMPRESTIMOS MATERIAIS-->
+                <div class="tab-pane" id="materiaisemprestimos">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>MARCA/MODELO</th>
+                        <th>SERIAL</th>
+                        <th>DATA SAÍDA</th>
+                        <th>HORA SAÍDA</th>
+                        <th>DATA CHEGADA</th>
+                        <th>HORA CHEGADA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                              let data of data$.emprestimosmateriais
+                                | paginate
+                                  : {
+                                      id: 'pagempmat',
+                                      itemsPerPage: 10,
+                                      currentPage: w
+                                    }
+                            ">
+                        <td>{{ data.marca?.nome }} / {{ data.modelo.nome }}</td>
+                        <td>{{ data.serial }}</td>
+                        <td>{{ data.pivot.data_saida | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.pivot.hora_saida }}</td>
+                        <td>{{ data.pivot.data_chegada | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.pivot.hora_chegada }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <pagination-controls id="pagempmat" (pageChange)="w = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                </div>
+                <!--FIM EMPRESTIMOS MATERIAIS-->
                 <!--INICIO  EMPRESTIMOS VEICULOS-->
                 <div class="tab-pane" id="veiculosemprestimos">
                   <table class="table table-hover text-nowrap">
@@ -311,10 +366,14 @@
                   <table class="table table-hover text-nowrap">
                     <thead>
                       <tr>
+                        <th>DATA</th>
                         <th>MODALIDADE</th>
                         <th>POSTO</th>
                         <th>TURNO</th>
-                        <th>DATA</th>
+                        <th>ATRASADO</th>
+                        <th>AUSENTE</th>
+                        <th>ATESTADO</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -327,12 +386,15 @@
                                       currentPage: s
                                     }
                             ">
+                        <td><a target="_blank" [routerLink]="['/Escala', data$.id]">{{ data.escala?.data |
+                              date:'dd/MM/yyyy' }}</a></td>
+  
                         <td>{{ data.modalidade?.nome }}</td>
                         <td>{{ data.posto?.nome }}</td>
-                        <td>{{ data.turno?.nome }} ({{ data.turno?.data_ini }} às {{ data.turno?.data_fim }})</td>
-                        <td><a target="_blank" [routerLink]="['/Escala', data$.id]">{{ data.escala?.data |
-                            date:'dd/MM/yyyy' }}</a></td>
-
+                        <td>{{ data.turno?.nome }} <span *ngIf="data.turno?.data_ini">({{ data.turno?.data_ini }} às {{ data.turno?.data_fim }})</span></td>
+                        <td><span *ngIf="data.atrasado">Sim</span></td>
+                        <td><span *ngIf="data.ausente">Sim</span></td>
+                        <td><span *ngIf="data.atestado">Sim</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -349,6 +411,9 @@
                         <th>NOME</th>
                         <th>DATA</th>
                         <th>HORA</th>
+                        <th>ATRASADO</th>
+                        <th>AUSENTE</th>
+                        <th>ATESTADO</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -364,7 +429,9 @@
                         <td><a target="_blank" [routerLink]="['/Irso', data.pivot.id]">{{ data.nome }}</a></td>
                         <td>{{ data.data | date: 'dd/MM/yyyy' }}</td>
                         <td>{{ data.hora }}</td>
-
+                        <td><span *ngIf="data.pivot.atrasado">Sim</span></td>
+                        <td><span *ngIf="data.pivot.ausente">Sim</span></td>
+                        <td><span *ngIf="data.pivot.atestado">Sim</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -373,53 +440,209 @@
                     nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
                 </div>
                 <!--FIM IRSO-->
-                <!--INICIO ARMAMENTO-->
-                <div class="tab-pane" id="armamento">
+                <!--INICIO PROMOCOES-->
+                <div class="tab-pane" id="promocoes">
+                  <button *ngIf="user.perfil.usuarios_cad" data-bs-toggle="modal" data-bs-target="#modalcadpromo" style="margin-bottom: 10px;" class="btn btn-outline-primary">
+                    <i class="right fa fa-plus " data-toggle="tooltip" data-placement="top" title="Ficha"></i>
+                  </button>
+
+
                   <table class="table table-hover text-nowrap">
                     <thead>
                       <tr>
+                        <th>GRADUAÇÃO</th>
+                        <th>DATA</th>
                         <th>TIPO</th>
-                        <th>MARCA</th>
-                        <th>MODELO</th>
-                        <th>SERIAL</th>
-                        <th>DATA EMP.</th>
-                        <th>DATA DEV</th>
-                        <th>DANIFICADO</th>
-                        <th>EXTRAVIADO</th>
-                        <th>OBS.</th>
+                        <th>BOLETIM</th>
+                        <th>OPÇÕES</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="
-                              let data of data$.armamentos
-                                | paginate
-                                  : {
-                                      id: 'pagarma',
-                                      itemsPerPage: 10,
-                                      currentPage: t
-                                    }
-                            ">
-                        <td>{{ data.armamento_tipo.nome }}</td>
-                        <td>{{ data.marca.nome }}</td>
-                        <td>{{ data.modelo.nome }}</td>
-                        <td>{{ data.serial }}</td>
-                        <td>{{ data.pivot.data_emp | date: 'dd/MM/yyyy' }}</td>
-                        <td>{{ data.pivot.data_dev | date: 'dd/MM/yyyy' }}</td>
+                            let data of data$.promocoes
+                              | paginate
+                                : {
+                                    id: 'pagpromo',
+                                    itemsPerPage: 10,
+                                    currentPage: v
+                                  }
+                          " class="hovers">
+                        <td>{{ data.nome }}</td>
+                        <td>{{ data.pivot.data | date: 'dd/MM/yyyy' }}</td>
                         <td>
-                          <span *ngIf="data.pivot.danificado">Sim</span>
+                          <span *ngIf="data.pivot.tipo_id == 1">Antiguidade</span>
+                          <span *ngIf="data.pivot.tipo_id == 2">Merecimento</span>
                         </td>
+                        <td>{{ data.pivot.boletim }}</td>
                         <td>
-                          <span *ngIf="data.pivot.extraviado">Sim</span>
+                          <span class="editdata">                           
+                            <i
+                              *ngIf="user.perfil.usuarios_cad"
+                              (click)="deletpromo(data)"
+                              class="right fas fa-trash text-danger point margin5"
+                              data-toggle="tooltip" 
+                              data-placement="top" 
+                              title="Excluir"
+                            ></i>
+                          </span>
                         </td>
-                        <td style="max-width: 500px; white-space: normal;" [innerHTML]="data.pivot.observacoes"></td>
                       </tr>
                     </tbody>
                   </table>
 
-                  <pagination-controls id="pagarma" (pageChange)="t = $event" previousLabel="Anterior"
+
+                  <pagination-controls id="pagpromo" (pageChange)="v = $event" previousLabel="Anterior"
                     nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
                 </div>
-                <!--FIM ARMAMENTO-->
+
+
+                <!--INICIO MODAL CADASTRO-->
+                <div class="modal fade" id="modalcadpromo" aria-modal="true" role="dialog">
+                  <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Cadastrar Promoção</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+                      <!--FORM CADASTRO-->
+                      <form [formGroup]="formcadpromo" (ngSubmit)="salvarpromo()">
+                        <div class="modal-body">
+                          <!--INICIO ROW 1-->
+                          <div class="row">
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <label for="graduacao_id"
+                                  >Graduação<span class="text-danger">*</span></label
+                                >
+                                <select
+                                  formControlName="graduacao_id"
+                                  required
+                                  [ngClass]="{
+                                    'is-invalid':
+                                    formcadpromo.controls.graduacao_id.invalid &&
+                                      (formcadpromo.controls.graduacao_id.dirty ||
+                                      formcadpromo.controls.graduacao_id.touched)
+                                  }"
+                                  class="custom-select form-control-border"
+                                  id="graduacao_id"
+                                >
+                                  <option></option>
+                                  <option *ngFor="let data of graduacoes$" value="{{data.id}}">{{data.nome}}</option>
+                                </select>
+                              </div>
+                            </div>
+                           
+                            
+                            
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <label for="data">Data<span class="text-danger">*</span></label>
+                                <input formControlName="data" required type="date" class="form-control form-control-border"
+                                  id="data" placeholder="Data" [ngClass]="{
+                                    'is-invalid':
+                                    formcadpromo.controls.graduacao_id.invalid &&
+                                      (formcadpromo.controls.graduacao_id.dirty ||
+                                      formcadpromo.controls.graduacao_id.touched)
+                                  }" />
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <label for="tipo_id"
+                                  >Tipo<span class="text-danger">*</span></label
+                                >
+                                <select
+                                  formControlName="tipo_id"
+                                  required
+                                  [ngClass]="{
+                                    'is-invalid':
+                                    formcadpromo.controls.tipo_id.invalid &&
+                                      (formcadpromo.controls.tipo_id.dirty ||
+                                      formcadpromo.controls.tipo_id.touched)
+                                  }"
+                                  class="custom-select form-control-border"
+                                  id="tipo_id"
+                                >
+                                  <option></option>
+                                  <option value="1">Antiguidade</option>
+                                  <option value="2">Merecimento</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <label for="boletim">Boletim<span class="text-danger">*</span></label>
+                                <input formControlName="boletim" required type="text" class="form-control form-control-border"
+                                  id="boletim" placeholder="Boletim" [ngClass]="{
+                                    'is-invalid':
+                                    formcadpromo.controls.boletim.invalid &&
+                                      (formcadpromo.controls.boletim.dirty ||
+                                      formcadpromo.controls.boletim.touched)
+                                  }" />
+                              </div>
+                            </div>
+                          </div>
+                          <!--FIM ROW 1-->
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                            Cancelar
+                          </button>
+                          <button [disabled]="!formcadpromo.valid" data-bs-dismiss="modal" type="submit"
+                            class="btn btn-success">
+                            Salvar
+                          </button>
+                        </div>
+                      </form>
+                      <!--FIM FORM CADASTRO-->
+                    </div>
+                  </div>
+                </div>
+                <!--FIM MODAL CADASTRO-->
+
+
+                <!--FIM PROMOCOES-->
+                <!--INICIO PUBLICACOES-->
+                <div class="tab-pane" id="publicacoes">
+                  <a target="_blank" style="float: right;" [routerLink]="['/Ficha', data$.id]"><i
+                      class="right fa fa-print text-primary point" data-toggle="tooltip" data-placement="top"
+                      title="Ficha"></i></a>
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>TIPO</th>
+                        <th>DESCRIÇÃO</th>
+                        <th>BOLETIM</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                            let data of data$.publicacoes
+                              | paginate
+                                : {
+                                    id: 'pagpubli',
+                                    itemsPerPage: 10,
+                                    currentPage: p
+                                  }
+                          ">
+                        <td>{{ data.tipo_publicacao.nome }}</td>
+                        <td style="max-width: 500px; text-align: justify; white-space: normal;"
+                          [innerHTML]="data.descricao"></td>
+                        <td>{{ data.boletim }}</td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+                  <pagination-controls id="pagpubli" (pageChange)="p = $event" previousLabel="Anterior"
+                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                </div>
+                <!--FIM PUBLICACOES-->
+
               </div>
             </div>
           </div>

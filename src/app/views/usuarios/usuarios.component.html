@@ -61,6 +61,7 @@
                 <th>NOME</th>
                 <th>CPF</th>
                 <th>MATRÍCULA</th>
+                <th>FOTO</th>
                 <th *ngIf="user.perfil.administrador">PERFIL</th>
                 
                 <th>OPÇÕES</th>
@@ -74,8 +75,11 @@
                 <td><a [routerLink]="['/Usuario', data.id]">{{ data.nome }}</a></td>
                 <td>{{ data.cpf | mask: "000.000.000-00" }}</td>
                 <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
-                <td *ngIf="user.perfil.administrador">{{ data.perfil.nome }}</td>
-                
+                <td >
+                  <i class="fas fa-portrait point" *ngIf="user.perfil.usuarios_cad" [ngClass]="data.foto ? 'text-success' : 'text-danger'" (click)="foto(data)" data-bs-toggle="modal" data-bs-target="#modalfoto"></i>
+                  <i class="fas fa-portrait" *ngIf="!user.perfil.usuarios_cad " [ngClass]="data.foto ? 'text-success' : 'text-danger'"></i>
+                </td>
+                <td *ngIf="user.perfil.administrador">{{ data.perfil.nome }}</td>                
                 <td>
                   <span class="editdata">
                     <!--<a target="_blank" [routerLink]="['/Ficha', data.id]"><i
@@ -751,6 +755,42 @@
         </div>
       </div>
       <!--FIM MODAL DELETE-->
+
+      <!-- /.modal foto -->
+      <div class="modal fade" id="modalfoto" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog ">
+          <div class="modal-content" *ngIf="foto$">
+            <div class="modal-header">
+              <h4 class="modal-title">Cadastrar foto do usuário <b>{{foto$.nome}}</b></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            
+            <div class="modal-body text-center" >                
+              <h1 style="font-size: 90px;" *ngIf="!foto$.foto"><i class="fas fa-portrait" [ngClass]="foto$.foto ? 'text-success' : 'text-danger'" ></i></h1>
+              <img src="{{url+foto$.foto}}" *ngIf="foto$.foto" alt="user-avatar" width="120px" height="120px" class="img-circle img-fluid">
+              <form [formGroup]="cadformfoto">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="foto">Foto<span class="text-danger">*</span></label>
+                      <input type="file"  class="form-control form-control-border" accept="image/x-png,image/gif,image/jpeg" (change)="fileEvent($event)" formControlName="foto" id="foto" required >                          
+                    </div>
+                  </div>
+                </div>
+              </form>  
+            </div>
+            <div class="modal-footer ">
+            
+              <button type="button" class="btn btn-link" data-bs-dismiss="modal">Fechar</button>                  
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.fim modal foto -->
     </section>
     <!--FIM SECTION TABELA-->
   </div>

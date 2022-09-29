@@ -64,6 +64,7 @@
                     <th>PLACA ESP.</th>    
                     <th>KM ATUAL</th>  
                     <th>TROCA ÓLEO</th>  
+                    <th>DATA BAIXA</th> 
                     <th>OPÇÕES</th>
                   </tr>
                 </thead>
@@ -78,10 +79,11 @@
                     <td>{{ data.placa_esp }}</td> 
                     <td>{{ data.km_atual }}</td> 
                     <td>{{ data.troca_oleo }}</td> 
+                    <td>{{ data.data_baixa | date:'dd/MM/yyyy' }}</td> 
                     <td>
                       <span class="editdata">
                         <i
-                        *ngIf="user.perfil.veiculos_edt"
+                        *ngIf="user.perfil.veiculos_edt && !data.data_baixa"
                           (click)="editar(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#modalcad"
@@ -91,7 +93,7 @@
                           title="Editar"
                         ></i>
                         <i
-                        *ngIf="user.perfil.veiculos_del"
+                        *ngIf="user.perfil.veiculos_del && !data.data_baixa"
                           (click)="deletar(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#modaldel"
@@ -293,6 +295,25 @@
                       </div>
                     </div>
                     <!--FIM ROW 2-->
+
+                    <!--INICIO ROW 3-->
+                    <div class="row">
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label for="data_baixa"
+                            >Data Baixa</label
+                          >
+                          <input
+                            formControlName="data_baixa"                            
+                            type="date"
+                            class="form-control form-control-border"
+                            id="data_baixa"
+                            placeholder="Data Baixa"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <!--FIM ROW 3-->
   
                   </div>
                   <div class="modal-footer">
