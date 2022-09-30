@@ -54,7 +54,7 @@
               "node_modules/datatables.net-buttons/js/buttons.colVis.js",
               "node_modules/datatables.net-buttons/js/buttons.flash.js",
               "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"     
+              "node_modules/datatables.net-buttons/js/buttons.print.js"    
             ]
           },
           "configurations": {
@@ -128,9 +128,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",    
               "node_modules/admin-lte/dist/js/adminlte.js",       
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",   
-              "node_modules/bootstrap/js/dist/dropdown.js",   
-              "node_modules/bootstrap/js/dist/tooltip.js",                                   
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",                                    
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/jszip/dist/jszip.js",
@@ -141,7 +139,8 @@
               "node_modules/datatables.net-buttons/js/buttons.colVis.js",
               "node_modules/datatables.net-buttons/js/buttons.flash.js",
               "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"  
+              "node_modules/datatables.net-buttons/js/buttons.print.js"
+
             ]
           }
         },

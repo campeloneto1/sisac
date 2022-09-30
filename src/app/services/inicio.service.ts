@@ -13,12 +13,20 @@ export class InicioService {
     return this.http.get(environment.url+"search/"+data);
   }
 
+  getEscalaDia(){
+    return this.http.get(environment.url+"inicio-escaladia");
+  }
+
   getQuantPms(){
     return this.http.get(environment.url+"inicio-quantpms");
   }
 
   getQuantAfast(){
     return this.http.get(environment.url+"inicio-quantafast");
+  }
+
+  getQuantFerias(){
+    return this.http.get(environment.url+"inicio-quantferias");
   }
 
   getQuantVeiculos(){
@@ -41,7 +49,11 @@ export class InicioService {
     return this.http.get(environment.url+"inicio-trocaoleo");
   }
 
-  getVencimentos(){
-    return this.http.get(environment.url+"inicio-vencimentos");
+  getArmVencimentos(){
+    return this.http.get(environment.url+"inicio-armamentos-vencimentos");
+  }
+
+  getMatVencimentos(){
+    return this.http.get(environment.url+"inicio-materiais-vencimentos");
   }
 }

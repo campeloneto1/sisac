@@ -131,7 +131,7 @@ export class IrsosComponent implements OnInit, OnDestroy {
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
-    this.usuarios.index().subscribe(data => {
+    this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
     }); 
 

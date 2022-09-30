@@ -42,6 +42,11 @@ export class PerfisComponent implements OnInit,OnDestroy {
     armamentos_edt: new FormControl(''),   
     armamentos_del: new FormControl(''), 
 
+    armamentos_emprestimos: new FormControl(''),   
+    armamentos_emprestimos_cad: new FormControl(''),   
+    armamentos_emprestimos_edt: new FormControl(''),   
+    armamentos_emprestimos_del: new FormControl(''), 
+
     documentos: new FormControl(''),   
     documentos_cad: new FormControl(''),   
     documentos_edt: new FormControl(''),   

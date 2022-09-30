@@ -51,6 +51,9 @@
                 <th>MODELO</th>
                 <th>SERIAL</th>
                 <th>DATA VENC.</th>
+                <th>DATA BAIXA</th>
+                <th>DANIFICADO</th>
+                <th>EXTRAVIADO</th>
                 <th>OPÇÕES</th>
               </tr>
             </thead>
@@ -62,7 +65,13 @@
                 <td>{{ data.modelo.nome }}</td>
                 <td>{{ data.serial }}</td>
                 <td>{{ data.data_venc | date: 'dd/MM/yyyy' }}</td>
-               
+                <td>{{ data.data_baixa | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                  <span *ngIf="data.danificado">Sim</span>
+                </td>
+                <td>
+                    <span *ngIf="data.extraviado">Sim</span>
+                </td>
                 <td>
                   <span class="editdata">
                     <i *ngIf="user.perfil.materiais_edt" (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
@@ -97,7 +106,7 @@
               <div class="modal-body">
                 <!--INICIO ROW 1-->
                 <div class="row">
-                  <div class="col-sm-2">
+                  <div class="col-sm-3">
                     <div class="form-group">
                       <label for="material_tipo">Tipo<span class="text-danger">*</span></label>
                       <ngx-select-dropdown required [config]="config" [options]="materiaistipos$"
@@ -105,7 +114,7 @@
                       </ngx-select-dropdown>
                     </div>
                   </div>
-                  <div class="col-sm-2">
+                  <div class="col-sm-3">
                     <div class="form-group">
                       <label for="marca">Marca<span class="text-danger">*</span></label>
                       <ngx-select-dropdown required [config]="config2" [options]="marcas$" formControlName="marca"
@@ -113,7 +122,7 @@
                       </ngx-select-dropdown>
                     </div>
                   </div>
-                  <div class="col-sm-2">
+                  <div class="col-sm-3">
                     <div class="form-group">
                       <label for="modelo">Modelo<span class="text-danger">*</span></label>
                       <ngx-select-dropdown required [config]="config3" [options]="modelos$" formControlName="modelo">
@@ -127,6 +136,10 @@
                         id="serial" placeholder="Serial"  />
                     </div>
                   </div>
+                </div>
+                <!--FIM ROW 1-->
+                <!--INICIO ROW 2-->
+                <div class="row">  
                   <div class="col-sm-2">
                     <div class="form-group">
                       <label for="data_venc">Data Venc.</label>
@@ -134,9 +147,15 @@
                         id="data_venc" placeholder="Data Venc." />
                     </div>
                   </div>
-  
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="data_baixa">Data Baixa</label>
+                      <input formControlName="data_baixa" type="date" class="form-control form-control-border"
+                        id="data_baixa" placeholder="Data Baixa" />
+                    </div>
+                  </div>
                 </div>
-                <!--FIM ROW 1-->
+                <!--FIM ROW 2-->
   
               </div>
               <div class="modal-footer">

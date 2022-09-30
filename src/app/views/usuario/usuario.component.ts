@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UsuariosService } from '../../services/usuarios.service';
 import { GraduacoesService } from '../../services/graduacoes.service';
 import { UsuariosPromocoesService } from '../../services/usuarios-promocoes.service';
+import { UsuariosFeriasService } from '../../services/usuarios-ferias.service';
 import { SessionService } from '../../services/session.service';
 
 @Component({
@@ -16,6 +17,8 @@ import { SessionService } from '../../services/session.service';
 export class UsuarioComponent implements OnInit {
 
   user: any;
+
+  userid = 0;
 
   url = environment.imagens;
 
@@ -29,12 +32,19 @@ export class UsuarioComponent implements OnInit {
   u: number = 1;
   v: number = 1;
   w: number = 1;
+  x: number = 1;
 
   data$: any;
 
   graduacoes$: any;
 
-  formcadpromo = new FormGroup({
+  formcadsenha = new FormGroup({
+    id: new FormControl(''),
+    password: new FormControl(''),
+    confirm: new FormControl(''),
+  });
+
+  /*formcadpromo = new FormGroup({
     id: new FormControl(''),
     user_id: new FormControl(''),
     graduacao_id: new FormControl(''),
@@ -44,39 +54,50 @@ export class UsuarioComponent implements OnInit {
 
   });
 
+  formcadferias = new FormGroup({
+    id: new FormControl(''),
+    user_id: new FormControl(''),
+    data_ini: new FormControl(''),
+    dias: new FormControl(''),
+    boletim: new FormControl(''),
+    ano: new FormControl(''),
+
+  });*/
+
   constructor(private route: ActivatedRoute,
-    private toastr: ToastrService,
+    //private toastr: ToastrService,
     private session: SessionService,
     private router: Router,
-    private usuarios: UsuariosService,
-    private usuariospromocoes: UsuariosPromocoesService,
-    private graduacoes: GraduacoesService) {
+    private usuarios: UsuariosService
+    //private usuariospromocoes: UsuariosPromocoesService,
+    //private usuariosferias: UsuariosFeriasService,
+    //private graduacoes: GraduacoesService
+    ) {
 
-    this.user = this.session.getUser();
-    if (this.user.perfil.gestor) {
-      const routeParams = this.route.snapshot.paramMap;
-      const userid = Number(routeParams.get('id'));
-
-      this.usuarios.show(userid).subscribe(data => {
+    this.user = this.session.getUser();    
+    const routeParams = this.route.snapshot.paramMap;
+    this.userid = Number(routeParams.get('id'));
+    if(this.user.perfil.usuarios || this.userid == this.user.id){
+      this.usuarios.show(this.userid).subscribe(data => {
         this.data$ = data;
-
+  
         if(this.data$.data_ingresso){
           this.temppm = this.diff_year_month_day();
         }
         
         //this.temppm = new Date().getTime() - new Date(this.data$.data_ingresso).getTime();
         //this.temppm = new Date(this.temppm)
+        
       });
-    } else {
+    }else{
       this.router.navigate(['/Inicio']);
     }
-
   }
 
   ngOnInit(): void {
-    this.graduacoes.index().subscribe(data => {
+    /*this.graduacoes.index().subscribe(data => {
       this.graduacoes$ = data;
-    });
+    });*/
   }
 
   refresh(){
@@ -105,7 +126,34 @@ export class UsuarioComponent implements OnInit {
 
     return Math.trunc(anos)+' anos, '+Math.trunc(meses)+' meses e '+dias+' dias';
   }
+
+  
     
+  /*
+  salvarferias(){
+    this.formcadferias.controls.user_id.patchValue(this.data$.id);
+    this.usuariosferias.store(this.formcadferias.value).subscribe(data => {
+      if(data == 1){
+        this.toastr.success('Informação cadastrada com sucesso!');  
+        this.formcadferias.reset();
+
+        this.refresh();
+      }
+    });
+  }
+
+  deletferias(data:any){
+    let isExecuted = confirm("Tem certeza que deseja excluir a férias de "+data.ano+"?");
+
+    if(isExecuted){
+      this.usuariosferias.destroy(data.id).subscribe(data => {
+        if(data == 1){
+          this.refresh();             
+          this.toastr.success('Informação excluída com sucesso!');  
+        }
+      });
+    }    
+  }
 
   salvarpromo(){
     this.formcadpromo.controls.user_id.patchValue(this.data$.id);
@@ -123,13 +171,13 @@ export class UsuarioComponent implements OnInit {
     let isExecuted = confirm("Tem certeza que deseja excluir a promoção a "+data.nome+"?");
 
     if(isExecuted){
-      this.usuariospromocoes.destroy(data.pivot.id).subscribe(data => {
+      this.usuariospromocoes.destroy(data.id).subscribe(data => {
         if(data == 1){
           this.refresh();             
           this.toastr.success('Informação excluída com sucesso!');  
         }
       });
     }    
-  }
+  }*/
 
 }

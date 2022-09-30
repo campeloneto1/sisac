@@ -17,6 +17,10 @@ export class UsuariosArmamentosService {
     return this.http.get(environment.url+"usuarios-armamentos/"+id);
   }
 
+  receber(data:any){
+    return this.http.post(environment.url+"usuarios-armamentos-receber", data);
+  }
+
   store(data:any){
     return this.http.post(environment.url+"usuarios-armamentos",data);
   }

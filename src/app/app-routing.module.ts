@@ -9,6 +9,7 @@ import { AfastamentosComponent } from './views/afastamentos/afastamentos.compone
 import { AfastamentosTiposComponent } from './views/afastamentos-tipos/afastamentos-tipos.component';
 import { ArmamentoComponent } from './views/armamento/armamento.component';
 import { ArmamentosComponent } from './views/armamentos/armamentos.component';
+import { ArmamentosEmprestimosComponent } from './views/armamentos-emprestimos/armamentos-emprestimos.component';
 import { ArmamentosTiposComponent } from './views/armamentos-tipos/armamentos-tipos.component';
 import { CidadesComponent } from './views/cidades/cidades.component';
 import { CoresComponent } from './views/cores/cores.component';
@@ -18,6 +19,7 @@ import { EscalaComponent } from './views/escala/escala.component';
 import { EscalasComponent } from './views/escalas/escalas.component';
 import { EscalasModelosComponent } from './views/escalas-modelos/escalas-modelos.component';
 import { EstadosComponent } from './views/estados/estados.component';
+import { FeriasComponent } from './views/ferias/ferias.component';
 import { FichaComponent } from './views/ficha/ficha.component';
 import { GraduacoesComponent } from './views/graduacoes/graduacoes.component';
 import { IrsoComponent } from './views/irso/irso.component';
@@ -32,6 +34,7 @@ import { ModelosComponent } from './views/modelos/modelos.component';
 import { ModalidadesComponent } from './views/modalidades/modalidades.component';
 import { PaisesComponent } from './views/paises/paises.component';
 import { PerfisComponent } from './views/perfis/perfis.component';
+import { PromocoesComponent } from './views/promocoes/promocoes.component';
 import { PostosComponent } from './views/postos/postos.component';
 import { PublicacoesComponent } from './views/publicacoes/publicacoes.component';
 import { OcorrenciaComponent } from './views/ocorrencia/ocorrencia.component';
@@ -104,6 +107,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: DocumentosComponent,
   },
+
+  {
+    path: 'Emprestimos-Armamentos',
+    canActivate: [AuthGuard],
+    component: ArmamentosEmprestimosComponent,
+  },
   {
     path: 'Emprestimo-Material/:id',
     canActivate: [AuthGuard],
@@ -143,6 +152,11 @@ const routes: Routes = [
     path: 'Estados',
     canActivate: [AuthGuard],
     component: EstadosComponent,
+  },
+  {
+    path: 'Ferias',
+    canActivate: [AuthGuard],
+    component: FeriasComponent,
   },
   {
     path: 'Ficha/:id',
@@ -214,6 +228,11 @@ const routes: Routes = [
     path: 'Postos',
     canActivate: [AuthGuard],
     component: PostosComponent,
+  },
+  {
+    path: 'Promocoes',
+    canActivate: [AuthGuard],
+    component: PromocoesComponent,
   },
   {
     path: 'Publicacoes',

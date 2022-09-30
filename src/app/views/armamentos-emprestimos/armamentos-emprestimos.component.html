@@ -8,14 +8,14 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Empréstimos de Material</h1>
+            <h1>Empréstimos de Armamento</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
                 <a [routerLink]="['/Inicio']">Início</a>
               </li>
-              <li class="breadcrumb-item active">Empréstimos de Material</li>
+              <li class="breadcrumb-item active">Empréstimos de Armamento</li>
             </ol>
           </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="card-header">
           <div class="row">
             <div class="col-sm-1">
-              <button *ngIf="user.perfil.materiais_emprestimos_cad" data-bs-toggle="modal" data-bs-target="#modalcad" type="button"
+              <button *ngIf="user.perfil.armamentos_emprestimos_cad" data-bs-toggle="modal" data-bs-target="#modalcad" type="button"
                 class="btn btn-block btn-outline-primary" (click)="formcad.reset()">
                 <i class="nav-icon fas fa-plus"></i>
               </button>
@@ -46,15 +46,15 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>TIPO</th>
                 <th>MARCA/MODELO</th>
-                <th>MATERIAL</th>
+                <th>TIPO</th>
+                <th>SERIAL</th>
                 <th>USUÁRIO</th>
-                <th>DATA SAÍDA</th>
-                <th>HORA SAÍDA</th>
-                <th>DATA CHEGADA</th>
-                <th>HORA CHEGADA</th>
-                <th>DANIFICADO</th>
+                <th>DATA EMP.</th>
+                <th>HORA EMP.</th>
+                <th>DATA DEV.</th>
+                <th>HORA DEV.</th>
+                <th>DANIFICADO.</th>
                 <th>EXTRAVIADO</th>
                 <th>OPÇÕES</th>
               </tr>
@@ -62,32 +62,32 @@
             <tbody>
               <tr *ngFor="let data of data$" class="hovers">
                 <td>{{ data.id }}</td>
-                <td>{{ data.material.material_tipo.nome }}</td>
-                <td>{{ data.material.marca.nome }}/{{ data.material.modelo.nome }}</td>
-                <td>{{ data.material.serial }}</td>
-                <td><a [routerLink]="['/Usuario', data.usuario?.id]">{{ data.usuario?.nome }}</a></td>
-                <td>{{ data.data_saida | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ data.hora_saida }}</td>
-                <td>{{ data.data_chegada | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ data.hora_chegada }}</td>
+                <td>{{ data.armamento.armamento_tipo.nome }}</td>
+                <td>{{ data.armamento.marca.nome }}/{{ data.armamento.modelo.nome }}</td>
+                <td>{{ data.armamento.serial }}</td>
+                <td><a [routerLink]="['/Usuario', data.user?.id]">{{ data.user?.nome }}</a></td>
+                <td>{{ data.data_emp | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ data.hora_emp }}</td>
+                <td>{{ data.data_dev | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ data.hora_dev }}</td>
                 <td>
-                  <span *ngIf="data.danificado">Sim</span>
-              </td>
-              <td>
-                  <span *ngIf="data.extraviado">Sim</span>
-              </td>
+                    <span *ngIf="data.danificado">Sim</span>
+                </td>
+                <td>
+                    <span *ngIf="data.extraviado">Sim</span>
+                </td>
                 <td>
                   <span class="editdata">
-                    <a *ngIf="data.data_chegada" target="_blank" [routerLink]="['/Emprestimo-Material', data.id]"><i   
+                    <a *ngIf="data.data_dev" target="_blank" [routerLink]="['/Armamento', data.id]"><i   
                       class="right fa fa-print text-primary point" data-toggle="tooltip" data-placement="top"
                       title="Imprimir"></i></a>
-                    <i *ngIf="!data.data_chegada" (click)="receber(data)" data-bs-toggle="modal" data-bs-target="#modalreceb"
+                    <i *ngIf="!data.data_dev" (click)="receber(data)" data-bs-toggle="modal" data-bs-target="#modalreceb"
                       class="right fa fa-download text-primary point" data-toggle="tooltip" data-placement="top"
                       title="Receber Veículo"></i>
-                    <i *ngIf="user.perfil.materiais_emprestimos_edt && !data.data_chegada" (click)="editar(data)" data-bs-toggle="modal"
+                    <i *ngIf="user.perfil.armamentos_emprestimos_edt && !data.data_dev" (click)="editar(data)" data-bs-toggle="modal"
                       data-bs-target="#modalcad" class="right fas fa-edit text-primary point margin5"
                       data-toggle="tooltip" data-placement="top" title="Editar"></i>
-                    <i *ngIf="user.perfil.materiais_emprestimos_del" (click)="deletar(data)" data-bs-toggle="modal"
+                    <i *ngIf="user.perfil.armamentos_emprestimos_del" (click)="deletar(data)" data-bs-toggle="modal"
                       data-bs-target="#modaldel" class="right fas fa-trash text-danger point margin5"
                       data-toggle="tooltip" data-placement="top" title="Excluir"></i>
                   </span>
@@ -118,8 +118,8 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="material">Material<span class="text-danger">*</span></label>
-                      <ngx-select-dropdown [config]="config" [options]="materiais$" formControlName="material" required>
+                      <label for="armamento">Armamento<span class="text-danger">*</span></label>
+                      <ngx-select-dropdown [config]="config" [options]="armamentos$" formControlName="armamento" required>
                       </ngx-select-dropdown>
                     </div>
                   </div>
@@ -175,7 +175,7 @@
             </div>
   
             <div class="modal-body">
-              <p>Tem certeza que deseja excluir o emprestimo <b>{{excluir$?.material.serial}}</b>?</p>
+              <p>Tem certeza que deseja excluir o emprestimo <b>{{excluir$?.armamento.serial}}</b>?</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-bs-dismiss="modal">
@@ -204,24 +204,24 @@
             <form [formGroup]="formcad2" (ngSubmit)="salvarreceber()">
               <div class="modal-body">
                  <!--INICIO ROW 1-->
-                 <div class="row">
+                <div class="row">
                    
-                  <div class="col-sm-2">
-                      <div class="form-group">
-                        <label for="danificado">Danificado</label>
-                        <br />
-                        <input type="checkbox" formControlName="danificado" id="danificado" />
-                      </div>
-                    </div>
                     <div class="col-sm-2">
-                      <div class="form-group">
-                        <label for="extraviado">Extraviado</label>
-                        <br />
-                        <input type="checkbox" formControlName="extraviado" id="extraviado" />
+                        <div class="form-group">
+                          <label for="danificado">Danificado</label>
+                          <br />
+                          <input type="checkbox" formControlName="danificado" id="danificado" />
+                        </div>
                       </div>
-                    </div>
-              </div>
-              <!--FIM ROW 1-->
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label for="extraviado">Extraviado</label>
+                          <br />
+                          <input type="checkbox" formControlName="extraviado" id="extraviado" />
+                        </div>
+                      </div>
+                </div>
+                <!--FIM ROW 2-->
                 <!--INICIO ROW 2-->
                 <div class="row">
                   <div class="col-sm-12">

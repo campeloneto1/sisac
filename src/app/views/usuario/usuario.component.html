@@ -1,7 +1,7 @@
 <!--<div class="wrapper">
   <app-navbar></app-navbar>
   <app-sidebar></app-sidebar>-->
-<div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+<div class="content-wrapper" *ngIf="user && data$" style="min-height: 1604.44px">
   <section class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
@@ -29,19 +29,78 @@
           <div class="card card-orange card-outline">
             <div class="card-body box-profile">
               <div class="text-center">
-                  <img
-                    *ngIf="data$.foto"
-                    class="profile-user-img img-fluid img-circle"
-                    src="{{url+data$.foto}}"
-                    alt="{{data$.nome_guerra}}"
-                  />
-                </div>
+                <img *ngIf="data$.foto" class="profile-user-img img-fluid img-circle" src="{{url+data$.foto}}"
+                  alt="{{data$.nome_guerra}}" />
+              </div>
               <h3 class="profile-username text-center">{{ data$.nome }}</h3>
               <p class="text-muted text-center">
                 {{ data$.graduacao.abreviatura }}
                 {{ data$.numeral | mask: "00.000" }}
                 {{ data$.nome_guerra }}
               </p>
+              <p class="text-center">
+              <!--<a class="text-primary point " *ngIf="user.id == data$.id" data-bs-toggle="modal" data-bs-target="#modalsenha">Alterar senha</a>-->
+            </p>
+              <!--INICIO MODAL CADASTRO
+                <div class="modal fade" id="modalsenha" aria-modal="true" role="dialog">
+                  <div class="modal-dialog ">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Alterar senha</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+                      
+                      <form [formGroup]="formcadsenha" (ngSubmit)="alterarsenha()">
+                        <div class="modal-body">
+                         
+                          <div class="row">
+
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="password">Senha<span class="text-danger">*</span></label>
+                                <input formControlName="password" required type="password" minlength="6" class="form-control form-control-border"
+                                  id="password" placeholder="Senha" [ngClass]="{
+                                    'is-invalid':
+                                    formcadsenha.controls.password.invalid &&
+                                      (formcadsenha.controls.password.dirty ||
+                                      formcadsenha.controls.password.touched)
+                                  }" />
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="confirm">Confirmar Senha<span class="text-danger">*</span></label>
+                                <input formControlName="confirm" required type="password" minlength="6" class="form-control form-control-border"
+                                  id="confirm" placeholder="Confirmar Senha" [ngClass]="{
+                                    'is-invalid':
+                                    formcadsenha.controls.confirm.invalid &&
+                                      (formcadsenha.controls.confirm.dirty ||
+                                      formcadsenha.controls.confirm.touched)
+                                  }" />
+                              </div>
+                            </div>
+
+                          </div>
+                          
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                            Cancelar
+                          </button>
+                          <button [disabled]="!formcadsenha.valid || formcadsenha.value.password != formcadsenha.value.confirm" data-bs-dismiss="modal" type="submit"
+                            class="btn btn-success">
+                            Salvar
+                          </button>
+                        </div>
+                      </form>
+                      
+                    </div>
+                  </div>
+                </div>-->
+                <!--FIM MODAL CADASTRO-->
 
               <ul class="list-group list-group-unbordered mb-3">
                 <li class="list-group-item" *ngIf="data$.graduacao">
@@ -127,28 +186,31 @@
                 <li class="nav-item ">
                   <a class="nav-link active" href="#informacoes" data-bs-toggle="tab">Informações</a>
                 </li>
-                <li *ngIf="user.perfil.afastamentos" class="nav-item ">
+                <li *ngIf="user.perfil.afastamentos || userid == this.user.id" class="nav-item ">
                   <a class="nav-link" href="#afastamentos" data-bs-toggle="tab">Afastamentos</a>
                 </li>
-                <li *ngIf="user.perfil.armamentos" class="nav-item">
+                <li *ngIf="user.perfil.armamentos || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#armamento" data-bs-toggle="tab">Armamentos</a>
                 </li>
-                <li *ngIf="user.perfil.materiais_emprestimos" class="nav-item">
+                <li *ngIf="user.perfil.materiais_emprestimos || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#materiaisemprestimos" data-bs-toggle="tab">Emp. de Materiais</a>
                 </li>
-                <li *ngIf="user.perfil.veiculos_emprestimos" class="nav-item">
+                <li *ngIf="user.perfil.veiculos_emprestimos || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#veiculosemprestimos" data-bs-toggle="tab">Emp. de Veículos</a>
-                </li>               
-                <li *ngIf="user.perfil.escalas" class="nav-item">
+                </li>
+                <li *ngIf="user.perfil.escalas || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#escalas" data-bs-toggle="tab">Escalas</a>
                 </li>
-                <li *ngIf="user.perfil.irsos" class="nav-item">
+                <li *ngIf="user.perfil.usuarios || userid == this.user.id" class="nav-item">
+                  <a class="nav-link" href="#ferias" data-bs-toggle="tab">Férias</a>
+                </li>
+                <li *ngIf="user.perfil.irsos || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#irso" data-bs-toggle="tab">Irsos</a>
                 </li>
-                <li *ngIf="user.perfil.usuarios" class="nav-item">
+                <li *ngIf="user.perfil.usuarios || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#promocoes" data-bs-toggle="tab">Promoções</a>
                 </li>
-                <li *ngIf="user.perfil.publicacoes" class="nav-item">
+                <li *ngIf="user.perfil.publicacoes || userid == this.user.id" class="nav-item">
                   <a class="nav-link " href="#publicacoes" data-bs-toggle="tab">Publicações</a>
                 </li>
               </ul>
@@ -229,9 +291,10 @@
                       </tr>
                     </tbody>
                   </table>
-
-                  <pagination-controls id="paglts" (pageChange)="q = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="paglts" (pageChange)="q = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
                 </div>
                 <!--FIM AFASTAMENTOS-->
                 <!--INICIO ARMAMENTO-->
@@ -276,9 +339,10 @@
                       </tr>
                     </tbody>
                   </table>
-
-                  <pagination-controls id="pagarma" (pageChange)="t = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="pagarma" (pageChange)="t = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
                 </div>
                 <!--FIM ARMAMENTO-->
                 <!--INICIO  EMPRESTIMOS MATERIAIS-->
@@ -313,9 +377,10 @@
                       </tr>
                     </tbody>
                   </table>
-
-                  <pagination-controls id="pagempmat" (pageChange)="w = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="pagempmat" (pageChange)="w = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
                 </div>
                 <!--FIM EMPRESTIMOS MATERIAIS-->
                 <!--INICIO  EMPRESTIMOS VEICULOS-->
@@ -356,9 +421,10 @@
                       </tr>
                     </tbody>
                   </table>
-
-                  <pagination-controls id="pagempvei" (pageChange)="u = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="pagempvei" (pageChange)="u = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
                 </div>
                 <!--FIM EMPRESTIMOS VEICULOS-->
                 <!--INICIO ESCALAS-->
@@ -373,7 +439,7 @@
                         <th>ATRASADO</th>
                         <th>AUSENTE</th>
                         <th>ATESTADO</th>
-                        
+
                       </tr>
                     </thead>
                     <tbody>
@@ -387,22 +453,167 @@
                                     }
                             ">
                         <td><a target="_blank" [routerLink]="['/Escala', data$.id]">{{ data.escala?.data |
-                              date:'dd/MM/yyyy' }}</a></td>
-  
+                            date:'dd/MM/yyyy' }}</a></td>
+
                         <td>{{ data.modalidade?.nome }}</td>
                         <td>{{ data.posto?.nome }}</td>
-                        <td>{{ data.turno?.nome }} <span *ngIf="data.turno?.data_ini">({{ data.turno?.data_ini }} às {{ data.turno?.data_fim }})</span></td>
+                        <td>{{ data.turno?.nome }} <span *ngIf="data.turno?.data_ini">({{ data.turno?.data_ini }} às {{
+                            data.turno?.data_fim }})</span></td>
                         <td><span *ngIf="data.atrasado">Sim</span></td>
                         <td><span *ngIf="data.ausente">Sim</span></td>
                         <td><span *ngIf="data.atestado">Sim</span></td>
                       </tr>
                     </tbody>
                   </table>
-
-                  <pagination-controls id="pagesc" (pageChange)="s = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="pagesc" (pageChange)="s = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
                 </div>
                 <!--FIM ESCALAS-->
+
+
+                <!--INICIO FERIAS -->
+                <div class="tab-pane" id="ferias">
+                  <!--<button *ngIf="user.perfil.usuarios_cad" data-bs-toggle="modal" data-bs-target="#modalcadferias" style="margin-bottom: 10px;" class="btn btn-outline-primary">
+                    <i class="right fa fa-plus " data-toggle="tooltip" data-placement="top" title="Ficha"></i>
+                  </button>-->
+
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>DATA INI.</th>
+                        <th>DIAS</th>
+                        <th>DATA FIM</th>
+                        <th>DATA APTO</th>
+                        <th>ANO REF.</th>
+                        <th>BOLETIM</th>
+                        <!--<th>OPÇÕES</th>-->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                            let data of data$.ferias
+                              | paginate
+                                : {
+                                    id: 'pagferias',
+                                    itemsPerPage: 10,
+                                    currentPage: x
+                                  }
+                          " class="hovers">
+                        <td>{{ data.data_ini | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ data.dias }}</td>
+                        <td>{{ data.data_fim | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ data.apto | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ data.ano }}</td>
+                        <td>{{ data.boletim }}</td>
+                        <!--<td>
+                          <span class="editdata">
+                            <i *ngIf="user.perfil.usuarios_cad" (click)="deletferias(data)"
+                              class="right fas fa-trash text-danger point margin5" data-toggle="tooltip"
+                              data-placement="top" title="Excluir"></i>
+                          </span>
+                        </td>-->
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="pagferias" (pageChange)="x = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
+
+                </div>
+
+
+                <!--INICIO MODAL CADASTRO
+                <div class="modal fade" id="modalcadferias" aria-modal="true" role="dialog">
+                  <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Cadastrar Férias</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+                      
+                      <form [formGroup]="formcadferias" (ngSubmit)="salvarferias()">
+                        <div class="modal-body">
+                         
+                          <div class="row">
+
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <label for="data_ini">Data Ini<span class="text-danger">*</span></label>
+                                <input formControlName="data_ini" required type="date" class="form-control form-control-border"
+                                  id="data_ini" placeholder="Data" [ngClass]="{
+                                    'is-invalid':
+                                    formcadferias.controls.data_ini.invalid &&
+                                      (formcadferias.controls.data_ini.dirty ||
+                                      formcadferias.controls.data_ini.touched)
+                                  }" />
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <label for="dias">Dias<span class="text-danger">*</span></label>
+                                <input formControlName="dias" required type="number" min="1" max="30" class="form-control form-control-border"
+                                  id="dias" placeholder="Dias" [ngClass]="{
+                                    'is-invalid':
+                                    formcadferias.controls.dias.invalid &&
+                                      (formcadferias.controls.dias.dirty ||
+                                      formcadferias.controls.dias.touched)
+                                  }" />
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <label for="ano">Ano Ref.<span class="text-danger">*</span></label>
+                                <input formControlName="ano" required type="number" class="form-control form-control-border"
+                                  id="ano" placeholder="Ano Ref." [ngClass]="{
+                                    'is-invalid':
+                                    formcadferias.controls.ano.invalid &&
+                                      (formcadferias.controls.ano.dirty ||
+                                      formcadferias.controls.ano.touched)
+                                  }" />
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <label for="boletim">Boletim<span class="text-danger">*</span></label>
+                                <input formControlName="boletim" required type="text" class="form-control form-control-border"
+                                  id="boletim" placeholder="Boletim" [ngClass]="{
+                                    'is-invalid':
+                                    formcadferias.controls.boletim.invalid &&
+                                      (formcadferias.controls.boletim.dirty ||
+                                      formcadferias.controls.boletim.touched)
+                                  }" />
+                              </div>
+                            </div>
+                          </div>
+                          
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                            Cancelar
+                          </button>
+                          <button [disabled]="!formcadferias.valid" data-bs-dismiss="modal" type="submit"
+                            class="btn btn-success">
+                            Salvar
+                          </button>
+                        </div>
+                      </form>
+                      
+                    </div>
+                  </div>
+                </div>-->
+                <!--FIM MODAL CADASTRO-->
+
+
+                <!--FIM FERIAS-->
+
+
                 <!--INICIO IRSO-->
                 <div class="tab-pane" id="irso">
                   <table class="table table-hover text-nowrap">
@@ -435,16 +646,17 @@
                       </tr>
                     </tbody>
                   </table>
-
-                  <pagination-controls id="pagirso" (pageChange)="r = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="pagirso" (pageChange)="r = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
                 </div>
                 <!--FIM IRSO-->
                 <!--INICIO PROMOCOES-->
                 <div class="tab-pane" id="promocoes">
-                  <button *ngIf="user.perfil.usuarios_cad" data-bs-toggle="modal" data-bs-target="#modalcadpromo" style="margin-bottom: 10px;" class="btn btn-outline-primary">
+                  <!--<button *ngIf="user.perfil.usuarios_cad" data-bs-toggle="modal" data-bs-target="#modalcadpromo" style="margin-bottom: 10px;" class="btn btn-outline-primary">
                     <i class="right fa fa-plus " data-toggle="tooltip" data-placement="top" title="Ficha"></i>
-                  </button>
+                  </button>-->
 
 
                   <table class="table table-hover text-nowrap">
@@ -454,7 +666,7 @@
                         <th>DATA</th>
                         <th>TIPO</th>
                         <th>BOLETIM</th>
-                        <th>OPÇÕES</th>
+                        <!--<th>OPÇÕES</th>-->
                       </tr>
                     </thead>
                     <tbody>
@@ -474,29 +686,25 @@
                           <span *ngIf="data.pivot.tipo_id == 2">Merecimento</span>
                         </td>
                         <td>{{ data.pivot.boletim }}</td>
-                        <td>
-                          <span class="editdata">                           
-                            <i
-                              *ngIf="user.perfil.usuarios_cad"
-                              (click)="deletpromo(data)"
-                              class="right fas fa-trash text-danger point margin5"
-                              data-toggle="tooltip" 
-                              data-placement="top" 
-                              title="Excluir"
-                            ></i>
+                        <!--<td>
+                          <span class="editdata">
+                            <i *ngIf="user.perfil.usuarios_cad" (click)="deletpromo(data)"
+                              class="right fas fa-trash text-danger point margin5" data-toggle="tooltip"
+                              data-placement="top" title="Excluir"></i>
                           </span>
-                        </td>
+                        </td>-->
                       </tr>
                     </tbody>
                   </table>
 
-
-                  <pagination-controls id="pagpromo" (pageChange)="v = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="pagpromo" (pageChange)="v = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
                 </div>
 
 
-                <!--INICIO MODAL CADASTRO-->
+                <!--INICIO MODAL CADASTRO
                 <div class="modal fade" id="modalcadpromo" aria-modal="true" role="dialog">
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -506,10 +714,10 @@
                           <span aria-hidden="true">×</span>
                         </button>
                       </div>
-                      <!--FORM CADASTRO-->
+                      
                       <form [formGroup]="formcadpromo" (ngSubmit)="salvarpromo()">
                         <div class="modal-body">
-                          <!--INICIO ROW 1-->
+                      
                           <div class="row">
                             <div class="col-sm-2">
                               <div class="form-group">
@@ -542,9 +750,9 @@
                                 <input formControlName="data" required type="date" class="form-control form-control-border"
                                   id="data" placeholder="Data" [ngClass]="{
                                     'is-invalid':
-                                    formcadpromo.controls.graduacao_id.invalid &&
-                                      (formcadpromo.controls.graduacao_id.dirty ||
-                                      formcadpromo.controls.graduacao_id.touched)
+                                    formcadpromo.controls.data.invalid &&
+                                      (formcadpromo.controls.data.dirty ||
+                                      formcadpromo.controls.data.touched)
                                   }" />
                               </div>
                             </div>
@@ -584,7 +792,7 @@
                               </div>
                             </div>
                           </div>
-                          <!--FIM ROW 1-->
+                        
 
                         </div>
                         <div class="modal-footer">
@@ -597,10 +805,10 @@
                           </button>
                         </div>
                       </form>
-                      <!--FIM FORM CADASTRO-->
+                   
                     </div>
                   </div>
-                </div>
+                </div>-->
                 <!--FIM MODAL CADASTRO-->
 
 
@@ -637,9 +845,10 @@
                     </tbody>
                   </table>
 
-
-                  <pagination-controls id="pagpubli" (pageChange)="p = $event" previousLabel="Anterior"
-                    nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  <div style="width: 100%; text-align: center; ">
+                    <pagination-controls id="pagpubli" (pageChange)="p = $event" previousLabel="Anterior"
+                      nextLabel="Próximo" screenReaderCurrentLabel="Você está na página"></pagination-controls>
+                  </div>
                 </div>
                 <!--FIM PUBLICACOES-->
 

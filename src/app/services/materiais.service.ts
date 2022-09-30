@@ -13,6 +13,10 @@ export class MateriaisService {
     return this.http.get(environment.url+"materiais");
   }
 
+  index2(){
+    return this.http.get(environment.url+"materiais2");
+  }
+
   show(id:number){
     return this.http.get(environment.url+"materiais/"+id);
   }

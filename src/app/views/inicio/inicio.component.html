@@ -43,12 +43,34 @@
         </div>
         <div *ngIf="user.perfil.usuarios" class="col-sm-2">
           <div class="info-box shadow-sm">
+            <span class="info-box-icon bg-danger"
+              ><i class="fa fa-map"></i
+            ></span>
+            <div class="info-box-content">
+              <span class="info-box-text"><b>Férias</b></span>
+              <span class="info-box-number">{{ quantferias }}</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="user.perfil.usuarios" class="col-sm-2">
+          <div class="info-box shadow-sm">
             <span class="info-box-icon bg-primary"
               ><i class="fa fa-car"></i
             ></span>
             <div class="info-box-content">
               <span class="info-box-text"><b>Veiculos</b></span>
               <span class="info-box-number">{{ quantaveiculos }}</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="user.perfil.oficial_dia" class="col-sm-2">
+          <div class="info-box shadow-sm">
+            <span class="info-box-icon bg-success"
+              ><i class=" fa fa-calendar"></i
+            ></span>
+            <div class="info-box-content">
+              <span class="info-box-text"><b>Escala do dia</b></span>
+              <span class="info-box-number"><a target="_blank" [routerLink]="['/Escala', escaladia[0].id]">{{ escaladia[0].codigo }}/{{ escaladia[0].created_at | date: 'yyyy' }}</a></span>
             </div>
           </div>
         </div>
@@ -196,7 +218,7 @@
         </div>
         <!--FIM TROCA OLEO-->
 
-        <!--INICIO VENCIMENTOS-->
+        <!--INICIO ARMAMENTOS VENCIMENTOS-->
         <div *ngIf="user.perfil.veiculos" class="col-sm-4">
           <div class="card card-outline card-orange">
             <div class="card-header">
@@ -216,7 +238,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of vencimentos" class="hovers">
+                  <tr *ngFor="let data of armamentosvencimentos" class="hovers">
                     <td>{{ data.id }}</td>                
                     <td>{{ data.marca.nome }}</td> 
                     <td>{{ data.modelo.nome }}</td> 
@@ -228,7 +250,41 @@
             </div>
           </div>
         </div>
-        <!--FIM VENCIMENTOS-->
+        <!--FIM ARMAMENTOS VENCIMENTOS-->
+
+        <!--INICIO MATERIAIS VENCIMENTOS-->
+        <div *ngIf="user.perfil.veiculos" class="col-sm-4">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Materiais Próximos do Vencimento</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>                  
+                    <th>MARCA</th>     
+                    <th>MODELO</th> 
+                    <th>SERIAL</th> 
+                    <th>DATA VENC.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of materiaisvencimentos" class="hovers">
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.marca.nome }}</td> 
+                    <td>{{ data.modelo.nome }}</td> 
+                    <td>{{ data.serial }}</td> 
+                    <td>{{ data.data_venc | date:'dd/MM/yyyy' }}</td> 
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--FIM MATERIAIS VENCIMENTOS-->
       </div>
     </section>
   </div>

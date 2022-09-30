@@ -52,7 +52,9 @@
               <th>SERIAL</th>
               <th>DATA VENC.</th>
               <th>DATA BAIXA</th>
-              <th>USUÁRIOS</th>
+              <th>DANIFICADO</th>
+                <th>EXTRAVIADO</th>
+              <!--<th>USUÁRIOS</th>-->
               <th>OPÇÕES</th>
             </tr>
           </thead>
@@ -66,11 +68,17 @@
               <td>{{ data.data_venc | date: 'dd/MM/yyyy' }}</td>
               <td>{{ data.data_baixa | date: 'dd/MM/yyyy' }}</td>
               <td>
+                <span *ngIf="data.danificado">Sim</span>
+              </td>
+              <td>
+                  <span *ngIf="data.extraviado">Sim</span>
+              </td>
+              <!--<td>
                 <i  (click)="showUsuarios(data)" data-bs-toggle="modal" data-bs-target="#modalusu"
                   class="right fa fa-users point" [ngClass]="
                   data.usuarios[0] ? 'text-primary' : 'text-secondary'
                 " data-toggle="tooltip" data-placement="top" title="Usuários"></i>
-              </td>
+              </td>-->
               <td>
                 <span class="editdata">
                   <i *ngIf="user.perfil.armamentos_edt && !data.data_baixa" (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"

@@ -174,7 +174,7 @@ export class VeiculosEmprestimosComponent implements OnInit,OnDestroy {
       this.veiculos$ = data;
     }); 
 
-    this.usuarios.index().subscribe(data => {
+    this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
     });
     

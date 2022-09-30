@@ -28,7 +28,7 @@
   </ul>
 
   <ul class="navbar-nav ml-auto">
-    <li class="nav-item">
+    <!--<li class="nav-item">
       <a class="nav-link" data-widget="navbar-search" href="#" role="button">
         <i class="fas fa-search"></i>
       </a>
@@ -58,17 +58,17 @@
         </form>
       </div>
     </li>
-
+    
     <li class="nav-item dropdown">
-      <a class="nav-link" data-bs-toggle="dropdown" href="#">
+      <a (click)="showmenu2()" class="nav-link" data-bs-toggle="dropdown" [ngClass]="{ 'show': menu2 == true }" href="#">
         <i class="far fa-bell"></i>
         <span class="badge badge-warning navbar-badge">15</span>
       </a>
-      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" [ngClass]="{ 'show': menu2 == true }">
         <span class="dropdown-item dropdown-header">15 Notifications</span>
         <div class="dropdown-divider"></div>
         <a href="#" class="dropdown-item">
-          <i class="fas fa-envelope mr-2"></i> 4 new messages
+          <i class="fas fa-envelope mr-2"></i> 4 new messagesasd  das d  sdda dasd ds s
           <span class="float-right text-muted text-sm">3 mins</span>
         </a>
         <div class="dropdown-divider"></div>
@@ -87,18 +87,26 @@
         >
       </div>
     </li>
+    
+    <li class="nav-item">
+      <a [routerLink]="['/Usuario', user.id]" [routerLinkActive]="['active']" class="nav-link"  title="Perfil" role="button">
+        <i class="fas fa-user"></i>
+      </a>
+    </li>
     <li class="nav-item">
       <a class="nav-link" (click)="logout()" title="Logout" role="button">
         <i class="fas fa-sign-out"></i>
       </a>
-    </li>
+    </li>-->
    
-    <!--<li class="nav-item dropdown user-menu">
-      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-target="#dropmenu" aria-expanded="false">
+    
+    <li class="nav-item dropdown user-menu">
+      <a (click)="showmenu()" href="#" class="nav-link dropdown-toggle " [ngClass]="{ 'show': menu == true }" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="../../../assets/casamil.png" class="user-image img-circle elevation-2" alt="User Image">        
         <span class="d-none d-md-inline">{{user?.nome}}</span>
       </a>
-      <ul id="dropmenu" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+    
+      <ul  class="dropdown-menu dropdown-menu-lg dropdown-menu-right " [ngClass]="{ 'show': menu == true }">
         
         <li class="user-header bg-olive">
           <img src="../../../assets/casamil.png" class="img-circle elevation-2" alt="User Image">
@@ -113,7 +121,7 @@
           <div class="row">
             
             <div class="col-12 text-center">
-              <a data-toggle="modal" data-target="#modalpass" class="point">Alterar senha</a>
+              <a data-bs-toggle="modal" data-bs-target="#modalsenha" class="point">Alterar senha</a>
             </div>
             
           </div>
@@ -121,11 +129,11 @@
         </li>
        
         <li class="user-footer">
-          <a [routerLink]="['/perfil']" class="btn btn-default btn-flat">Perfil</a>
+          <a [routerLink]="['/Usuario', user.id]" class="btn btn-default btn-flat">Perfil</a>
           <a (click)="logout()" class="btn btn-default btn-flat float-right">Sair</a>
         </li>
       </ul>
-    </li>-->
+    </li>
     <!--
     <li class="nav-item">
       <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -145,3 +153,62 @@
     </li>-->
   </ul>
 </nav>
+
+<div class="modal fade" id="modalsenha" aria-modal="true" role="dialog">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Alterar senha</h4>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      
+      <form [formGroup]="formcadsenha" (ngSubmit)="alterarsenha()">
+        <div class="modal-body">
+         
+          <div class="row">
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="password">Senha<span class="text-danger">*</span></label>
+                <input formControlName="password" required type="password" minlength="6" class="form-control form-control-border"
+                  id="password" placeholder="Senha" [ngClass]="{
+                    'is-invalid':
+                    formcadsenha.controls.password.invalid &&
+                      (formcadsenha.controls.password.dirty ||
+                      formcadsenha.controls.password.touched)
+                  }" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="confirm">Confirmar Senha<span class="text-danger">*</span></label>
+                <input formControlName="confirm" required type="password" minlength="6" class="form-control form-control-border"
+                  id="confirm" placeholder="Confirmar Senha" [ngClass]="{
+                    'is-invalid':
+                    formcadsenha.controls.confirm.invalid &&
+                      (formcadsenha.controls.confirm.dirty ||
+                      formcadsenha.controls.confirm.touched)
+                  }" />
+              </div>
+            </div>
+
+          </div>
+          
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+          <button [disabled]="!formcadsenha.valid || formcadsenha.value.password != formcadsenha.value.confirm" data-bs-dismiss="modal" type="submit"
+            class="btn btn-success">
+            Salvar
+          </button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>

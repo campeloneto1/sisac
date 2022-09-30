@@ -224,10 +224,10 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
     this.armamentostipos.index().subscribe(data => {
       this.armamentostipos$ = data;
     });
-
-    this.usuarios.index().subscribe(data => {
+    /*
+    this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
-    });
+    });*/
   }
 
   ngOnDestroy(): void {

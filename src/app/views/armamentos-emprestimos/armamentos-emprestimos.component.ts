@@ -7,15 +7,16 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Router } from '@angular/router';
 import { SessionService } from '../../services/session.service';
 
-import { MateriaisService } from '../../services/materiais.service';
+import { ArmamentosService } from '../../services/armamentos.service';
 import { UsuariosService } from '../../services/usuarios.service';
-import { MateriaisEmprestimosService } from '../../services/materiais-emprestimos.service';
+import { UsuariosArmamentosService } from '../../services/usuarios-armamentos.service';
+
 @Component({
-  selector: 'app-materiais-emprestimos',
-  templateUrl: './materiais-emprestimos.component.html',
-  styleUrls: ['./materiais-emprestimos.component.css']
+  selector: 'app-armamentos-emprestimos',
+  templateUrl: './armamentos-emprestimos.component.html',
+  styleUrls: ['./armamentos-emprestimos.component.css']
 })
-export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
+export class ArmamentosEmprestimosComponent implements OnInit {
 
   p = 1;
 
@@ -24,25 +25,21 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
   dtOptions: any = {};
 
   data$: any;
-  materiais$: any;
+  armamentos$: any;
   usuarios$: any;
 
   excluir$: any;
 
   config = {
     displayFn:(item: any) => { 
-        if(item.serial){
-          return item.material_tipo.nome+' - '+item.serial+' ('+item.marca.nome+'/'+item.modelo.nome+')'; 
-        }else{
-          return item.material_tipo.nome+' ('+item.marca.nome+'/'+item.modelo.nome+')'; 
-        }
-        
+      
+        return item.armamento_tipo.nome+' - '+item.serial+' ('+item.marca.nome+'/'+item.modelo.nome+')'; 
       
     } ,//to support flexible text displaying for each item
     displayKey:"nome", //if objects array passed which key to be displayed defaults to description
     search:true, //true/false for the search functionlity defaults to false,
     height: '200px', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
-    placeholder:'Material', // text to be displayed when no item is selected defaults to Select,
+    placeholder:'Armamento', // text to be displayed when no item is selected defaults to Select,
     customComparator: ()=>{}, // a custom function using which user wants to sort the items. default is undefined and Array.sort() will be used in that case,
     limitTo: 0, // number thats limits the no of options displayed in the UI (if zero, options will not be limited)
     moreText: 'mais', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
@@ -116,22 +113,23 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
 
   formcad = new FormGroup({
     id: new FormControl(''),
-    material_id: new FormControl(''),
-    material: new FormControl(''),  
+    armamento_id: new FormControl(''),
+    armamento: new FormControl(''),  
     user_id: new FormControl(''), 
     user: new FormControl(''), 
-    data_saida: new FormControl(''), 
-    hora_saida: new FormControl(''), 
+    quant: new FormControl(''), 
+    data_emp: new FormControl(''), 
+    hora_emp: new FormControl(''), 
     observacoes: new FormControl(''), 
   });
 
   formcad2 = new FormGroup({
     id: new FormControl(''),
-    data_chegada: new FormControl(''), 
-    hora_chegada: new FormControl(''), 
+    data_dev: new FormControl(''), 
+    hora_dev: new FormControl(''), 
+    armamento_id: new FormControl(''), 
     danificado: new FormControl(''), 
     extraviado: new FormControl(''), 
-    material_id: new FormControl(''), 
     observacoes: new FormControl(''), 
   });
 
@@ -143,13 +141,13 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private session: SessionService,
     private router: Router,
-    private materiaisemprestimos: MateriaisEmprestimosService,
-    private materiais: MateriaisService,
+    private armamentosemprestimos: UsuariosArmamentosService,
+    private armamentos: ArmamentosService,
     private usuarios: UsuariosService) { 
 
         this.user = this.session.getUser();
-        if(this.user.perfil.veiculos_emprestimos){
-          this.materiaisemprestimos.index().subscribe(data => {
+        if(this.user.perfil.armamentos_emprestimos){
+          this.armamentosemprestimos.index().subscribe(data => {
             this.data$ = data;
             this.dtTrigger.next();
           }); 
@@ -171,8 +169,8 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
-    this.materiais.index2().subscribe(data => {
-      this.materiais$ = data;
+    this.armamentos.index2().subscribe(data => {
+      this.armamentos$ = data;
     }); 
 
     this.usuarios.index2().subscribe(data => {
@@ -187,7 +185,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
   }
 
   refresh(){
-    this.materiaisemprestimos.index().subscribe(data => {
+    this.armamentosemprestimos.index().subscribe(data => {
       this.data$ = data;
     }); 
   }
@@ -199,12 +197,12 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
 
   salvar(){
     //@ts-ignore
-    this.formcad.controls.material_id.patchValue(this.formcad.value.material.id);
+    this.formcad.controls.armamento_id.patchValue(this.formcad.value.armamento.id);
     //@ts-ignore
     this.formcad.controls.user_id.patchValue(this.formcad.value.user.id);
     if(this.formcad.value.id){
       //@ts-ignore
-      this.materiaisemprestimos.update(this.formcad.value, this.formcad.value.id).subscribe(data => {
+      this.armamentosemprestimos.update(this.formcad.value, this.formcad.value.id).subscribe(data => {
         if(data == 1){
           this.refresh();
           this.formcad.reset();
@@ -212,7 +210,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
         }
       });
     }else{
-      this.materiaisemprestimos.store(this.formcad.value).subscribe(data => {
+      this.armamentosemprestimos.store(this.formcad.value).subscribe(data => {
         if(data == 1){
           this.refresh();
           this.formcad.reset();
@@ -227,7 +225,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
   }
 
   confirm(){
-    this.materiaisemprestimos.destroy(this.excluir$.id).subscribe(data => {
+    this.armamentosemprestimos.destroy(this.excluir$.id).subscribe(data => {
       if(data == 1){
         this.refresh();    
         this.toastr.success('Informação excluída com sucesso!');  
@@ -240,7 +238,8 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
   }
 
   salvarreceber(){
-    this.materiaisemprestimos.receber(this.formcad2.value).subscribe(data => {
+    
+    this.armamentosemprestimos.receber(this.formcad2.value).subscribe(data => {
       if(data == 1){
         this.formcad2.reset();
         this.refresh();    

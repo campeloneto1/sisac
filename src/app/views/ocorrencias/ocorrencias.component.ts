@@ -122,7 +122,7 @@ export class OcorrenciasComponent implements OnInit,OnDestroy {
       this.tiposocorrencias$ = data;
     }); 
 
-    this.escalas.index().subscribe(data => {
+    this.escalas.index2().subscribe(data => {
       this.escalas$ = data;
     }); 
   }

@@ -106,7 +106,7 @@ private router: Router,
       
       this.user = this.session.getUser();
       if(this.user.perfil.administrador){
-        this.usuarios.index().subscribe((data) => {
+        this.usuarios.index2().subscribe((data) => {
           this.usuarios$ = data;
         });
       }else{
@@ -267,6 +267,7 @@ private router: Router,
     this.escalasusers.falta(array).subscribe(data => {
       if(data == 1){
         this.toastr.success('Informação cadastrada com sucesso!'); 
+        this.refresh();
       }
     });
   }

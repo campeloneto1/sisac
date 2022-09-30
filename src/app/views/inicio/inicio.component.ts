@@ -11,14 +11,17 @@ export class InicioComponent implements OnInit {
 
   user: any;
 
+  escaladia: any;
   quantpm: any;
   quantafast: any;
+  quantferias: any;
   quantaveiculos: any;
   quantasetores: any;
   materiaisemprestimos: any;
   veiculosemprestimos: any;
   trocaoleo: any;
-  vencimentos: any;
+  armamentosvencimentos: any;
+  materiaisvencimentos: any;
 
   constructor(private session: SessionService,
     private inicio: InicioService) {
@@ -28,12 +31,20 @@ export class InicioComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.inicio.getEscalaDia().subscribe((data) => {
+      this.escaladia = data;
+    });
+
     this.inicio.getQuantPms().subscribe((data) => {
       this.quantpm = data;
     });
 
     this.inicio.getQuantAfast().subscribe((data) => {
       this.quantafast = data;
+    });
+
+    this.inicio.getQuantFerias().subscribe((data) => {
+      this.quantferias = data;
     });
 
     this.inicio.getQuantVeiculos().subscribe((data) => {
@@ -56,8 +67,12 @@ export class InicioComponent implements OnInit {
       this.trocaoleo = data;
     });
 
-    this.inicio.getVencimentos().subscribe((data) => {
-      this.vencimentos = data;
+    this.inicio.getArmVencimentos().subscribe((data) => {
+      this.armamentosvencimentos = data;
+    });
+
+    this.inicio.getMatVencimentos().subscribe((data) => {
+      this.materiaisvencimentos = data;
     });
   }
 }

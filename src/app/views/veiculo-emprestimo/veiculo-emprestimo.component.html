@@ -2,7 +2,7 @@
     <img src="../../../assets/cabecalho.png" class="cabecalho" />
     <br />
     <h4>
-      Emprestimo de veículo Nº {{ data$.id }}
+      Empréstimo de Veículo Nº {{ data$.id }}
       - {{ data$.subunidade.abreviatura }}
     </h4>
   </div>
@@ -69,7 +69,7 @@
               <img src="../../../assets/cabecalho.png" class="cabecalho" />
               <br />
               <h4>
-                Emprestimo de veículo Nº {{ data$.id }}
+                Empréstimo de Veículo Nº {{ data$.id }}
       - {{ data$.subunidade.abreviatura }}
               </h4>
             </div>
@@ -86,10 +86,22 @@
                 <div class="col-sm-3">
                     <b>Placa:</b> {{data$.veiculo.placa}}
                 </div>
-                <div class="col-sm-6">
-                    <b>Usuário:</b> {{data$.usuario.nome}} ({{data$.usuario.matricula | mask:'000.000-0-0'}})
-                </div>
+                <div *ngIf="data$.veiculo.placa_esp" class="col-sm-3">
+                  <b>Placa Esp.:</b> {{data$.veiculo.placa_esp}}
+              </div>
+                <div class="col-sm-3">
+                  <b>Cor:</b> {{data$.veiculo.cor.nome}}
+              </div>
             </div>
+            <div class="row">
+              <div class="col-sm-4">
+                  <b>Usuário:</b> {{data$.usuario.nome}}
+              </div>
+              <div class="col-sm-3">
+                  <b>Matrícula:</b> {{data$.usuario.matricula | mask: '000.000-0-0'}}
+              </div>
+              
+          </div>
             <div class="row">
                 <div class="col-sm-3">
                     <b>Data Saída:</b> {{data$.data_saida | date:'dd/MM/yyyy'}}

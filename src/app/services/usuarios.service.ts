@@ -13,8 +13,20 @@ export class UsuariosService {
     return this.http.get(environment.url+"usuarios");
   }
 
+  index2(){
+    return this.http.get(environment.url+"usuarios2");
+  }
+
   show(id:number){
     return this.http.get(environment.url+"usuarios/"+id);
+  }
+
+  changepass(data:any){
+    return this.http.post(environment.url+"usuarios-changepass",data);
+  }
+
+  resetpass(id:number){
+    return this.http.get(environment.url+"usuarios-resetpass/"+id);
   }
 
   store(data:any){

@@ -2,7 +2,7 @@
     <img src="../../../assets/cabecalho.png" class="cabecalho" />
     <br />
     <h4>
-      Emprestimo de material Nº {{ data$.id }}
+      Empréstimo de Material Nº {{ data$.id }}
       - {{ data$.subunidade.abreviatura }}
     </h4>
   </div>
@@ -69,7 +69,7 @@
               <img src="../../../assets/cabecalho.png" class="cabecalho" />
               <br />
               <h4>
-                Emprestimo de material Nº {{ data$.id }}
+                Empréstimo de Material Nº {{ data$.id }}
       - {{ data$.subunidade.abreviatura }}
               </h4>
             </div>
@@ -80,16 +80,25 @@
             </h5>
             <br /><br />
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-2">
+                  <b>Tipo:</b> {{data$.material.material_tipo.nome}}
+                </div>
+                <div class="col-sm-4">
                     <b>Marca/Modelo:</b> {{data$.material.marca.nome}}/{{data$.material.modelo.nome}}
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <b>Serial:</b> {{data$.material.placa}}
                 </div>
-                <div class="col-sm-6">
-                    <b>Usuário:</b> {{data$.usuario.nome}} ({{data$.usuario.matricula | mask:'000.000-0-0'}})
-                </div>
+                
             </div>
+            <div class="row">
+              <div class="col-sm-4">
+                  <b>Usuário:</b> {{data$.usuario.nome}}
+              </div>
+              <div class="col-sm-3">
+                  <b>Matrícula:</b> {{data$.usuario.matricula | mask: '000.000-0-0'}}
+              </div>              
+          </div>
             <div class="row">
                 <div class="col-sm-3">
                     <b>Data Saída:</b> {{data$.data_saida | date:'dd/MM/yyyy'}}
@@ -105,8 +114,11 @@
                 </div>
                 <div class="col-sm-3">
                     <b>Hora Chegada:</b> {{data$.hora_chegada}}
-                </div>
-                
+                </div>  
+                <div class="col-sm-3">
+                  <span *ngIf="data$.danificado"><b>Danificado:</b> Sim</span>
+                  <span *ngIf="data$.extraviado"><b>Extraviado:</b> Sim</span>
+              </div>                
             </div>
 
             <br /><br />

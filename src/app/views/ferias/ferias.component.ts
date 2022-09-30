@@ -3,20 +3,18 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Router } from '@angular/router';
 import { SessionService } from '../../services/session.service';
 
-import { TiposPublicacoesService } from '../../services/tipos-publicacoes.service';
 import { UsuariosService } from '../../services/usuarios.service';
-import { UsuariosPublicacoesService } from '../../services/usuarios-publicacoes.service';
+import { UsuariosFeriasService } from '../../services/usuarios-ferias.service';
 
 @Component({
-  selector: 'app-publicacoes',
-  templateUrl: './publicacoes.component.html',
-  styleUrls: ['./publicacoes.component.css']
+  selector: 'app-ferias',
+  templateUrl: './ferias.component.html',
+  styleUrls: ['./ferias.component.css']
 })
-export class PublicacoesComponent implements OnInit, OnDestroy {
+export class FeriasComponent implements OnInit, OnDestroy {
 
   user: any;
 
@@ -24,7 +22,6 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
 
   data$: any;
   usuarios$: any;
-  tipospublicacoes$: any;
 
   excluir$: any;
 
@@ -44,60 +41,14 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
     inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
   }
 
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-      spellcheck: true,
-      height: '500',
-      minHeight: '500',
-      maxHeight: '500',
-      width: 'auto',
-      minWidth: '0',
-      translate: 'yes',
-      enableToolbar: true,
-      showToolbar: true,
-      placeholder: 'Enter text here...',
-      defaultParagraphSeparator: '',
-      defaultFontName: '',
-      defaultFontSize: '',
-      fonts: [
-        {class: 'arial', name: 'Arial'},
-        {class: 'times-new-roman', name: 'Times New Roman'},
-        {class: 'calibri', name: 'Calibri'},
-        {class: 'comic-sans-ms', name: 'Comic Sans MS'}
-      ],
-      toolbarHiddenButtons : [
-        [
-          'insertImage',
-          'insertVideo',
-          'toggleEditorMode'
-        ]
-      ],
-      customClasses: [
-      {
-        name: 'quote',
-        class: 'quote',
-      },
-      {
-        name: 'redText',
-        class: 'redText'
-      },
-      {
-        name: 'titleText',
-        class: 'titleText',
-        tag: 'h1',
-      },
-    ],
-    
-  };
-
   formcad = new FormGroup({
     id: new FormControl(''),
     user_id: new FormControl(''),  
     user: new FormControl(''),  
-    tipo_publicacao_id: new FormControl(''),  
-    descricao: new FormControl(''),  
     boletim: new FormControl(''),  
-
+    data_ini: new FormControl(''),  
+    ano: new FormControl(''),  
+    dias: new FormControl(''),  
   });
 
   // We use this trigger because fetching the list of persons can be quite long,
@@ -109,12 +60,11 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
     private session: SessionService,
     private router: Router,
     private usuarios: UsuariosService,
-    private usuariospublicacoes: UsuariosPublicacoesService,
-    private tipospublicacoes: TiposPublicacoesService) { 
+    private usuariosferias: UsuariosFeriasService) { 
 
         this.user = this.session.getUser();
-        if(this.user.perfil.publicacoes){
-          this.usuariospublicacoes.index().subscribe(data => {
+        if(this.user.perfil.usuarios_cad){
+          this.usuariosferias.index().subscribe(data => {
             this.data$ = data;
             this.dtTrigger.next();
           }); 
@@ -134,12 +84,6 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
-    
-
-    this.tipospublicacoes.index().subscribe(data => {
-      this.tipospublicacoes$ = data;
-    }); 
-
     this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
     }); 
@@ -152,7 +96,7 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
   }
 
   refresh(){
-    this.usuariospublicacoes.index().subscribe(data => {
+    this.usuariosferias.index().subscribe(data => {
       this.data$ = data;
     }); 
   }
@@ -168,7 +112,7 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
     this.formcad.controls.user_id.patchValue(this.formcad.value.user.id)
     if(this.formcad.value.id){
       //@ts-ignore
-      this.usuariospublicacoes.update(this.formcad.value, this.formcad.value.id).subscribe(data => {
+      this.usuariosferias.update(this.formcad.value, this.formcad.value.id).subscribe(data => {
         if(data == 1){
           this.refresh();
           this.formcad.reset();
@@ -176,7 +120,7 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
         }
       });
     }else{
-      this.usuariospublicacoes.store(this.formcad.value).subscribe(data => {
+      this.usuariosferias.store(this.formcad.value).subscribe(data => {
         if(data == 1){
           this.refresh();
           this.formcad.reset();
@@ -191,12 +135,11 @@ export class PublicacoesComponent implements OnInit, OnDestroy {
   }
 
   confirm(){
-    this.usuariospublicacoes.destroy(this.excluir$.id).subscribe(data => {
+    this.usuariosferias.destroy(this.excluir$.id).subscribe(data => {
       if(data == 1){
         this.refresh();    
         this.toastr.success('Informação excluída com sucesso!');  
       }
     })
   }
-
 }

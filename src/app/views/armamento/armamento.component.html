@@ -2,7 +2,7 @@
     <img src="../../../assets/cabecalho.png" class="cabecalho" />
     <br />
     <h4>
-      Emprestimo de armamento Nº {{ data$.id }}
+      Empréstimo de Armamento Nº {{ data$.id }}
       - {{ data$.subunidade.abreviatura }}
     </h4>
   </div>
@@ -69,7 +69,7 @@
               <img src="../../../assets/cabecalho.png" class="cabecalho" />
               <br />
               <h4>
-                Emprestimo de armamento Nº {{ data$.id }}
+                Empréstimo de Armamento Nº {{ data$.id }}
       - {{ data$.subunidade.abreviatura }}
               </h4>
             </div>
@@ -80,12 +80,13 @@
             </h5>
             <br /><br />
             <div class="row">
+                  <div class="col-sm-3">
+                    <b>Tipo:</b> {{data$.armamento.armamento_tipo.nome}}
+                </div>
                 <div class="col-sm-4">
                     <b>Marca/Modelo:</b> {{data$.armamento.marca.nome}}/{{data$.armamento.modelo.nome}}
                 </div>
-                <div class="col-sm-3">
-                    <b>Tipo:</b> {{data$.armamento.armamento_tipo.nome}}
-                </div>
+               
                 <div class="col-sm-3">
                     <b>Serial:</b> {{data$.armamento.serial}} 
                 </div>
@@ -107,15 +108,21 @@
                     <b>Data Empréstimo:</b> {{data$.data_emp| date:'dd/MM/yyyy'}}
                 </div>
                 <div class="col-sm-3">
-                    <b>Hora Devolução:</b> {{data$.data_dev| date:'dd/MM/yyyy'}}
-                </div>
-                <div class="col-sm-3">
-                    <b>Danificado:</b> <span *ngIf="data$.danificado">Sim</span>
-                </div>
-                <div class="col-sm-3">
-                    <b>Extraviado:</b> <span *ngIf="data$.extraviado">Sim</span>
-                </div>
+                    <b>Hora Empréstimo:</b> {{data$.hora_emp}}
+                </div>               
             </div>
+            <div class="row">
+              <div class="col-sm-3">
+                <b>Data Devolução:</b> {{data$.data_dev| date:'dd/MM/yyyy'}}
+              </div>
+              <div class="col-sm-3">
+                  <b>Hora Devolução:</b> {{data$.hora_dev}}
+              </div>  
+              <div class="col-sm-3">
+                <span *ngIf="data$.danificado"><b>Danificado:</b> Sim</span>
+                <span *ngIf="data$.extraviado"><b>Extraviado:</b> Sim</span>
+            </div>    
+          </div>
 
             <br /><br />
             <div [innerHTML]="data$.observacoes"></div>

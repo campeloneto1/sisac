@@ -66,6 +66,9 @@ import { MateriaisComponent } from './views/materiais/materiais.component';
 import { MateriaisTiposComponent } from './views/materiais-tipos/materiais-tipos.component';
 import { MateriaisEmprestimosComponent } from './views/materiais-emprestimos/materiais-emprestimos.component';
 import { MaterialEmprestimoComponent } from './views/material-emprestimo/material-emprestimo.component';
+import { ArmamentosEmprestimosComponent } from './views/armamentos-emprestimos/armamentos-emprestimos.component';
+import { FeriasComponent } from './views/ferias/ferias.component';
+import { PromocoesComponent } from './views/promocoes/promocoes.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +121,10 @@ import { MaterialEmprestimoComponent } from './views/material-emprestimo/materia
     MateriaisComponent,
     MateriaisTiposComponent,
     MateriaisEmprestimosComponent,
-    MaterialEmprestimoComponent
+    MaterialEmprestimoComponent,
+    ArmamentosEmprestimosComponent,
+    FeriasComponent,
+    PromocoesComponent
   ],
   imports: [
     BrowserModule,

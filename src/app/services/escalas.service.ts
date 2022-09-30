@@ -12,6 +12,10 @@ export class EscalasService {
     return this.http.get(environment.url+"escalas");
   }
 
+  index2(){
+    return this.http.get(environment.url+"escalas2");
+  }
+
   show(id:number){
     return this.http.get(environment.url+"escalas/"+id);
   }

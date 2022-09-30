@@ -274,6 +274,20 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     })
   }
 
+  resetpass(data:any){
+    let isExecuted = confirm("Tem certeza que resetar a senha de "+data.nome+"?");
+
+    if(isExecuted){
+      this.usuarios.resetpass(data.id).subscribe(data => {
+        if(data == 1){
+          this.refresh();   
+         
+          this.toastr.success('Informação editada com sucesso!');  
+        }
+      });
+    }    
+  }
+
   foto(data: any){
     this.foto$ = data;
   }

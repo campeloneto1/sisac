@@ -139,6 +139,7 @@ export class MateriaisComponent implements OnInit,OnDestroy {
     modelo_id: new FormControl(''), 
     modelo: new FormControl(''), 
     data_venc: new FormControl(''), 
+    data_baixa: new FormControl(''), 
   });
 
   // We use this trigger because fetching the list of persons can be quite long,
