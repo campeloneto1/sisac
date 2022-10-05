@@ -17,6 +17,10 @@ export class ArmamentosService {
     return this.http.get(environment.url+"armamentos2");
   }
 
+  reparar(id:number){
+    return this.http.get(environment.url+"armamentos-reparar/"+id);
+  }
+
   show(id:number){
     return this.http.get(environment.url+"armamentos/"+id);
   }

@@ -55,7 +55,8 @@
               >
                 <thead>
                   <tr>
-                    <th>ID</th>                  
+                    <th>ID</th>       
+                    <th *ngIf="user.perfil.administrador">SUBUNIDADE</th>             
                     <th>MARCA</th>     
                     <th>MODELO</th>     
                     <th>COR</th>  
@@ -63,22 +64,23 @@
                     <th>PLACA</th>    
                     <th>PLACA ESP.</th>    
                     <th>KM ATUAL</th>  
-                    <th>TROCA ÓLEO</th>  
+                    <th>TROCA DE ÓLEO</th>  
                     <th>DATA BAIXA</th> 
                     <th>OPÇÕES</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of data$" class="hovers">
-                    <td>{{ data.id }}</td>                
+                    <td>{{ data.id }}</td>         
+                    <td *ngIf="user.perfil.administrador">{{ data.subunidade.abreviatura }} - {{ data.subunidade.unidade.abreviatura }}</td>        
                     <td>{{ data.marca.nome }}</td> 
                     <td>{{ data.modelo.nome }}</td> 
                     <td>{{ data.cor.nome }}</td> 
                     <td>{{ data.ano }}</td>
                     <td>{{ data.placa }}</td> 
                     <td>{{ data.placa_esp }}</td> 
-                    <td>{{ data.km_atual }}</td> 
-                    <td>{{ data.troca_oleo }}</td> 
+                    <td>{{ data.km_atual }} km</td> 
+                    <td><span *ngIf="data.troca_oleo">{{ data.troca_oleo }} km</span></td> 
                     <td>{{ data.data_baixa | date:'dd/MM/yyyy' }}</td> 
                     <td>
                       <span class="editdata">
@@ -314,6 +316,18 @@
                       </div>
                     </div>
                     <!--FIM ROW 3-->
+
+                    <!--INICIO ROW 4-->
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="observacoes">Observações</label>
+                      <angular-editor formControlName="observacoes" id="observacoes" [config]="editorConfig">
+                      </angular-editor>
+                    </div>
+                  </div>
+                </div>
+                <!--FIM ROW 4-->
   
                   </div>
                   <div class="modal-footer">

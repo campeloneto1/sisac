@@ -39,6 +39,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   usus = 0;
 
   excluir$: any;
+  reparar$: any;
 
   config = {
     displayFn:(item: any) => { return item.nome; } ,//to support flexible text displaying for each item
@@ -161,6 +162,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
     modelo: new FormControl(''), 
     data_venc: new FormControl(''), 
     data_baixa: new FormControl(''), 
+    observacoes: new FormControl(''), 
   });
 
   formcad2 = new FormGroup({
@@ -297,6 +299,21 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  reparar(data:any){
+    this.reparar$ = data;
+  }
+
+  confirmrep(){
+    this.armamentos.reparar(this.reparar$.id).subscribe(data => {
+      if(data == 1){
+        this.refresh();   
+        
+        this.toastr.success('Informação editada com sucesso!');  
+      }
+    });
+  }
+  
 
   showUsuarios(data:any){
     this.armamento$ = data;

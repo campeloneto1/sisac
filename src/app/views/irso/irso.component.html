@@ -1,5 +1,8 @@
 <div class="page-header" style="text-align: center; margin-bottom: 10px;" *ngIf="data$">
-  <img src="../../../assets/cabecalho.png" class="cabecalho" />
+  <img src="{{url}}cabecalho.png" class="cabecalho" />
+  <h3>
+    <b>Escala IRSO - {{ subunidade.abreviatura }}/{{ subunidade.unidade?.abreviatura }}</b>
+  </h3>
 </div>
 
 <div class="page-footer" *ngIf="data$">
@@ -27,7 +30,7 @@
       </p>
     </div>
   </div>
-  <img src="../../../assets/rodape.png" class="rodape" />
+  <img src="{{url}}rodape.png" class="rodape" />
 </div>
 
 <table style="width: 100%; min-width: 100%;" *ngIf="data$">
@@ -51,7 +54,7 @@
         <div class="page">PAGE 2</div>-->
         <div class="page">
           <div class="noprint">
-            <img src="../../../assets/cabecalho.png" class="cabecalho" />
+            <img src="{{url}}cabecalho.png" class="cabecalho" />
           </div>
           <br />
           <div *ngFor="let data of data$">

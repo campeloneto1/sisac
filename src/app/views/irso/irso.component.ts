@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import {environment} from '../../../environments/environment';
 import { IrsosService } from '../../services/irsos.service';
 import { SubunidadesService } from '../../services/subunidades.service';
 import { SessionService } from '../../services/session.service';
@@ -14,7 +15,7 @@ import { AppComponent } from 'src/app/app.component';
 export class IrsoComponent implements OnInit {
 
   data$: any;
-
+  url = environment.imagens;
   subunidade: any;
 
   user: any;
@@ -27,8 +28,6 @@ export class IrsoComponent implements OnInit {
     'maio',
     'junho',
     'julho',
-    'agosto',
-    'setembro',
     'agosto',
     'setembro',
     'outubro',

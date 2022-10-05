@@ -1,11 +1,11 @@
 <div class="page-header" style="text-align: center; margin-bottom: 10px;" *ngIf="data$">
-  <img src="../../../assets/cabecalho.png" class="cabecalho" />
+  <img src="{{url}}cabecalho.png" class="cabecalho" />
   <br />
   <h4>
     {{ data$.documento_tipo.nome }} Nº {{ data$.codigo }}/{{
       data$.created_at | date: "yyyy"
     }}
-    - {{ data$.subunidade.abreviatura }}
+    - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
   </h4>
 </div>
 
@@ -13,13 +13,13 @@
   <div class="row rodape2 " *ngIf="user" >
     <div class="col-sm-3 text-center">
       <qrcode
-        [qrdata]="'http://localhost:4200/Documento/1'"
+        [qrdata]="qrcod"
         [allowEmptyString]="true"
         [cssClass]="'center'"
         [elementType]="'canvas'"
-        [errorCorrectionLevel]="'H'"
-        [scale]="1"
-        [width]="100"
+        [errorCorrectionLevel]="'M'"
+          [scale]="1"
+          [width]="120"
       ></qrcode>
     </div>
     <div class="col-sm-6 text-center">
@@ -44,7 +44,7 @@
       </p>
     </div>
   </div>
-  <img src="../../../assets/rodape.png" class="rodape" />
+  <img src="{{url}}rodape.png" class="rodape" />
 </div>
 
 <table style="width: 100%; min-width: 100%;" *ngIf="data$">
@@ -68,24 +68,19 @@
         <div class="page">PAGE 2</div>-->
         <div class="page" >
           <div class="noprint text-center">
-            <img src="../../../assets/cabecalho.png" class="cabecalho" />
-            <br />
-            <h4>
+            <img src="{{url}}cabecalho.png" class="cabecalho" />
+            <h4 style="margin-top: 30px;">
               {{ data$.documento_tipo.nome }} Nº {{ data$.codigo }}/{{
                 data$.created_at | date: "yyyy"
               }}
-              - {{ data$.subunidade.abreviatura }}
+              - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
             </h4>
           </div>
-          
-          <br />
-          <h5>
+          <h5 style="margin-top: 30px;">
             Fortaleza - CE, {{ datadoc }}
           </h5>
-          <br /><br />
-          <div [innerHTML]="data$.corpo"></div>
-          <br /><br /><br /><br />
-          <div class="text-center" *ngIf="subunidade.comandante">
+          <div style="margin-top: 30px;" [innerHTML]="data$.corpo"></div>
+          <div style="margin-top: 100px;" class="text-center" *ngIf="subunidade.comandante">
             <b>{{subunidade.comandante?.nome}}</b><br />
             Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-0'}}<br />
             Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}

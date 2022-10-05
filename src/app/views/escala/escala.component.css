@@ -48,6 +48,7 @@
 @page {
   margin: 0;
   -webkit-print-color-adjust: exact; 
+  print-color-adjust: exact;
 }
 
 @media print {
@@ -76,18 +77,21 @@
     color: #ffffff;
     
     -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
   
   }
   
   .titlemodalidade2 {
     background-color: #43a047 !important;
     -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
     
   }
   
   .colposto{
     background-color: #76d275 !important;
     -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
     
   }
 }

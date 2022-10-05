@@ -56,6 +56,7 @@
               <tr>
                 <th>ID</th>
                 <th>NOME</th>
+                <th>EXIBE ADMINISTRATIVO</th>
                 <th>MODALIDADES</th>
                 <th>OPÇÕES</th>
               </tr>
@@ -64,6 +65,9 @@
               <tr *ngFor="let data of data$" class="hovers">
                 <td>{{ data.id }}</td>
                 <td>{{ data.nome }}</td>
+                <td>
+                  <span *ngIf="data.administrativo">Sim</span>
+                </td>
                 <td>
                   <i
                     (click)="showModalidade(data)"
@@ -147,6 +151,17 @@
                             (formcad.controls.nome.dirty ||
                               formcad.controls.nome.touched)
                         }"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="administrativo"> Exibe Administrativo</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        formControlName="administrativo"
+                        id="administrativo"
                       />
                     </div>
                   </div>

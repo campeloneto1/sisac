@@ -6,6 +6,7 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import {environment} from '../../../environments/environment';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   user:any;
-
+  url = environment.imagens;
   menu = false;
   menu2 = false;
 

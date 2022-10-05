@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import {environment} from '../../../environments/environment';
 import { OcorrenciasService } from '../../services/ocorrencias.service';
 import { SessionService } from '../../services/session.service';
 import { AppComponent } from 'src/app/app.component';
@@ -12,7 +13,8 @@ import { AppComponent } from 'src/app/app.component';
 export class OcorrenciaComponent implements OnInit {
 
   data$: any;
-
+  url = environment.imagens;
+  qrcod = '';
   user: any;
   date = new Date();
   month = [
@@ -23,8 +25,6 @@ export class OcorrenciaComponent implements OnInit {
     'maio',
     'junho',
     'julho',
-    'agosto',
-    'setembro',
     'agosto',
     'setembro',
     'outubro',
@@ -67,14 +67,16 @@ export class OcorrenciaComponent implements OnInit {
       //console.log(date2.getDate())
       //@ts-ignore
       this.datadoc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear();
+
+      this.qrcod = environment.ipserver+'Validacao/4$'+this.data$.key;
     });
    
     this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()]+' de '+this.date.getFullYear();
 
-    setTimeout( () => {
-      this.user = this.session.getUser();
-      //console.log(this.user);
-    }, 1000);
+    
+    this.user = this.session.getUser();
+    //console.log(this.user);
+    
   }
 
 }

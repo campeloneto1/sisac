@@ -117,6 +117,7 @@ export class PostosComponent implements OnInit, OnDestroy {
     if(this.formcad.value.id){
       //@ts-ignore
       this.postos.update(this.formcad.value, this.formcad.value.id).subscribe(data => {
+        
         if(data == 1){
           this.refresh();
           this.formcad.reset();
@@ -144,7 +145,7 @@ export class PostosComponent implements OnInit, OnDestroy {
         this.refresh();    
         this.toastr.success('Informação excluída com sucesso!');  
       }
-    })
+    });
   }
 
   showTurnos(data:any){

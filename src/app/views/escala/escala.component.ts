@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
-
+import {environment} from '../../../environments/environment';
+import { FormGroup, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 import { EscalasService } from '../../services/escalas.service';
@@ -11,6 +12,8 @@ import { SetoresService } from '../../services/setores.service';
 import { SubunidadesService } from '../../services/subunidades.service';
 import { SessionService } from '../../services/session.service';
 import { UsuariosAfastamentosService } from '../../services/usuarios-afastamentos.service';
+import { UsuariosFeriasService } from '../../services/usuarios-ferias.service';
+import { AfastamentosTiposService } from '../../services/afastamentos-tipos.service';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
@@ -19,15 +22,19 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./escala.component.css']
 })
 export class EscalaComponent implements OnInit {
-
+  url = environment.imagens;
   data$: any;
   modalidades$: any;
   usuarios$: any;
   setores$: any;
   usuariosafastamentos$: any;
+  usuariosferias$: any;
+  afastamentostipos$: any;
 
   ausente$: any;
   opcao: any;
+  data: any;
+  dias: any;
 
   user: any;
   date = new Date();
@@ -42,6 +49,17 @@ export class EscalaComponent implements OnInit {
   modalidade_id = 0;
   posto_id = 0;
   turno_id = 0;
+
+  formcadfalta = new FormGroup({
+    id: new FormControl(''),
+    user_id: new FormControl(''),
+    afastamento_tipo_id: new FormControl(''),
+    opcao: new FormControl(''),
+    data: new FormControl(''),  
+    dias: new FormControl(''),  
+    cid: new FormControl(''),  
+
+  });
 
   config = {
     displayFn:(item: any) => { return item.nome+'('+item.matricula+')'; } ,//to support flexible text displaying for each item
@@ -60,6 +78,7 @@ export class EscalaComponent implements OnInit {
   }
 
   month = [
+    '',
     'janeiro',
     'fevereiro',
     'março',
@@ -67,8 +86,6 @@ export class EscalaComponent implements OnInit {
     'maio',
     'junho',
     'julho',
-    'agosto',
-    'setembro',
     'agosto',
     'setembro',
     'outubro',
@@ -92,7 +109,7 @@ export class EscalaComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
-private router: Router,
+    private router: Router,
     private escalas: EscalasService,
     private escalasusers: EscalasUsersService,
     private usuarios: UsuariosService,
@@ -100,12 +117,14 @@ private router: Router,
     private subunidades: SubunidadesService,
     private session: SessionService,
     private usuariosafastamentos: UsuariosAfastamentosService,
+    private usuariosferias: UsuariosFeriasService,
+    private afastamentostipos: AfastamentosTiposService,
     private apcom: AppComponent
   ) {
     this.apcom.token = false;
       
       this.user = this.session.getUser();
-      if(this.user.perfil.administrador){
+      if(this.user.perfil.escalas || this.user.perfil.oficial_dia ){
         this.usuarios.index2().subscribe((data) => {
           this.usuarios$ = data;
         });
@@ -118,52 +137,64 @@ private router: Router,
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     const userid = Number(routeParams.get('id'));
-
+    this.user = this.session.getUser();
     this.escalas.show(userid).subscribe((data) => {
       //console.log(data);
       this.data$ = data;
+      var teste = this.data$.data.split('-');
+
+      var date2 = new Date(teste[0], teste[1]-1, teste[2]);
       //@ts-ignore
-      var date5 = new Date(data.data);
-      var date2 = new Date();
-      //@ts-ignore
-      date2.setDate(date5.getDate()+1);
+      //date2.setDate();
       var dateteste = this.date.getFullYear()+'-'+(this.date.getMonth()+1)+'-'+this.date.getDate();
       var dateteste2 = date2.getFullYear()+'-'+(date2.getMonth()+1)+'-'+date2.getDate();
-      if(this.date > date2){
-        //console.log('entrou');
+      //console.log(dateteste)
+      //console.log(this.date.getMonth())
+      
+      var comp = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+      //console.log(comp)
+      //console.log(date2)
+      if(comp > date2){
+        //console.log('entrou1');
         this.antiga = true;
       }
       
       if(dateteste == dateteste2){
-        //console.log('entrou');
+        //console.log('entrou2');
         this.atual = true;
       }
       
-      //var teste = date2.getDate()+1;
-      //console.log(teste);
       //@ts-ignore
-      this.dataesc = date2.getDate()+' de '+this.month[date2.getMonth()]+' de '+date2.getFullYear()+' ('+this.diasemana[date2.getDay()]+')';
+      this.dataesc = date2.getDate()+' de '+this.month[date2.getMonth()+1]+' de '+date2.getFullYear()+' ('+this.diasemana[date2.getDay()]+')';
 
       this.subunidades.show(this.data$.subunidade_id).subscribe((data) => {
         this.subunidade$ = data;
       });
+
+      if(this.data$.escala_modelo.administrativo){
+        setTimeout( () => {
+          this.setores.where2(this.user.subunidade_id).subscribe((data) => {
+            this.setores$ = data;
+            this.usuariosafastamentos.ativos().subscribe((data) => {
+              this.usuariosafastamentos$ = data;
+              this.usuariosferias.ativos().subscribe((data) => {
+                this.usuariosferias$ = data;
+                this.filterdisp();
+              });
+              //this.filterdisp();
+            });
+          });
+        }, 500);
+      }
     });
 
-    this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()]+' de '+this.date.getFullYear();
+    this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()+1]+' de '+this.date.getFullYear();
 
-    setTimeout( () => {
-      this.user = this.session.getUser();
-      this.setores.where2(this.user.subunidade_id).subscribe((data) => {
-        this.setores$ = data;
-        this.usuariosafastamentos.ativos().subscribe((data) => {
-          this.usuariosafastamentos$ = data;
-          this.filterdisp();
-        });
-        
-      });
-      
-      
-    }, 500);
+    this.afastamentostipos.index().subscribe(data => {
+      this.afastamentostipos$ = data;
+    });
+    
+   
   }
 
   refresh(){
@@ -250,21 +281,35 @@ private router: Router,
         }   
       }     
     }
+
+    for (let index = 0; index < this.setores$.length; index++) {
+      for (let index2 = 0; index2 < this.setores$[index].users.length; index2++) {
+        for (let index3 = 0; index3 < this.usuariosferias$.length; index3++) {
+          if(this.setores$[index].users[index2]){
+            if(this.setores$[index].users[index2].id == this.usuariosferias$[index3].user_id){
+              delete this.setores$[index].users[index2];           
+            }
+          }
+          
+        }   
+      }     
+    }
   }
 
   ausente(data:any){
-    this.opcao = null;
+    this.formcadfalta.reset();
     //console.log(data);
     this.ausente$ = data;
   }
 
   registrar(){
-    var array = [];
-    array[0] = this.ausente$.pivot.id;
-    array[1] = this.opcao;
+    //console.log(this.ausente$);
+   this.formcadfalta.controls.id.patchValue(this.ausente$.pivot.id);
+   this.formcadfalta.controls.user_id.patchValue(this.ausente$.id);
+
     //console.log(array);
     
-    this.escalasusers.falta(array).subscribe(data => {
+    this.escalasusers.falta(this.formcadfalta.value).subscribe(data => {
       if(data == 1){
         this.toastr.success('Informação cadastrada com sucesso!'); 
         this.refresh();

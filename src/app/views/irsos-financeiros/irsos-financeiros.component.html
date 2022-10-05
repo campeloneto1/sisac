@@ -1,0 +1,475 @@
+<!--<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>-->
+<!--INICIO CONTENT WRAPPER-->
+<div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+    <!--INICIO SECTION HEADER-->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Financeiro Irsos</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a [routerLink]="['/Inicio']">Início</a>
+                        </li>
+                        <li class="breadcrumb-item active">Financeiro Irsos</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--FIM SECTION HEADER-->
+    <!--INICIO SECTION TABELA-->
+    <section class="content">
+        <!--INICIO CARD-->
+        <div class="card card-outline card-orange">
+            <!--INICIO HEADER CARD-->
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <button *ngIf="user.perfil.administrador" data-bs-toggle="modal" data-bs-target="#modalcad"
+                            type="button" class="btn btn-block btn-outline-primary" (click)="showCad()">
+                            <i class="nav-icon fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!--FIM HEADER CARD-->
+            <!--INICIO BODY CARD-->
+            <div class="card-body table-responsive p-2" >
+                <!--INICIO TABLE CARD-->
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                    class="table table-hover table-head-fixed text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th *ngIf="user.perfil.administrador">SUBUNIDADE</th>
+                            <th>DATA</th>
+                            <th>COTA MENSAL</th>
+                            <th>GASTO MENSAL</th>
+                            <th>OPÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of data$" class="hovers">
+                            <td>{{ data.id }}</td>
+                            <td *ngIf="user.perfil.administrador">{{ data.subunidade?.abreviatura }}/{{
+                                data.subunidade?.unidade?.abreviatura }}</td>
+                            <td>{{ data.data | date : 'MM/yyyy'}}</td>
+                            <td>R$ {{ data.cota_mensal }}</td>
+                            <td>
+                                <i (click)="showGasto(data)" data-bs-toggle="modal" data-bs-target="#modalgasto"
+                                    class="right fa fa-calendar text-primary point" data-toggle="tooltip"
+                                    data-placement="top" title="Gasto Mensal"></i>
+                            </td>
+                            <td>
+                                <span class="editdata">
+                                    <i (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
+                                        class="right fas fa-edit text-primary point" data-toggle="tooltip"
+                                        data-placement="top" title="Editar"></i>
+                                    <i (click)="deletar(data)" data-bs-toggle="modal" data-bs-target="#modaldel"
+                                        class="right fas fa-trash text-danger point margin5" data-toggle="tooltip"
+                                        data-placement="top" title="Excluir"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--FIM TABLE CARD-->
+            </div>
+            <!--FIM BODY CARD-->
+        </div>
+        <!--FIM CARD-->
+
+        <!--INICIO MODAL CADASTRO-->
+        <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cadastrar</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <!--FORM CADASTRO-->
+                    <form [formGroup]="formcad" (ngSubmit)="salvar()">
+                        <div class="modal-body">
+                            <!--INICIO ROW 0-->
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="data">Mês<span class="text-danger">*</span></label>
+                                        <input formControlName="data" required type="month"
+                                            class="form-control form-control-border" id="data" placeholder="mês"
+                                            [ngClass]="{
+                                  'is-invalid':
+                                    formcad.controls.data.invalid &&
+                                    (formcad.controls.data.dirty ||
+                                      formcad.controls.data.touched)
+                                }" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="cota_mensal">Cota Mensal<span class="text-danger">*</span></label>
+                                        <input formControlName="cota_mensal" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="cota_mensal"
+                                            placeholder="Cota Mensal" [ngClass]="{
+                                  'is-invalid':
+                                    formcad.controls.cota_mensal.invalid &&
+                                    (formcad.controls.cota_mensal.dirty ||
+                                      formcad.controls.cota_mensal.touched)
+                                }" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--FIM ROW 0-->
+                            <!--INICIO ROW 1-->
+                            <div class="row">
+                                <!--SD-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_sd">Valor SD<span class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_sd" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_sd"
+                                            placeholder="Valor SD" [ngClass]="{
+                                'is-invalid':
+                                  formcad.controls.valor_irso_sd.invalid &&
+                                  (formcad.controls.valor_irso_sd.dirty ||
+                                    formcad.controls.valor_irso_sd.touched)
+                              }" />
+                                    </div>
+                                </div>
+                                <!--SD-->
+                                <!--CB-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_cb">Valor CB<span class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_cb" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_cb"
+                                            placeholder="Valor CB" [ngClass]="{
+                                  'is-invalid':
+                                    formcad.controls.valor_irso_cb.invalid &&
+                                    (formcad.controls.valor_irso_cb.dirty ||
+                                      formcad.controls.valor_irso_cb.touched)
+                                }" />
+                                    </div>
+                                </div>
+                                <!--CB-->
+                                <!--3SGT-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_3sgt">Valor 3º Sgt<span
+                                                class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_3sgt" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_3sgt"
+                                            placeholder="Valor 3º Sgt" [ngClass]="{
+                                  'is-invalid':
+                                    formcad.controls.valor_irso_3sgt.invalid &&
+                                    (formcad.controls.valor_irso_3sgt.dirty ||
+                                      formcad.controls.valor_irso_3sgt.touched)
+                                }" />
+                                    </div>
+                                </div>
+                                <!--3SGT-->
+                                <!--2SGT-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_2sgt">Valor 2º Sgt<span
+                                                class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_2sgt" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_2sgt"
+                                            placeholder="Valor 2º Sgt" [ngClass]="{
+                                  'is-invalid':
+                                    formcad.controls.valor_irso_2sgt.invalid &&
+                                    (formcad.controls.valor_irso_2sgt.dirty ||
+                                      formcad.controls.valor_irso_2sgt.touched)
+                                }" />
+                                    </div>
+                                </div>
+                                <!--2SGT-->
+                                <!--1SGT-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_1sgt">Valor 1º Sgt<span
+                                                class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_1sgt" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_1sgt"
+                                            placeholder="Valor 1º Sgt" [ngClass]="{
+                                  'is-invalid':
+                                    formcad.controls.valor_irso_1sgt.invalid &&
+                                    (formcad.controls.valor_irso_1sgt.dirty ||
+                                      formcad.controls.valor_irso_1sgt.touched)
+                                }" />
+                                    </div>
+                                </div>
+                                <!--1SGT-->
+                                <!--ST-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_st">Valor ST<span class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_st" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_st"
+                                            placeholder="Valor ST" [ngClass]="{
+                                  'is-invalid':
+                                    formcad.controls.valor_irso_st.invalid &&
+                                    (formcad.controls.valor_irso_st.dirty ||
+                                      formcad.controls.valor_irso_st.touched)
+                                }" />
+                                    </div>
+                                </div>
+                                <!--ST-->
+                            </div>
+                            <!--FIM ROW 1-->
+
+                            <!--INICIO ROW 2-->
+                            <div class="row">
+                                <!--2ten-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_2ten">Valor 2º Ten<span
+                                                class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_2ten" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_2ten"
+                                            placeholder="Valor 2º Ten" [ngClass]="{
+                                  'is-invalid':
+                                    formcad.controls.valor_irso_2ten.invalid &&
+                                    (formcad.controls.valor_irso_2ten.dirty ||
+                                      formcad.controls.valor_irso_2ten.touched)
+                                }" />
+                                    </div>
+                                </div>
+                                <!--2ten-->
+                                <!--1ten-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_1ten">Valor 1º Ten<span
+                                                class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_1ten" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_1ten"
+                                            placeholder="Valor 1º Ten" [ngClass]="{
+                                    'is-invalid':
+                                      formcad.controls.valor_irso_1ten.invalid &&
+                                      (formcad.controls.valor_irso_1ten.dirty ||
+                                        formcad.controls.valor_irso_1ten.touched)
+                                  }" />
+                                    </div>
+                                </div>
+                                <!--1ten-->
+                                <!--cap-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_cap">Valor Cap<span class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_cap" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_cap"
+                                            placeholder="Valor Cap" [ngClass]="{
+                                    'is-invalid':
+                                      formcad.controls.valor_irso_cap.invalid &&
+                                      (formcad.controls.valor_irso_cap.dirty ||
+                                        formcad.controls.valor_irso_cap.touched)
+                                  }" />
+                                    </div>
+                                </div>
+                                <!--cap-->
+                                <!--maj-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_maj">Valor Maj<span class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_maj" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_maj"
+                                            placeholder="Valor Maj" [ngClass]="{
+                                    'is-invalid':
+                                      formcad.controls.valor_irso_maj.invalid &&
+                                      (formcad.controls.valor_irso_maj.dirty ||
+                                        formcad.controls.valor_irso_maj.touched)
+                                  }" />
+                                    </div>
+                                </div>
+                                <!--maj-->
+                                <!--tencel-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_tencel">Valor Ten-Cel<span
+                                                class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_tencel" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_tencel"
+                                            placeholder="Valor Ten-Cel" [ngClass]="{
+                                    'is-invalid':
+                                      formcad.controls.valor_irso_tencel.invalid &&
+                                      (formcad.controls.valor_irso_tencel.dirty ||
+                                        formcad.controls.valor_irso_tencel.touched)
+                                  }" />
+                                    </div>
+                                </div>
+                                <!--tencel-->
+                                <!--ST-->
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="valor_irso_cel">Valor Cel<span class="text-danger">*</span></label>
+                                        <input formControlName="valor_irso_cel" required type="number" step="0.01"
+                                            class="form-control form-control-border" id="valor_irso_cel"
+                                            placeholder="Valor Cel" [ngClass]="{
+                                    'is-invalid':
+                                      formcad.controls.valor_irso_cel.invalid &&
+                                      (formcad.controls.valor_irso_cel.dirty ||
+                                        formcad.controls.valor_irso_cel.touched)
+                                  }" />
+                                    </div>
+                                </div>
+                                <!--ST-->
+                            </div>
+                            <!--FIM ROW 2-->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                                Cancelar
+                            </button>
+                            <button [disabled]="!formcad.valid" data-bs-dismiss="modal" type="submit"
+                                class="btn btn-success">
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
+                    <!--FIM FORM CADASTRO-->
+                </div>
+            </div>
+        </div>
+        <!--FIM MODAL CADASTRO-->
+
+        <!--INICIO MODAL DELETE-->
+        <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Excluir</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Tem certeza que deseja excluir <b>{{excluir$?.subunidade?.nome}}</b>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button (click)="confirm()" data-bs-dismiss="modal" type="button" class="btn btn-danger">
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--FIM MODAL DELETE-->
+
+        <!--INICIO MODAL Gasto Mensal-->
+        <div  class="modal fade" id="modalgasto" aria-modal="true" role="dialog">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Gasto Mensal</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body table-responsive" *ngIf="gastomensal$">
+
+                        <table                                                        
+                            class="table table-hover table-head-fixed text-nowrap"
+                            >
+                            <thead>
+                                <tr>
+                                    <th>DIA</th>                  
+                                    <th>SD</th>       
+                                    <th>CB</th>      
+                                    <th>3º SGT</th>                      
+                                    <th>2º SGT</th>          
+                                    <th>1º SGT</th>          
+                                    <th>ST</th>          
+                                    <th>2º TEN</th>          
+                                    <th>1º TEN</th>          
+                                    <th>CAP</th>          
+                                    <th>MAJ</th>          
+                                    <th>TEN-CEL</th>          
+                                    <th>CEL</th>
+                                    <th>TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of gastomensal$" >
+                                    <td><b>{{data.data | date: 'dd/MM/yyyy'}}</b></td>                
+                                    <td>R$ {{data.SD | mask:"separator.2"}} ({{data.quantSD}})</td> 
+                                    <td>R$ {{data.CB | mask:"separator.2"}} ({{data.quantCB}})</td> 
+                                    <td>R$ {{data.SGT3 | mask:"separator.2"}} ({{data.quantSGT3}})</td>                
+                                    <td>R$ {{data.SGT2 | mask:"separator.2"}} ({{data.quantSGT2}})</td> 
+                                    <td>R$ {{data.SGT1 | mask:"separator.2"}} ({{data.quantSGT1}})</td> 
+                                    <td>R$ {{data.ST | mask:"separator.2"}} ({{data.quantST}})</td> 
+                                    <td>R$ {{data.TEN2 | mask:"separator.2"}} ({{data.quantTEN2}})</td> 
+                                    <td>R$ {{data.TEN1 | mask:"separator.2"}} ({{data.quantTEN1}})</td> 
+                                    <td>R$ {{data.CAP | mask:"separator.2"}} ({{data.quantCAP}})</td> 
+                                    <td>R$ {{data.MAJ | mask:"separator.2"}} ({{data.quantMAJ}})</td> 
+                                    <td>R$ {{data.TENCEL | mask:"separator.2"}} ({{data.quantTENCEL}})</td> 
+                                    <td>R$ {{data.CEL | mask:"separator.2"}} ({{data.quantCEL}})</td> 
+                                    <td><b>R$ {{data.total | mask:"separator.2"}}</b></td> 
+                                
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><b>Total Geral</b></td>
+                                    <td><b>R$ {{totalgeral | mask:"separator.2"}}</b></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><b>Saldo</b></td>
+                                    <td><b [ngClass]="{'text-success' : cotamensal$.cota_mensal - totalgeral >= 0, 'text-danger' : cotamensal$.cota_mensal - totalgeral < 0 }">R$ {{cotamensal$.cota_mensal - totalgeral | mask:"separator.2"}}</b></td>
+                                </tr>
+                            </tfoot>
+                            </table>
+
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--FIM MODAL Gasto Mensal-->
+    </section>
+    <!--FIM SECTION TABELA-->
+</div>
+<!--FIM CONTENT WRAPPER-->
+<!--<app-footer></app-footer>
+    </div>-->

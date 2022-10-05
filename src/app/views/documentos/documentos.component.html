@@ -131,6 +131,7 @@
                         <div class="form-group">
                           <label for="documento_tipo_id">Tipo Documento<span class="text-danger">*</span></label>
                           <select
+                            (change)="getCorpo()"
                             formControlName="documento_tipo_id"
                             class="custom-select form-control-border"
                             id="documento_tipo_id"

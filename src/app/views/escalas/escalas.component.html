@@ -82,7 +82,7 @@
                   </td>-->
                   <td>
                     
-                      <i            
+                      <i      
                         [ngClass]="
                           data.dispensas[0] ? 'text-primary' : 'text-secondary'
                         "          
@@ -264,6 +264,7 @@
               <h4 class="modal-title">
                 Dispensas
                 <button
+                  *ngIf="btndisp"
                   type="button"
                   class="btn  btn-outline-primary"
                   (click)="caddispe()"
@@ -334,6 +335,7 @@
                     <td>
                       <span class="editdata">
                         <i
+                        *ngIf="btndisp"
                           (click)="deletardisp(data)"
                           class="right fas fa-trash text-danger point margin5"
                           data-toggle="tooltip"

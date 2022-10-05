@@ -50,7 +50,8 @@ export class EscalasModelosComponent implements OnInit, OnDestroy {
 
   formcad = new FormGroup({
     id: new FormControl(''),
-    nome: new FormControl(''),  
+    nome: new FormControl(''),
+    administrativo: new FormControl(''),  
 
   });
 

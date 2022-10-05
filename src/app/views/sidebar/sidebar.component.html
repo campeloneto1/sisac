@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-orange elevation-4">
-  <a href="" class="brand-link">
-    <img src="../../../assets/casamil.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+  <a [routerLink]="['/Inicio']" class="brand-link">
+    <img src="{{url}}casamil.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
       style="opacity: 0.8" />
     <span class="brand-text font-weight-light">SISAC</span>
   </a>
@@ -61,6 +61,12 @@
           <a [routerLink]="['/Ferias']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-plane"></i>
             <p>Férias</p>
+          </a>
+        </li>
+        <li *ngIf="user.perfil?.irsos_cad" class="nav-item">
+          <a [routerLink]="['/Financeiro-Irsos']" [routerLinkActive]="['active']" class="nav-link">
+            <i class="nav-icon fa fa-usd"></i>
+            <p>Financeiro Irsos</p>
           </a>
         </li>
         <li *ngIf="user.perfil?.irsos" class="nav-item">
@@ -230,7 +236,12 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
-
+            <li class="nav-item">
+              <a [routerLink]="['/Administracao']" [routerLinkActive]="['active']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Administração</p>
+              </a>
+            </li>
             <li class="nav-item">
               <a [routerLink]="['/Modalidades']" [routerLinkActive]="['active']" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>

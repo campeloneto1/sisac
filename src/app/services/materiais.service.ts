@@ -17,6 +17,10 @@ export class MateriaisService {
     return this.http.get(environment.url+"materiais2");
   }
 
+  reparar(id:number){
+    return this.http.get(environment.url+"materiais-reparar/"+id);
+  }
+
   show(id:number){
     return this.http.get(environment.url+"materiais/"+id);
   }

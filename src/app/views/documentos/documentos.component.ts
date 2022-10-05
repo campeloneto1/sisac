@@ -133,6 +133,25 @@ export class DocumentosComponent implements OnInit, OnDestroy {
     }); 
   }
 
+  getCorpo(){
+    var encontrou = false;
+    var corpo = '';
+    //console.log(this.formcad.value.documento_tipo_id)
+    //console.log( this.tiposdocumentos$)
+    for (let index = 0; index < this.tiposdocumentos$.length; index++) {
+      if(this.formcad.value.documento_tipo_id == this.tiposdocumentos$[index].id && this.tiposdocumentos$[index].corpo){
+        //console.log(`aaaaaa`)
+        encontrou = true;
+        corpo = this.tiposdocumentos$[index].corpo;
+      }    
+    }
+
+    if(encontrou){
+      this.formcad.controls.corpo.patchValue(corpo);
+    }else{
+      this.formcad.controls.corpo.patchValue(null);
+    }
+  }
 
   editar(data:any){   
     this.formcad.patchValue(data);    

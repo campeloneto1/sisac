@@ -338,6 +338,7 @@
               <h4 class="modal-title">
                 Usuários
                 <button
+                *ngIf="btndisp"
                   type="button"
                   class="btn  btn-outline-primary"
                   (click)="cadusu()"
@@ -426,6 +427,7 @@
                     <td>
                       <span class="editdata">
                         <i
+                        *ngIf="btndisp"
                           (click)="deletarusu(data)"
                           class="right fas fa-trash text-danger point margin5"
                           data-toggle="tooltip"

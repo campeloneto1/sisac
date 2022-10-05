@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import {environment} from '../../../environments/environment';
 import { MateriaisEmprestimosService } from '../../services/materiais-emprestimos.service';
 import { SubunidadesService } from '../../services/subunidades.service';
 import { SessionService } from '../../services/session.service';
@@ -13,7 +14,8 @@ import { AppComponent } from 'src/app/app.component';
 export class MaterialEmprestimoComponent implements OnInit {
 
   data$: any;
-
+  url = environment.imagens;
+  qrcod = '';
   user: any;
   subunidade: any;
   date = new Date();
@@ -25,8 +27,6 @@ export class MaterialEmprestimoComponent implements OnInit {
     'maio',
     'junho',
     'julho',
-    'agosto',
-    'setembro',
     'agosto',
     'setembro',
     'outubro',
@@ -66,6 +66,8 @@ export class MaterialEmprestimoComponent implements OnInit {
       this.subunidades.show(this.data$.subunidade_id).subscribe(data => {
         this.subunidade = data;
       });
+
+      this.qrcod = environment.ipserver+'Validacao/3$'+this.data$.key;
     });
    
     this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()]+' de '+this.date.getFullYear();

@@ -33,6 +33,7 @@ export class MateriaisComponent implements OnInit,OnDestroy {
   materiaistipos$: any;
 
   excluir$: any;
+  reparar$: any;
 
   config = {
     displayFn:(item: any) => { return item.nome; } ,//to support flexible text displaying for each item
@@ -140,6 +141,7 @@ export class MateriaisComponent implements OnInit,OnDestroy {
     modelo: new FormControl(''), 
     data_venc: new FormControl(''), 
     data_baixa: new FormControl(''), 
+    observacoes: new FormControl(''), 
   });
 
   // We use this trigger because fetching the list of persons can be quite long,
@@ -258,6 +260,20 @@ export class MateriaisComponent implements OnInit,OnDestroy {
         this.toastr.success('Informação excluída com sucesso!');  
       }
     })
+  }
+
+  reparar(data:any){
+    this.reparar$ = data;
+  }
+
+  confirmrep(){
+    this.materiais.reparar(this.reparar$.id).subscribe(data => {
+      if(data == 1){
+        this.refresh();   
+        
+        this.toastr.success('Informação editada com sucesso!');  
+      }
+    });
   }
 
 }

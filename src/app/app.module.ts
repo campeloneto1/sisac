@@ -69,6 +69,10 @@ import { MaterialEmprestimoComponent } from './views/material-emprestimo/materia
 import { ArmamentosEmprestimosComponent } from './views/armamentos-emprestimos/armamentos-emprestimos.component';
 import { FeriasComponent } from './views/ferias/ferias.component';
 import { PromocoesComponent } from './views/promocoes/promocoes.component';
+import { FeriasGuiaComponent } from './views/ferias-guia/ferias-guia.component';
+import { ValidacaoComponent } from './views/validacao/validacao.component';
+import { IrsosFinanceirosComponent } from './views/irsos-financeiros/irsos-financeiros.component';
+import { AdministracaoComponent } from './views/administracao/administracao.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +128,11 @@ import { PromocoesComponent } from './views/promocoes/promocoes.component';
     MaterialEmprestimoComponent,
     ArmamentosEmprestimosComponent,
     FeriasComponent,
-    PromocoesComponent
+    PromocoesComponent,
+    FeriasGuiaComponent,
+    ValidacaoComponent,
+    IrsosFinanceirosComponent,
+    AdministracaoComponent
   ],
   imports: [
     BrowserModule,

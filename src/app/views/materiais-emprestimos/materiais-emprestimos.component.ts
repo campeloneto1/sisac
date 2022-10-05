@@ -123,6 +123,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
     data_saida: new FormControl(''), 
     hora_saida: new FormControl(''), 
     observacoes: new FormControl(''), 
+    quant: new FormControl(''), 
   });
 
   formcad2 = new FormGroup({
@@ -133,6 +134,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
     extraviado: new FormControl(''), 
     material_id: new FormControl(''), 
     observacoes: new FormControl(''), 
+    serial: new FormControl(''), 
   });
 
   // We use this trigger because fetching the list of persons can be quite long,
@@ -148,7 +150,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
     private usuarios: UsuariosService) { 
 
         this.user = this.session.getUser();
-        if(this.user.perfil.veiculos_emprestimos){
+        if(this.user.perfil.materiais_emprestimos){
           this.materiaisemprestimos.index().subscribe(data => {
             this.data$ = data;
             this.dtTrigger.next();
@@ -237,6 +239,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
 
   receber(data:any){
     this.formcad2.patchValue(data);
+    this.formcad2.controls.serial.patchValue(data.material?.serial);
   }
 
   salvarreceber(){

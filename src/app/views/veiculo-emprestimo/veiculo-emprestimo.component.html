@@ -1,9 +1,9 @@
 <div class="page-header" style="text-align: center; margin-bottom: 10px;" *ngIf="data$">
-    <img src="../../../assets/cabecalho.png" class="cabecalho" />
+    <img src="{{url}}cabecalho.png" class="cabecalho" />
     <br />
     <h4>
       Empréstimo de Veículo Nº {{ data$.id }}
-      - {{ data$.subunidade.abreviatura }}
+      - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
     </h4>
   </div>
   
@@ -11,13 +11,13 @@
     <div class="row rodape2 " *ngIf="user" >
       <div class="col-sm-3 text-center">
         <qrcode
-          [qrdata]="'http://localhost:4200/Documento/1'"
+          [qrdata]="qrcod"
           [allowEmptyString]="true"
           [cssClass]="'center'"
           [elementType]="'canvas'"
-          [errorCorrectionLevel]="'H'"
+          [errorCorrectionLevel]="'M'"
           [scale]="1"
-          [width]="100"
+          [width]="120"
         ></qrcode>
       </div>
       <div class="col-sm-6 text-center">
@@ -42,7 +42,7 @@
         </p>
       </div>
     </div>
-    <img src="../../../assets/rodape.png" class="rodape" />
+    <img src="{{url}}rodape.png" class="rodape" />
   </div>
   
   <table style="width: 100%; min-width: 100%;" *ngIf="data$">
@@ -66,20 +66,16 @@
           <div class="page">PAGE 2</div>-->
           <div class="page" >
             <div class="noprint text-center">
-              <img src="../../../assets/cabecalho.png" class="cabecalho" />
-              <br />
-              <h4>
+              <img src="{{url}}cabecalho.png" class="cabecalho" />
+              <h4 style="margin-top: 30px;">
                 Empréstimo de Veículo Nº {{ data$.id }}
-      - {{ data$.subunidade.abreviatura }}
+      - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
               </h4>
             </div>
-            
-            <br />
-            <h5>
+            <h5 style="margin-top: 20px;">
               Fortaleza - CE, {{ datahj }}
             </h5>
-            <br /><br />
-            <div class="row">
+            <div style="margin-top: 40px;" class="row">
                 <div class="col-sm-3">
                     <b>Marca/Modelo:</b> {{data$.veiculo.marca.nome}}/{{data$.veiculo.modelo.nome}}
                 </div>
@@ -94,6 +90,12 @@
               </div>
             </div>
             <div class="row">
+              <div class="col-sm-3">
+                <b>Graduação:</b> {{data$.usuario.graduacao.nome}}
+              </div>
+              <div class="col-sm-2" *ngIf="data$.usuario.numeral">
+                <b>Numeral:</b> {{data$.usuario.numeral | mask: '00.000'}}
+              </div>
               <div class="col-sm-4">
                   <b>Usuário:</b> {{data$.usuario.nome}}
               </div>
@@ -103,6 +105,7 @@
               
           </div>
             <div class="row">
+
                 <div class="col-sm-3">
                     <b>Data Saída:</b> {{data$.data_saida | date:'dd/MM/yyyy'}}
                 </div>
@@ -125,10 +128,8 @@
                 </div>
             </div>
 
-            <br /><br />
-            <div [innerHTML]="data$.observacoes"></div>
-            <br /><br /><br /><br />
-            <div class="text-center" >
+            <div  style="margin-top: 40px;" [innerHTML]="data$.observacoes"></div>
+            <div  style="margin-top: 60px;" class="text-center" >
               <b>{{data$.usuario.nome}}</b><br />
               Mat.: {{data$.usuario.matricula | mask:'000.000-0-0'}}<br />
               

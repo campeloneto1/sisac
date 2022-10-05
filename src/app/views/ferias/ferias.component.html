@@ -80,12 +80,18 @@
                     <td>{{ data.boletim}}</td>            
                     <td>
                       <span class="editdata">
+                        <a target="_blank" [routerLink]="['/Guia-Ferias', data.id]"><i
+                          class="right fas fa-print text-primary point"
+                          data-toggle="tooltip" 
+                          data-placement="top" 
+                          title="Imprimir"
+                        ></i></a>
                         <i
                         *ngIf="user.perfil.usuarios_edt"
                           (click)="editar(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#modalcad"
-                          class="right fas fa-edit text-primary point"
+                          class="right fas fa-edit text-primary point margin5"
                           data-toggle="tooltip" 
                           data-placement="top" 
                           title="Editar"

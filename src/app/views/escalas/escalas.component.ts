@@ -22,6 +22,9 @@ export class EscalasComponent implements OnInit, OnDestroy {
 
   dtOptions: any = {};
 
+  dtHj = new Date();
+  dtHj2 = new Date(this.dtHj.getFullYear(), this.dtHj.getMonth(), this.dtHj.getDate());
+
   data$: any;
   escalasmodelos$: any;
   usuarios$: any;
@@ -31,6 +34,7 @@ export class EscalasComponent implements OnInit, OnDestroy {
   escala$: any;
   caddisp = false;
   disps = [];
+  btndisp = true;
 
   config = {
     displayFn:(item: any) => { return item.nome; } ,//to support flexible text displaying for each item
@@ -176,6 +180,19 @@ export class EscalasComponent implements OnInit, OnDestroy {
   showDispensas(data:any){
     this.escala$ = data;
     this.disps = [];
+
+    //console.log('chamou');
+    //console.log(this.dtHj2);
+    //console.log(data);
+    var teste = data.data.split('-') ;
+    var date = new Date(teste[0],teste[1]-1,teste[2]);
+    //console.log(date);
+    //console.log(this.dtHj2);
+    if(this.dtHj2 <= date){
+      this.btndisp = true;      
+    }else{
+      this.btndisp = false;   
+    }
   }
 
   caddispe(){
@@ -213,5 +230,10 @@ export class EscalasComponent implements OnInit, OnDestroy {
           this.toastr.success('Informação cadastrada com sucesso!');  
     });
     //console.log(teste);
+  }
+
+  comparadata(data:any){
+    
+
   }
 }

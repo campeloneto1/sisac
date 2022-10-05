@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { LoginComponent } from './views/login/login.component';
 import { InicioComponent } from './views/inicio/inicio.component';
+import { AdministracaoComponent } from './views/administracao/administracao.component';
 import { AfastamentosComponent } from './views/afastamentos/afastamentos.component';
 import { AfastamentosTiposComponent } from './views/afastamentos-tipos/afastamentos-tipos.component';
 import { ArmamentoComponent } from './views/armamento/armamento.component';
@@ -20,10 +21,12 @@ import { EscalasComponent } from './views/escalas/escalas.component';
 import { EscalasModelosComponent } from './views/escalas-modelos/escalas-modelos.component';
 import { EstadosComponent } from './views/estados/estados.component';
 import { FeriasComponent } from './views/ferias/ferias.component';
+import { FeriasGuiaComponent } from './views/ferias-guia/ferias-guia.component';
 import { FichaComponent } from './views/ficha/ficha.component';
 import { GraduacoesComponent } from './views/graduacoes/graduacoes.component';
 import { IrsoComponent } from './views/irso/irso.component';
 import { IrsosComponent } from './views/irsos/irsos.component';
+import { IrsosFinanceirosComponent } from './views/irsos-financeiros/irsos-financeiros.component';
 import { LogsComponent } from './views/logs/logs.component';
 import { MarcasComponent } from './views/marcas/marcas.component';
 import { MateriaisComponent } from './views/materiais/materiais.component';
@@ -48,6 +51,7 @@ import { TurnosComponent } from './views/turnos/turnos.component';
 import { UnidadesComponent } from './views/unidades/unidades.component';
 import { UsuariosComponent } from './views/usuarios/usuarios.component';
 import { UsuarioComponent } from './views/usuario/usuario.component';
+import { ValidacaoComponent } from './views/validacao/validacao.component';
 import { VeiculosComponent } from './views/veiculos/veiculos.component';
 import { VeiculoEmprestimoComponent } from './views/veiculo-emprestimo/veiculo-emprestimo.component';
 import { VeiculosEmprestimosComponent } from './views/veiculos-emprestimos/veiculos-emprestimos.component';
@@ -58,9 +62,18 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
+    path: 'Validacao/:id',
+    component: ValidacaoComponent,
+  },
+  {
     path: 'Inicio',
     canActivate: [AuthGuard],
     component: InicioComponent,
+  },
+  {
+    path: 'Administracao',
+    canActivate: [AuthGuard],
+    component: AdministracaoComponent,
   },
   {
     path: 'Afastamentos',
@@ -164,6 +177,11 @@ const routes: Routes = [
     component: FichaComponent,
   },
   {
+    path: 'Guia-Ferias/:id',
+    canActivate: [AuthGuard],
+    component: FeriasGuiaComponent,
+  },
+  {
     path: 'Graduacoes',
     canActivate: [AuthGuard],
     component: GraduacoesComponent,
@@ -177,6 +195,11 @@ const routes: Routes = [
     path: 'Irsos',
     canActivate: [AuthGuard],
     component: IrsosComponent,
+  },
+  {
+    path: 'Financeiro-Irsos',
+    canActivate: [AuthGuard],
+    component: IrsosFinanceirosComponent,
   },
   {
     path: 'Logs',
@@ -303,7 +326,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

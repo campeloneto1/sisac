@@ -46,6 +46,7 @@
             <thead>
               <tr>
                 <th>ID</th>
+                <th *ngIf="user.perfil.administrador">SUBUNIDADE</th>   
                 <th>TIPO</th>
                 <th>MARCA</th>
                 <th>MODELO</th>
@@ -60,6 +61,7 @@
             <tbody>
               <tr *ngFor="let data of data$" class="hovers">
                 <td>{{ data.id }}</td>
+                <td *ngIf="user.perfil.administrador">{{ data.subunidade.abreviatura }} - {{ data.subunidade.unidade.abreviatura }}</td>  
                 <td>{{ data.material_tipo.nome }}</td>
                 <td>{{ data.marca.nome }}</td>
                 <td>{{ data.modelo.nome }}</td>
@@ -74,10 +76,13 @@
                 </td>
                 <td>
                   <span class="editdata">
-                    <i *ngIf="user.perfil.materiais_edt" (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
-                      class="right fas fa-edit text-primary point" data-toggle="tooltip" data-placement="top"
+                    <i *ngIf="user.perfil.armamentos_edt && !data.data_baixa && data.danificado" (click)="reparar(data)" data-bs-toggle="modal" data-bs-target="#modalrep"
+                    class="right fa fa-wrench text-primary point" data-toggle="tooltip" data-placement="top"
+                    title="Reparar"></i>
+                    <i *ngIf="user.perfil.materiais_edt && !data.data_baixa" (click)="editar(data)" data-bs-toggle="modal" data-bs-target="#modalcad"
+                      class="right fas fa-edit text-primary point margin5" data-toggle="tooltip" data-placement="top"
                       title="Editar"></i>
-                    <i *ngIf="user.perfil.materiais_del" (click)="deletar(data)" data-bs-toggle="modal" data-bs-target="#modaldel"
+                    <i *ngIf="user.perfil.materiais_del && !data.data_baixa" (click)="deletar(data)" data-bs-toggle="modal" data-bs-target="#modaldel"
                       class="right fas fa-trash text-danger point margin5" data-toggle="tooltip" data-placement="top"
                       title="Excluir"></i>
                   </span>
@@ -156,6 +161,18 @@
                   </div>
                 </div>
                 <!--FIM ROW 2-->
+
+                 <!--INICIO ROW 3-->
+               <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="observacoes">Observações</label>
+                    <angular-editor formControlName="observacoes" id="observacoes" [config]="editorConfig">
+                    </angular-editor>
+                  </div>
+                </div>
+              </div>
+              <!--FIM ROW 3-->
   
               </div>
               <div class="modal-footer">
@@ -199,6 +216,33 @@
         </div>
       </div>
       <!--FIM MODAL DELETE-->
+
+       <!--INICIO MODAL REPARAR-->
+    <div class="modal fade" id="modalrep" aria-modal="true" role="dialog">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Reparar Armamento</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <p>Tem certeza que deseja reparar o material <b>{{reparar$?.serial}}</b>?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+              Cancelar
+            </button>
+            <button (click)="confirmrep()" data-bs-dismiss="modal" type="button" class="btn btn-success">
+              Confirmar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL REPARAR-->
 
     </section>
     <!--FIM SECTION TABELA-->

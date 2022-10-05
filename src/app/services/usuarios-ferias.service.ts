@@ -17,6 +17,10 @@ export class UsuariosFeriasService {
     return this.http.get(environment.url+"usuarios-ferias/"+id);
   }
 
+  ativos(){
+    return this.http.get(environment.url+"usuarios-ferias-ativos");
+  }
+
   store(data:any){
     return this.http.post(environment.url+"usuarios-ferias",data);
   }

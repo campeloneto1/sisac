@@ -100,16 +100,16 @@
     </li>-->
    
     
-    <li class="nav-item dropdown user-menu">
+    <li class="nav-item dropdown user-menu" style="margin-right: 100px!important;">
       <a (click)="showmenu()" href="#" class="nav-link dropdown-toggle " [ngClass]="{ 'show': menu == true }" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="../../../assets/casamil.png" class="user-image img-circle elevation-2" alt="User Image">        
+        <img src="{{url}}casamil.png" class="user-image img-circle elevation-2" alt="User Image">        
         <span class="d-none d-md-inline">{{user?.nome}}</span>
       </a>
     
-      <ul  class="dropdown-menu dropdown-menu-lg dropdown-menu-right " [ngClass]="{ 'show': menu == true }">
+      <ul  class="dropdown-menu dropdown-menu-lg dropdown-menu-right " style="margin-top: 8px!important;" [ngClass]="{ 'show': menu == true }">
         
         <li class="user-header bg-olive">
-          <img src="../../../assets/casamil.png" class="img-circle elevation-2" alt="User Image">
+          <img src="{{url}}casamil.png" class="img-circle elevation-2" alt="User Image">
 
           <p>
             {{user?.nome}}

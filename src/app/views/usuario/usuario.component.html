@@ -201,13 +201,13 @@
                 <li *ngIf="user.perfil.escalas || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#escalas" data-bs-toggle="tab">Escalas</a>
                 </li>
-                <li *ngIf="user.perfil.usuarios || userid == this.user.id" class="nav-item">
+                <li *ngIf="user.perfil.usuarios_cad || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#ferias" data-bs-toggle="tab">Férias</a>
                 </li>
                 <li *ngIf="user.perfil.irsos || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#irso" data-bs-toggle="tab">Irsos</a>
                 </li>
-                <li *ngIf="user.perfil.usuarios || userid == this.user.id" class="nav-item">
+                <li *ngIf="user.perfil.usuarios_cad || userid == this.user.id" class="nav-item">
                   <a class="nav-link" href="#promocoes" data-bs-toggle="tab">Promoções</a>
                 </li>
                 <li *ngIf="user.perfil.publicacoes || userid == this.user.id" class="nav-item">
@@ -439,6 +439,7 @@
                         <th>ATRASADO</th>
                         <th>AUSENTE</th>
                         <th>ATESTADO</th>
+                        <th>DISPENSADO</th>
 
                       </tr>
                     </thead>
@@ -462,6 +463,7 @@
                         <td><span *ngIf="data.atrasado">Sim</span></td>
                         <td><span *ngIf="data.ausente">Sim</span></td>
                         <td><span *ngIf="data.atestado">Sim</span></td>
+                        <td><span *ngIf="data.dispensado">Sim</span></td>
                       </tr>
                     </tbody>
                   </table>

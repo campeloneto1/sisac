@@ -1,10 +1,10 @@
 <div class="page-header" style="text-align: center; margin-bottom: 10px" *ngIf="data$">
-  <img src="../../../assets/cabecalho.png" class="cabecalho" />
+  <img src="{{url}}cabecalho.png" class="cabecalho" />
   <h3>
     <b>{{ data$.escala_modelo?.nome }} Nº {{ data$.codigo }}/{{
       data$.created_at | date: "yyyy"
       }}
-      - {{ data$.subunidade.abreviatura }}</b>
+      - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}</b>
   </h3>
   <h4>Para o dia {{ dataesc }}</h4>
 </div>
@@ -33,7 +33,7 @@
       </p>
     </div>
   </div>
-  <img src="../../../assets/rodape.png" class="rodape" />
+  <img src="{{url}}rodape.png" class="rodape" />
 </div>
 
 <table style="width: 100%; min-width: 100%" *ngIf="data$">
@@ -56,12 +56,12 @@
           <!--INICIO TABLE MODALIDADE-->
           <div style="width: 100%; min-width: 100%">
             <div class="noprint text-center">
-              <img src="../../../assets/cabecalho.png" class="cabecalho " />
+              <img src="{{url}}cabecalho.png" class="cabecalho " />
               <h3>
                 <b>{{ data$.escala_modelo?.nome }} Nº {{ data$.codigo }}/{{
                   data$.created_at | date: "yyyy"
                   }}
-                  - {{ data$.subunidade.abreviatura }}</b>
+                  - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}</b>
               </h3>
               <h4>Para o dia {{ dataesc }}</h4>
             </div>
@@ -114,16 +114,20 @@
                             data3.pivot.turno_id
                           )
                         ">
-                        <del *ngIf="data4.pivot.ausente || data4.pivot.atestado">{{ data4.graduacao.abreviatura }}
+                        <del *ngIf="data4.pivot.ausente || data4.pivot.atestado || data4.pivot.dispensado">{{ data4.graduacao.abreviatura }}
                           {{ data4.numeral | mask: '00.000' }}
                           {{ data4.nome_guerra }}
                           ({{ data4.telefone1 }}) </del>
-                        <span *ngIf="!data4.pivot.ausente && !data4.pivot.atestado">{{ data4.graduacao.abreviatura }}
+                        <span *ngIf="!data4.pivot.ausente && !data4.pivot.atestado && !data4.pivot.dispensado">{{ data4.graduacao.abreviatura }}
                           {{ data4.numeral | mask: '00.000' }}
                           {{ data4.nome_guerra }}
-                          ({{ data4.telefone1 }})<i *ngIf="data4.pivot.atrasado" class="nav-icon text-warning fas fa-clock"></i></span>
-                        <i *ngIf="!data4.pivot.ausente && !data4.pivot.atrasado && !data4.pivot.atestado && user.perfil.oficial_dia && atual" style="cursor: pointer;" (click)="ausente(data4)" data-bs-toggle="modal"
-                        data-bs-target="#modalausente" class="noprint text-danger nav-icon fa fa-user-times"></i> 
+                          ({{ data4.telefone1 }})
+                          <i *ngIf="data4.pivot.atrasado" class="nav-icon text-warning fas fa-clock"></i>
+                        </span>
+                        
+                        <i *ngIf="!data4.pivot.ausente && !data4.pivot.atrasado && !data4.pivot.atestado && !data4.pivot.dispensado && user.perfil.oficial_dia && atual"
+                          style="cursor: pointer;" (click)="ausente(data4)" data-bs-toggle="modal"
+                          data-bs-target="#modalausente" class="noprint text-danger nav-icon fa fa-user-times"></i>
                       </li>
                     </ul>
                   </td>
@@ -131,39 +135,7 @@
               </tbody>
             </table>
 
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th class="p-0 titlemodalidade">
-                    ATIVIDADE DE APOIO (Horário 08h00 às 17h00)
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <div class="row" *ngFor="let data of setores$" style="width: 99.9%; margin-left: 0.8px;">
-                  <div class="col-sm-12 text-center p-0 titlemodalidade2" style="border:1px solid #dee2e6">
-                    <b>{{ data.nome | uppercase }}</b>
-                  </div>
-                  <div class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6"
-                    *ngFor="let setuser of data.users">
-                    <span *ngIf="setuser">
-                      {{ setuser.graduacao?.abreviatura }}
-                      {{ setuser.numeral }}
-                      {{ setuser.nome_guerra }}
-                      ({{ setuser.telefone1 }})
-                    </span>
-                    <span *ngIf="!setuser">**************</span>
-                  </div>
-                </div>
-              </tbody>
-            </table>
-
-            <br /><br /><br /><br />
-            <div class="text-center" *ngIf="subunidade$ && subunidade$.comandante">
-              <b>{{subunidade$.comandante.nome}}</b><br />
-              Mat.: {{subunidade$.comandante.matricula | mask:'000.000-0-0'}}<br />
-              Comandante da {{subunidade$.nome}} - {{subunidade$.unidade.nome}}
-            </div>
+           
           </div>
           <!--FIM TABLE MODALIDADE-->
 
@@ -262,43 +234,146 @@
                 <div class="modal-header">
                   <h4 class="modal-title">
                     Informar Ausente/Atraso
-                    
+
                   </h4>
                   <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                   </button>
                 </div>
+                <form [formGroup]="formcadfalta" (ngSubmit)="registrar()">
+                  <div class="modal-body" *ngIf="ausente$">
+                    <h3>O policial {{ausente$.nome}} está:</h3>
 
-                <div class="modal-body" *ngIf="ausente$">
-                  <h3>O policial {{ausente$.nome}} está:</h3>
+                    <div class="form-group row">
+                      <div class="col-sm-2">
+                        <div class="form-check">
+                          <input class="form-check-input" required formControlName="opcao" value="1" type="radio"
+                            name="opcao">
+                          <label class="form-check-label">Ausente</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-check">
+                          <input class="form-check-input" required formControlName="opcao" value="2" type="radio"
+                            name="opcao">
+                          <label class="form-check-label">Atrasado</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-check">
+                          <input class="form-check-input" required formControlName="opcao" value="3" type="radio"
+                            name="opcao">
+                          <label class="form-check-label">Apresentou Atestado Médico</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-check">
+                          <input class="form-check-input" required formControlName="opcao" value="4" type="radio"
+                            name="opcao">
+                          <label class="form-check-label">Dispensado</label>
+                        </div>
+                      </div>
+                    </div>
 
-                  <div class="form-group">
-                    <div class="form-check">
-                      <input class="form-check-input" [(ngModel)]="opcao" value="1" type="radio" name="opcao">
-                      <label class="form-check-label">Ausente</label>
+                    <div *ngIf="formcadfalta.value.opcao == '3'" class="row">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="afastamento_tipo_id"
+                            >Tipo Afastamento<span class="text-danger">*</span></label
+                          >
+                          <select
+                            formControlName="afastamento_tipo_id"
+                            required
+                            
+                            class="custom-select form-control-border"
+                            id="afastamento_tipo_id"
+                          >
+                            <option></option>
+                            <option
+                            *ngFor="let data of afastamentostipos$"
+                            value="{{ data.id }}"
+                            >
+                            {{ data.nome }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="data">Data<span class="text-danger">*</span></label>
+                          <input formControlName="data" type="date" class="form-control form-control-border"
+                            id="data" placeholder="Data"  />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="dias">Dias<span class="text-danger">*</span></label>
+                          <input formControlName="dias" type="number" class="form-control form-control-border"
+                            id="dias" placeholder="Dias"  />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="cid">CID</label>
+                          <input formControlName="cid" type="text" class="form-control form-control-border"
+                            id="cid" placeholder="CID"  />
+                        </div>
+                      </div>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" [(ngModel)]="opcao" value="2" type="radio" name="opcao" >
-                      <label class="form-check-label">Atrasado</label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" [(ngModel)]="opcao" value="3" type="radio" name="opcao" >
-                      <label class="form-check-label">Apresentou Atestado Médico</label>
-                    </div>
+
                   </div>
-                </div>
-                <div class="modal-footer">
-                  <button [disabled]="!opcao" (click)="registrar()" type="button" class="btn btn-success" data-bs-dismiss="modal">
-                    Confirmar
-                  </button>
-                  <button type="button" class="btn btn-default" data-bs-dismiss="modal">
-                    Fechar
-                  </button>
-                </div>
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+                      Fechar
+                    </button>
+                    <button [disabled]="!formcadfalta.value.opcao || (formcadfalta.value.opcao == '3' && (!formcadfalta.value.data || !formcadfalta.value.dias || !formcadfalta.value.afastamento_tipo_id))" type="submit" class="btn btn-success"
+                      data-bs-dismiss="modal">
+                      Confirmar
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
           <!--FIM MODAL AUSENTE-->
+        </div>
+        <div class="page">
+          <div style="width: 100%; min-width: 100%">
+            <table class="table table-bordered" *ngIf="data$.escala_modelo?.administrativo">
+              <thead>
+                <tr>
+                  <th class="p-0 titlemodalidade">
+                    ATIVIDADE DE APOIO (Horário 08h00 às 17h00)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <div class="row" *ngFor="let data of setores$" style="width: 99.9%; margin-left: 0.8px;">
+                  <div class="col-sm-12 text-center p-0 titlemodalidade2" style="border:1px solid #dee2e6">
+                    <b>{{ data.nome | uppercase }}</b>
+                  </div>
+                  <div class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6"
+                    *ngFor="let setuser of data.users">
+                    <span *ngIf="setuser">
+                      {{ setuser.graduacao?.abreviatura }}
+                      {{ setuser.numeral }}
+                      {{ setuser.nome_guerra }}
+                      ({{ setuser.telefone1 }})
+                    </span>
+                    <span *ngIf="!setuser">**************</span>
+                  </div>
+                </div>
+              </tbody>
+            </table>
+
+            <br /><br /><br /><br />
+            <div class="text-center" *ngIf="subunidade$ && subunidade$.comandante">
+              <b>{{subunidade$.comandante.nome}}</b><br />
+              Mat.: {{subunidade$.comandante.matricula | mask:'000.000-0-0'}}<br />
+              Comandante da {{subunidade$.nome}} - {{subunidade$.unidade.nome}}
+            </div>
+          </div>
         </div>
       </td>
     </tr>

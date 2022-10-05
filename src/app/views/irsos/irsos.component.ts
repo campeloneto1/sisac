@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
-
+import {environment} from '../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { SessionService } from '../../services/session.service';
@@ -21,6 +21,10 @@ export class IrsosComponent implements OnInit, OnDestroy {
   user: any;
 
   dtOptions: any = {};
+
+  dtHj = new Date();
+  dtHj2 = new Date(this.dtHj.getFullYear(), this.dtHj.getMonth(), this.dtHj.getDate());
+  btndisp = true;
 
   data$: any;
   postos$: any;
@@ -156,6 +160,19 @@ export class IrsosComponent implements OnInit, OnDestroy {
     this.irso$ = data;
     this.posto_id = 0;
     this.usus = [];
+
+    //console.log('chamou');
+    //console.log(this.dtHj2);
+    //console.log(data);
+    var teste = data.data.split('-') ;
+    var date = new Date(teste[0],teste[1]-1,teste[2]);
+    //console.log(date);
+    //console.log(this.dtHj2);
+    if(this.dtHj2 <= date){
+      this.btndisp = true;      
+    }else{
+      this.btndisp = false;   
+    }
   }
 
 
@@ -203,6 +220,8 @@ export class IrsosComponent implements OnInit, OnDestroy {
     this.cadus = true;
     this.posto_id = 0;
     this.formcad2.reset();
+
+    
   }
 
   deletarusu(data:any){
@@ -247,7 +266,7 @@ export class IrsosComponent implements OnInit, OnDestroy {
       ids = ids+'-'+data[1];
     });
     //console.log(ids);
-    window.open('http://localhost:4200/Irso/'+ids, "_blank");
+    window.open(environment.ipserver+'Irso/'+ids, "_blank");
   }
 
 }

@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { SessionService } from '../../services/session.service';
 
 import { TiposDocumentosService } from '../../services/tipos-documentos.service';
@@ -26,9 +27,55 @@ export class TiposDocumentosComponent implements OnInit, OnDestroy {
   formcad = new FormGroup({
     id: new FormControl(''),
     nome: new FormControl(''),
-    abreviatura: new FormControl(''),  
+    abreviatura: new FormControl(''), 
+    corpo: new FormControl(''),  
 
   });
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '350',
+    minHeight: '350',
+    maxHeight: '350',
+    width: 'auto',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Informe aqui o texto do documento...',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      {class: 'arial', name: 'Arial'},
+      {class: 'times-new-roman', name: 'Times New Roman'},
+      {class: 'calibri', name: 'Calibri'},
+      {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+    ],
+    toolbarHiddenButtons : [
+      [
+        'insertImage',
+        'insertVideo',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+    {
+      name: 'quote',
+      class: 'quote',
+    },
+    {
+      name: 'redText',
+      class: 'redText'
+    },
+    {
+      name: 'titleText',
+      class: 'titleText',
+      tag: 'h1',
+    },
+  ],
+  
+};
 
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering

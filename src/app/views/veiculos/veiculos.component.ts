@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { SessionService } from '../../services/session.service';
 
 import { VeiculosService } from '../../services/veiculos.service';
@@ -77,6 +78,51 @@ export class VeiculosComponent implements OnInit, OnDestroy {
     inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
   }
 
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '350',
+    minHeight: '350',
+    maxHeight: '350',
+    width: 'auto',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Informe aqui o texto do documento...',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      {class: 'arial', name: 'Arial'},
+      {class: 'times-new-roman', name: 'Times New Roman'},
+      {class: 'calibri', name: 'Calibri'},
+      {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+    ],
+    toolbarHiddenButtons : [
+      [
+        'insertImage',
+        'insertVideo',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+    {
+      name: 'quote',
+      class: 'quote',
+    },
+    {
+      name: 'redText',
+      class: 'redText'
+    },
+    {
+      name: 'titleText',
+      class: 'titleText',
+      tag: 'h1',
+    },
+  ],
+  
+}
+
   formcad = new FormGroup({
     id: new FormControl(''),
     marca_id: new FormControl(''),
@@ -93,6 +139,7 @@ export class VeiculosComponent implements OnInit, OnDestroy {
     km_inicial: new FormControl(''), 
     troca_oleo: new FormControl(''), 
     data_baixa: new FormControl(''), 
+    observacoes: new FormControl(''), 
   });
 
   // We use this trigger because fetching the list of persons can be quite long,

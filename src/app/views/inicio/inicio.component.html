@@ -24,9 +24,9 @@
             <span class="info-box-icon bg-success"
               ><i class="fa fa-users"></i
             ></span>
-            <div class="info-box-content">
+            <div class="info-box-content" >
               <span class="info-box-text"><b>Policiais</b></span>
-              <span class="info-box-number">{{ quantpm }}</span>
+              <span class="info-box-number" *ngIf="quantpm">{{ quantpm }}</span>
             </div>
           </div>
         </div>
@@ -35,31 +35,31 @@
             <span class="info-box-icon bg-danger"
               ><i class="fa fa-medkit"></i
             ></span>
-            <div class="info-box-content">
+            <div class="info-box-content" >
               <span class="info-box-text"><b>Afastamentos</b></span>
-              <span class="info-box-number">{{ quantafast }}</span>
+              <span class="info-box-number" *ngIf="quantafast">{{ quantafast }}</span>
             </div>
           </div>
         </div>
-        <div *ngIf="user.perfil.usuarios" class="col-sm-2">
+        <div *ngIf="user.perfil.usuarios_cad" class="col-sm-2">
           <div class="info-box shadow-sm">
             <span class="info-box-icon bg-danger"
               ><i class="fa fa-map"></i
             ></span>
-            <div class="info-box-content">
+            <div class="info-box-content" >
               <span class="info-box-text"><b>Férias</b></span>
-              <span class="info-box-number">{{ quantferias }}</span>
+              <span class="info-box-number" *ngIf="quantferias">{{ quantferias }}</span>
             </div>
           </div>
         </div>
-        <div *ngIf="user.perfil.usuarios" class="col-sm-2">
+        <div *ngIf="user.perfil.veiculos" class="col-sm-2">
           <div class="info-box shadow-sm">
             <span class="info-box-icon bg-primary"
               ><i class="fa fa-car"></i
             ></span>
             <div class="info-box-content">
               <span class="info-box-text"><b>Veiculos</b></span>
-              <span class="info-box-number">{{ quantaveiculos }}</span>
+              <span class="info-box-number" *ngIf="quantaveiculos">{{ quantaveiculos }}</span>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
             ></span>
             <div class="info-box-content">
               <span class="info-box-text"><b>Escala do dia</b></span>
-              <span class="info-box-number"><a target="_blank" [routerLink]="['/Escala', escaladia[0].id]">{{ escaladia[0].codigo }}/{{ escaladia[0].created_at | date: 'yyyy' }}</a></span>
+              <span class="info-box-number" *ngIf="escaladia"><a target="_blank" [routerLink]="['/Escala', escaladia[0].id]">{{ escaladia[0].codigo }}/{{ escaladia[0].created_at | date: 'yyyy' }}</a></span>
             </div>
           </div>
         </div>
@@ -93,7 +93,7 @@
                     <th>QUANT</th>     
                   </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="quantasetores">
                   <tr *ngFor="let data of quantasetores" class="hovers">
                     <td>{{ data.nome }}</td>                
                     <td>{{ data.quant }}</td> 
@@ -126,7 +126,7 @@
                     <th>DATA</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="materiaisemprestimos">
                   <tr *ngFor="let data of materiaisemprestimos" class="hovers">
                     <td>{{ data.id }}</td>                
                     <td>{{ data.material.marca.nome }} / {{ data.material.modelo.nome }}</td> 
@@ -142,6 +142,72 @@
           </div>
         </div>
         <!--FIM MATERIAIS EMPRESTIMOS-->
+        <!--INICIO MATERIAIS VENCIMENTOS-->
+        <div *ngIf="user.perfil.materiais" class="col-sm-4">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Materiais Próximos do Vencimento</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>                  
+                    <th>MARCA</th>     
+                    <th>MODELO</th> 
+                    <th>SERIAL</th> 
+                    <th>DATA VENC.</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="materiaisvencimentos">
+                  <tr *ngFor="let data of materiaisvencimentos" class="hovers">
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.marca.nome }}</td> 
+                    <td>{{ data.modelo.nome }}</td> 
+                    <td>{{ data.serial }}</td> 
+                    <td>{{ data.data_venc | date:'dd/MM/yyyy' }}</td> 
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--FIM MATERIAIS VENCIMENTOS-->
+        <!--INICIO ARMAMENTOS VENCIMENTOS-->
+        <div *ngIf="user.perfil.armamentos" class="col-sm-4">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Armamentos Próximos do Vencimento</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>                  
+                    <th>MARCA</th>     
+                    <th>MODELO</th> 
+                    <th>SERIAL</th> 
+                    <th>DATA VENC.</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="armamentosvencimentos">
+                  <tr *ngFor="let data of armamentosvencimentos" class="hovers">
+                    <td>{{ data.id }}</td>                
+                    <td>{{ data.marca.nome }}</td> 
+                    <td>{{ data.modelo.nome }}</td> 
+                    <td>{{ data.serial }}</td> 
+                    <td>{{ data.data_venc | date:'dd/MM/yyyy' }}</td> 
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--FIM ARMAMENTOS VENCIMENTOS-->
         <!--INICIO VEICULOS EMPRESTIMOS -->
         <div *ngIf="user.perfil.veiculos_emprestimos" class="col-sm-4">
           <div class="card card-outline card-orange">
@@ -161,7 +227,7 @@
                     <th>DATA</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="veiculosemprestimos">
                   <tr *ngFor="let data of veiculosemprestimos" class="hovers">
                     <td>{{ data.id }}</td>                
                     <td>{{ data.veiculo.marca.nome }} / {{ data.veiculo.modelo.nome }}</td> 
@@ -195,10 +261,10 @@
                     <th>MODELO</th> 
                     <th>PLACA</th> 
                     <th>KM ATUAL</th>
-                    <th>TROCA ÓLEO</th>
+                    <th>TROCA DE ÓLEO</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="trocaoleo">
                   <tr *ngFor="let data of trocaoleo" class="hovers">
                     <td>{{ data.id }}</td>                
                     <td>{{ data.marca.nome }}</td> 
@@ -208,8 +274,8 @@
                       <span *ngIf="data.placa_esp">{{ data.placa_esp }}</span>
                     </td> 
                     
-                    <td>{{ data.km_atual }}</td> 
-                    <td>{{ data.troca_oleo }}</td> 
+                    <td>{{ data.km_atual }} km</td> 
+                    <td>{{ data.troca_oleo }} km</td> 
                   </tr>
                 </tbody>
               </table>
@@ -218,73 +284,9 @@
         </div>
         <!--FIM TROCA OLEO-->
 
-        <!--INICIO ARMAMENTOS VENCIMENTOS-->
-        <div *ngIf="user.perfil.veiculos" class="col-sm-4">
-          <div class="card card-outline card-orange">
-            <div class="card-header">
-              <h3 class="card-title">Armamentos Próximos do Vencimento</h3>
-            </div>
-            <div class="card-body table-responsive p-0">
-              <table                
-                class="table table-hover table-head-fixed text-nowrap"
-              >
-                <thead>
-                  <tr>
-                    <th>ID</th>                  
-                    <th>MARCA</th>     
-                    <th>MODELO</th> 
-                    <th>SERIAL</th> 
-                    <th>DATA VENC.</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let data of armamentosvencimentos" class="hovers">
-                    <td>{{ data.id }}</td>                
-                    <td>{{ data.marca.nome }}</td> 
-                    <td>{{ data.modelo.nome }}</td> 
-                    <td>{{ data.serial }}</td> 
-                    <td>{{ data.data_venc | date:'dd/MM/yyyy' }}</td> 
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <!--FIM ARMAMENTOS VENCIMENTOS-->
+        
 
-        <!--INICIO MATERIAIS VENCIMENTOS-->
-        <div *ngIf="user.perfil.veiculos" class="col-sm-4">
-          <div class="card card-outline card-orange">
-            <div class="card-header">
-              <h3 class="card-title">Materiais Próximos do Vencimento</h3>
-            </div>
-            <div class="card-body table-responsive p-0">
-              <table                
-                class="table table-hover table-head-fixed text-nowrap"
-              >
-                <thead>
-                  <tr>
-                    <th>ID</th>                  
-                    <th>MARCA</th>     
-                    <th>MODELO</th> 
-                    <th>SERIAL</th> 
-                    <th>DATA VENC.</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let data of materiaisvencimentos" class="hovers">
-                    <td>{{ data.id }}</td>                
-                    <td>{{ data.marca.nome }}</td> 
-                    <td>{{ data.modelo.nome }}</td> 
-                    <td>{{ data.serial }}</td> 
-                    <td>{{ data.data_venc | date:'dd/MM/yyyy' }}</td> 
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <!--FIM MATERIAIS VENCIMENTOS-->
+        
       </div>
     </section>
   </div>

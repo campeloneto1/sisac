@@ -48,7 +48,7 @@
                 <th>ID</th>
                 <th>TIPO</th>
                 <th>MARCA/MODELO</th>
-                <th>MATERIAL</th>
+                <th>SERIAL</th>
                 <th>USUÁRIO</th>
                 <th>DATA SAÍDA</th>
                 <th>HORA SAÍDA</th>
@@ -130,7 +130,13 @@
                       </ngx-select-dropdown>
                     </div>
                   </div>
-  
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="quant">Quantidade</label>
+                      <input formControlName="quant" type="number" min="0" max="100"
+                        class="form-control form-control-border" id="quant" placeholder="Quant." />
+                    </div>
+                  </div>
   
                 </div>
                 <!--FIM ROW 1-->
@@ -204,7 +210,7 @@
             <form [formGroup]="formcad2" (ngSubmit)="salvarreceber()">
               <div class="modal-body">
                  <!--INICIO ROW 1-->
-                 <div class="row">
+                 <div class="row" *ngIf="formcad2.value.serial">
                    
                   <div class="col-sm-2">
                       <div class="form-group">

@@ -1,0 +1,136 @@
+<div class="page-header" style="text-align: center; margin-bottom: 10px;" *ngIf="data$">
+    <img src="{{url}}cabecalho.png" class="cabecalho" />
+    <br />
+    <h4>
+      Guia de Férias - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
+    </h4>
+  </div>
+  
+  <div class="page-footer" *ngIf="data$">
+    <div class="row rodape2 " *ngIf="user" >
+      <div class="col-sm-3 text-center">
+        <qrcode
+          [qrdata]="qrcod"
+          [allowEmptyString]="true"
+          [cssClass]="'center'"
+          [elementType]="'canvas'"
+          [errorCorrectionLevel]="'M'"
+          [scale]="1"
+          [width]="120"
+        ></qrcode>
+      </div>
+      <div class="col-sm-6 text-center">
+        <p>
+          {{ user.subunidade?.nome }} – {{ user.subunidade.unidade?.nome
+          }}<br />
+          {{ user.subunidade?.rua }}, {{ user.subunidade?.numero }} -
+          {{ user.subunidade?.bairro }} | CEP:
+          {{ user.subunidade?.cep | mask: "00.000-00" }}
+          {{ user.subunidade.cidade?.nome }} /
+          {{ user.subunidade.cidade?.estado.uf }} <br />
+          Fones: {{ user.subunidade?.telefone1 | mask: "(00) 0000-0000" }} |
+          E-mail: {{ user.subunidade?.email }}<br />
+          <b>“Raça de Fortes, Povo de Bravos”</b>
+        </p>
+      </div>
+      <div class="col-sm-3">
+        <p>
+          <b>Usuário:</b> {{ user.graduacao?.abreviatura }} {{ user.numeral }}
+          {{ user.nome_guerra }}<br />
+          <b>Data:</b> {{ date | date: "dd/MM/yyyy HH:mm" }}
+        </p>
+      </div>
+    </div>
+    <img src="{{url}}rodape.png" class="rodape" />
+  </div>
+  
+  <table style="width: 100%; min-width: 100%;" *ngIf="data$">
+  
+    <thead class="thead">
+      <tr>
+        <td>
+          <!--place holder for the fixed-position header-->
+          <div class="page-header-space">
+            
+          </div>
+        </td>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr>
+        <td>
+          <!--*** CONTENT GOES HERE ***
+          <div class="page">PAGE 1</div>
+          <div class="page">PAGE 2</div>-->
+          <div class="page" >
+            <div class="noprint text-center">
+              <img src="{{url}}cabecalho.png" class="cabecalho" />
+              <h4 style="margin-top: 30px;">
+                Guia de Férias - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
+              </h4>
+            </div>
+            
+            <h5 style="margin-top: 30px;">
+              Fortaleza - CE, {{ datadoc }}
+            </h5>
+            <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.user.graduacao?.nome}} <span *ngIf="data$.user.numeral">{{data$.user.numeral | mask: '00.000'}}</span> {{data$.user.nome}}, 
+                matrícula {{data$.user.matricula | mask: '000.000-0-0'}}</b>, desta {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}, 
+                o gozo de {{data$.dias}} dias de suas férias relativas ao período aquisitivo <b>{{data$.ano}}</b>, conforme publicação contida no 
+                {{data$.boletim}}, no período de {{data$.data_ini | date: 'dd/MM/yyyy'}} a {{data$.data_fim | date: 'dd/MM/yyyy'}}, devendo retornar para 
+                o expediente normal e/ou serviço no dia {{data$.apto | date: 'dd/MM/yyyy'}}, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
+                Art. 59, da Lei nº 13.729 (Estatuto dos Militares Estaduais do Ceará) e regulamentação prevista na Portaria nº 309/2019-GC, 
+                publicado no BCG nº 202, de 24/10/2019.
+
+            </div>
+            <div style="margin-top: 50px; margin-bottom: 60px;" class="text-center" *ngIf="subunidade.comandante">
+              <b>{{subunidade.comandante?.nome}}</b><br />
+              Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-0'}}<br />
+              Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
+            </div>
+            <b style="margin-top: 80px; border-top: 1px solid;">
+              {{data$.user.graduacao?.abreviatura}} <span *ngIf="data$.user.numeral">{{data$.user.numeral | mask: '00.000'}}</span> {{data$.user.nome_guerra}}, 
+                mat.: {{data$.user.matricula | mask: '000.000-0-0'}}
+            </b> 
+            
+            <hr style="margin-top: 80px;" />
+            
+            <h4 style="margin-top: 80px; width: 100%; text-align: center;">
+                Guia de Férias - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
+            </h4>
+            <h5 style="margin-top: 30px;">
+              Fortaleza - CE, {{ datadoc }}
+            </h5>
+            <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.user.graduacao?.nome}} <span *ngIf="data$.user.numeral">{{data$.user.numeral | mask: '00.000'}}</span> {{data$.user.nome}}, 
+                matrícula {{data$.user.matricula | mask: '000.000-0-0'}}</b>, desta {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}, 
+                o gozo de {{data$.dias}} dias de suas férias relativas ao período aquisitivo <b>{{data$.ano}}</b>, conforme publicação contida no 
+                {{data$.boletim}}, no período de {{data$.data_ini | date: 'dd/MM/yyyy'}} a {{data$.data_fim | date: 'dd/MM/yyyy'}}, devendo retornar para 
+                o expediente normal e/ou serviço no dia {{data$.apto | date: 'dd/MM/yyyy'}}, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
+                Art. 59, da Lei nº 13.729 (Estatuto dos Militares Estaduais do Ceará) e regulamentação prevista na Portaria nº 309/2019-GC, 
+                publicado no BCG nº 202, de 24/10/2019.
+
+            </div>
+            <div style="margin-top: 50px;" class="text-center" *ngIf="subunidade.comandante">
+              <b>{{subunidade.comandante?.nome}}</b><br />
+              Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-0'}}<br />
+              Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  
+    <tfoot class="tfoot">
+      <tr>
+        <td>
+          <!--place holder for the fixed-position footer-->
+          <div class="page-footer-space">
+            
+            
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  
+  </table>
+  

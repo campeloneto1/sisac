@@ -94,7 +94,7 @@ export class OcorrenciasComponent implements OnInit,OnDestroy {
     private ocorrencias: OcorrenciasService,
     private tiposocorrencias: TiposOcorrenciasService) {
         this.user = this.session.getUser();
-        if(this.user.perfil.oficial_dia){
+        if(this.user.perfil.ocorrencias){
           this.ocorrencias.index().subscribe(data => {
             this.data$ = data;
             this.dtTrigger.next();
