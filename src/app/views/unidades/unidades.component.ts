@@ -90,7 +90,7 @@ private router: Router,
 
     
 
-    this.usuarios.index().subscribe(data => {
+    this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
     });
     

@@ -118,7 +118,7 @@ export class EscalasComponent implements OnInit, OnDestroy {
       this.escalasmodelos$ = data;
     });
 
-    this.usuarios.index().subscribe(data => {
+    this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
     });
     

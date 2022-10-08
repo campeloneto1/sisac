@@ -58,15 +58,15 @@
                 <th>ID</th>
                 <th *ngIf="user.perfil.administrador">SUBUNIDADE</th>
                 <th >SETOR</th>
-                <th>GRADUAÇÃO</th>
-                <th>NUMERAL</th>
+                <th>GRAD.</th>
+                <th>NUM.</th>
                 <th>NOME</th>
                 <th>NOME GUERRA</th>
-                <th>CPF</th>
                 <th>MATRÍCULA</th>
+                <th>CPF</th>
+                <th>TRANSF.</th>
                 <th>FOTO</th>
                 <th *ngIf="user.perfil.administrador">PERFIL</th>
-                
                 <th>OPÇÕES</th>
               </tr>
             </thead>
@@ -75,12 +75,13 @@
                 <td>{{ data.id }}</td>
                 <td *ngIf="user.perfil.administrador">{{ data.subunidade.abreviatura }} - {{ data.subunidade.unidade.abreviatura }}</td>    
                 <td>{{ data.setor.nome }}</td>
-                <td>{{ data.graduacao.nome }}</td>
+                <td>{{ data.graduacao.abreviatura }}</td>
                 <td>{{ data.numeral | mask: "00.000" }}</td>
                 <td><a [routerLink]="['/Usuario', data.id]">{{ data.nome }}</a></td>
                 <td>{{ data.nome_guerra }}</td>
-                <td>{{ data.cpf | mask: "000.000.000-00" }}</td>
                 <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
+                <td>{{ data.cpf | mask: "000.000.000-00" }}</td>
+                <td><span *ngIf="data.boletim_saida">Sim</span></td>
                 <td >
                   <i class="fas fa-portrait point" *ngIf="user.perfil.usuarios_cad" [ngClass]="data.foto ? 'text-success' : 'text-danger'" (click)="foto(data)" data-bs-toggle="modal" data-bs-target="#modalfoto"></i>
                   <i class="fas fa-portrait" *ngIf="!user.perfil.usuarios_cad " [ngClass]="data.foto ? 'text-success' : 'text-danger'"></i>

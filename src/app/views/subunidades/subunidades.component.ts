@@ -99,7 +99,7 @@ export class SubunidadesComponent implements OnInit, OnDestroy {
       this.unidades$ = data;
     });
 
-    this.usuarios.index().subscribe(data => {
+    this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
     });
     

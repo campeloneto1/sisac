@@ -6,239 +6,265 @@
                 <div class="col-sm-6">
                     <h1>Validação sistema Sisac</h1>
                 </div>
-                
+
             </div>
         </div>
     </section>
 
-    <section class="content" *ngIf="data$">
-        <!--VALIDANDO DOCUMENTO-->
-        <div class="card" *ngIf="tipo == '1'">
-            <div class="card-header">
-                <h3 class="card-title">Validar Documento</h3>                
-            </div>
-            <div class="card-body">
-                
-                <dl class="row">
-                    <dt class="col-sm-3">Subunidade/Unidade:</dt>
-                    <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
-
-                    <dt class="col-sm-3">Tipo de documento:</dt>
-                    <dd class="col-sm-8">{{data$.documento_tipo?.nome}}</dd>
-
-                    <dt class="col-sm-3">Código:</dt>      
-                    <dd class="col-sm-8 ">{{data$.codigo}}/{{data$?.created_at | date: 'yyyy'}}</dd>
-                                 
-                </dl>
+    <section class="content">
+        <!--NOTFOUND-->
+        <div class="card" *ngIf="notfound">
+            <!--<div class="card-header">
+                <h3 class="card-title">Informação não encontrada</h3>
+            </div>-->
+            <div class="card-body text-center">
+                <h2>Informação não encontrada</h2>
+                <h3>Verifique o endereço consultado e tente novamente.</h3>
             </div>
             <div class="card-footer">
-                Validação feita em {{datahj}}
+                Tentativa de validação feita em {{datahj}}
             </div>
         </div>
-         <!--FIM VALIDANDO DOCUMENTO-->
+        <!--FIM NOTFOUND-->
+        <div *ngIf="data$">
+            <!--VALIDANDO DOCUMENTO-->
+            <div class="card" *ngIf="tipo == '1'">
+                <div class="card-header">
+                    <h3 class="card-title">Validar Documento</h3>
+                </div>
+                <div class="card-body">
 
-         <!--VALIDANDO EMP ARMAMENTO-->
-        <div class="card" *ngIf="tipo == '2'">
-            <div class="card-header">
-                <h3 class="card-title">Validar Empréstimo de Armamento</h3>                
+                    <dl class="row">
+                        <dt class="col-sm-3">Subunidade/Unidade:</dt>
+                        <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
+
+                        <dt class="col-sm-3">Tipo de documento:</dt>
+                        <dd class="col-sm-8">{{data$.documento_tipo?.nome}}</dd>
+
+                        <dt class="col-sm-3">Código:</dt>
+                        <dd class="col-sm-8 ">{{data$.codigo}}/{{data$?.created_at | date: 'yyyy'}}</dd>
+
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    Validação feita em {{datahj}}
+                </div>
             </div>
-            <div class="card-body">
-                
-                <dl class="row">
-                    <dt class="col-sm-3">Subunidade/Unidade:</dt>
-                    <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
+            <!--FIM VALIDANDO DOCUMENTO-->
 
-                    <dt class="col-sm-3">Usuário:</dt>
-                    <dd class="col-sm-8">{{data$.user?.graduacao.nome}} {{data$.user?.numeral | mask:'00.000'}} {{data$.user?.nome}}, 
-                        Mat.: {{data$.user?.matricula | mask:'000.000-0-0'}}</dd>
+            <!--VALIDANDO EMP ARMAMENTO-->
+            <div class="card" *ngIf="tipo == '2'">
+                <div class="card-header">
+                    <h3 class="card-title">Validar Empréstimo de Armamento</h3>
+                </div>
+                <div class="card-body">
 
-                    <dt class="col-sm-3">Armamento:</dt>      
-                    <dd class="col-sm-8 ">{{data$.armamento?.serial}}</dd>
+                    <dl class="row">
+                        <dt class="col-sm-3">Subunidade/Unidade:</dt>
+                        <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
 
-                    <dt class="col-sm-3">Tipo:</dt>      
-                    <dd class="col-sm-8 ">{{data$.armamento?.armamento_tipo?.nome}}</dd>
+                        <dt class="col-sm-3">Usuário:</dt>
+                        <dd class="col-sm-8">{{data$.user?.graduacao.nome}} {{data$.user?.numeral | mask:'00.000'}}
+                            {{data$.user?.nome}},
+                            Mat.: {{data$.user?.matricula | mask:'000.000-0-0'}}</dd>
 
-                    <dt class="col-sm-3">Modelo/Marca:</dt>      
-                    <dd class="col-sm-8 ">{{data$.armamento?.modelo?.nome}}/{{data$.armamento?.modelo?.marca?.nome}}</dd>
+                        <dt class="col-sm-3">Armamento:</dt>
+                        <dd class="col-sm-8 ">{{data$.armamento?.serial}}</dd>
 
-                    <dt class="col-sm-3" *ngIf="data$.quant">Quantidade:</dt>      
-                    <dd class="col-sm-8 " *ngIf="data$.quant">{{data$.quant}} </dd>
+                        <dt class="col-sm-3">Tipo:</dt>
+                        <dd class="col-sm-8 ">{{data$.armamento?.armamento_tipo?.nome}}</dd>
 
-                    <dt class="col-sm-3">Data Empréstimo:</dt>      
-                    <dd class="col-sm-8 ">{{data$.data_emp | date: 'dd/MM/yyyy'}} {{data$.hora_emp }} </dd>
+                        <dt class="col-sm-3">Modelo/Marca:</dt>
+                        <dd class="col-sm-8 ">{{data$.armamento?.modelo?.nome}}/{{data$.armamento?.modelo?.marca?.nome}}
+                        </dd>
 
-                    <dt class="col-sm-3">Data Devolução:</dt>      
-                    <dd class="col-sm-8 ">{{data$.data_dev | date: 'dd/MM/yyyy'}} {{data$.hora_dev }} </dd>
-                                 
-                </dl>
+                        <dt class="col-sm-3" *ngIf="data$.quant">Quantidade:</dt>
+                        <dd class="col-sm-8 " *ngIf="data$.quant">{{data$.quant}} </dd>
+
+                        <dt class="col-sm-3">Data Empréstimo:</dt>
+                        <dd class="col-sm-8 ">{{data$.data_emp | date: 'dd/MM/yyyy'}} {{data$.hora_emp }} </dd>
+
+                        <dt class="col-sm-3">Data Devolução:</dt>
+                        <dd class="col-sm-8 ">{{data$.data_dev | date: 'dd/MM/yyyy'}} {{data$.hora_dev }} </dd>
+
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    Validação feita em {{datahj}}
+                </div>
             </div>
-            <div class="card-footer">
-                Validação feita em {{datahj}}
+            <!--FIM VALIDANDO EMP ARMAMENTO-->
+
+            <!--VALIDANDO EMP MATERIAL-->
+            <div class="card" *ngIf="tipo == '3'">
+                <div class="card-header">
+                    <h3 class="card-title">Validar Empréstimo de Material</h3>
+                </div>
+                <div class="card-body">
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Subunidade/Unidade:</dt>
+                        <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
+
+                        <dt class="col-sm-3">Usuário:</dt>
+                        <dd class="col-sm-8">{{data$.usuario?.graduacao.nome}} {{data$.usuario?.numeral |
+                            mask:'00.000'}} {{data$.usuario?.nome}},
+                            Mat.: {{data$.usuario?.matricula | mask:'000.000-0-0'}}</dd>
+
+                        <dt class="col-sm-3">Material:</dt>
+                        <dd class="col-sm-8 ">{{data$.material?.serial}}</dd>
+
+                        <dt class="col-sm-3">Tipo:</dt>
+                        <dd class="col-sm-8 ">{{data$.material?.material_tipo?.nome}}</dd>
+
+                        <dt class="col-sm-3">Modelo/Marca:</dt>
+                        <dd class="col-sm-8 ">{{data$.material?.modelo?.nome}}/{{data$.material?.modelo?.marca?.nome}}
+                        </dd>
+
+                        <dt class="col-sm-3" *ngIf="data$.quant">Quantidade:</dt>
+                        <dd class="col-sm-8 " *ngIf="data$.quant">{{data$.quant}} </dd>
+
+                        <dt class="col-sm-3">Data Saída:</dt>
+                        <dd class="col-sm-8 ">{{data$.data_saida | date: 'dd/MM/yyyy'}} {{data$.hora_saida }} </dd>
+
+                        <dt class="col-sm-3">Data Chegada:</dt>
+                        <dd class="col-sm-8 ">{{data$.data_chegada | date: 'dd/MM/yyyy'}} {{data$.hora_chegada }} </dd>
+
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    Validação feita em {{datahj}}
+                </div>
             </div>
+            <!--FIM VALIDANDO EMP MATERIAL-->
+
+            <!--VALIDANDO OCORRENCIA-->
+            <div class="card" *ngIf="tipo == '4'">
+                <div class="card-header">
+                    <h3 class="card-title">Validar Ocorrência</h3>
+                </div>
+                <div class="card-body">
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Subunidade/Unidade:</dt>
+                        <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
+
+                        <dt class="col-sm-3">Tipo de ocorrência:</dt>
+                        <dd class="col-sm-8">{{data$.ocorrencia?.nome}}</dd>
+
+                        <dt class="col-sm-3">Código:</dt>
+                        <dd class="col-sm-8 ">{{data$.codigo}}/{{data$?.created_at | date: 'yyyy'}}</dd>
+
+                        <dt class="col-sm-3">Escala:</dt>
+                        <dd class="col-sm-8 ">{{ data$.escala?.escala_modelo.nome }} Nº
+                            {{ data$.escala?.codigo }}/{{ data$.escala?.created_at | date: "yyyy" }}</dd>
+
+                        <dt class="col-sm-3">Data Escala:</dt>
+                        <dd class="col-sm-8 ">{{ data$.escala?.data | date: "dd/MM/yyyy" }}</dd>
+
+                        <dt class="col-sm-3">Usuário:</dt>
+                        <dd class="col-sm-8 ">{{data$.user?.graduacao.nome}} {{data$.user?.numeral | mask:'00.000'}}
+                            {{data$.user?.nome}},
+                            Mat.: {{data$.user?.matricula | mask:'000.000-0-0'}}</dd>
+
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    Validação feita em {{datahj}}
+                </div>
+            </div>
+            <!--FIM VALIDANDO OCORRENCIA-->
+
+            <!--VALIDANDO EMP VEICULO-->
+            <div class="card" *ngIf="tipo == '5'">
+                <div class="card-header">
+                    <h3 class="card-title">Validar Empréstimo de Material</h3>
+                </div>
+                <div class="card-body">
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Subunidade/Unidade:</dt>
+                        <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
+
+                        <dt class="col-sm-3">Usuário:</dt>
+                        <dd class="col-sm-8">{{data$.usuario?.graduacao.nome}} {{data$.usuario?.numeral |
+                            mask:'00.000'}} {{data$.usuario?.nome}},
+                            Mat.: {{data$.usuario?.matricula | mask:'000.000-0-0'}}</dd>
+
+                        <dt class="col-sm-3">Modelo/Marca:</dt>
+                        <dd class="col-sm-8 ">{{data$.veiculo?.modelo?.nome}}/{{data$.veiculo?.modelo?.marca?.nome}}
+                        </dd>
+
+                        <dt class="col-sm-3">Cor:</dt>
+                        <dd class="col-sm-8 ">{{data$.veiculo?.cor?.nome}}</dd>
+
+                        <dt class="col-sm-3">Placa:</dt>
+                        <dd class="col-sm-8 ">{{data$.veiculo?.placa}}</dd>
+
+                        <dt class="col-sm-3" *ngIf="data$.veiculo?.placa_esp">Placa Esp.:</dt>
+                        <dd class="col-sm-8 " *ngIf="data$.veiculo?.placa_esp">{{data$.veiculo?.placa_esp}}</dd>
+
+                        <dt class="col-sm-3">Data Saída:</dt>
+                        <dd class="col-sm-8 ">{{data$.data_saida | date: 'dd/MM/yyyy'}} {{data$.hora_saida }} </dd>
+
+                        <dt class="col-sm-3">KM Saída:</dt>
+                        <dd class="col-sm-8 ">{{data$.km_inicial}}</dd>
+
+                        <dt class="col-sm-3">Data Chegada:</dt>
+                        <dd class="col-sm-8 ">{{data$.data_chegada | date: 'dd/MM/yyyy'}} {{data$.hora_chegada }} </dd>
+
+                        <dt class="col-sm-3">KM Chegada:</dt>
+                        <dd class="col-sm-8 ">{{data$.km_final}}</dd>
+
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    Validação feita em {{datahj}}
+                </div>
+            </div>
+            <!--FIM VALIDANDO EMP VEICULO-->
+
+            <!--VALIDANDO EMP FÉRIAS-->
+            <div class="card" *ngIf="tipo == '6'">
+                <div class="card-header">
+                    <h3 class="card-title">Validar Férias</h3>
+                </div>
+                <div class="card-body">
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Subunidade/Unidade:</dt>
+                        <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
+
+                        <dt class="col-sm-3">Usuário:</dt>
+                        <dd class="col-sm-8">{{data$.user?.graduacao.nome}} {{data$.user?.numeral | mask:'00.000'}}
+                            {{data$.user?.nome}},
+                            Mat.: {{data$.user?.matricula | mask:'000.000-0-0'}}</dd>
+
+                        <dt class="col-sm-3">Dias:</dt>
+                        <dd class="col-sm-8 ">{{data$.dias}}</dd>
+
+                        <dt class="col-sm-3">Período Aquisitivo:</dt>
+                        <dd class="col-sm-8 ">{{data$.ano}}</dd>
+
+                        <dt class="col-sm-3">Data Início:</dt>
+                        <dd class="col-sm-8 ">{{data$.data_ini | date: 'dd/MM/yyyy'}} </dd>
+
+                        <dt class="col-sm-3">Data Fim:</dt>
+                        <dd class="col-sm-8 ">{{data$.data_fim | date: 'dd/MM/yyyy'}} </dd>
+
+                        <dt class="col-sm-3">Apto:</dt>
+                        <dd class="col-sm-8 ">{{data$.apto | date: 'dd/MM/yyyy'}}</dd>
+
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    Validação feita em {{datahj}}
+                </div>
+            </div>
+            <!--FIM VALIDANDO EMP FÉRIAS-->
         </div>
-         <!--FIM VALIDANDO EMP ARMAMENTO-->
 
-         <!--VALIDANDO EMP MATERIAL-->
-        <div class="card" *ngIf="tipo == '3'">
-            <div class="card-header">
-                <h3 class="card-title">Validar Empréstimo de Material</h3>                
-            </div>
-            <div class="card-body">
-                
-                <dl class="row">
-                    <dt class="col-sm-3">Subunidade/Unidade:</dt>
-                    <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
 
-                    <dt class="col-sm-3">Usuário:</dt>
-                    <dd class="col-sm-8">{{data$.usuario?.graduacao.nome}} {{data$.usuario?.numeral | mask:'00.000'}} {{data$.usuario?.nome}}, 
-                        Mat.: {{data$.usuario?.matricula | mask:'000.000-0-0'}}</dd>
-
-                    <dt class="col-sm-3">Material:</dt>      
-                    <dd class="col-sm-8 ">{{data$.material?.serial}}</dd>
-
-                    <dt class="col-sm-3">Tipo:</dt>      
-                    <dd class="col-sm-8 ">{{data$.material?.material_tipo?.nome}}</dd>
-
-                    <dt class="col-sm-3">Modelo/Marca:</dt>      
-                    <dd class="col-sm-8 ">{{data$.material?.modelo?.nome}}/{{data$.material?.modelo?.marca?.nome}}</dd>
-
-                    <dt class="col-sm-3" *ngIf="data$.quant">Quantidade:</dt>      
-                    <dd class="col-sm-8 " *ngIf="data$.quant">{{data$.quant}} </dd>
-
-                    <dt class="col-sm-3">Data Saída:</dt>      
-                    <dd class="col-sm-8 ">{{data$.data_saida | date: 'dd/MM/yyyy'}} {{data$.hora_saida }} </dd>
-
-                    <dt class="col-sm-3">Data Chegada:</dt>      
-                    <dd class="col-sm-8 ">{{data$.data_chegada | date: 'dd/MM/yyyy'}} {{data$.hora_chegada }} </dd>
-                                 
-                </dl>
-            </div>
-            <div class="card-footer">
-                Validação feita em {{datahj}}
-            </div>
-        </div>
-         <!--FIM VALIDANDO EMP MATERIAL-->
-
-          <!--VALIDANDO OCORRENCIA-->
-        <div class="card" *ngIf="tipo == '4'">
-            <div class="card-header">
-                <h3 class="card-title">Validar Ocorrência</h3>                
-            </div>
-            <div class="card-body">
-                
-                <dl class="row">
-                    <dt class="col-sm-3">Subunidade/Unidade:</dt>
-                    <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
-
-                    <dt class="col-sm-3">Tipo de ocorrência:</dt>
-                    <dd class="col-sm-8">{{data$.ocorrencia?.nome}}</dd>
-
-                    <dt class="col-sm-3">Código:</dt>      
-                    <dd class="col-sm-8 ">{{data$.codigo}}/{{data$?.created_at | date: 'yyyy'}}</dd>
-
-                    <dt class="col-sm-3">Escala:</dt>      
-                    <dd class="col-sm-8 ">{{ data$.escala?.escala_modelo.nome }} Nº
-                        {{ data$.escala?.codigo }}/{{ data$.escala?.created_at | date: "yyyy" }}</dd>
-
-                    <dt class="col-sm-3">Data Escala:</dt>      
-                    <dd class="col-sm-8 ">{{ data$.escala?.data | date: "dd/MM/yyyy" }}</dd>
-
-                    <dt class="col-sm-3">Usuário:</dt>      
-                    <dd class="col-sm-8 ">{{data$.user?.graduacao.nome}} {{data$.user?.numeral | mask:'00.000'}} {{data$.user?.nome}}, 
-                        Mat.: {{data$.user?.matricula | mask:'000.000-0-0'}}</dd>
-                                 
-                </dl>
-            </div>
-            <div class="card-footer">
-                Validação feita em {{datahj}}
-            </div>
-        </div>
-         <!--FIM VALIDANDO OCORRENCIA-->
-
-         <!--VALIDANDO EMP VEICULO-->
-        <div class="card" *ngIf="tipo == '5'">
-            <div class="card-header">
-                <h3 class="card-title">Validar Empréstimo de Material</h3>                
-            </div>
-            <div class="card-body">
-                
-                <dl class="row">
-                    <dt class="col-sm-3">Subunidade/Unidade:</dt>
-                    <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
-
-                    <dt class="col-sm-3">Usuário:</dt>
-                    <dd class="col-sm-8">{{data$.usuario?.graduacao.nome}} {{data$.usuario?.numeral | mask:'00.000'}} {{data$.usuario?.nome}}, 
-                        Mat.: {{data$.usuario?.matricula | mask:'000.000-0-0'}}</dd>
-
-                    <dt class="col-sm-3">Modelo/Marca:</dt>      
-                    <dd class="col-sm-8 ">{{data$.veiculo?.modelo?.nome}}/{{data$.veiculo?.modelo?.marca?.nome}}</dd>
-
-                    <dt class="col-sm-3">Cor:</dt>      
-                    <dd class="col-sm-8 ">{{data$.veiculo?.cor?.nome}}</dd>
-
-                    <dt class="col-sm-3">Placa:</dt>      
-                    <dd class="col-sm-8 ">{{data$.veiculo?.placa}}</dd>
-
-                    <dt class="col-sm-3" *ngIf="data$.veiculo?.placa_esp">Placa Esp.:</dt>      
-                    <dd class="col-sm-8 " *ngIf="data$.veiculo?.placa_esp">{{data$.veiculo?.placa_esp}}</dd> 
-
-                    <dt class="col-sm-3">Data Saída:</dt>      
-                    <dd class="col-sm-8 ">{{data$.data_saida | date: 'dd/MM/yyyy'}} {{data$.hora_saida }} </dd>
-
-                    <dt class="col-sm-3">KM Saída:</dt>      
-                    <dd class="col-sm-8 ">{{data$.km_inicial}}</dd>
-
-                    <dt class="col-sm-3">Data Chegada:</dt>      
-                    <dd class="col-sm-8 ">{{data$.data_chegada | date: 'dd/MM/yyyy'}} {{data$.hora_chegada }} </dd>
-
-                    <dt class="col-sm-3">KM Chegada:</dt>      
-                    <dd class="col-sm-8 ">{{data$.km_final}}</dd>
-                                 
-                </dl>
-            </div>
-            <div class="card-footer">
-                Validação feita em {{datahj}}
-            </div>
-        </div>
-         <!--FIM VALIDANDO EMP VEICULO-->
-
-         <!--VALIDANDO EMP FÉRIAS-->
-        <div class="card" *ngIf="tipo == '6'">
-            <div class="card-header">
-                <h3 class="card-title">Validar Férias</h3>                
-            </div>
-            <div class="card-body">
-                
-                <dl class="row">
-                    <dt class="col-sm-3">Subunidade/Unidade:</dt>
-                    <dd class="col-sm-8">{{data$.subunidade?.nome}}/{{data$.subunidade?.unidade?.nome}}</dd>
-
-                    <dt class="col-sm-3">Usuário:</dt>
-                    <dd class="col-sm-8">{{data$.user?.graduacao.nome}} {{data$.user?.numeral | mask:'00.000'}} {{data$.user?.nome}}, 
-                        Mat.: {{data$.user?.matricula | mask:'000.000-0-0'}}</dd>
-
-                    <dt class="col-sm-3">Dias:</dt>      
-                    <dd class="col-sm-8 ">{{data$.dias}}</dd>
-
-                    <dt class="col-sm-3">Período Aquisitivo:</dt>      
-                    <dd class="col-sm-8 ">{{data$.ano}}</dd>
-
-                    <dt class="col-sm-3">Data Início:</dt>      
-                    <dd class="col-sm-8 ">{{data$.data_ini | date: 'dd/MM/yyyy'}}  </dd>
-
-                    <dt class="col-sm-3">Data Fim:</dt>      
-                    <dd class="col-sm-8 ">{{data$.data_fim | date: 'dd/MM/yyyy'}} </dd>
-
-                    <dt class="col-sm-3">Apto:</dt>      
-                    <dd class="col-sm-8 ">{{data$.apto | date: 'dd/MM/yyyy'}}</dd>
-                                 
-                </dl>
-            </div>
-            <div class="card-footer">
-                Validação feita em {{datahj}}
-            </div>
-        </div>
-         <!--FIM VALIDANDO EMP FÉRIAS-->
 
     </section>
 

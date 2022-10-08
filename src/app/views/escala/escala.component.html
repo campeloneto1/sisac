@@ -114,7 +114,7 @@
                             data3.pivot.turno_id
                           )
                         ">
-                        <del *ngIf="data4.pivot.ausente || data4.pivot.atestado || data4.pivot.dispensado">{{ data4.graduacao.abreviatura }}
+                        <!--<del *ngIf="data4.pivot.ausente || data4.pivot.atestado || data4.pivot.dispensado">{{ data4.graduacao.abreviatura }}
                           {{ data4.numeral | mask: '00.000' }}
                           {{ data4.nome_guerra }}
                           ({{ data4.telefone1 }}) </del>
@@ -123,11 +123,28 @@
                           {{ data4.nome_guerra }}
                           ({{ data4.telefone1 }})
                           <i *ngIf="data4.pivot.atrasado" class="nav-icon text-warning fas fa-clock"></i>
+                          <i *ngIf="data4.pivot.faltou" class="nav-icon text-danger fa fa-times"></i>
+
+                          <i *ngIf="data4.pivot.atestado" class="nav-icon text-success fa fa-medkit"></i>                        
+                          <i *ngIf="data4.pivot.dispensado" class="nav-icon text-primary fa fa-sign-out"></i>                        
+                        </span>-->
+
+
+                       
+                        <span >{{ data4.graduacao.abreviatura }}
+                          {{ data4.numeral | mask: '00.000' }}
+                          {{ data4.nome_guerra }}
+                          ({{ data4.telefone1 }})
+                          <i *ngIf="data4.pivot.atrasado" class="nav-icon text-warning fas fa-clock"></i>
+                          <i *ngIf="data4.pivot.ausente" class="nav-icon text-danger fa fa-times"></i>
+
+                          <i *ngIf="data4.pivot.atestado" class="nav-icon text-success fa fa-medkit"></i>                        
+                          <i *ngIf="data4.pivot.dispensado" class="nav-icon text-primary fa fa-sign-out"></i>                        
                         </span>
-                        
                         <i *ngIf="!data4.pivot.ausente && !data4.pivot.atrasado && !data4.pivot.atestado && !data4.pivot.dispensado && user.perfil.oficial_dia && atual"
-                          style="cursor: pointer;" (click)="ausente(data4)" data-bs-toggle="modal"
-                          data-bs-target="#modalausente" class="noprint text-danger nav-icon fa fa-user-times"></i>
+                        style="cursor: pointer; " (click)="ausente(data4)" data-bs-toggle="modal"
+                        data-bs-target="#modalausente" class="noprint text-danger nav-icon fa fa-user-times"></i>
+                       
                       </li>
                     </ul>
                   </td>

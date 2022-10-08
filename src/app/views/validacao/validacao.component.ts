@@ -17,6 +17,7 @@ export class ValidacaoComponent implements OnInit {
   url = environment.imagens;
   subunidade: any;
   date = new Date();
+  notfound = false;
   month = [
     'janeiro',
     'fevereiro',
@@ -49,7 +50,7 @@ export class ValidacaoComponent implements OnInit {
     const key = routeParams.get('id');
 
     var keys = key?.split('$');
-    console.log(keys);
+    //console.log(keys);
     //@ts-ignore
     this.tipo = keys[0];
     //@ts-ignore
@@ -58,42 +59,79 @@ export class ValidacaoComponent implements OnInit {
         //@ts-ignore
         this.validacao.validardocumento(keys[1]).subscribe(data => {
           //@ts-ignore
-          this.data$ = data[0];
+          if(data[0]){
+             //@ts-ignore
+            this.data$ = data[0];
+            this.notfound = false;
+          }else{
+            this.notfound = true;
+          }
+         
         });
         break;
       case '2':
         //@ts-ignore
         this.validacao.validararmamento(keys[1]).subscribe(data => {
-          //@ts-ignore
-          this.data$ = data[0];
+           //@ts-ignore
+          if(data[0]){
+            //@ts-ignore
+           this.data$ = data[0];
+           this.notfound = false;
+         }else{
+           this.notfound = true;
+         }
         });
         break;
       case '3':
         //@ts-ignore
         this.validacao.validarmaterial(keys[1]).subscribe(data => {
-          //@ts-ignore
-          this.data$ = data[0];
+           //@ts-ignore
+          if(data[0]){
+            //@ts-ignore
+           this.data$ = data[0];
+           this.notfound = false;
+         }else{
+           this.notfound = true;
+         }
         });
         break;
       case '4':
         //@ts-ignore
         this.validacao.validarocorrencia(keys[1]).subscribe(data => {
-          //@ts-ignore
-          this.data$ = data[0];
+           //@ts-ignore
+          if(data[0]){
+            //@ts-ignore
+           this.data$ = data[0];
+           this.notfound = false;
+         }else{
+           this.notfound = true;
+         }
         });
         break; 
       case '5':
         //@ts-ignore
         this.validacao.validarveiculo(keys[1]).subscribe(data => {
-          //@ts-ignore
-          this.data$ = data[0];
+           //@ts-ignore
+          if(data[0]){
+            //@ts-ignore
+           this.data$ = data[0];
+           this.notfound = false;
+         }else{
+           this.notfound = true;
+         }
         });
         break;  
       case '6':
           //@ts-ignore
           this.validacao.validarferias(keys[1]).subscribe(data => {
-            //@ts-ignore
-            this.data$ = data[0];
+             //@ts-ignore
+            if(data[0]){
+              //@ts-ignore
+             this.data$ = data[0];
+             this.notfound = false;
+           }else{
+             this.notfound = true;
+           }
           });
           break;         
       default:
