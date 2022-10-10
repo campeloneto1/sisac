@@ -134,4 +134,9 @@
   width: 33%;
 }
 
+.obs{
+  -webkit-columns: 40px 2;
+            
+}
+
 /* fim config table */

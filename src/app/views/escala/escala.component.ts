@@ -6,15 +6,19 @@ import { ToastrService } from 'ngx-toastr';
 
 import { EscalasService } from '../../services/escalas.service';
 
-import { UsuariosService } from '../../services/usuarios.service';
+import { AdministracaoService } from '../../services/administracao.service';
+import { AfastamentosTiposService } from '../../services/afastamentos-tipos.service';
+import { AppComponent } from 'src/app/app.component';
 import { EscalasUsersService } from '../../services/escalas-users.service';
+import { UsuariosService } from '../../services/usuarios.service';
 import { SetoresService } from '../../services/setores.service';
 import { SubunidadesService } from '../../services/subunidades.service';
 import { SessionService } from '../../services/session.service';
+import { TurnosService } from '../../services/turnos.service';
 import { UsuariosAfastamentosService } from '../../services/usuarios-afastamentos.service';
 import { UsuariosFeriasService } from '../../services/usuarios-ferias.service';
-import { AfastamentosTiposService } from '../../services/afastamentos-tipos.service';
-import { AppComponent } from 'src/app/app.component';
+
+
 
 @Component({
   selector: 'app-escala',
@@ -30,8 +34,10 @@ export class EscalaComponent implements OnInit {
   usuariosafastamentos$: any;
   usuariosferias$: any;
   afastamentostipos$: any;
-
+  administracao$: any;
   ausente$: any;
+  turnos$: any;
+  quantadm$= 0;
   opcao: any;
   data: any;
   dias: any;
@@ -110,12 +116,14 @@ export class EscalaComponent implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
+    private administracao: AdministracaoService,
     private escalas: EscalasService,
     private escalasusers: EscalasUsersService,
     private usuarios: UsuariosService,
     private setores: SetoresService,
     private subunidades: SubunidadesService,
     private session: SessionService,
+    private turnos: TurnosService,
     private usuariosafastamentos: UsuariosAfastamentosService,
     private usuariosferias: UsuariosFeriasService,
     private afastamentostipos: AfastamentosTiposService,
@@ -171,6 +179,10 @@ export class EscalaComponent implements OnInit {
         this.subunidade$ = data;
       });
 
+      this.administracao.index().subscribe(data => {
+        this.administracao$ = data;
+      });
+
       if(this.data$.escala_modelo.administrativo){
         setTimeout( () => {
           this.setores.where2(this.user.subunidade_id).subscribe((data) => {
@@ -180,12 +192,33 @@ export class EscalaComponent implements OnInit {
               this.usuariosferias.ativos().subscribe((data) => {
                 this.usuariosferias$ = data;
                 this.filterdisp();
+
               });
               //this.filterdisp();
             });
+
+
+           
           });
         }, 500);
       }
+
+      this.turnos.index().subscribe(data => {
+        this.turnos$ = data;
+        for (let index = 0; index < this.turnos$.length; index++) {
+          this.turnos$[index].quant = 0
+          
+        }
+        for (let index = 0; index < this.data$.usuarios.length; index++) {
+          for (let index2 = 0; index2 < this.turnos$.length; index2++) {
+            if(this.data$.usuarios[index].pivot.turno_id == this.turnos$[index2].id){
+              this.turnos$[index2].quant++;
+            }
+          }        
+        }
+        //console.log(this.turnos$)
+      });
+      
     });
 
     this.datahj = this.date.getDate()+' de '+this.month[this.date.getMonth()+1]+' de '+this.date.getFullYear();
@@ -193,6 +226,8 @@ export class EscalaComponent implements OnInit {
     this.afastamentostipos.index().subscribe(data => {
       this.afastamentostipos$ = data;
     });
+    
+
     
    
   }
@@ -293,6 +328,14 @@ export class EscalaComponent implements OnInit {
           
         }   
       }     
+    }
+
+    for (let index = 0; index < this.setores$.length; index++) {
+      for (let index2 = 0; index2 < this.setores$[index].users.length; index2++) {
+        if(this.setores$[index].users[index2]){
+          this.quantadm$++;
+        }
+      }
     }
   }
 

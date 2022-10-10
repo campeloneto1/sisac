@@ -356,7 +356,7 @@
           <!--FIM MODAL AUSENTE-->
         </div>
         <div class="page">
-          <div style="width: 100%; min-width: 100%">
+          <div >
             <table class="table table-bordered" *ngIf="data$.escala_modelo?.administrativo">
               <thead>
                 <tr>
@@ -383,6 +383,19 @@
                 </div>
               </tbody>
             </table>
+            <div class="row">
+              <div class="col-sm-12 p-0 titlemodalidade"><b>RESUMO DO EFETIVO</b></div>
+             
+                <div *ngFor="let quant of turnos$" class="col-sm-3 text-center p-0"  style="border:1px solid #dee2e6"><b>{{quant.nome}}:</b> {{quant.quant}}</div>
+                <div class="col-sm-3 text-center p-0"  style="border:1px solid #dee2e6"><b>TOTAL DE PRAÇAS (APOIO):</b> {{quantadm$}}</div>
+              
+              
+            </div>
+            <!--
+            <div class="row">
+              <div class="col-sm-12 p-0 titlemodalidade"><b>OBSERVAÇÕES PARA AS EQUIPES DE SERVIÇO</b></div>
+              <div style="font-size: 10px;  " class="col-sm-12 obs" [innerHTML]="administracao$[0].observacoes_escala"></div>
+            </div>-->
 
             <br /><br /><br /><br />
             <div class="text-center" *ngIf="subunidade$ && subunidade$.comandante">
