@@ -28,14 +28,14 @@
     </div>
     <div class="col-sm-6 text-center">
       <p>
-        {{ user.subunidade?.nome }} – {{ user.subunidade.unidade?.nome }}<br />
-        {{ user.subunidade?.rua }}, {{ user.subunidade?.numero }} -
-        {{ user.subunidade?.bairro }} | CEP:
-        {{ user.subunidade?.cep | mask: "00.000-00" }}
-        {{ user.subunidade.cidade?.nome }} /
-        {{ user.subunidade.cidade?.estado.uf }} <br />
-        Fones: {{ user.subunidade?.telefone1 | mask: "(00) 0000-0000" }} |
-        E-mail: {{ user.subunidade?.email }}<br />
+        {{ subunidade?.nome }} – {{ subunidade.unidade?.nome }}<br />
+        {{ subunidade?.rua }}, {{ subunidade?.numero }} -
+        {{ subunidade?.bairro }} | CEP:
+        {{ subunidade?.cep | mask: "00.000-00" }}
+        {{ subunidade.cidade?.nome }} /
+        {{ subunidade.cidade?.estado.uf }} <br />
+        Fones: {{ subunidade?.telefone1 | mask: "(00) 0000-0000" }} |
+        E-mail: {{ subunidade?.email }}<br />
         <b>“Raça de Fortes, Povo de Bravos”</b>
       </p>
     </div>
@@ -227,7 +227,7 @@
                   {{ data$.armeiro?.graduacao.abreviatura }}</b
                 ><br />
                 Armeiro - {{ subunidade?.nome }}<br />
-                Mat.: {{ data$.armeiro?.matricula | mask: "000.000-0-0" }}
+                Mat.: {{ data$.armeiro?.matricula | mask: "000.000-0-A" }}
               </p>
             </div>            
           </div>

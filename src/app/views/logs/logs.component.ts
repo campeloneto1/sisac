@@ -54,7 +54,8 @@ private router: Router,
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      order: [1, 'desc'],
     };
 
     

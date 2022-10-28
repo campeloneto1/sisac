@@ -38,6 +38,7 @@ export class EscalaComponent implements OnInit {
   ausente$: any;
   turnos$: any;
   quantadm$= 0;
+  quanttotal$= 0;
   opcao: any;
   data: any;
   dias: any;
@@ -68,7 +69,14 @@ export class EscalaComponent implements OnInit {
   });
 
   config = {
-    displayFn:(item: any) => { return item.nome+'('+item.matricula+')'; } ,//to support flexible text displaying for each item
+    displayFn:(item: any) => { 
+      if(item.numeral){
+        return  item.graduacao.abreviatura+' '+item.numeral+' '+item.nome_guerra+'('+item.matricula+')'; 
+      }else{
+        return  item.graduacao.abreviatura+' '+item.nome_guerra+'('+item.matricula+')'; 
+      }
+      
+    } ,//to support flexible text displaying for each item
     displayKey:"nome", //if objects array passed which key to be displayed defaults to description
     search:true, //true/false for the search functionlity defaults to false,
     height: '400px', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
@@ -202,7 +210,7 @@ export class EscalaComponent implements OnInit {
           });
         }, 500);
       }
-
+      this.quanttotal$= 0;
       this.turnos.index().subscribe(data => {
         this.turnos$ = data;
         for (let index = 0; index < this.turnos$.length; index++) {
@@ -217,6 +225,7 @@ export class EscalaComponent implements OnInit {
           }        
         }
         //console.log(this.turnos$)
+        
       });
       
     });
@@ -228,6 +237,7 @@ export class EscalaComponent implements OnInit {
     });
     
 
+   
     
    
   }
@@ -337,6 +347,8 @@ export class EscalaComponent implements OnInit {
         }
       }
     }
+
+    this.quanttotal$ = this.turnos$[0].quant + this.turnos$[1].quant + this.quantadm$;
   }
 
   ausente(data:any){

@@ -14,14 +14,14 @@
     <div class="col-sm-3"></div>
     <div class="col-sm-6 text-center">
       <p>
-        {{ user.subunidade?.nome }} – {{ user.subunidade.unidade?.nome }}<br />
-        {{ user.subunidade?.rua }}, {{ user.subunidade?.numero }} -
-        {{ user.subunidade?.bairro }} | CEP:
-        {{ user.subunidade?.cep | mask: "00.000-00" }}
-        {{ user.subunidade.cidade?.nome }} /
-        {{ user.subunidade.cidade?.estado.uf }} <br />
-        Fones: {{ user.subunidade?.telefone1 | mask: "(00) 0000-0000" }} |
-        E-mail: {{ user.subunidade?.email }}<br />
+        {{ subunidade$.nome }} – {{ subunidade$.unidade.nome }}<br />
+        {{ subunidade$.rua }}, {{ subunidade$.numero }} -
+        {{ subunidade$.bairro }} | CEP:
+        {{ subunidade$.cep | mask: "00.000-00" }}
+        {{ subunidade$.cidade?.nome }} /
+        {{ subunidade$.cidade?.estado.uf }} <br />
+        Fones: {{ subunidade$.telefone1 | mask: "(00) 0000-0000" }} |
+        E-mail: {{ subunidade$.email }}<br />
         <b>“Raça de Fortes, Povo de Bravos”</b>
       </p>
     </div>
@@ -79,14 +79,18 @@
                 <!--<tr class="titlemodalidade2">
                   <th class="p-0">
                    MODALIDADE
-                  </th>
+                  </th>-->
+                  <tr class="titlemodalidade2">
+                    <th class="p-0">
+                      MODALIDADE
+                     </th>
                   <th class="p-0" >
                     TURNO A (07h00 ÀS 19h00)
                    </th>
                    <th class="p-0" >
                     TURNO B (19h00 ÀS 07h00)
                    </th>
-                </tr>-->
+                </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let data2 of data.postos">
@@ -94,9 +98,9 @@
                     <b>{{ data2.nome | uppercase }}</b>
                   </td>
                   <td *ngFor="let data3 of data2.turnos" class="coltable">
-                    <b>{{ data3.nome }} </b>
+                    <!--<b>{{ data3.nome }} </b>
                     <span *ngIf="data3.hora_ini">({{ data3.hora_ini }} às
-                      {{ data3.hora_ini }})</span>
+                      {{ data3.hora_fim }})</span>-->
                     <span style="float: right">
                       <button *ngIf="user.perfil.escalas_cad && !antiga" data-bs-toggle="modal"
                         data-bs-target="#modalusu" type="button" class="btn btn-xs btn-outline-primary noprint"
@@ -222,7 +226,7 @@
                         <td>{{ data.numeral | mask: "00.000" }}</td>
                         <td>{{ data.nome }}</td>
                         <td>
-                          {{ data.matricula | mask: "000.000-0-0" }}
+                          {{ data.matricula | mask: "000.000-0-A" }}
                         </td>
                         <td>
                           <span class="editdata">
@@ -355,39 +359,42 @@
           </div>
           <!--FIM MODAL AUSENTE-->
         </div>
+        <!-- FIM PAGE 01 -->
+        <!-- INICIO PAGE 02 -->
         <div class="page">
-          <div >
-            <table class="table table-bordered" *ngIf="data$.escala_modelo?.administrativo">
-              <thead>
-                <tr>
-                  <th class="p-0 titlemodalidade">
-                    ATIVIDADE DE APOIO (Horário 08h00 às 17h00)
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <div class="row" *ngFor="let data of setores$" style="width: 99.9%; margin-left: 0.8px;">
-                  <div class="col-sm-12 text-center p-0 titlemodalidade2" style="border:1px solid #dee2e6">
-                    <b>{{ data.nome | uppercase }}</b>
-                  </div>
-                  <div class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6"
-                    *ngFor="let setuser of data.users">
-                    <span *ngIf="setuser">
-                      {{ setuser.graduacao?.abreviatura }}
-                      {{ setuser.numeral }}
-                      {{ setuser.nome_guerra }}
-                      ({{ setuser.telefone1 }})
-                    </span>
-                    <span *ngIf="!setuser">**************</span>
-                  </div>
+          
+          <table class="table table-bordered" *ngIf="data$.escala_modelo?.administrativo">
+            <thead>
+              <tr>
+                <th class="p-0 titlemodalidade">
+                  ATIVIDADE DE APOIO (Horário 08h00 às 17h00)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <div class="row" *ngFor="let data of setores$" style="width: 99.9%; margin-left: 0.8px;">
+                <div class="col-sm-12 text-center p-0 titlemodalidade2" style="border:1px solid #dee2e6">
+                  <b>{{ data.nome | uppercase }}</b>
                 </div>
-              </tbody>
-            </table>
+                <div class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6"
+                  *ngFor="let setuser of data.users">
+                  <span *ngIf="setuser">
+                    {{ setuser.graduacao?.abreviatura }}
+                    {{ setuser.numeral | mask: '00.000' }}
+                    {{ setuser.nome_guerra }}
+                    ({{ setuser.telefone1 }})
+                  </span>
+                  <span *ngIf="!setuser">**************</span>
+                </div>
+              </div>
+            </tbody>
+          </table>
             <div class="row">
               <div class="col-sm-12 p-0 titlemodalidade"><b>RESUMO DO EFETIVO</b></div>
              
                 <div *ngFor="let quant of turnos$" class="col-sm-3 text-center p-0"  style="border:1px solid #dee2e6"><b>{{quant.nome}}:</b> {{quant.quant}}</div>
-                <div class="col-sm-3 text-center p-0"  style="border:1px solid #dee2e6"><b>TOTAL DE PRAÇAS (APOIO):</b> {{quantadm$}}</div>
+                <div class="col-sm-3 text-center p-0"  style="border:1px solid #dee2e6"><b>EFETIVO DE APOIO:</b> {{quantadm$}}</div>
+                <div class="col-sm-3 text-center p-0"  style="border:1px solid #dee2e6"><b>TOTAL:</b> {{quanttotal$}}</div>
               
               
             </div>
@@ -398,13 +405,22 @@
             </div>-->
 
             <br /><br /><br /><br />
-            <div class="text-center" *ngIf="subunidade$ && subunidade$.comandante">
-              <b>{{subunidade$.comandante.nome}}</b><br />
-              Mat.: {{subunidade$.comandante.matricula | mask:'000.000-0-0'}}<br />
-              Comandante da {{subunidade$.nome}} - {{subunidade$.unidade.nome}}
+            <div class="row">
+              <div class="col-sm-6 text-center" *ngIf="subunidade$ && subunidade$.comandante">
+                <b>{{subunidade$.subcomandante.nome}}</b> - {{subunidade$.subcomandante.graduacao.abreviatura}}<br />
+                Mat.: {{subunidade$.subcomandante.matricula | mask:'000.000-0-A'}}<br />
+                SubComandante da {{subunidade$.nome}} - {{subunidade$.unidade.nome}}
+              </div>
+              <div class="col-sm-6 text-center" *ngIf="subunidade$ && subunidade$.comandante">
+                <b>{{subunidade$.comandante.nome}}</b> - {{subunidade$.comandante.graduacao.abreviatura}}<br />
+                Mat.: {{subunidade$.comandante.matricula | mask:'000.000-0-A'}}<br />
+                Comandante da {{subunidade$.nome}} - {{subunidade$.unidade.nome}}
+              </div>
             </div>
-          </div>
+           
+          
         </div>
+        <!-- FIM PAGE 02 -->
       </td>
     </tr>
   </tbody>

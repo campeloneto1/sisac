@@ -63,7 +63,7 @@
                 <th>NOME</th>
                 <th>NOME GUERRA</th>
                 <th>MATRÍCULA</th>
-                <th>CPF</th>
+                <!--<th>CPF</th>-->
                 <th>TRANSF.</th>
                 <th>FOTO</th>
                 <th *ngIf="user.perfil.administrador">PERFIL</th>
@@ -79,8 +79,8 @@
                 <td>{{ data.numeral | mask: "00.000" }}</td>
                 <td><a [routerLink]="['/Usuario', data.id]">{{ data.nome }}</a></td>
                 <td>{{ data.nome_guerra }}</td>
-                <td>{{ data.matricula | mask: "000.000-0-0" }}</td>
-                <td>{{ data.cpf | mask: "000.000.000-00" }}</td>
+                <td>{{ data.matricula | mask: "000.000-0-A" }}</td>
+                <!--<td>{{ data.cpf | mask: "000.000.000-00" }}</td>-->
                 <td><span *ngIf="data.boletim_saida">Sim</span></td>
                 <td >
                   <i class="fas fa-portrait point" *ngIf="user.perfil.usuarios_cad" [ngClass]="data.foto ? 'text-success' : 'text-danger'" (click)="foto(data)" data-bs-toggle="modal" data-bs-target="#modalfoto"></i>
@@ -260,7 +260,7 @@
                             (formcad.controls.telefone1.dirty ||
                               formcad.controls.telefone1.touched)
                         }"
-                        mask="(00) 00000-0000"
+                        mask="(00) 00000-0009"
                         type="text"
                         class="form-control form-control-border"
                         id="telefone1"
@@ -273,7 +273,7 @@
                       <label for="telefone2">Telefone 2</label>
                       <input
                         formControlName="telefone2"
-                        mask="(00) 00000-0000"
+                        mask="(00) 00000-0009"
                         type="text"
                         class="form-control form-control-border"
                         id="telefone2"
@@ -367,7 +367,7 @@
                       <input
                         formControlName="matricula"
                         required
-                        mask="000.000-0-0"
+                        mask="000.000-0-A"
                         [ngClass]="{
                           'is-invalid':
                             formcad.controls.matricula.invalid &&
