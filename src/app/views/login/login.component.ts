@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     private appcom: AppComponent) { }
 
   ngOnInit(): void {
+    localStorage.clear();
     this.appcom.token = false;
     this.session.logout();
   }

@@ -27,7 +27,7 @@ export class ArmamentosEmprestimosComponent implements OnInit {
   data$: any;
   armamentos$: any;
   usuarios$: any;
-
+  arms: any = [];
   excluir$: any;
 
   config = {
@@ -113,11 +113,12 @@ export class ArmamentosEmprestimosComponent implements OnInit {
 
   formcad = new FormGroup({
     id: new FormControl(''),
-    armamento_id: new FormControl(''),
     armamento: new FormControl(''),  
+    armamentos: new FormControl([]),  
     user_id: new FormControl(''), 
     user: new FormControl(''), 
     quant: new FormControl(''), 
+    carregadores: new FormControl(''), 
     data_emp: new FormControl(''), 
     hora_emp: new FormControl(''), 
     observacoes: new FormControl(''), 
@@ -197,7 +198,10 @@ export class ArmamentosEmprestimosComponent implements OnInit {
 
   salvar(){
     //@ts-ignore
-    this.formcad.controls.armamento_id.patchValue(this.formcad.value.armamento.id);
+    this.formcad.controls.armamentos.patchValue(this.arms);
+    
+    /*console.log(this.formcad.value);*/
+    
     //@ts-ignore
     this.formcad.controls.user_id.patchValue(this.formcad.value.user.id);
     if(this.formcad.value.id){
@@ -231,6 +235,35 @@ export class ArmamentosEmprestimosComponent implements OnInit {
         this.toastr.success('Informação excluída com sucesso!');  
       }
     })
+  }
+
+  addArmamento(){
+    var data = this.formcad.value.armamento;
+    if(this.formcad.value.quant){
+      //@ts-ignore      
+      data.quant = this.formcad.value.quant;
+    }
+
+    if(this.formcad.value.carregadores){
+      //@ts-ignore      
+      data.carregadores = this.formcad.value.carregadores;
+    }
+
+
+    //@ts-ignore
+    this.arms.push(data);
+   //this.formcad.value.armamentos?.push(this.formcad.value.armamento);
+   this.formcad.controls.quant.patchValue('');
+   this.formcad.controls.carregadores.patchValue('');
+   this.formcad.controls.armamento.patchValue('');
+    //console.log(this.arms);
+  }
+
+  delArmamento(id:number){
+    this.arms[id].quant = null;
+    this.arms[id].carregadores = null;
+    //console.log(id);
+    this.arms.splice(id, 1);
   }
 
   receber(data:any){

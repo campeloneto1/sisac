@@ -302,15 +302,18 @@
                   <table class="table table-hover text-nowrap">
                     <thead>
                       <tr>
-                        <th>TIPO</th>
-                        <th>MARCA</th>
+                        
+                        <!--<th>TIPO</th><th>MARCA</th>
                         <th>MODELO</th>
                         <th>SERIAL</th>
-                        <th>DATA EMP.</th>
-                        <th>DATA DEV</th>
-                        <th>DANIFICADO</th>
+                          <th>DANIFICADO</th>
                         <th>EXTRAVIADO</th>
-                        <th>OBS.</th>
+                      -->
+                        <th>DATA EMP.</th>
+                        <th>ARMAMENTOS</th>
+                        <th>ARMEIRO</th>
+                        <th>DATA DEV</th>                        
+                        <!--<th>OBS.</th>-->
                       </tr>
                     </thead>
                     <tbody>
@@ -323,19 +326,30 @@
                                       currentPage: t
                                     }
                             ">
-                        <td>{{ data.armamento_tipo.nome }}</td>
+                        <!--<td>{{ data.armamento_tipo.nome }}</td>
                         <td>{{ data.marca.nome }}</td>
                         <td>{{ data.modelo.nome }}</td>
                         <td>{{ data.serial }}</td>
-                        <td>{{ data.pivot.data_emp | date: 'dd/MM/yyyy' }}</td>
-                        <td>{{ data.pivot.data_dev | date: 'dd/MM/yyyy' }}</td>
-                        <td>
+                          <td>
                           <span *ngIf="data.pivot.danificado">Sim</span>
                         </td>
                         <td>
                           <span *ngIf="data.pivot.extraviado">Sim</span>
                         </td>
-                        <td style="max-width: 500px; white-space: normal;" [innerHTML]="data.pivot.observacoes"></td>
+                      
+                        -->
+                        <td>{{ data.data_emp | date: 'dd/MM/yyyy' }}</td>
+                        <td>
+                          <ol>
+                            <li *ngFor="let data2 of data.armamentos">
+                              {{ data2.armamento_tipo.nome }} - {{ data2.marca.nome }}/{{ data2.modelo.nome }} - {{ data2.serial }}
+                            </li>
+                          </ol>
+                        </td>
+                        <td>{{ data.armeiro.graduacao.abreviatura }} {{ data.armeiro?.numeral }} {{ data.armeiro.nome_guerra }}</td>
+                        <td>{{ data.data_dev | date: 'dd/MM/yyyy' }}</td>
+                       
+                        <!--<td style="max-width: 500px; white-space: normal;" [innerHTML]="data.observacoes"></td>-->
                       </tr>
                     </tbody>
                   </table>

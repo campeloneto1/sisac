@@ -73,6 +73,7 @@ import { FeriasGuiaComponent } from './views/ferias-guia/ferias-guia.component';
 import { ValidacaoComponent } from './views/validacao/validacao.component';
 import { IrsosFinanceirosComponent } from './views/irsos-financeiros/irsos-financeiros.component';
 import { AdministracaoComponent } from './views/administracao/administracao.component';
+import { CautelaComponent } from './views/cautela/cautela.component';
 
 @NgModule({
   declarations: [
@@ -132,7 +133,8 @@ import { AdministracaoComponent } from './views/administracao/administracao.comp
     FeriasGuiaComponent,
     ValidacaoComponent,
     IrsosFinanceirosComponent,
-    AdministracaoComponent
+    AdministracaoComponent,
+    CautelaComponent
   ],
   imports: [
     BrowserModule,

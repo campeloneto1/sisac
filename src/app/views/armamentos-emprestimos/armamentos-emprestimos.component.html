@@ -3,261 +3,484 @@
     <app-sidebar></app-sidebar>-->
 <!--INICIO CONTENT WRAPPER-->
 <div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
-    <!--INICIO SECTION HEADER-->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Empréstimos de Armamento</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">
-                <a [routerLink]="['/Inicio']">Início</a>
-              </li>
-              <li class="breadcrumb-item active">Empréstimos de Armamento</li>
-            </ol>
+  <!--INICIO SECTION HEADER-->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Empréstimos de Armamento</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/Inicio']">Início</a>
+            </li>
+            <li class="breadcrumb-item active">Empréstimos de Armamento</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--FIM SECTION HEADER-->
+  <!--INICIO SECTION TABELA-->
+  <section class="content">
+    <!--INICIO CARD-->
+    <div class="card card-outline card-orange">
+      <!--INICIO HEADER CARD-->
+      <div class="card-header">
+        <div class="row">
+          <div class="col-sm-1">
+            <button
+              *ngIf="user.perfil.armamentos_emprestimos_cad"
+              data-bs-toggle="modal"
+              data-bs-target="#modalcad"
+              type="button"
+              class="btn btn-block btn-outline-primary"
+              (click)="formcad.reset(); arms = [];"
+            >
+              <i class="nav-icon fas fa-plus"></i>
+            </button>
           </div>
         </div>
       </div>
-    </section>
-    <!--FIM SECTION HEADER-->
-    <!--INICIO SECTION TABELA-->
-    <section class="content">
-      <!--INICIO CARD-->
-      <div class="card card-outline card-orange">
-        <!--INICIO HEADER CARD-->
-        <div class="card-header">
-          <div class="row">
-            <div class="col-sm-1">
-              <button *ngIf="user.perfil.armamentos_emprestimos_cad" data-bs-toggle="modal" data-bs-target="#modalcad" type="button"
-                class="btn btn-block btn-outline-primary" (click)="formcad.reset()">
-                <i class="nav-icon fas fa-plus"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <!--FIM HEADER CARD-->
-        <!--INICIO BODY CARD-->
-        <div class="card-body" style="overflow-x: scroll;">
-          <!--INICIO TABLE CARD-->
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
-            class="table table-hover table-head-fixed text-nowrap">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>MARCA/MODELO</th>
-                <th>TIPO</th>
-                <th>SERIAL</th>
-                <th>USUÁRIO</th>
-                <th>DATA EMP.</th>
-                <th>HORA EMP.</th>
-                <th>DATA DEV.</th>
-                <th>HORA DEV.</th>
+      <!--FIM HEADER CARD-->
+      <!--INICIO BODY CARD-->
+      <div class="card-body" style="overflow-x: scroll">
+        <!--INICIO TABLE CARD-->
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          id="tableId"
+          class="table table-hover table-head-fixed text-nowrap"
+        >
+          <thead>
+            <tr>
+              <th>ID</th>
+              <!--<th>MARCA/MODELO</th>
+              <th>TIPO</th>
+              <th>SERIAL</th>
                 <th>DANIFICADO.</th>
-                <th>EXTRAVIADO</th>
-                <th>OPÇÕES</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of data$" class="hovers">
-                <td>{{ data.id }}</td>
-                <td>{{ data.armamento.armamento_tipo.nome }}</td>
-                <td>{{ data.armamento.marca.nome }}/{{ data.armamento.modelo.nome }}</td>
-                <td>{{ data.armamento.serial }}</td>
-                <td><a [routerLink]="['/Usuario', data.user?.id]">{{ data.user?.nome }}</a></td>
-                <td>{{ data.data_emp | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ data.hora_emp }}</td>
-                <td>{{ data.data_dev | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ data.hora_dev }}</td>
-                <td>
-                    <span *ngIf="data.danificado">Sim</span>
-                </td>
-                <td>
-                    <span *ngIf="data.extraviado">Sim</span>
-                </td>
-                <td>
-                  <span class="editdata">
-                    <a *ngIf="data.data_dev" target="_blank" [routerLink]="['/Armamento', data.id]"><i   
-                      class="right fa fa-print text-primary point" data-toggle="tooltip" data-placement="top"
-                      title="Imprimir"></i></a>
-                    <i *ngIf="!data.data_dev" (click)="receber(data)" data-bs-toggle="modal" data-bs-target="#modalreceb"
-                      class="right fa fa-download text-primary point" data-toggle="tooltip" data-placement="top"
-                      title="Receber Veículo"></i>
-                    <i *ngIf="user.perfil.armamentos_emprestimos_edt && !data.data_dev" (click)="editar(data)" data-bs-toggle="modal"
-                      data-bs-target="#modalcad" class="right fas fa-edit text-primary point margin5"
-                      data-toggle="tooltip" data-placement="top" title="Editar"></i>
-                    <i *ngIf="user.perfil.armamentos_emprestimos_del" (click)="deletar(data)" data-bs-toggle="modal"
-                      data-bs-target="#modaldel" class="right fas fa-trash text-danger point margin5"
-                      data-toggle="tooltip" data-placement="top" title="Excluir"></i>
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <!--FIM TABLE CARD-->
-        </div>
-        <!--FIM BODY CARD-->
+              <th>EXTRAVIADO</th>
+            -->
+              <th>USUÁRIO</th>
+              <th>DATA EMP.</th>
+              <th>HORA EMP.</th>
+              <th>DATA DEV.</th>
+              <th>HORA DEV.</th>
+
+              <th>OPÇÕES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of data$" class="hovers">
+              <td>{{ data.id }}</td>
+              <!--<td>{{ data.armamento.armamento_tipo.nome }}</td>
+              <td>
+                {{ data.armamento.marca.nome }}/{{ data.armamento.modelo.nome }}
+              </td>
+              <td>{{ data.armamento.serial }}</td>
+              <td>
+                <span *ngIf="data.danificado">Sim</span>
+              </td>
+              <td>
+                <span *ngIf="data.extraviado">Sim</span>
+              </td>
+            -->
+              <td>
+                <a [routerLink]="['/Usuario', data.user?.id]">{{
+                  data.user?.nome
+                }}</a>
+              </td>
+              <td>{{ data.data_emp | date: "dd/MM/yyyy" }}</td>
+              <td>{{ data.hora_emp }}</td>
+              <td>{{ data.data_dev | date: "dd/MM/yyyy" }}</td>
+              <td>{{ data.hora_dev }}</td>
+
+              <td>
+                <span class="editdata">
+                  <a
+                    *ngIf="data.data_dev"
+                    target="_blank"
+                    [routerLink]="['/Armamento', data.id]"
+                    ><i
+                      class="right fa fa-print text-primary point"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Imprimir Recibo"
+                    ></i
+                  ></a>
+                  <a
+                    *ngIf="!data.data_dev"
+                    target="_blank"
+                    [routerLink]="['/Cautela', data.id]"
+                    ><i
+                      class="right fa fa-print text-primary point"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Imprimir Cautela"
+                    ></i
+                  ></a>
+                  <i
+                    *ngIf="!data.data_dev"
+                    (click)="receber(data)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalreceb"
+                    class="right fa fa-download text-primary point margin5"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Receber Armamento"
+                  ></i>
+                  <i
+                    *ngIf="
+                      user.perfil.armamentos_emprestimos_edt && !data.data_dev
+                    "
+                    (click)="editar(data)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalcad"
+                    class="right fas fa-edit text-primary point margin5"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Editar"
+                  ></i>
+                  <i
+                    *ngIf="user.perfil.armamentos_emprestimos_del && !data.data_dev"
+                    (click)="deletar(data)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modaldel"
+                    class="right fas fa-trash text-danger point margin5"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Excluir"
+                  ></i>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!--FIM TABLE CARD-->
       </div>
-      <!--FIM CARD-->
-  
-      <!--INICIO MODAL CADASTRO-->
-      <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Cadastrar</h4>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <!--FORM CADASTRO-->
-            <form [formGroup]="formcad" (ngSubmit)="salvar()">
-              <div class="modal-body">
-                <!--INICIO ROW 1-->
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label for="armamento">Armamento<span class="text-danger">*</span></label>
-                      <ngx-select-dropdown [config]="config" [options]="armamentos$" formControlName="armamento" required>
-                      </ngx-select-dropdown>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label for="user">Usuário<span class="text-danger">*</span></label>
-                      <ngx-select-dropdown [config]="config2" [options]="usuarios$" formControlName="user" required>
-                      </ngx-select-dropdown>
-                    </div>
-                  </div>
-                  <div class="col-sm-2">
-                    <div class="form-group">
-                      <label for="quant">Quantidade</label>
-                      <input formControlName="quant" type="number" min="0" max="100"
-                        class="form-control form-control-border" id="quant" placeholder="Quant." />
-                    </div>
-                  </div>
-  
-                </div>
-                <!--FIM ROW 1-->
-  
-                <!--INICIO ROW 2-->
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <label for="observacoes">Observações</label>
-                      <angular-editor formControlName="observacoes" id="observacoes" [config]="editorConfig">
-                      </angular-editor>
-                    </div>
-                  </div>
-                </div>
-                <!--FIM ROW 2-->
-  
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">
-                  Cancelar
-                </button>
-                <button [disabled]="!formcad.valid" data-bs-dismiss="modal" type="submit" class="btn btn-success">
-                  Salvar
-                </button>
-              </div>
-            </form>
-            <!--FIM FORM CADASTRO-->
+      <!--FIM BODY CARD-->
+    </div>
+    <!--FIM CARD-->
+
+    <!--INICIO MODAL CADASTRO-->
+    <div class="modal fade" id="modalcad" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Cadastrar</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
           </div>
-        </div>
-      </div>
-      <!--FIM MODAL CADASTRO-->
-  
-      <!--INICIO MODAL DELETE-->
-      <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
-        <div class="modal-dialog ">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Excluir</h4>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-  
+          <!--FORM CADASTRO-->
+          <form [formGroup]="formcad" (ngSubmit)="salvar()">
             <div class="modal-body">
-              <p>Tem certeza que deseja excluir o emprestimo <b>{{excluir$?.armamento.serial}}</b>?</p>
+              <!--INICIO ROW 1-->
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="user"
+                      >Usuário<span class="text-danger">*</span></label
+                    >
+                    <ngx-select-dropdown
+                      [config]="config2"
+                      [options]="usuarios$"
+                      formControlName="user"
+                      required
+                    >
+                    </ngx-select-dropdown>
+                  </div>
+                </div>
+              </div>
+              <!--FIM ROW 1-->
+              <!-- ROW 2-->
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="armamento">Armamento</label>
+                    <ngx-select-dropdown
+                      [config]="config"
+                      [options]="armamentos$"
+                      formControlName="armamento"
+                    >
+                    </ngx-select-dropdown>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="carregadores">Carregadores</label>
+                    <input
+                      formControlName="carregadores"
+                      type="number"
+                      min="0"
+                      max="5"
+                      class="form-control form-control-border"
+                      id="carregadores"
+                      placeholder="carregadores"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="quant">Quantidade</label>
+                    <input
+                      formControlName="quant"
+                      type="number"
+                      min="0"
+                      max="100"
+                      class="form-control form-control-border"
+                      id="quant"
+                      placeholder="Quant."
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  <div class="form-group">
+                    <label></label>
+                    <button
+                      [disabled]="!formcad.controls.armamento.value"
+                      type="button"
+                      class="btn btn-block btn-outline-primary"
+                      (click)="addArmamento()"
+                    >
+                      <i class="nav-icon fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!--FIM ROW 1-->
+
+              <!--INICIO ROW 3-->
+              <div class="row">
+                <table  class="table table-hover table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>TIPO</th>
+                      <th>MARCA</th>
+                      <th>MODELO</th>
+                      <th>SERIAL</th>
+                      <th>CARREGADORES</th>
+                      <th>QUANTIDADE</th>
+                      <th>OPÇÕES</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let arm of arms; index as i" class="hovers">
+                      <td> {{ arm.armamento_tipo.nome }}</td>
+                      <td>{{ arm.marca.nome }}</td>
+                      <td>{{ arm.modelo.nome }}</td>
+                      <td>{{ arm.serial }}</td>
+                      <td>{{ arm.carregadores }}</td>
+                      <td>{{ arm.quant }}</td>
+                      <td>
+                        <span class="editdata">
+                          <i
+                      (click)="delArmamento(i)"
+                      class="nav-icon fa fa-trash text-danger margin5 point"
+                    ></i>  
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!--
+                <ol style="margin-left: 10px">
+                  <li *ngFor="let arm of arms; index as i">
+                    {{ arm.armamento_tipo.nome }} - {{ arm.modelo.nome }}/{{
+                      arm.marca.nome
+                    }}
+                    <span *ngIf="arm.serial">, Serial: {{ arm.serial }}</span>
+                    <span *ngIf="arm.quant">, Quantidade: {{ arm.quant }}</span>
+                    <span *ngIf="arm.carregadores"
+                      >, Carregadores: {{ arm.carregadores }}</span
+                    >
+                    <i
+                      (click)="delArmamento(i)"
+                      class="nav-icon fa fa-trash text-danger margin5 point"
+                    ></i>
+                  </li>
+                </ol>-->
+              </div>
+              <!--FIM ROW 3-->
+              <!--INICIO ROW 4-->
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="observacoes">Observações</label>
+                    <angular-editor
+                      formControlName="observacoes"
+                      id="observacoes"
+                      [config]="editorConfig"
+                    >
+                    </angular-editor>
+                  </div>
+                </div>
+              </div>
+              <!--FIM ROW 4-->
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-bs-dismiss="modal">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-bs-dismiss="modal"
+              >
                 Cancelar
               </button>
-              <button (click)="confirm()" data-bs-dismiss="modal" type="button" class="btn btn-danger">
-                Excluir
+              <button
+                [disabled]="!formcad.valid"
+                data-bs-dismiss="modal"
+                type="submit"
+                class="btn btn-success"
+              >
+                Salvar
               </button>
             </div>
+          </form>
+          <!--FIM FORM CADASTRO-->
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL CADASTRO-->
+
+    <!--INICIO MODAL DELETE-->
+    <div class="modal fade" id="modaldel" aria-modal="true" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Excluir</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <p>
+              Tem certeza que deseja excluir o emprestimo a
+              <b>{{ excluir$?.user?.nome }}</b
+              >?
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              (click)="confirm()"
+              data-bs-dismiss="modal"
+              type="button"
+              class="btn btn-danger"
+            >
+              Excluir
+            </button>
           </div>
         </div>
       </div>
-      <!--FIM MODAL DELETE-->
-  
-      <!--INICIO MODAL RECEBER-->
-      <div class="modal fade" id="modalreceb" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Cadastrar</h4>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <!--FORM RECEBER-->
-            <form [formGroup]="formcad2" (ngSubmit)="salvarreceber()">
-              <div class="modal-body">
-                 <!--INICIO ROW 1-->
-                <div class="row">
-                   
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                          <label for="danificado">Danificado</label>
-                          <br />
-                          <input type="checkbox" formControlName="danificado" id="danificado" />
-                        </div>
-                      </div>
-                      <div class="col-sm-2">
-                        <div class="form-group">
-                          <label for="extraviado">Extraviado</label>
-                          <br />
-                          <input type="checkbox" formControlName="extraviado" id="extraviado" />
-                        </div>
-                      </div>
-                </div>
-                <!--FIM ROW 2-->
-                <!--INICIO ROW 2-->
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <label for="observacoes">Observações</label>
-                      <angular-editor formControlName="observacoes" id="observacoes" [config]="editorConfig">
-                      </angular-editor>
-                    </div>
+    </div>
+    <!--FIM MODAL DELETE-->
+
+    <!--INICIO MODAL RECEBER-->
+    <div class="modal fade" id="modalreceb" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Cadastrar</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <!--FORM RECEBER-->
+          <form [formGroup]="formcad2" (ngSubmit)="salvarreceber()">
+            <div class="modal-body">
+              <!--INICIO ROW 1
+              <div class="row">
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="danificado">Danificado</label>
+                    <br />
+                    <input
+                      type="checkbox"
+                      formControlName="danificado"
+                      id="danificado"
+                    />
                   </div>
                 </div>
-                <!--FIM ROW 2-->
-  
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label for="extraviado">Extraviado</label>
+                    <br />
+                    <input
+                      type="checkbox"
+                      formControlName="extraviado"
+                      id="extraviado"
+                    />
+                  </div>
+                </div>
+              </div>-->
+              <!--FIM ROW 2-->
+              <!--INICIO ROW 2-->
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="observacoes2">Observações</label>
+                    <angular-editor
+                      formControlName="observacoes"
+                      id="observacoes2"
+                      [config]="editorConfig"
+                    >
+                    </angular-editor>
+                  </div>
+                </div>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">
-                  Cancelar
-                </button>
-                <button [disabled]="!formcad2.valid" data-bs-dismiss="modal" type="submit" class="btn btn-success">
-                  Salvar
-                </button>
-              </div>
-            </form>
-            <!--FIM FORM RECEBER-->
-          </div>
+              <!--FIM ROW 2-->
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button
+                [disabled]="!formcad2.valid"
+                data-bs-dismiss="modal"
+                type="submit"
+                class="btn btn-success"
+              >
+                Salvar
+              </button>
+            </div>
+          </form>
+          <!--FIM FORM RECEBER-->
         </div>
       </div>
-      <!--FIM MODAL RECEBER-->
-    </section>
-    <!--FIM SECTION TABELA-->
-  </div>
-  <!--FIM CONTENT WRAPPER-->
-  <!--<app-footer></app-footer>
+    </div>
+    <!--FIM MODAL RECEBER-->
+  </section>
+  <!--FIM SECTION TABELA-->
+</div>
+<!--FIM CONTENT WRAPPER-->
+<!--<app-footer></app-footer>
       </div>-->

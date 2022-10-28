@@ -12,6 +12,7 @@ import { ArmamentoComponent } from './views/armamento/armamento.component';
 import { ArmamentosComponent } from './views/armamentos/armamentos.component';
 import { ArmamentosEmprestimosComponent } from './views/armamentos-emprestimos/armamentos-emprestimos.component';
 import { ArmamentosTiposComponent } from './views/armamentos-tipos/armamentos-tipos.component';
+import { CautelaComponent } from './views/cautela/cautela.component';
 import { CidadesComponent } from './views/cidades/cidades.component';
 import { CoresComponent } from './views/cores/cores.component';
 import { DocumentoComponent } from './views/documento/documento.component';
@@ -99,6 +100,11 @@ const routes: Routes = [
     path: 'Tipos-Armamentos',
     canActivate: [AuthGuard],
     component: ArmamentosTiposComponent,
+  },
+  {
+    path: 'Cautela/:id',
+    canActivate: [AuthGuard],
+    component: CautelaComponent,
   },
   {
     path: 'Cidades',

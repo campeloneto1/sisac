@@ -70,7 +70,7 @@
             ></span>
             <div class="info-box-content">
               <span class="info-box-text"><b>Escala do dia</b></span>
-              <span class="info-box-number" *ngIf="escaladia"><a target="_blank" [routerLink]="['/Escala', escaladia[0].id]">{{ escaladia[0].codigo }}/{{ escaladia[0].created_at | date: 'yyyy' }}</a></span>
+              <span class="info-box-number" *ngIf="escaladia && escaladia.length > 0"><a target="_blank" [routerLink]="['/Escala', escaladia[0].id]">{{ escaladia[0].codigo }}/{{ escaladia[0].created_at | date: 'yyyy' }}</a></span>
             </div>
           </div>
         </div>
@@ -188,6 +188,7 @@
                 <thead>
                   <tr>
                     <th>ID</th>                  
+                    <th>TIPO</th>   
                     <th>MARCA</th>     
                     <th>MODELO</th> 
                     <th>SERIAL</th> 
@@ -197,6 +198,7 @@
                 <tbody *ngIf="armamentosvencimentos">
                   <tr *ngFor="let data of armamentosvencimentos" class="hovers">
                     <td>{{ data.id }}</td>                
+                    <td>{{ data.armamento_tipo?.nome }}</td> 
                     <td>{{ data.marca.nome }}</td> 
                     <td>{{ data.modelo.nome }}</td> 
                     <td>{{ data.serial }}</td> 
