@@ -27,6 +27,8 @@ export class VeiculosComponent implements OnInit, OnDestroy {
   marcas$: any;
   modelos$: any;
   cores$: any;
+  trocaoleo$: any;
+  kmtrocaoleo: any;
 
   excluir$: any;
 
@@ -249,6 +251,22 @@ export class VeiculosComponent implements OnInit, OnDestroy {
         this.toastr.success('Informação excluída com sucesso!');  
       }
     })
+  }
+
+  trocaroleo(data:any ){
+    this.trocaoleo$ = data;
+    this.kmtrocaoleo = null;
+  }
+
+  confirmtroca(){
+    //console.log(this.trocaoleo$);
+    var troca = {'id': this.trocaoleo$.id, 'troca_oleo': this.kmtrocaoleo}
+    this.veiculos.trocaoleo(troca).subscribe(data => {
+      if(data == 1){
+        this.refresh();
+        this.toastr.success('Informação cadastrada com sucesso!');      
+      }
+    });
   }
 
 }

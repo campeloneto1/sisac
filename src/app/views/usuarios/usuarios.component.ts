@@ -101,6 +101,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     subunidade_id: new FormControl(''),
     setor_id: new FormControl(''),
 
+    conta: new FormControl(''),
+
   });
 
   cadformfoto = new FormGroup({

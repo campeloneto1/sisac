@@ -45,6 +45,7 @@ export class SetoresComponent implements OnInit, OnDestroy {
     comandante_id: new FormControl(''),  
     subcomandante_id: new FormControl(''),  
     escala: new FormControl(''),
+    final_semana: new FormControl(''),
   });
 
   // We use this trigger because fetching the list of persons can be quite long,

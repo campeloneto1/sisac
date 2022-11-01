@@ -74,6 +74,8 @@ import { ValidacaoComponent } from './views/validacao/validacao.component';
 import { IrsosFinanceirosComponent } from './views/irsos-financeiros/irsos-financeiros.component';
 import { AdministracaoComponent } from './views/administracao/administracao.component';
 import { CautelaComponent } from './views/cautela/cautela.component';
+import { PatrimoniosComponent } from './views/patrimonios/patrimonios.component';
+import { PatrimoniosTiposComponent } from './views/patrimonios-tipos/patrimonios-tipos.component';
 
 @NgModule({
   declarations: [
@@ -134,7 +136,9 @@ import { CautelaComponent } from './views/cautela/cautela.component';
     ValidacaoComponent,
     IrsosFinanceirosComponent,
     AdministracaoComponent,
-    CautelaComponent
+    CautelaComponent,
+    PatrimoniosComponent,
+    PatrimoniosTiposComponent
   ],
   imports: [
     BrowserModule,

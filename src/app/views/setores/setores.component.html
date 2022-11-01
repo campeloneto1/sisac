@@ -62,6 +62,7 @@
                 <th>COMANDANTE</th>
                 <th>SUBCOMANDANTE</th>
                 <th>ESCALA</th>
+                <th>FINAL DE SEMANA</th>
                 <th>OPÇÕES</th>
               </tr>
             </thead>
@@ -80,6 +81,10 @@
                 <td>
                   <span *ngIf="data.escala">Sim</span>
                   <span *ngIf="!data.escala">Não</span>
+                </td>
+                <td>
+                  <span *ngIf="data.final_semana">Sim</span>
+                  <span *ngIf="!data.final_semana">Não</span>
                 </td>
                 <td>
                   <span class="editdata">
@@ -227,17 +232,7 @@
                       />
                     </div>
                   </div>
-                  <div class="col-sm-2">
-                    <div class="form-group">
-                      <label for="escala"> Aparece Escala</label>
-                      <br />
-                      <input
-                        type="checkbox"
-                        formControlName="escala"
-                        id="escala"
-                      />
-                    </div>
-                  </div>
+                  
                 </div>
                 <!--FIM ROW 1-->
                 <!--INICIO ROW 2-->
@@ -276,6 +271,28 @@
                           {{ data.nome }}
                         </option>
                       </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="escala"> Aparece Escala</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        formControlName="escala"
+                        id="escala"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="final_semana"> Final de Semana</label>
+                      <br />
+                      <input
+                        type="checkbox"
+                        formControlName="final_semana"
+                        id="final_semana"
+                      />
                     </div>
                   </div>
                 </div>

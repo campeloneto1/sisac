@@ -46,6 +46,7 @@ export class EscalaComponent implements OnInit {
   user: any;
   date = new Date();
   antiga = false;
+  fds = false;
   atual = false;
   subunidade$: any;
   turno$: any;
@@ -160,16 +161,17 @@ export class EscalaComponent implements OnInit {
       var teste = this.data$.data.split('-');
 
       var date2 = new Date(teste[0], teste[1]-1, teste[2]);
-      //@ts-ignore
-      //date2.setDate();
+
       var dateteste = this.date.getFullYear()+'-'+(this.date.getMonth()+1)+'-'+this.date.getDate();
       var dateteste2 = date2.getFullYear()+'-'+(date2.getMonth()+1)+'-'+date2.getDate();
-      //console.log(dateteste)
-      //console.log(this.date.getMonth())
       
       var comp = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
-      //console.log(comp)
-      //console.log(date2)
+
+      if(date2.getDay() == 0 || date2.getDay() == 6){
+        this.fds = true;
+        console.log('entrou fds')
+      }
+
       if(comp > date2){
         //console.log('entrou1');
         this.antiga = true;

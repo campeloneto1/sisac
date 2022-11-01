@@ -102,7 +102,7 @@
                     <span *ngIf="data3.hora_ini">({{ data3.hora_ini }} às
                       {{ data3.hora_fim }})</span>-->
                     <span style="float: right">
-                      <button *ngIf="user.perfil.escalas_cad && !antiga" data-bs-toggle="modal"
+                      <button *ngIf="(user.perfil.escalas_cad && !antiga) || user.perfil.administrador" data-bs-toggle="modal"
                         data-bs-target="#modalusu" type="button" class="btn btn-xs btn-outline-primary noprint"
                         (click)="getTurno(data, data2, data3)">
                         <i class="nav-icon fas fa-plus"></i>
@@ -372,20 +372,24 @@
               </tr>
             </thead>
             <tbody>
-              <div class="row" *ngFor="let data of setores$" style="width: 99.9%; margin-left: 0.8px;">
-                <div class="col-sm-12 text-center p-0 titlemodalidade2" style="border:1px solid #dee2e6">
-                  <b>{{ data.nome | uppercase }}</b>
-                </div>
-                <div class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6"
-                  *ngFor="let setuser of data.users">
-                  <span *ngIf="setuser">
-                    {{ setuser.graduacao?.abreviatura }}
-                    {{ setuser.numeral | mask: '00.000' }}
-                    {{ setuser.nome_guerra }}
-                    ({{ setuser.telefone1 }})
-                  </span>
-                  <span *ngIf="!setuser">**************</span>
-                </div>
+              <div class="row" *ngFor="let data of setores$"  style="width: 99.9%; margin-left: 0.8px;">
+                <ng-container *ngIf="!fds || (fds && data.final_semana)">
+                  <div class="col-sm-12 text-center p-0 titlemodalidade2" style="border:1px solid #dee2e6">
+                    <b>{{ data.nome | uppercase }}</b>
+                  </div>
+                  <ng-container *ngFor="let setuser of data.users"  >
+                    <div *ngIf="setuser" class="col-sm-3 text-center p-0" style="border:1px solid #dee2e6">
+                   
+                      {{ setuser.graduacao?.abreviatura }}
+                      {{ setuser.numeral | mask: '00.000' }}
+                      {{ setuser.nome_guerra }}
+                      ({{ setuser.telefone1 }})
+                   
+                  </div>
+                  </ng-container>
+                 
+                </ng-container>
+                
               </div>
             </tbody>
           </table>

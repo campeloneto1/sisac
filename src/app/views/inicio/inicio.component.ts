@@ -31,48 +31,67 @@ export class InicioComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.inicio.getEscalaDia().subscribe((data) => {
-      this.escaladia = data;
-    });
 
-    this.inicio.getQuantPms().subscribe((data) => {
-      this.quantpm = data;
-    });
+    if(this.user.perfil.oficial_dia){
+      this.inicio.getEscalaDia().subscribe((data) => {
+        this.escaladia = data;
+      });
+    }
 
-    this.inicio.getQuantAfast().subscribe((data) => {
-      this.quantafast = data;
-    });
+    if(this.user.perfil.usuarios){
+      this.inicio.getQuantPms().subscribe((data) => {
+        this.quantpm = data;
+      });
+  
+    }
+    
+    if(this.user.perfil.afastamentos){
+      this.inicio.getQuantAfast().subscribe((data) => {
+        this.quantafast = data;
+      });
+  
+    }
 
-    this.inicio.getQuantFerias().subscribe((data) => {
-      this.quantferias = data;
-    });
+    if(this.user.perfil.usuarios_cad){
+      this.inicio.getQuantFerias().subscribe((data) => {
+        this.quantferias = data;
+      });
 
-    this.inicio.getQuantVeiculos().subscribe((data) => {
-      this.quantaveiculos = data;
-    });
+      this.inicio.getSetores().subscribe((data) => {
+        this.quantasetores = data;
+      });
+    }
 
-    this.inicio.getSetores().subscribe((data) => {
-      this.quantasetores = data;
-    });
+    if(this.user.perfil.materiais){
+      this.inicio.getMateriaisEmprestimos().subscribe((data) => {
+        this.materiaisemprestimos = data;
+      });
 
-    this.inicio.getMateriaisEmprestimos().subscribe((data) => {
-      this.materiaisemprestimos = data;
-    });
+      this.inicio.getMatVencimentos().subscribe((data) => {
+        this.materiaisvencimentos = data;
+      });
+    }
 
-    this.inicio.getVeiculosEmprestimos().subscribe((data) => {
-      this.veiculosemprestimos = data;
-    });
+    if(this.user.perfil.veiculos){
+        this.inicio.getTrocaOleo().subscribe((data) => {
+        this.trocaoleo = data;
+      });
 
-    this.inicio.getTrocaOleo().subscribe((data) => {
-      this.trocaoleo = data;
-    });
+      this.inicio.getQuantVeiculos().subscribe((data) => {
+        this.quantaveiculos = data;
+      });
+    }
+    
+    if(this.user.perfil.veiculos_emprestimos){
+      this.inicio.getVeiculosEmprestimos().subscribe((data) => {
+        this.veiculosemprestimos = data;
+      });
+    }
 
-    this.inicio.getArmVencimentos().subscribe((data) => {
-      this.armamentosvencimentos = data;
-    });
-
-    this.inicio.getMatVencimentos().subscribe((data) => {
-      this.materiaisvencimentos = data;
-    });
+    if(this.user.perfil.veiculos_emprestimos){
+      this.inicio.getArmVencimentos().subscribe((data) => {
+        this.armamentosvencimentos = data;
+      });
+    }
   }
 }

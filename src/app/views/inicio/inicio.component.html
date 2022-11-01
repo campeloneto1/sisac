@@ -78,12 +78,12 @@
 
       <div class="row">
         <!--INICIO USUARIOS POR SETOR-->
-        <div *ngIf="user.perfil.usuarios" class="col-sm-4">
+        <div *ngIf="user.perfil.usuarios_cad"  class="col-sm-4">
           <div class="card card-outline card-orange">
             <div class="card-header">
               <h3 class="card-title">Policiais por Setores</h3>
             </div>
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0" style="max-height: 500px;overflow-y: scroll;">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >
@@ -93,7 +93,7 @@
                     <th>QUANT</th>     
                   </tr>
                 </thead>
-                <tbody *ngIf="quantasetores">
+                <tbody *ngIf="quantasetores" >
                   <tr *ngFor="let data of quantasetores" class="hovers">
                     <td>{{ data.nome }}</td>                
                     <td>{{ data.quant }}</td> 
@@ -113,7 +113,7 @@
             <div class="card-header">
               <h3 class="card-title">Materiais Emprestados</h3>
             </div>
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0" style="max-height: 500px;overflow-y: scroll;">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >
@@ -148,7 +148,7 @@
             <div class="card-header">
               <h3 class="card-title">Materiais Próximos do Vencimento</h3>
             </div>
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0" style="max-height: 500px;overflow-y: scroll;">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >
@@ -181,7 +181,7 @@
             <div class="card-header">
               <h3 class="card-title">Armamentos Próximos do Vencimento</h3>
             </div>
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0" style="max-height: 500px;overflow-y: scroll;">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >
@@ -216,7 +216,7 @@
             <div class="card-header">
               <h3 class="card-title">Veículos Emprestados</h3>
             </div>
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0" style="max-height: 500px;overflow-y: scroll;">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >
@@ -252,7 +252,7 @@
             <div class="card-header">
               <h3 class="card-title">Próximas Trocas de Óleo</h3>
             </div>
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0" style="max-height: 500px;overflow-y: scroll;">
               <table                
                 class="table table-hover table-head-fixed text-nowrap"
               >

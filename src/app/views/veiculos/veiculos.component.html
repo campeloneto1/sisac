@@ -86,10 +86,20 @@
                       <span class="editdata">
                         <i
                         *ngIf="user.perfil.veiculos_edt && !data.data_baixa"
+                          (click)="trocaroleo(data)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modaltroca"
+                          class="right fas fa-tint text-primary point"
+                          data-toggle="tooltip" 
+                          data-placement="top" 
+                          title="Troca de Óleo"
+                        ></i>
+                        <i
+                        *ngIf="user.perfil.veiculos_edt && !data.data_baixa"
                           (click)="editar(data)"
                           data-bs-toggle="modal"
                           data-bs-target="#modalcad"
-                          class="right fas fa-edit text-primary point"
+                          class="right fas fa-edit text-primary point margin5"
                           data-toggle="tooltip" 
                           data-placement="top" 
                           title="Editar"
@@ -135,7 +145,7 @@
                   <div class="modal-body">
                     <!--INICIO ROW 1-->
                     <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <div class="form-group">
                               <label for="marca">Marca<span class="text-danger">*</span></label>
                               <ngx-select-dropdown 
@@ -148,7 +158,7 @@
                               </ngx-select-dropdown>
                             </div>
                           </div>
-                          <div class="col-sm-2">
+                          <div class="col-sm-3">
                             <div class="form-group">
                               <label for="modelo">Modelo<span class="text-danger">*</span></label>
                               <ngx-select-dropdown 
@@ -372,6 +382,7 @@
     
                 <div class="modal-body">
                   <p>Tem certeza que deseja excluir o veículo <b>{{excluir$?.placa}}</b>?</p>
+                  
                 </div>
                 <div class="modal-footer">
                   <button
@@ -394,6 +405,63 @@
             </div>
           </div>
           <!--FIM MODAL DELETE-->
+          <!--INICIO MODAL TROCA OLEO-->
+          <div class="modal fade" id="modaltroca" aria-modal="true" role="dialog">
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Troca de Óleo</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+    
+                <div class="modal-body">
+                  <p>Informe o próximo KM para troca de óleo:</p>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="trocaoleo"
+                        >Troca Óleo</label
+                      >
+                      <input
+                        [(ngModel)]="kmtrocaoleo"                            
+                        type="number"
+                        class="form-control form-control-border"
+                        id="trocaoleo"
+                        min="0"
+                        placeholder="Troca Óleo"
+                      />
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                 
+                  <button
+                    (click)="confirmtroca()"
+                    data-bs-dismiss="modal"
+                    type="button"
+                    class="btn btn-success"
+                  >
+                    Salvar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--FIM MODAL TROCA OLEO-->
         </section>
         <!--FIM SECTION TABELA-->
       </div>

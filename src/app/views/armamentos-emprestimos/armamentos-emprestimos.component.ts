@@ -45,7 +45,7 @@ export class ArmamentosEmprestimosComponent implements OnInit {
     moreText: 'mais', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
     noResultsFound: 'Nenhum resultado encontrado!', // text to be displayed when no items are found while searching
     searchPlaceholder:'Pesquisar', // label thats displayed in search input,
-    //searchOnKey: 'nome' ,// key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+    searchOnKey: undefined ,// key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
     clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
     inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
   }

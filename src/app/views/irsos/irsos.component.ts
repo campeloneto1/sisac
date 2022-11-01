@@ -38,7 +38,13 @@ export class IrsosComponent implements OnInit, OnDestroy {
   excluir$: any;
 
   config = {
-    displayFn:(item: any) => { return item.nome+' ('+item.matricula+')'; } ,//to support flexible text displaying for each item
+    displayFn:(item: any) => { 
+      if(item.numeral){
+        return  item.graduacao.abreviatura+' '+item.numeral+' '+item.nome_guerra+'('+item.matricula+')'; 
+      }else{
+        return  item.graduacao.abreviatura+' '+item.nome_guerra+'('+item.matricula+')'; 
+      }
+     } ,//to support flexible text displaying for each item
     displayKey:"nome", //if objects array passed which key to be displayed defaults to description
     search:true, //true/false for the search functionlity defaults to false,
     height: '400px', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear

@@ -32,4 +32,8 @@ export class VeiculosService {
   destroy(id:number){
     return this.http.delete(environment.url+"veiculos/"+id);
   }
+
+  trocaoleo(data:any){
+    return this.http.post(environment.url+"veiculos-trocaoleo", data);
+  }
 }

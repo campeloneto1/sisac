@@ -413,6 +413,8 @@
                   <tr>
                     <th>ID</th>
                     <th>POSTO</th>
+                    <th>GRAD.</th>
+                    <th>NUM.</th>
                     <th>NOME</th>
                     <th>MATRÍCULA</th>
                     <th>OPÇÕES</th>
@@ -422,6 +424,8 @@
                   <tr *ngFor="let data of irso$.usuarios" class="hovers">
                     <td>{{ data.id }}</td>
                     <td>{{ data.posto?.nome }}</td>
+                    <td>{{ data.user?.graduacao.abreviatura }}</td>
+                    <td>{{ data.user?.numeral | mask: "00.000" }}</td>
                     <td>{{ data.user?.nome }}</td>
                     <td>{{ data.user?.matricula | mask: "000.000-0-0" }}</td>
                     <td>

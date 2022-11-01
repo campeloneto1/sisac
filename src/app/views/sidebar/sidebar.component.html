@@ -41,7 +41,7 @@
         </li>
         <li *ngIf="user.perfil?.materiais_emprestimos" class="nav-item">
           <a [routerLink]="['/Emprestimos-Materiais']" [routerLinkActive]="['active']" class="nav-link">
-            <i class="nav-icon fa fa-shopping-basket"></i>
+            <i class="nav-icon fa fa-briefcase"></i>
             <p>Emp. de Materiais</p>
           </a>
         </li>
@@ -85,6 +85,12 @@
           <a [routerLink]="['/Ocorrencias']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-exclamation-triangle"></i>
             <p>Ocorrências</p>
+          </a>
+        </li>
+        <li *ngIf="user.perfil?.usuarios_cad" class="nav-item">
+          <a [routerLink]="['/Patrimonios']" [routerLinkActive]="['active']" class="nav-link">
+            <i class="nav-icon fa fa-desktop"></i>
+            <p>Patrimônios</p>
           </a>
         </li>
         <li *ngIf="user.perfil?.usuarios_cad" class="nav-item">
@@ -210,6 +216,12 @@
               <a [routerLink]="['/Tipos-Ocorrencias']" [routerLinkActive]="['active']" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tipos de Ocorrências</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/Tipos-Patrimonios']" [routerLinkActive]="['active']" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tipos de Patrimônios</p>
               </a>
             </li>
             <li class="nav-item">

@@ -37,6 +37,8 @@ import { MateriaisTiposComponent } from './views/materiais-tipos/materiais-tipos
 import { ModelosComponent } from './views/modelos/modelos.component';
 import { ModalidadesComponent } from './views/modalidades/modalidades.component';
 import { PaisesComponent } from './views/paises/paises.component';
+import { PatrimoniosComponent } from './views/patrimonios/patrimonios.component';
+import { PatrimoniosTiposComponent } from './views/patrimonios-tipos/patrimonios-tipos.component';
 import { PerfisComponent } from './views/perfis/perfis.component';
 import { PromocoesComponent } from './views/promocoes/promocoes.component';
 import { PostosComponent } from './views/postos/postos.component';
@@ -247,6 +249,16 @@ const routes: Routes = [
     path: 'Paises',
     canActivate: [AuthGuard],
     component: PaisesComponent,
+  },
+  {
+    path: 'Patrimonios',
+    canActivate: [AuthGuard],
+    component: PatrimoniosComponent,
+  },
+  {
+    path: 'Tipos-Patrimonios',
+    canActivate: [AuthGuard],
+    component: PatrimoniosTiposComponent,
   },
   {
     path: 'Perfis',

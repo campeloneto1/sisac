@@ -72,6 +72,11 @@ export class PerfisComponent implements OnInit,OnDestroy {
     materiais_emprestimos_edt: new FormControl(''),   
     materiais_emprestimos_del: new FormControl(''), 
 
+    patrimonios: new FormControl(''),   
+    patrimonios_cad: new FormControl(''),   
+    patrimonios_edt: new FormControl(''),   
+    patrimonios_del: new FormControl(''), 
+
     publicacoes: new FormControl(''),   
     publicacoes_cad: new FormControl(''),   
     publicacoes_edt: new FormControl(''),   
