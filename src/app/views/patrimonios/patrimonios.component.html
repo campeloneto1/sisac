@@ -49,7 +49,7 @@
                 <th *ngIf="user.perfil.administrador">SUBUNIDADE</th>   
                 <th>SETOR</th>
                 <th>TIPO</th>
-                
+                <th>TOMBO</th>
                 <th>SERIAL</th>
                 <th>DATA BAIXA</th>
                 <th>OPÇÕES</th>
@@ -61,6 +61,7 @@
                 <td *ngIf="user.perfil.administrador">{{ data.subunidade.abreviatura }} - {{ data.subunidade.unidade.abreviatura }}</td>  
                 <td>{{ data.setor.nome }}</td>
                 <td>{{ data.patrimonio_tipo.nome }}</td>
+                <td>{{ data.tombo }}</td>
                 <td>{{ data.serial }}</td>
                 <td>{{ data.data_baixa | date: 'dd/MM/yyyy' }}</td>               
                 <td>
@@ -125,11 +126,17 @@
                       </ngx-select-dropdown>
                     </div>
                   </div>
-                 
                   <div class="col-sm-2">
                     <div class="form-group">
-                      <label for="serial">Serial<span class="text-danger">*</span></label>
-                      <input formControlName="serial" required type="text" class="form-control form-control-border"
+                      <label for="tombo">Tombo<span class="text-danger">*</span></label>
+                      <input formControlName="tombo" required type="text" class="form-control form-control-border"
+                        id="tombo" placeholder="Tombo"  />
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="serial">Serial</label>
+                      <input formControlName="serial" type="text" class="form-control form-control-border"
                         id="serial" placeholder="Serial"  />
                     </div>
                   </div>

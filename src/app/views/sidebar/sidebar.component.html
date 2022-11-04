@@ -64,9 +64,9 @@
           </a>
         </li>
         <li *ngIf="user.perfil?.irsos_cad" class="nav-item">
-          <a [routerLink]="['/Financeiro-Irsos']" [routerLinkActive]="['active']" class="nav-link">
+          <a [routerLink]="['/Financeiro-Irso']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-usd"></i>
-            <p>Financeiro Irsos</p>
+            <p>Financeiro Irso</p>
           </a>
         </li>
         <li *ngIf="user.perfil?.irsos" class="nav-item">
@@ -87,7 +87,7 @@
             <p>Ocorrências</p>
           </a>
         </li>
-        <li *ngIf="user.perfil?.usuarios_cad" class="nav-item">
+        <li *ngIf="user.perfil?.patrimonios" class="nav-item">
           <a [routerLink]="['/Patrimonios']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-desktop"></i>
             <p>Patrimônios</p>

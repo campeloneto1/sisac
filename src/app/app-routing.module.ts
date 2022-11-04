@@ -205,7 +205,7 @@ const routes: Routes = [
     component: IrsosComponent,
   },
   {
-    path: 'Financeiro-Irsos',
+    path: 'Financeiro-Irso',
     canActivate: [AuthGuard],
     component: IrsosFinanceirosComponent,
   },

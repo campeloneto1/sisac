@@ -96,6 +96,7 @@ export class PatrimoniosComponent implements OnInit,OnDestroy {
   formcad = new FormGroup({
     id: new FormControl(''),
     serial: new FormControl(''), 
+    tombo: new FormControl(''), 
     patrimonio_tipo_id: new FormControl(''),  
     patrimonio_tipo: new FormControl(''),
     setor: new FormControl(''), 

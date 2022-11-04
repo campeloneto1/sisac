@@ -62,7 +62,8 @@
                     <th>COR</th>  
                     <th>ANO</th>      
                     <th>PLACA</th>    
-                    <th>PLACA ESP.</th>    
+                    <th>PLACA ESP.</th>   
+                    <th>TIPO</th>    
                     <th>KM ATUAL</th>  
                     <th>TROCA DE ÓLEO</th>  
                     <th>DATA BAIXA</th> 
@@ -79,6 +80,10 @@
                     <td>{{ data.ano }}</td>
                     <td>{{ data.placa }}</td> 
                     <td>{{ data.placa_esp }}</td> 
+                    <td>
+                      <span *ngIf="data.tipo_id == 1">Orgânico</span>
+                      <span *ngIf="data.tipo_id == 2">Locado</span>
+                    </td>
                     <td>{{ data.km_atual }} km</td> 
                     <td><span *ngIf="data.troca_oleo">{{ data.troca_oleo }} km</span></td> 
                     <td>{{ data.data_baixa | date:'dd/MM/yyyy' }}</td> 
@@ -196,6 +201,27 @@
                                 id="ano"
                                 placeholder="Ano"
                               />
+                            </div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="form-group">
+                              <label for="tipo_id"
+                                >Tipo<span class="text-danger">*</span></label
+                              >
+                              <select formControlName="tipo_id"
+                              required
+                              [ngClass]="{
+                                'is-invalid':
+                                  formcad.controls.tipo_id.invalid &&
+                                  (formcad.controls.tipo_id.dirty ||
+                                    formcad.controls.tipo_id.touched)
+                              }"
+                              class="custom-select form-control-border"
+                              id="tipo_id">
+                                <option></option>
+                                <option value="1">Orgânico</option>
+                                <option value="2">Locado</option>
+                              </select>
                             </div>
                           </div>
                     </div>

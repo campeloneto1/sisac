@@ -134,6 +134,7 @@ export class VeiculosComponent implements OnInit, OnDestroy {
     cor_id: new FormControl(''), 
     cor: new FormControl(''), 
     ano: new FormControl(''), 
+    tipo_id: new FormControl(''), 
     placa: new FormControl(''), 
     placa_esp: new FormControl(''),
     renavam: new FormControl(''), 
