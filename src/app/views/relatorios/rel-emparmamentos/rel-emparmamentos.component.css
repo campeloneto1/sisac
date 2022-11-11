@@ -1,0 +1,17 @@
+.onprint{
+    display: none;
+}
+
+@media print {
+    .onprint{
+        display: block;
+    }
+
+    .noprint{
+        display: none;
+    }
+
+    .nodecoration{
+        color: black;
+    }
+}

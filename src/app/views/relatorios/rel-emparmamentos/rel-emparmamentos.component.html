@@ -1,0 +1,221 @@
+<!--<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>-->
+<!--INICIO CONTENT WRAPPER-->
+<div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+  <!--INICIO SECTION HEADER-->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Relatório de Empréstimos de Armamentos</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/Inicio']">Início</a>
+            </li>
+            <li class="breadcrumb-item active">
+              Relatório de Empréstimos de Armamentos
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--FIM SECTION HEADER-->
+  <!--INICIO SECTION TABELA-->
+  <section class="content">
+    <!--INICIO CARD-->
+    <div class="card card-outline card-orange">
+      <!--INICIO HEADER CARD-->
+      <div class="card-header text-center">
+        <h2 class="onprint">Relatório de Empréstimos de Armamentos</h2>
+        <a class="btn btn-link noprint" (click)="voltar()" *ngIf="show"
+          >Voltar</a
+        >
+      </div>
+      <!--FIM HEADER CARD-->
+      <!--INICIO BODY CARD-->
+      <div class="card-body" style="overflow-x: scroll">
+        <!-- INICIO DIV FILTRO RELATORIOS-->
+        <div *ngIf="!show">
+          <form [formGroup]="formcad" (ngSubmit)="getReport()">
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="dt_ini"
+                    >Dt. Início<span class="text-danger">*</span></label
+                  >
+                  <input
+                    formControlName="dt_ini"
+                    required
+                    type="date"
+                    class="form-control form-control-border"
+                    id="dt_ini"
+                    placeholder="Dt. Início"
+                    [ngClass]="{
+                      'is-invalid':
+                        formcad.controls.dt_ini.invalid &&
+                        (formcad.controls.dt_ini.dirty ||
+                          formcad.controls.dt_ini.touched)
+                    }"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="dt_fim"
+                    >Dt. Fim<span class="text-danger">*</span></label
+                  >
+                  <input
+                    formControlName="dt_fim"
+                    required
+                    type="date"
+                    class="form-control form-control-border"
+                    id="dt_fim"
+                    placeholder="Dt. Fim"
+                    [ngClass]="{
+                      'is-invalid':
+                        formcad.controls.dt_fim.invalid &&
+                        (formcad.controls.dt_fim.dirty ||
+                          formcad.controls.dt_fim.touched)
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="marca">Marca</label>
+                  <ngx-select-dropdown
+                    (change)="getModelos()"
+                    [config]="config"
+                    [options]="marcas$"
+                    formControlName="marca"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="modelo">Modelo</label>
+                  <ngx-select-dropdown
+                    [config]="config2"
+                    [options]="modelos$"
+                    formControlName="modelo"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="armamento_tipo_id">Tipo</label>
+                  <select
+                    formControlName="armamento_tipo_id"
+                    class="custom-select form-control-border"
+                    id="armamento_tipo_id"
+                  >
+                    <option></option>
+                    <option
+                      *ngFor="let data of armamentostipos$"
+                      value="{{ data.id }}"
+                    >
+                      {{ data.nome }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="armamento">Armamento</label>
+                  <ngx-select-dropdown
+                    [config]="config4"
+                    [options]="armamentos$"
+                    formControlName="armamento"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="user">Policial</label>
+                  <ngx-select-dropdown
+                    [config]="config3"
+                    [options]="usuarios$"
+                    formControlName="user"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <button
+              [disabled]="!formcad.valid"
+              type="submit"
+              class="btn btn-block btn-primary"
+            >
+              Pesquisar
+            </button>
+          </form>
+        </div>
+        <!-- FIM DIV FILTRO RELATORIOS-->
+        <!-- INICIO DIV CONTEUDO RELATORIOS-->
+        <div *ngIf="show">
+          <table class="table table-hover table-head-fixed text-nowrap">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>USUÁRIO</th>
+                <th>MATRÍCULA</th>
+                <th>ARMAMENTOS</th>
+                <th>DATA EMP.</th>
+                <th>HORA EMP.</th>
+                <th>DATA DEV.</th>
+                <th>HORA DEV.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of data$">
+                <td>{{ data.id }}</td>
+                <td>
+                  {{ data.user?.graduacao.abreviatura }}
+                  {{ data.user?.numeral }} {{ data.user?.nome }}
+                </td>
+                <td>
+                  {{ data.user?.matricula | mask: "000.000-0-A" }}
+                </td>
+                <td>
+                  <ol>
+                    <li *ngFor="let data2 of data.armamentos">
+                      {{ data2.armamento_tipo.nome }} -
+                      {{ data2.marca.nome }}/{{
+                        data2.modelo.nome
+                      }}
+                      - {{ data2.serial }} 
+                      <span *ngIf="data2.pivot?.carregadores">(Carregadores: {{ data2.pivot.carregadores }})</span>
+                      <span *ngIf="data2.pivot?.quant">(Quantidade: {{ data2.pivot.quant }})</span>
+                    </li>
+                  </ol>
+                </td>
+                <td>{{ data.data_emp | date: "dd/MM/yyyy" }}</td>
+                <td>{{ data.hora_emp }}</td>
+                <td>{{ data.data_dev | date: "dd/MM/yyyy" }}</td>
+                <td>{{ data.hora_dev }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- INICIO DIV CONTEUDO RELATORIOS-->
+      </div>
+      <!--FIM BODY CARD-->
+    </div>
+    <!--FIM CARD-->
+  </section>
+  <!--FIM SECTION TABELA-->
+</div>
+<!--FIM CONTENT WRAPPER-->
+<!--<app-footer></app-footer>
+      </div>-->

@@ -1,0 +1,215 @@
+<!--<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>-->
+<!--INICIO CONTENT WRAPPER-->
+<div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+  <!--INICIO SECTION HEADER-->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Relatório de Empréstimos de Veículos</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/Inicio']">Início</a>
+            </li>
+            <li class="breadcrumb-item active">
+              Relatório de Empréstimos de Veículos
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--FIM SECTION HEADER-->
+  <!--INICIO SECTION TABELA-->
+  <section class="content">
+    <!--INICIO CARD-->
+    <div class="card card-outline card-orange">
+      <!--INICIO HEADER CARD-->
+      <div class="card-header text-center">
+        <h2 class="onprint">Relatório de Empréstimos de Veículos</h2>
+        <a class="btn btn-link noprint" (click)="voltar()" *ngIf="show"
+          >Voltar</a
+        >
+      </div>
+      <!--FIM HEADER CARD-->
+      <!--INICIO BODY CARD-->
+      <div class="card-body" style="overflow-x: scroll;">
+        <!-- INICIO DIV FILTRO RELATORIOS-->
+        <div *ngIf="!show">
+          <form [formGroup]="formcad" (ngSubmit)="getReport()">
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="dt_ini"
+                    >Dt. Início<span class="text-danger">*</span></label
+                  >
+                  <input
+                    formControlName="dt_ini"
+                    required
+                    type="date"
+                    class="form-control form-control-border"
+                    id="dt_ini"
+                    placeholder="Dt. Início"
+                    [ngClass]="{
+                      'is-invalid':
+                        formcad.controls.dt_ini.invalid &&
+                        (formcad.controls.dt_ini.dirty ||
+                          formcad.controls.dt_ini.touched)
+                    }"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="dt_fim"
+                    >Dt. Fim<span class="text-danger">*</span></label
+                  >
+                  <input
+                    formControlName="dt_fim"
+                    required
+                    type="date"
+                    class="form-control form-control-border"
+                    id="dt_fim"
+                    placeholder="Dt. Fim"
+                    [ngClass]="{
+                      'is-invalid':
+                        formcad.controls.dt_fim.invalid &&
+                        (formcad.controls.dt_fim.dirty ||
+                          formcad.controls.dt_fim.touched)
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="marca">Marca</label>
+                  <ngx-select-dropdown
+                    (change)="getModelos()"
+                    [config]="config"
+                    [options]="marcas$"
+                    formControlName="marca"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="modelo">Modelo</label>
+                  <ngx-select-dropdown
+                    [config]="config2"
+                    [options]="modelos$"
+                    formControlName="modelo"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="tipo_id">Tipo</label>
+                  <select
+                    formControlName="tipo_id"
+                    class="custom-select form-control-border"
+                    id="tipo_id"
+                  >
+                    <option></option>
+                    <option value="1">Orgânico</option>
+                    <option value="2">Locado</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="veiculo">Veículo</label>
+                  <ngx-select-dropdown
+                    [config]="config4"
+                    [options]="veiculos$"
+                    formControlName="veiculo"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="user">Policial</label>
+                  <ngx-select-dropdown
+                    [config]="config3"
+                    [options]="usuarios$"
+                    formControlName="user"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <button
+              [disabled]="!formcad.valid"
+              type="submit"
+              class="btn btn-block btn-primary"
+            >
+              Pesquisar
+            </button>
+          </form>
+        </div>
+        <!-- FIM DIV FILTRO RELATORIOS-->
+        <!-- INICIO DIV CONTEUDO RELATORIOS-->
+        <div *ngIf="show">
+          <table
+          
+            class="table table-hover table-head-fixed text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>MARCA/MODELO</th>
+                <th>VEÍCULO</th>
+                <th>USUÁRIO</th>
+                <th>MATRÍCULA</th>
+                <th>DATA SAÍDA</th>
+                <th>HORA SAÍDA</th>
+                <th>KM INICIAL</th>
+                <th>DATA CHEGADA</th>
+                <th>HORA CHEGADA</th>
+                <th>KM FINAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of data$" >
+                <td>{{ data.id }}</td>
+                <td>
+                  {{ data.veiculo.marca.nome }}/{{ data.veiculo.modelo.nome }}
+                </td>
+                <td>{{ data.veiculo.placa }}<span *ngIf="data.veiculo.placa_esp">({{ data.veiculo.placa_esp }})</span></td>
+                <td>
+                    {{ data.usuario?.graduacao.abreviatura }} {{ data.usuario?.numeral }} {{ data.usuario?.nome }}
+                </td>
+                <td>
+                    {{ data.usuario?.matricula | mask:'000.000-0-A' }}
+                  </td>
+                <td>{{ data.data_saida | date: "dd/MM/yyyy" }}</td>
+                <td>{{ data.hora_saida }}</td>
+                <td>{{ data.km_inicial }}</td>
+                <td>{{ data.data_chegada | date: "dd/MM/yyyy" }}</td>
+                <td>{{ data.hora_chegada }}</td>
+                <td>{{ data.km_final }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- INICIO DIV CONTEUDO RELATORIOS-->
+      </div>
+      <!--FIM BODY CARD-->
+    </div>
+    <!--FIM CARD-->
+  </section>
+  <!--FIM SECTION TABELA-->
+</div>
+<!--FIM CONTENT WRAPPER-->
+<!--<app-footer></app-footer>
+    </div>-->

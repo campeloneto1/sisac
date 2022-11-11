@@ -69,7 +69,7 @@
                   <tr *ngFor="let data of data$" class="hovers">
                     <td>{{ data.id }}</td>            
                     <td><a [routerLink]="['/Usuario', data.user?.id]">{{ data.user?.nome }}</a></td>  
-                    <td>{{ data.user?.matricula | mask:'000.000-0-0' }}</td>   
+                    <td>{{ data.user?.matricula | mask:'000.000-0-A' }}</td>   
                     <td>{{ data.graduacao?.nome}}</td> 
                     <td>
                       <span *ngIf="data.tipo_id == 1">Antiguidade</span>

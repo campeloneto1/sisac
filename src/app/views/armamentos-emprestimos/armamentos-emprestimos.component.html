@@ -64,6 +64,7 @@
               <th>EXTRAVIADO</th>
             -->
               <th>USUÁRIO</th>
+              <th>MATRÍCULA</th>
               <th>DATA EMP.</th>
               <th>HORA EMP.</th>
               <th>DATA DEV.</th>
@@ -91,6 +92,9 @@
                 <a [routerLink]="['/Usuario', data.user?.id]">{{
                   data.user?.nome
                 }}</a>
+              </td>
+              <td>
+                {{ data.user?.matricula | mask:'000.000-0-A' }}
               </td>
               <td>{{ data.data_emp | date: "dd/MM/yyyy" }}</td>
               <td>{{ data.hora_emp }}</td>

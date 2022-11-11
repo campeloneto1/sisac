@@ -75,7 +75,7 @@
               Fortaleza - CE, {{ datadoc }}
             </h5>
             <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.user.graduacao?.nome}} <span *ngIf="data$.user.numeral">{{data$.user.numeral | mask: '00.000'}}</span> {{data$.user.nome}}, 
-                matrícula {{data$.user.matricula | mask: '000.000-0-0'}}</b>, desta {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}, 
+                matrícula {{data$.user.matricula | mask: '000.000-0-A'}}</b>, desta {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}, 
                 o gozo de {{data$.dias}} dias de suas férias relativas ao período aquisitivo <b>{{data$.ano}}</b>, conforme publicação contida no 
                 {{data$.boletim}}, no período de {{data$.data_ini | date: 'dd/MM/yyyy'}} a {{data$.data_fim | date: 'dd/MM/yyyy'}}, devendo retornar para 
                 o expediente normal e/ou serviço no dia {{data$.apto | date: 'dd/MM/yyyy'}}, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
@@ -85,12 +85,12 @@
             </div>
             <div style="margin-top: 50px; margin-bottom: 60px;" class="text-center" *ngIf="subunidade.comandante">
               <b>{{subunidade.comandante?.nome}}</b><br />
-              Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-0'}}<br />
+              Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-A'}}<br />
               Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
             </div>
             <b style="margin-top: 80px; border-top: 1px solid;">
               {{data$.user.graduacao?.abreviatura}} <span *ngIf="data$.user.numeral">{{data$.user.numeral | mask: '00.000'}}</span> {{data$.user.nome_guerra}}, 
-                mat.: {{data$.user.matricula | mask: '000.000-0-0'}}
+                mat.: {{data$.user.matricula | mask: '000.000-0-A'}}
             </b> 
             
             <hr style="margin-top: 80px;" />
@@ -102,7 +102,7 @@
               Fortaleza - CE, {{ datadoc }}
             </h5>
             <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.user.graduacao?.nome}} <span *ngIf="data$.user.numeral">{{data$.user.numeral | mask: '00.000'}}</span> {{data$.user.nome}}, 
-                matrícula {{data$.user.matricula | mask: '000.000-0-0'}}</b>, desta {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}, 
+                matrícula {{data$.user.matricula | mask: '000.000-0-A'}}</b>, desta {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}, 
                 o gozo de {{data$.dias}} dias de suas férias relativas ao período aquisitivo <b>{{data$.ano}}</b>, conforme publicação contida no 
                 {{data$.boletim}}, no período de {{data$.data_ini | date: 'dd/MM/yyyy'}} a {{data$.data_fim | date: 'dd/MM/yyyy'}}, devendo retornar para 
                 o expediente normal e/ou serviço no dia {{data$.apto | date: 'dd/MM/yyyy'}}, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
@@ -112,7 +112,7 @@
             </div>
             <div style="margin-top: 50px;" class="text-center" *ngIf="subunidade.comandante">
               <b>{{subunidade.comandante?.nome}}</b><br />
-              Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-0'}}<br />
+              Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-A'}}<br />
               Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
             </div>
           </div>

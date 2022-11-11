@@ -183,47 +183,73 @@
                         />
                         </div>
                       </div>
-                    <div class="col-sm-2">
+                      <div class="col-sm-4">
                         <div class="form-group">
-                          <label for="comandante_id">Comandante</label>
-                          <select                            
-                            formControlName="comandante_id"
-                            class="custom-select form-control-border"
-                            id="comandante_id"
-                          >
-                            <option></option>
-                            <option
-                              *ngFor="let data of usuarios$"
-                              value="{{ data.id }}"
-                            >
-                              {{ data.nome }}
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-sm-2">
-                        <div class="form-group">
-                          <label for="subcomandante_id">SubComandante</label>
-                          <select                            
-                            formControlName="subcomandante_id"
-                            class="custom-select form-control-border"
-                            id="subcomandante_id"
-                          >
-                            <option></option>
-                            <option
-                              *ngFor="let data of usuarios$"
-                              value="{{ data.id }}"
-                            >
-                              {{ data.nome }}
-                            </option>
-                          </select>
-                         
+                          <label for="email">E-mail</label>
+                          <input
+                            formControlName="email"
+                            type="email"
+                            class="form-control form-control-border"
+                            id="email"
+                            placeholder="E-mail"
+                          />
                         </div>
                       </div>
                   </div>
                   <!--FIM ROW 1-->
                   <!--INICIO ROW 2-->
                   <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="comandante">Comandante</label>
+                        <ngx-select-dropdown 
+                              [config]="config" 
+                              [options]="usuarios$"
+                              formControlName="comandante"  
+                              required                              
+                              >                                
+                            </ngx-select-dropdown>
+                        <!--<select                            
+                          formControlName="comandante_id"
+                          class="custom-select form-control-border"
+                          id="comandante_id"
+                        >
+                          <option></option>
+                          <option
+                            *ngFor="let data of usuarios$"
+                            value="{{ data.id }}"
+                          >
+                            {{ data.nome }}
+                          </option>
+                        </select>-->
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="subcomandante">SubComandante</label>
+                        <ngx-select-dropdown 
+                              [config]="config2" 
+                              [options]="usuarios$"
+                              formControlName="subcomandante"  
+                              required                              
+                              >                                
+                            </ngx-select-dropdown>
+                        <!--<select                            
+                          formControlName="subcomandante_id"
+                          class="custom-select form-control-border"
+                          id="subcomandante_id"
+                        >
+                          <option></option>
+                          <option
+                            *ngFor="let data of usuarios$"
+                            value="{{ data.id }}"
+                          >
+                            {{ data.nome }}
+                          </option>
+                        </select>-->
+                       
+                      </div>
+                    </div>
                     <div class="col-sm-2">
                       <div class="form-group">
                         <label for="telefone1"
@@ -259,18 +285,7 @@
                         />
                       </div>
                     </div>
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <input
-                          formControlName="email"
-                          type="email"
-                          class="form-control form-control-border"
-                          id="email"
-                          placeholder="E-mail"
-                        />
-                      </div>
-                    </div>
+                    
                   </div>
                   <!--FIM ROW 2-->                 
                   <!--INICIO ROW 4-->

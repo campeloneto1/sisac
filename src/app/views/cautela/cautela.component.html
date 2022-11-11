@@ -122,7 +122,7 @@
             </div>
             <div class="col-sm-4"><b>Usuário:</b> {{ data$.user.nome }}</div>
             <div class="col-sm-3">
-              <b>Matrícula:</b> {{ data$.user.matricula | mask: "000.000-0-0" }}
+              <b>Matrícula:</b> {{ data$.user.matricula | mask: "000.000-0-A" }}
             </div>
           </div>
           <div class="row">
@@ -179,7 +179,7 @@
           <div style="margin-top: 50px" class="text-center">
             <b>{{ data$.user.nome }}</b> - {{ data$.user.graduacao?.abreviatura
             }}<br />
-            Mat.: {{ data$.user.matricula | mask: "000.000-0-0" }} -
+            Mat.: {{ data$.user.matricula | mask: "000.000-0-A" }} -
             RECEBEDOR<br />
           </div>
 
@@ -194,7 +194,7 @@
                 ><br />
                 Comandante da {{ subunidade?.nome }}<br />
                 Mat.:
-                {{ subunidade?.comandante.matricula | mask: "000.000-0-0" }}
+                {{ subunidade?.comandante.matricula | mask: "000.000-0-A" }}
               </p>
             </div>
             <div class="col-sm-6">
@@ -209,7 +209,7 @@
                   {{ data$.armeiro?.graduacao.abreviatura }}</b
                 ><br />
                 Armeiro - {{ subunidade?.nome }}<br />
-                Mat.: {{ data$.armeiro?.matricula | mask: "000.000-0-0" }}
+                Mat.: {{ data$.armeiro?.matricula | mask: "000.000-0-A" }}
               </p>
             </div>
           </div>

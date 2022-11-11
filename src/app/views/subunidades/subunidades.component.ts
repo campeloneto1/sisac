@@ -45,7 +45,9 @@ export class SubunidadesComponent implements OnInit, OnDestroy {
     telefone1: new FormControl(''),  
     telefone2: new FormControl(''), 
     
+    comandante: new FormControl(''),  
     comandante_id: new FormControl(''),  
+    subcomandante: new FormControl(''),  
     subcomandante_id: new FormControl(''),  
 
     rua: new FormControl(''),  
@@ -171,6 +173,10 @@ export class SubunidadesComponent implements OnInit, OnDestroy {
   }
 
   salvar(){
+    //@ts-ignore
+    this.formcad.controls.comandante_id.patchValue(this.formcad.value.comandante.id);
+    //@ts-ignore
+    this.formcad.controls.subcomandante_id.patchValue(this.formcad.value.subcomandante.id);
     if(this.formcad.value.id){
       //@ts-ignore
       this.subunidades.update(this.formcad.value, this.formcad.value.id).subscribe(data => {

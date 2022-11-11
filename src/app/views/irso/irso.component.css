@@ -24,6 +24,25 @@
 
 }
 
+.titlemodalidade {
+
+  background-color: #00701a !important;
+  color: #ffffff;
+  
+  -webkit-print-color-adjust: exact; 
+  print-color-adjust: exact;
+
+}
+
+.titlemodalidade2 {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  background-color: #43a047;
+  -webkit-print-color-adjust: exact; 
+  
+}
+
 .cabecalho {
   width: 100%;
   height: 35mm;
@@ -53,6 +72,7 @@
 @page {
   margin: 0;
   -webkit-print-color-adjust: exact; 
+  print-color-adjust: exact;
 }
 
 @media print {
@@ -73,5 +93,24 @@
   .page-footer, .page-footer-space {
     height: 200px;
     display: block;
+  }
+
+  .titlemodalidade {
+
+    background-color: #00701a !important;
+    color: #ffffff;
+    
+    -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
+  
+  }
+
+  .titlemodalidade2 {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    background-color: #43a047;
+    -webkit-print-color-adjust: exact; 
+    
   }
 }

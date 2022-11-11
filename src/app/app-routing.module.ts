@@ -59,6 +59,10 @@ import { VeiculosComponent } from './views/veiculos/veiculos.component';
 import { VeiculoEmprestimoComponent } from './views/veiculo-emprestimo/veiculo-emprestimo.component';
 import { VeiculosEmprestimosComponent } from './views/veiculos-emprestimos/veiculos-emprestimos.component';
 
+import { RelEmparmamentosComponent } from './views/relatorios/rel-emparmamentos/rel-emparmamentos.component';
+import { RelEmpmateriaisComponent } from './views/relatorios/rel-empmateriais/rel-empmateriais.component';
+import { RelEmpveiculosComponent } from './views/relatorios/rel-empveiculos/rel-empveiculos.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -279,6 +283,21 @@ const routes: Routes = [
     path: 'Publicacoes',
     canActivate: [AuthGuard],
     component: PublicacoesComponent,
+  },
+  {
+    path: 'Rel/Emp-Armamentos',
+    canActivate: [AuthGuard],
+    component: RelEmparmamentosComponent,
+  },
+  {
+    path: 'Rel/Emp-Materiais',
+    canActivate: [AuthGuard],
+    component: RelEmpmateriaisComponent,
+  },
+  {
+    path: 'Rel/Emp-Veiculos',
+    canActivate: [AuthGuard],
+    component: RelEmpveiculosComponent,
   },
   {
     path: 'Setores',

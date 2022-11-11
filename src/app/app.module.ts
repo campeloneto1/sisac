@@ -76,6 +76,10 @@ import { AdministracaoComponent } from './views/administracao/administracao.comp
 import { CautelaComponent } from './views/cautela/cautela.component';
 import { PatrimoniosComponent } from './views/patrimonios/patrimonios.component';
 import { PatrimoniosTiposComponent } from './views/patrimonios-tipos/patrimonios-tipos.component';
+import { RelEmpveiculosComponent } from './views/relatorios/rel-empveiculos/rel-empveiculos.component';
+import { RelEmpmateriaisComponent } from './views/relatorios/rel-empmateriais/rel-empmateriais.component';
+import { RelEmparmamentosComponent } from './views/relatorios/rel-emparmamentos/rel-emparmamentos.component';
+import { RelPromocoesComponent } from './views/relatorios/rel-promocoes/rel-promocoes.component';
 
 @NgModule({
   declarations: [
@@ -138,7 +142,11 @@ import { PatrimoniosTiposComponent } from './views/patrimonios-tipos/patrimonios
     AdministracaoComponent,
     CautelaComponent,
     PatrimoniosComponent,
-    PatrimoniosTiposComponent
+    PatrimoniosTiposComponent,
+    RelEmpveiculosComponent,
+    RelEmpmateriaisComponent,
+    RelEmparmamentosComponent,
+    RelPromocoesComponent
   ],
   imports: [
     BrowserModule,

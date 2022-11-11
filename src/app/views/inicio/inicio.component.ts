@@ -17,6 +17,7 @@ export class InicioComponent implements OnInit {
   quantferias: any;
   quantaveiculos: any;
   quantasetores: any;
+  quantagraduacoes: any;
   materiaisemprestimos: any;
   veiculosemprestimos: any;
   trocaoleo: any;
@@ -59,6 +60,10 @@ export class InicioComponent implements OnInit {
 
       this.inicio.getSetores().subscribe((data) => {
         this.quantasetores = data;
+      });
+
+      this.inicio.getGraduacoes().subscribe((data) => {
+        this.quantagraduacoes = data;
       });
     }
 

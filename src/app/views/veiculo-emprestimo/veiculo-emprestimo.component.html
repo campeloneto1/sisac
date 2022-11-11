@@ -100,7 +100,7 @@
                   <b>Usuário:</b> {{data$.usuario.nome}}
               </div>
               <div class="col-sm-3">
-                  <b>Matrícula:</b> {{data$.usuario.matricula | mask: '000.000-0-0'}}
+                  <b>Matrícula:</b> {{data$.usuario.matricula | mask: '000.000-0-A'}}
               </div>
               
           </div>
@@ -131,7 +131,7 @@
             <div  style="margin-top: 40px;" [innerHTML]="data$.observacoes"></div>
             <div  style="margin-top: 60px;" class="text-center" >
               <b>{{data$.usuario.nome}}</b><br />
-              Mat.: {{data$.usuario.matricula | mask:'000.000-0-0'}}<br />
+              Mat.: {{data$.usuario.matricula | mask:'000.000-0-A'}}<br />
               
             </div>
           </div>

@@ -102,7 +102,7 @@
             </div>
             <div class="col-sm-4"><b>Usuário:</b> {{ data$.user.nome }}</div>
             <div class="col-sm-3">
-              <b>Matrícula:</b> {{ data$.user.matricula | mask: "000.000-0-0" }}
+              <b>Matrícula:</b> {{ data$.user.matricula | mask: "000.000-0-A" }}
             </div>
           </div>
           <div class="row">
@@ -157,7 +157,7 @@
           <div style="margin-top: 50px" class="text-center">
             <b>{{ data$.user.nome }}</b
             ><br />
-            Mat.: {{ data$.user.matricula | mask: "000.000-0-0" }}<br />
+            Mat.: {{ data$.user.matricula | mask: "000.000-0-A" }}<br />
           </div>
         </div>
       </td>

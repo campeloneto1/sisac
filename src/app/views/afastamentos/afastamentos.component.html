@@ -81,7 +81,7 @@
                 </td>
                 <td>{{ data.afastamento_tipo?.nome }}</td>
                 <td><a [routerLink]="['/Usuario', data.user?.id]">{{ data.user?.nome }}</a></td>
-                <td>{{ data.user?.matricula  | mask:'000.000-0-0' }}</td>
+                <td>{{ data.user?.matricula  | mask:'000.000-0-A' }}</td>
                 <td>{{ data.data | date: "dd/MM/yyyy" }}</td>
                 <td>{{ data.dias }}</td>
                 <!--<td>{{ data.data_fim | date: "dd/MM/yyyy" }}</td>-->

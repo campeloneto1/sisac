@@ -30,7 +30,8 @@ export class PerfisComponent implements OnInit,OnDestroy {
     administrador: new FormControl(''),  
     gestor: new FormControl(''),  
     oficial_dia: new FormControl(''),  
-    permanente: new FormControl(''),  
+    permanente: new FormControl(''), 
+    relatorios: new FormControl(''),  
     
     afastamentos: new FormControl(''),   
     afastamentos_cad: new FormControl(''),   

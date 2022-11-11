@@ -37,6 +37,10 @@ export class InicioService {
     return this.http.get(environment.url+"inicio-setores");
   }
 
+  getGraduacoes(){
+    return this.http.get(environment.url+"inicio-graduacoes");
+  }
+
   getMateriaisEmprestimos(){
     return this.http.get(environment.url+"inicio-materiais-emprestimos");
   }

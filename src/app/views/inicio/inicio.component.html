@@ -44,7 +44,7 @@
         <div *ngIf="user.perfil.usuarios_cad" class="col-sm-2">
           <div class="info-box shadow-sm">
             <span class="info-box-icon bg-danger"
-              ><i class="fa fa-map"></i
+              ><i class="fa fa-plane"></i
             ></span>
             <div class="info-box-content" >
               <span class="info-box-text"><b>Férias</b></span>
@@ -107,6 +107,36 @@
           </div>
         </div>
         <!--FIM USUARIOS POR SETOR-->
+        <!--INICIO USUARIOS POR GRADUACAO-->
+        <div *ngIf="user.perfil.usuarios_cad"  class="col-sm-4">
+          <div class="card card-outline card-orange">
+            <div class="card-header">
+              <h3 class="card-title">Policiais por Graduação</h3>
+            </div>
+            <div class="card-body table-responsive p-0" style="max-height: 500px;overflow-y: scroll;">
+              <table                
+                class="table table-hover table-head-fixed text-nowrap"
+              >
+                <thead>
+                  <tr>
+                    <th>GRADUAÇÃO</th>                  
+                    <th>QUANT</th>     
+                  </tr>
+                </thead>
+                <tbody *ngIf="quantagraduacoes" >
+                  <tr *ngFor="let data of quantagraduacoes" class="hovers">
+                    <td>{{ data.nome }}</td>                
+                    <td>{{ data.quant }}</td> 
+                   
+                  </tr>
+                </tbody>
+              </table>
+
+             
+            </div>
+          </div>
+        </div>
+        <!--FIM USUARIOS POR GRADUACAO-->
         <!--INICIO MATERIAIS EMPRESTIMOS -->
         <div *ngIf="user.perfil.materiais_emprestimos" class="col-sm-4">
           <div class="card card-outline card-orange">

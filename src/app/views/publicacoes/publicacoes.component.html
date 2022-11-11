@@ -71,9 +71,9 @@
                   <td *ngIf="user.perfil.administrador">{{ data.subunidade.abreviatura }} - {{ data.subunidade.unidade.abreviatura }}</td>  
                   <td>{{ data.tipo_publicacao?.nome }}</td>               
                   <td><a [routerLink]="['/Usuario', data.user?.id]">{{ data.user?.nome }}</a></td>  
-                  <td>{{ data.user?.matricula | mask:'000.000-0-0' }}</td>    
+                  <td>{{ data.user?.matricula | mask:'000.000-0-A' }}</td>    
                   <td>{{ data.boletim}}</td>     
-                  <td style="max-width: 500px; white-space: normal;"  [innerHTML]="data.descricao"></td>          
+                  <td style="width: 500px; max-width: 500px; white-space: normal; text-align: justify;"  [innerHTML]="data.descricao"></td>          
                   <td>
                     <span class="editdata">
                       <i

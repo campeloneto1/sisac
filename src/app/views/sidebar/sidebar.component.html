@@ -286,6 +286,37 @@
             </li>
           </ul>
         </li>
+        <li *ngIf="user.perfil?.relatorios" class="nav-item point" (click)="menu3 = !menu3"
+        [ngClass]="{ 'menu-is-opening menu-open': menu3 == true }">
+        <a class="nav-link">
+          <i class="nav-icon fa fa-file"></i>
+          <p>
+            Relatórios
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li *ngIf="user.perfil?.armamentos" class="nav-item">
+            <a [routerLink]="['/Rel/Emp-Armamentos']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Emp. Armamentos</p>
+            </a>
+          </li>
+          <li *ngIf="user.perfil?.materiais" class="nav-item">
+            <a  [routerLink]="['/Rel/Emp-Materiais']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Emp. Materiais</p>
+            </a>
+          </li>
+          <li *ngIf="user.perfil?.veiculos" class="nav-item">
+            <a [routerLink]="['/Rel/Emp-Veiculos']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Emp. Veículos</p>
+            </a>
+          </li>
+          
+        </ul>
+      </li>
       </ul>
     </nav>
   </div>
