@@ -314,6 +314,12 @@
               <p>Emp. Veículos</p>
             </a>
           </li>
+          <li *ngIf="user.perfil?.usuarios_cad" class="nav-item">
+            <a [routerLink]="['/Rel/Promocoes']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Promoções</p>
+            </a>
+          </li>
           
         </ul>
       </li>

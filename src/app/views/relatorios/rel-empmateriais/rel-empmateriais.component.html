@@ -37,7 +37,7 @@
         </div>
         <!--FIM HEADER CARD-->
         <!--INICIO BODY CARD-->
-        <div class="card-body" style="overflow-x: scroll;">
+        <div class="card-body" style="overflow-x: auto;">
           <!-- INICIO DIV FILTRO RELATORIOS-->
           <div *ngIf="!show">
             <form [formGroup]="formcad" (ngSubmit)="getReport()">
@@ -90,6 +90,7 @@
                   <div class="form-group">
                     <label for="marca">Marca</label>
                     <ngx-select-dropdown
+                      
                       (change)="getModelos()"
                       [config]="config"
                       [options]="marcas$"

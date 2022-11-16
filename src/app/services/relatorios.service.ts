@@ -21,5 +21,10 @@ export class RelatoriosService {
     return this.http.post(environment.url+"relatorios-empveiculos", data);
   }
 
+  getPromocoes(data: any){
+    return this.http.post(environment.url+"relatorios-promocoes", data);
+  }
+
+
   
 }

@@ -62,6 +62,7 @@ import { VeiculosEmprestimosComponent } from './views/veiculos-emprestimos/veicu
 import { RelEmparmamentosComponent } from './views/relatorios/rel-emparmamentos/rel-emparmamentos.component';
 import { RelEmpmateriaisComponent } from './views/relatorios/rel-empmateriais/rel-empmateriais.component';
 import { RelEmpveiculosComponent } from './views/relatorios/rel-empveiculos/rel-empveiculos.component';
+import { RelPromocoesComponent } from './views/relatorios/rel-promocoes/rel-promocoes.component';
 
 const routes: Routes = [
   {
@@ -298,6 +299,11 @@ const routes: Routes = [
     path: 'Rel/Emp-Veiculos',
     canActivate: [AuthGuard],
     component: RelEmpveiculosComponent,
+  },
+  {
+    path: 'Rel/Promocoes',
+    canActivate: [AuthGuard],
+    component: RelPromocoesComponent,
   },
   {
     path: 'Setores',

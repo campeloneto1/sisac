@@ -1,1 +1,173 @@
-<p>rel-promocoes works!</p>
+<!--<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>-->
+<!--INICIO CONTENT WRAPPER-->
+<div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+  <!--INICIO SECTION HEADER-->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Relatório de Promoções</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/Inicio']">Início</a>
+            </li>
+            <li class="breadcrumb-item active">Relatório de Promoções</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--FIM SECTION HEADER-->
+  <!--INICIO SECTION TABELA-->
+  <section class="content">
+    <!--INICIO CARD-->
+    <div class="card card-outline card-orange">
+      <!--INICIO HEADER CARD-->
+      <div class="card-header text-center">
+        <h2 class="onprint">Relatório de Promoções</h2>
+        <a class="btn btn-link noprint" (click)="voltar()" *ngIf="show"
+          >Voltar</a
+        >
+      </div>
+      <!--FIM HEADER CARD-->
+      <!--INICIO BODY CARD-->
+      <div class="card-body" style="overflow-x: auto">
+        <!-- INICIO DIV FILTRO RELATORIOS-->
+        <div *ngIf="!show">
+          <form [formGroup]="formcad" (ngSubmit)="getReport()">
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="graduacao">Graduação<span class="text-danger">*</span></label>
+                  <ngx-select-dropdown
+                    required
+                    [config]="config"
+                    [options]="graduacoes$"
+                    formControlName="graduacao"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="ano">Data<span class="text-danger">*</span></label>
+                  <input
+                    formControlName="ano"
+                    type="number"
+                    min="1990"
+                    max="2050"
+                    required
+                    [ngClass]="{
+                        'is-invalid':
+                          formcad.controls.ano.invalid &&
+                          (formcad.controls.ano.dirty ||
+                            formcad.controls.ano.touched)
+                      }"
+                    class="form-control form-control-border"
+                    id="ano"
+                    placeholder="Ano"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="tipo_id">Tipo</label>
+                  <select
+                    formControlName="tipo_id"
+                    class="custom-select form-control-border"
+                    id="tipo_id"
+                  >
+                    <option></option>
+                    <option value="1">Antiguidade</option>
+                    <option value="2">Merecimento</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="user">Policial</label>
+                  <ngx-select-dropdown
+                    [config]="config2"
+                    [options]="usuarios$"
+                    formControlName="user"
+                  >
+                  </ngx-select-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="boletim">Boletim</label>
+                  <input
+                    formControlName="boletim"
+                    type="text"                  
+                    class="form-control form-control-border"
+                    id="boletim"
+                    placeholder="Boletim"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              [disabled]="!formcad.valid"
+              type="submit"
+              class="btn btn-block btn-primary"
+            >
+              Pesquisar
+            </button>
+          </form>
+        </div>
+        <!-- FIM DIV FILTRO RELATORIOS-->
+        <!-- INICIO DIV CONTEUDO RELATORIOS-->
+        <div *ngIf="show">
+          <table class="table table-hover table-head-fixed text-nowrap">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>USUÁRIO</th>
+                <th>MATRÍCULA</th>
+                <th>GRADUAÇÃO</th>
+                <th>DATA</th>
+                <th>TIPO</th>
+                <th>BOLETIM</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of data$">
+                <td>{{ data.id }}</td>
+                <td>
+                  {{ data.user?.graduacao.abreviatura }}
+                  {{ data.user?.numeral }} {{ data.user?.nome }}
+                </td>
+                <td>
+                  {{ data.user?.matricula | mask: "000.000-0-A" }}
+                </td>
+                <td>
+                    {{ data.graduacao?.nome }}
+                </td>
+                <td>{{ data.data | date: "dd/MM/yyyy" }}</td>
+                <td>
+                    <span *ngIf="data.tipo_id == 1">Antiguidade</span>
+                    <span *ngIf="data.tipo_id == 2">Merecimento</span>
+                </td>
+                <td>{{ data.boletim }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- INICIO DIV CONTEUDO RELATORIOS-->
+      </div>
+      <!--FIM BODY CARD-->
+    </div>
+    <!--FIM CARD-->
+  </section>
+  <!--FIM SECTION TABELA-->
+</div>
+<!--FIM CONTENT WRAPPER-->
+<!--<app-footer></app-footer>
+        </div>-->
