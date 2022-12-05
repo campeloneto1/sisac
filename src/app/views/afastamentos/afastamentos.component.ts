@@ -16,6 +16,8 @@ import { AfastamentosTiposService } from '../../services/afastamentos-tipos.serv
 })
 export class AfastamentosComponent implements OnInit,OnDestroy {
 
+
+
   user: any;
 
   dtOptions: any = {};
@@ -93,16 +95,17 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
     };
 
     this.usuarios.index2().subscribe(data => {
-      this.usuarios$ = data;
+      next: this.usuarios$ = data;
     }); 
 
     this.afastamentostipos.index().subscribe(data => {
-      this.afastamentostipos$ = data;
+      next: this.afastamentostipos$ = data;
     });
     
   }
 
   ngOnDestroy(): void {
+    
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
