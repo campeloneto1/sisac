@@ -10,26 +10,26 @@ export class IrsosFinanceirosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"irsos-financeiros");
+    return this.http.get("/api/irsos-financeiros");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"irsos-financeiros/"+id);
+    return this.http.get("/api/irsos-financeiros/"+id);
   }
 
   gastomensal(data:any){
-    return this.http.get(environment.url+"irsos-financeiros-mes/"+data);
+    return this.http.get("/api/irsos-financeiros-mes/"+data);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"irsos-financeiros",data);
+    return this.http.post("/api/irsos-financeiros",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"irsos-financeiros/"+id,data);
+    return this.http.put("/api/irsos-financeiros/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"irsos-financeiros/"+id);
+    return this.http.delete("/api/irsos-financeiros/"+id);
   }
 }

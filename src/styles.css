@@ -15,6 +15,10 @@
     margin-left: 5px;;
 }
 
+.ae-font .ae-picker-label {
+    height: 6.4% !important;
+}
+
 @media print {
     .noprint{
         display: none;

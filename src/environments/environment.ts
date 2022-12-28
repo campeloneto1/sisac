@@ -4,9 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'https://hsistemas.casacivil.ce.gov.br/sisac/apisisac/public/api/',
-  imagens: 'https://hsistemas.casacivil.ce.gov.br/sisac/apisisac/public/imagens/',
-  ipserver: 'https://hsistemas.casacivil.ce.gov.br/sisac/#/'
+  imagens: 'http://10.9.235.245:8080/apisisac/public/imagens/',
+  ipserver: 'http://10.9.235.245:8080/sisac/'
 };
 
 /*
@@ -14,13 +13,6 @@ export const environment = {
   imagens: 'http://10.9.235.245:8080/apisisac/public/imagens/',
   ipserver: 'http://10.9.235.245:8080/sisac/#/'
 
-   url: 'https://hsistemas.casacivil.ce.gov.br/sisac/apisisac/public/api/',
-  imagens: 'https://hsistemas.casacivil.ce.gov.br/sisac/apisisac/public/imagens/',
-  ipserver: 'https://hsistemas.casacivil.ce.gov.br/sisac/#/'
-
-  url: 'https://hsistemas.casacivil.ce.gov.br/controle-acesso/apicasamilitar/public/api/auth/',
-  img: 'https://hsistemas.casacivil.ce.gov.br/controle-acesso/apicasamilitar/public/imagens/',
-  arq: 'https://hsistemas.casacivil.ce.gov.br/controle-acesso/apicasamilitar/public/arquivos/'
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *

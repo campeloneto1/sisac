@@ -10,26 +10,26 @@ export class SubunidadesService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"subunidades");
+    return this.http.get("/api/subunidades");
   }
 
   where(id:number){
-    return this.http.get(environment.url+"subunidades/"+id+"/where");
+    return this.http.get("/api/subunidades/"+id+"/where");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"subunidades/"+id);
+    return this.http.get("/api/subunidades/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"subunidades",data);
+    return this.http.post("/api/subunidades",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"subunidades/"+id,data);
+    return this.http.put("/api/subunidades/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"subunidades/"+id);
+    return this.http.delete("/api/subunidades/"+id);
   }
 }

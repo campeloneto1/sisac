@@ -9,22 +9,22 @@ export class TiposOcorrenciasService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"ocorrencias");
+    return this.http.get("/api/ocorrencias");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"ocorrencias/"+id);
+    return this.http.get("/api/ocorrencias/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"ocorrencias",data);
+    return this.http.post("/api/ocorrencias",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"ocorrencias/"+id,data);
+    return this.http.put("/api/ocorrencias/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"ocorrencias/"+id);
+    return this.http.delete("/api/ocorrencias/"+id);
   }
 }

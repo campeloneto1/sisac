@@ -1,5 +1,5 @@
 <div class="page-header" style="text-align: center; margin-bottom: 10px;" *ngIf="data$">
-    <img src="{{url}}cabecalho.png" class="cabecalho" />
+    <img src="imagens/cabecalho.png" class="cabecalho" />
     <br />
     <h4>
       Guia de Férias - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
@@ -41,7 +41,7 @@
         </p>
       </div>
     </div>
-    <img src="{{url}}rodape.png" class="rodape" />
+    <img src="imagens/rodape.png" class="rodape" />
   </div>
   
   <table style="width: 100%; min-width: 100%;" *ngIf="data$">
@@ -65,7 +65,7 @@
           <div class="page">PAGE 2</div>-->
           <div class="page" >
             <div class="noprint text-center">
-              <img src="{{url}}cabecalho.png" class="cabecalho" />
+              <img src="imagens/cabecalho.png" class="cabecalho" />
               <h4 style="margin-top: 30px;">
                 Guia de Férias - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
               </h4>
@@ -88,7 +88,7 @@
               Mat.: {{subunidade.comandante?.matricula | mask:'000.000-0-A'}}<br />
               Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
             </div>
-            <b style="margin-top: 80px; border-top: 1px solid;">
+            <b style="margin-top: 120px; border-top: 1px solid;">
               {{data$.user.graduacao?.abreviatura}} <span *ngIf="data$.user.numeral">{{data$.user.numeral | mask: '00.000'}}</span> {{data$.user.nome_guerra}}, 
                 mat.: {{data$.user.matricula | mask: '000.000-0-A'}}
             </b> 

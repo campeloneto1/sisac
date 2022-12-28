@@ -42,7 +42,7 @@ export class OcorrenciaComponent implements OnInit {
     private session: SessionService,
     private apcom: AppComponent
   ) {
-      this.apcom.token = false;
+      //this.apcom.token = false;
       this.user = this.session.getUser();
       if(this.user.perfil.oficial_dia){
         

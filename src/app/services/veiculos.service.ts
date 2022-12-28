@@ -10,30 +10,30 @@ export class VeiculosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"veiculos");
+    return this.http.get("/api/veiculos");
   }
 
   index2(){
-    return this.http.get(environment.url+"veiculos2");
+    return this.http.get("/api/veiculos2");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"veiculos/"+id);
+    return this.http.get("/api/veiculos/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"veiculos",data);
+    return this.http.post("/api/veiculos",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"veiculos/"+id,data);
+    return this.http.put("/api/veiculos/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"veiculos/"+id);
+    return this.http.delete("/api/veiculos/"+id);
   }
 
   trocaoleo(data:any){
-    return this.http.post(environment.url+"veiculos-trocaoleo", data);
+    return this.http.post("/api/veiculos-trocaoleo", data);
   }
 }

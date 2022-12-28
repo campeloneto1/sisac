@@ -10,22 +10,22 @@ export class IrsosUsersService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"irsos-users");
+    return this.http.get("/api/irsos-users");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"irsos-users/"+id);
+    return this.http.get("/api/irsos-users/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"irsos-users",data);
+    return this.http.post("/api/irsos-users",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"irsos-users/"+id,data);
+    return this.http.put("/api/irsos-users/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"irsos-users/"+id);
+    return this.http.delete("/api/irsos-users/"+id);
   }
 }

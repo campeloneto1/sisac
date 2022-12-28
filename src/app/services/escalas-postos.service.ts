@@ -10,22 +10,22 @@ export class EscalasPostosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"escalas-postos");
+    return this.http.get("/api/escalas-postos");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"escalas-postos/"+id);
+    return this.http.get("/api/escalas-postos/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"escalas-postos",data);
+    return this.http.post("/api/escalas-postos",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"escalas-postos/"+id,data);
+    return this.http.put("/api/escalas-postos/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"escalas-postos/"+id);
+    return this.http.delete("/api/escalas-postos/"+id);
   }
 }

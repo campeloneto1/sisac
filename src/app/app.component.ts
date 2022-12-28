@@ -13,7 +13,11 @@ export class AppComponent implements OnInit {
   logado: any = false;
   route: any;
   constructor(private session: SessionService,
-    private router: Router) {}
+    private router: Router) {
+      //console.log(this.router.url);
+
+      //ng build --base-href /sisac/ --configuration production 
+    }
 
   ngOnInit(): void {
     this.token = this.session.check();

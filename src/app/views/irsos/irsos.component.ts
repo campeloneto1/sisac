@@ -35,6 +35,8 @@ export class IrsosComponent implements OnInit, OnDestroy {
   usus = [];
   posto_id = 0;
 
+  idsirsos = "";
+
   excluir$: any;
 
   config = {
@@ -270,9 +272,11 @@ export class IrsosComponent implements OnInit, OnDestroy {
     selection.forEach(data => {
       //ids.push(data[1]);
       ids = ids+'-'+data[1];
+      this.idsirsos = this.idsirsos+'-'+data[1]; 
     });
+    this.router.navigate([ '/Irso/'+this.idsirsos ])
     //console.log(ids);
-    window.open(environment.ipserver+'Irso/'+ids, "_blank");
+    //window.open(environment.ipserver+'Irso/'+ids, "_blank");
   }
 
 }

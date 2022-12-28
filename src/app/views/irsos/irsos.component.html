@@ -2,7 +2,7 @@
   <app-navbar></app-navbar>
   <app-sidebar></app-sidebar>-->
   <!--INICIO CONTENT WRAPPER-->
-  <div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+  <div class="content-wrapper" *ngIf="user" >
     <!--INICIO SECTION HEADER-->
     <section class="content-header">
       <div class="container-fluid">
@@ -47,13 +47,15 @@
                 type="button"
                 class="btn btn-block btn-outline-primary"
                 (click)="print()"
+                
+                
               >
                 <i class="nav-icon fa fa-print"></i>
               </button>
             </div>
           </div>
         </div>
-        <!--FIM HEADER CARD-->
+        <!--FIM HEADER CARD [routerLink]="['/Irso', idsirsos]"-->
         <!--INICIO BODY CARD-->
         <div class="card-body table-responsive p-2"  >
           <!--INICIO TABLE CARD-->
@@ -79,7 +81,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let data of data$" class="hovers">
-                <td></td>
+                <td ></td>
                 <td>{{ data.id }}</td>
                 <td>
                   {{ data.subunidade.abreviatura }} -

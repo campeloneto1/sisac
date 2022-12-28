@@ -10,22 +10,22 @@ export class DocumentosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"documentos");
+    return this.http.get("/api/documentos");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"documentos/"+id);
+    return this.http.get("/api/documentos/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"documentos",data);
+    return this.http.post("/api/documentos",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"documentos/"+id,data);
+    return this.http.put("/api/documentos/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"documentos/"+id);
+    return this.http.delete("/api/documentos/"+id);
   }
 }

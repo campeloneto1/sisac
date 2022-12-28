@@ -10,35 +10,35 @@ export class UsuariosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"usuarios");
+    return this.http.get("/api/usuarios");
   }
 
   index2(){
-    return this.http.get(environment.url+"usuarios2");
+    return this.http.get("/api/usuarios2");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"usuarios/"+id);
+    return this.http.get("/api/usuarios/"+id);
   }
 
   changepass(data:any){
-    return this.http.post(environment.url+"usuarios-changepass",data);
+    return this.http.post("/api/usuarios-changepass",data);
   }
 
   resetpass(id:number){
-    return this.http.get(environment.url+"usuarios-resetpass/"+id);
+    return this.http.get("/api/usuarios-resetpass/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"usuarios",data);
+    return this.http.post("/api/usuarios",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"usuarios/"+id,data);
+    return this.http.put("/api/usuarios/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"usuarios/"+id);
+    return this.http.delete("/api/usuarios/"+id);
   }
   
 }

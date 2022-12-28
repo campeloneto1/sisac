@@ -20,7 +20,7 @@ export class UsuarioComponent implements OnInit {
 
   userid = 0;
 
-  url = environment.imagens;
+  //url = environment.imagens;
 
   temppm: any;
 

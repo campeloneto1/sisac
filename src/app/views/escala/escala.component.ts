@@ -138,7 +138,7 @@ export class EscalaComponent implements OnInit {
     private afastamentostipos: AfastamentosTiposService,
     private apcom: AppComponent
   ) {
-    this.apcom.token = false;
+    //this.apcom.token = false;
       
       this.user = this.session.getUser();
       if(this.user.perfil.escalas || this.user.perfil.oficial_dia ){

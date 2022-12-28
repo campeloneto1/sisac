@@ -1,5 +1,5 @@
 <div class="page-header" style="text-align: center; margin-bottom: 10px;" *ngIf="data$">
-    <img src="{{url}}cabecalho.png" class="cabecalho" />
+    <img src="imagens/cabecalho.png" class="cabecalho" />
     <br />
     <h4>
       Empréstimo de Material Nº {{ data$.id }}
@@ -42,7 +42,7 @@
         </p>
       </div>
     </div>
-    <img src="{{url}}rodape.png" class="rodape" />
+    <img src="imagens/rodape.png" class="rodape" />
   </div>
   
   <table style="width: 100%; min-width: 100%;" *ngIf="data$">
@@ -66,7 +66,7 @@
           <div class="page">PAGE 2</div>-->
           <div class="page" >
             <div class="noprint text-center">
-              <img src="{{url}}cabecalho.png" class="cabecalho" />
+              <img src="imagens/cabecalho.png" class="cabecalho" />
               <h4 style="margin-top: 30px;">
                 Empréstimo de Material Nº {{ data$.id }}
       - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
@@ -79,7 +79,7 @@
                 <div class="col-sm-2">
                   <b>Tipo:</b> {{data$.material.material_tipo.nome}}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <b>Marca/Modelo:</b> {{data$.material.marca.nome}}/{{data$.material.modelo.nome}}
                 </div>
                 <div class="col-sm-2">
@@ -94,7 +94,7 @@
               <div class="col-sm-2" *ngIf="data$.usuario.numeral">
                 <b>Numeral:</b> {{data$.usuario.numeral | mask: '00.000'}}
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-6">
                   <b>Usuário:</b> {{data$.usuario.nome}}
               </div>
               <div class="col-sm-3">

@@ -10,26 +10,26 @@ export class UsuariosFeriasService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"usuarios-ferias");
+    return this.http.get("/api/usuarios-ferias");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"usuarios-ferias/"+id);
+    return this.http.get("/api/usuarios-ferias/"+id);
   }
 
   ativos(){
-    return this.http.get(environment.url+"usuarios-ferias-ativos");
+    return this.http.get("/api/usuarios-ferias-ativos");
   }
 
   store(data:any){
-    return this.http.post(environment.url+"usuarios-ferias",data);
+    return this.http.post("/api/usuarios-ferias",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"usuarios-ferias/"+id,data);
+    return this.http.put("/api/usuarios-ferias/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"usuarios-ferias/"+id);
+    return this.http.delete("/api/usuarios-ferias/"+id);
   }
 }

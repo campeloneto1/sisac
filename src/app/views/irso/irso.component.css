@@ -40,8 +40,20 @@
   justify-content: center;
   background-color: #43a047;
   -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
   
 }
+
+.titlemodalidade3 {
+  
+  text-align: center;
+  justify-content: center;
+  background-color: #43a047;
+  -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
+  
+}
+
 
 .cabecalho {
   width: 100%;
@@ -111,6 +123,7 @@
     justify-content: center;
     background-color: #43a047;
     -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
     
   }
 }

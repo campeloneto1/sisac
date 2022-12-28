@@ -29,7 +29,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   user: any;
 
-  url = environment.imagens;
+  //url = environment.imagens;
 
   dtOptions: any = {};
 
@@ -306,7 +306,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       myFormData.append('image', this.filedata);
       myFormData.append('id', this.foto$.id);
       /* Image Post Request */
-      this.http.post(environment.url+'usuarios-foto', myFormData, {
+      this.http.post('/api/usuarios-foto', myFormData, {
       headers: headers
       }).subscribe(data => {
         if(data == 1){

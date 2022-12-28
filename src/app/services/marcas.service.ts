@@ -10,26 +10,26 @@ export class MarcasService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"marcas");
+    return this.http.get("/api/marcas");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"marcas/"+id);
+    return this.http.get("/api/marcas/"+id);
   }
 
   where(id:number){
-    return this.http.get(environment.url+"marcas/"+id+"/where");
+    return this.http.get("/api/marcas/"+id+"/where");
   }
 
   store(data:any){
-    return this.http.post(environment.url+"marcas",data);
+    return this.http.post("/api/marcas",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"marcas/"+id,data);
+    return this.http.put("/api/marcas/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"marcas/"+id);
+    return this.http.delete("/api/marcas/"+id);
   }
 }

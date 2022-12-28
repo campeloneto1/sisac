@@ -1,7 +1,7 @@
 <!--<div class="wrapper">
   <app-navbar></app-navbar>
   <app-sidebar></app-sidebar>-->
-  <div class="content-wrapper" style="min-height: 1604.44px">
+  <div class="content-wrapper" >
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -70,7 +70,7 @@
             ></span>
             <div class="info-box-content">
               <span class="info-box-text"><b>Escala do dia</b></span>
-              <span class="info-box-number" *ngIf="escaladia && escaladia.length > 0"><a target="_blank" [routerLink]="['/Escala', escaladia[0].id]">{{ escaladia[0].codigo }}/{{ escaladia[0].created_at | date: 'yyyy' }}</a></span>
+              <span class="info-box-number" *ngIf="escaladia && escaladia.length > 0"><a  [routerLink]="['/Escala', escaladia[0].id]">{{ escaladia[0].codigo }}/{{ escaladia[0].created_at | date: 'yyyy' }}</a></span>
             </div>
           </div>
         </div>

@@ -10,22 +10,22 @@ export class GraduacoesService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"graduacoes");
+    return this.http.get("/api/graduacoes");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"graduacoes/"+id);
+    return this.http.get("/api/graduacoes/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"graduacoes",data);
+    return this.http.post("/api/graduacoes",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"graduacoes/"+id,data);
+    return this.http.put("/api/graduacoes/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"graduacoes/"+id);
+    return this.http.delete("/api/graduacoes/"+id);
   }
 }

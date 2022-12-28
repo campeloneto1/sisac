@@ -1,11 +1,11 @@
-<aside class="main-sidebar sidebar-dark-orange elevation-4">
+<aside class="main-sidebar sidebar-dark-orange elevation-4" >
   <a [routerLink]="['/Inicio']" class="brand-link">
-    <img src="{{url}}casamil.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+    <img src="assets/casamil.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
       style="opacity: 0.8" />
     <span class="brand-text font-weight-light">SISAC</span>
   </a>
 
-  <div class="sidebar">
+  <div class="sidebar" >
     <nav class="mt-2">
       <ul  class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
         data-accordion="false">
@@ -15,6 +15,7 @@
             <p>Início</p>
           </a>
         </li>
+        <!---->
         <li *ngIf="user.perfil?.afastamentos" class="nav-item">
           <a [routerLink]="['/Afastamentos']" [routerLinkActive]="['active']" class="nav-link">
             <i class="nav-icon fa fa-medkit"></i>

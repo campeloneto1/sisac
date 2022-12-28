@@ -2,7 +2,7 @@
     <app-navbar></app-navbar>
     <app-sidebar></app-sidebar>-->
     <!--INICIO CONTENT WRAPPER-->
-    <div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+    <div class="content-wrapper" *ngIf="user" >
       <!--INICIO SECTION HEADER-->
       <section class="content-header">
         <div class="container-fluid">
@@ -68,7 +68,7 @@
                 <tr *ngFor="let data of data$" class="hovers">
                   <td>{{ data.id }}</td>
                   <td>{{ data.data | date: 'dd/MM/yyyy' }}</td>
-                  <td><a target="_blank" [routerLink]="['/Escala', data.id]">{{ data.codigo }}/{{ data.created_at | date: 'yyyy' }}</a></td>
+                  <td><a  [routerLink]="['/Escala', data.id]">{{ data.codigo }}/{{ data.created_at | date: 'yyyy' }}</a></td>
                   <td>{{ data.escala_modelo.nome }}</td>
                   <!--<td>
                     <a target="_blank" [routerLink]="['/Escala', data.id]">

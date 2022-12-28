@@ -10,22 +10,22 @@ export class TiposDocumentosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"documentos-tipos");
+    return this.http.get("/api/documentos-tipos");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"documentos-tipos/"+id);
+    return this.http.get("/api/documentos-tipos/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"documentos-tipos",data);
+    return this.http.post("/api/documentos-tipos",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"documentos-tipos/"+id,data);
+    return this.http.put("/api/documentos-tipos/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"documentos-tipos/"+id);
+    return this.http.delete("/api/documentos-tipos/"+id);
   }
 }

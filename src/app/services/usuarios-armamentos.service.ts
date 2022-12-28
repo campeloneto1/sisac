@@ -10,26 +10,26 @@ export class UsuariosArmamentosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"usuarios-armamentos");
+    return this.http.get("/api/usuarios-armamentos");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"usuarios-armamentos/"+id);
+    return this.http.get("/api/usuarios-armamentos/"+id);
   }
 
   receber(data:any){
-    return this.http.post(environment.url+"usuarios-armamentos-receber", data);
+    return this.http.post("/api/usuarios-armamentos-receber", data);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"usuarios-armamentos",data);
+    return this.http.post("/api/usuarios-armamentos",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"usuarios-armamentos/"+id,data);
+    return this.http.put("/api/usuarios-armamentos/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"usuarios-armamentos/"+id);
+    return this.http.delete("/api/usuarios-armamentos/"+id);
   }
 }

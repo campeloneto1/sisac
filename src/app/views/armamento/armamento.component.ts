@@ -14,7 +14,7 @@ import { AppComponent } from 'src/app/app.component';
 export class ArmamentoComponent implements OnInit {
 
   data$: any;
-  url = environment.imagens;
+  //url = environment.imagens;
   qrcod = '';
   user: any;
   subunidade: any;
@@ -46,7 +46,7 @@ export class ArmamentoComponent implements OnInit {
     private apcom: AppComponent
   ) {
     
-      this.apcom.token = false;
+      //this.apcom.token = false;
       this.user = this.session.getUser();
       if(this.user.perfil.armamentos){
        

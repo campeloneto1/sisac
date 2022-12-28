@@ -10,22 +10,22 @@ export class PerfisService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"perfis");
+    return this.http.get("/api/perfis");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"perfis/"+id);
+    return this.http.get("/api/perfis/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"perfis",data);
+    return this.http.post("/api/perfis",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"perfis/"+id,data);
+    return this.http.put("/api/perfis/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"perfis/"+id);
+    return this.http.delete("/api/perfis/"+id);
   }
 }

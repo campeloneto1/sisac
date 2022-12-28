@@ -10,22 +10,22 @@ export class ModalidadesService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"modalidades");
+    return this.http.get("/api/modalidades");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"modalidades/"+id);
+    return this.http.get("/api/modalidades/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"modalidades",data);
+    return this.http.post("/api/modalidades",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"modalidades/"+id,data);
+    return this.http.put("/api/modalidades/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"modalidades/"+id);
+    return this.http.delete("/api/modalidades/"+id);
   }
 }

@@ -2,7 +2,7 @@
     <app-navbar></app-navbar>
     <app-sidebar></app-sidebar>-->
 <!--INICIO CONTENT WRAPPER-->
-<div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+<div class="content-wrapper" *ngIf="user" >
   <!--INICIO SECTION HEADER-->
   <section class="content-header">
     <div class="container-fluid">
@@ -68,7 +68,7 @@
               <td>{{ data.hora_chegada }}</td>
               <td>
                 <span class="editdata">
-                  <a *ngIf="data.data_chegada" target="_blank" [routerLink]="['/Emprestimo-Veiculo', data.id]"><i   
+                  <a *ngIf="data.data_chegada"  [routerLink]="['/Emprestimo-Veiculo', data.id]"><i   
                     class="right fa fa-print text-primary point" data-toggle="tooltip" data-placement="top"
                     title="Imprimir"></i></a>
                   <i *ngIf="!data.data_chegada" (click)="receber(data)" data-bs-toggle="modal" data-bs-target="#modalreceb"

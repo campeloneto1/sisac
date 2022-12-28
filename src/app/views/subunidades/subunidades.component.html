@@ -2,7 +2,7 @@
     <app-navbar></app-navbar>
     <app-sidebar></app-sidebar>-->
     <!--INICIO CONTENT WRAPPER-->
-    <div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+    <div class="content-wrapper" *ngIf="user" >
       <!--INICIO SECTION HEADER-->
       <section class="content-header">
         <div class="container-fluid">
@@ -206,7 +206,7 @@
                               [config]="config" 
                               [options]="usuarios$"
                               formControlName="comandante"  
-                              required                              
+                                                            
                               >                                
                             </ngx-select-dropdown>
                         <!--<select                            
@@ -231,7 +231,7 @@
                               [config]="config2" 
                               [options]="usuarios$"
                               formControlName="subcomandante"  
-                              required                              
+                                                            
                               >                                
                             </ngx-select-dropdown>
                         <!--<select                            

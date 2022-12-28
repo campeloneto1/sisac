@@ -46,7 +46,7 @@ export class FeriasGuiaComponent implements OnInit {
     private apcom: AppComponent
   ) {
     
-      this.apcom.token = false;
+      //this.apcom.token = false;
       this.user = this.session.getUser();
       if(this.user.perfil.usuarios_cad){
        

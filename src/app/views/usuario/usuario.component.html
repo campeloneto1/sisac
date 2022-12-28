@@ -1,7 +1,7 @@
 <!--<div class="wrapper">
   <app-navbar></app-navbar>
   <app-sidebar></app-sidebar>-->
-<div class="content-wrapper" *ngIf="user && data$" style="min-height: 1604.44px">
+<div class="content-wrapper" *ngIf="user && data$" >
   <section class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
@@ -29,7 +29,7 @@
           <div class="card card-orange card-outline">
             <div class="card-body box-profile">
               <div class="text-center">
-                <img *ngIf="data$.foto" class="profile-user-img img-fluid img-circle" src="{{url+data$.foto}}"
+                <img *ngIf="data$.foto" class="profile-user-img img-fluid img-circle" src="{{'imagens/'+data$.foto}}"
                   alt="{{data$.nome_guerra}}" />
               </div>
               <h3 class="profile-username text-center">{{ data$.nome }}</h3>
@@ -831,7 +831,7 @@
                 <!--FIM PROMOCOES-->
                 <!--INICIO PUBLICACOES-->
                 <div class="tab-pane" id="publicacoes">
-                  <a target="_blank" style="float: right;" [routerLink]="['/Ficha', data$.id]"><i
+                  <a  style="float: right;" [routerLink]="['/Ficha', data$.id]"><i
                       class="right fa fa-print text-primary point" data-toggle="tooltip" data-placement="top"
                       title="Ficha"></i></a>
                   <table class="table table-hover text-nowrap">

@@ -10,22 +10,22 @@ export class OcorrenciasService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"escalas-ocorrencias");
+    return this.http.get("/api/escalas-ocorrencias");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"escalas-ocorrencias/"+id);
+    return this.http.get("/api/escalas-ocorrencias/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"escalas-ocorrencias",data);
+    return this.http.post("/api/escalas-ocorrencias",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"escalas-ocorrencias/"+id,data);
+    return this.http.put("/api/escalas-ocorrencias/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"escalas-ocorrencias/"+id);
+    return this.http.delete("/api/escalas-ocorrencias/"+id);
   }
 }

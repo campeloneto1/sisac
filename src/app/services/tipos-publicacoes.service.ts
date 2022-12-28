@@ -10,22 +10,22 @@ export class TiposPublicacoesService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"tipos-publicacoes");
+    return this.http.get("/api/tipos-publicacoes");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"tipos-publicacoes/"+id);
+    return this.http.get("/api/tipos-publicacoes/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"tipos-publicacoes",data);
+    return this.http.post("/api/tipos-publicacoes",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"tipos-publicacoes/"+id,data);
+    return this.http.put("/api/tipos-publicacoes/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"tipos-publicacoes/"+id);
+    return this.http.delete("/api/tipos-publicacoes/"+id);
   }
 }

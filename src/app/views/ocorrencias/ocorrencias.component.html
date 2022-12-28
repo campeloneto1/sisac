@@ -2,7 +2,7 @@
     <app-navbar></app-navbar>
     <app-sidebar></app-sidebar>-->
     <!--INICIO CONTENT WRAPPER-->
-    <div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+    <div class="content-wrapper" *ngIf="user" >
         <!--INICIO SECTION HEADER-->
         <section class="content-header">
           <div class="container-fluid">
@@ -74,7 +74,7 @@
                     <td>{{ data.user?.graduacao?.abreviatura }} {{ data.user?.numeral }} {{ data.user?.nome_guerra }}</td>                 
                     <td>
                       <span class="editdata">
-                          <a target="_blank" [routerLink]="['/Ocorrencia', data.id]"><i
+                          <a  [routerLink]="['/Ocorrencia', data.id]"><i
                           class="right fas fa-print text-primary point"
                           data-toggle="tooltip" 
                           data-placement="top" 

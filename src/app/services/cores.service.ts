@@ -10,26 +10,26 @@ export class CoresService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"cores");
+    return this.http.get("/api/cores");
   }
 
   where(id:number){
-    return this.http.get(environment.url+"cores/"+id+"/where");
+    return this.http.get("/api/cores/"+id+"/where");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"cores/"+id);
+    return this.http.get("/api/cores/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"cores",data);
+    return this.http.post("/api/cores",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"cores/"+id,data);
+    return this.http.put("/api/cores/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"cores/"+id);
+    return this.http.delete("/api/cores/"+id);
   }
 }

@@ -104,19 +104,22 @@
       <a class="nav-link" (click)="logout()" title="Logout" role="button">
         <i class="fas fa-sign-out"></i>
       </a>
-    </li>-->
+    </li>
+  
+    
+  -->
    
     
-    <li class="nav-item dropdown user-menu" style="margin-right: 100px!important;">
-      <a (click)="showmenu()" href="#" class="nav-link dropdown-toggle " [ngClass]="{ 'show': menu == true }" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="{{url}}casamil.png" class="user-image img-circle elevation-2" alt="User Image">        
+    <li class="nav-item dropdown user-menu" >
+      <a (click)="showmenu()" style="cursor: pointer;" class="nav-link dropdown-toggle " [ngClass]="{ 'show': menu == true }" data-toggle="dropdown" aria-expanded="false">
+        <img src="assets/casamil.png" class="user-image img-circle elevation-2" alt="User Image">        
         <span class="d-none d-md-inline">{{user?.nome}}</span>
       </a>
     
       <ul  class="dropdown-menu dropdown-menu-lg dropdown-menu-right " style="margin-top: 8px!important;" [ngClass]="{ 'show': menu == true }">
         
         <li class="user-header bg-olive">
-          <img src="{{url}}casamil.png" class="img-circle elevation-2" alt="User Image">
+          <img src="assets/casamil.png" class="img-circle elevation-2" alt="User Image">
 
           <p>
             {{user?.nome}}

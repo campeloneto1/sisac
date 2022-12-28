@@ -9,26 +9,26 @@ export class EscalasService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"escalas");
+    return this.http.get("/api/escalas");
   }
 
   index2(){
-    return this.http.get(environment.url+"escalas2");
+    return this.http.get("/api/escalas2");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"escalas/"+id);
+    return this.http.get("/api/escalas/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"escalas",data);
+    return this.http.post("/api/escalas",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"escalas/"+id,data);
+    return this.http.put("/api/escalas/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"escalas/"+id);
+    return this.http.delete("/api/escalas/"+id);
   }
 }

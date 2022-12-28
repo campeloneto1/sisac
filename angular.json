@@ -42,8 +42,9 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",    
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",    
               "node_modules/admin-lte/dist/js/adminlte.js",       
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",                                   
+                                             
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/jszip/dist/jszip.js",
@@ -65,6 +66,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -76,7 +78,29 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "4mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ]
+            },
+            "development": {
+              
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -85,18 +109,23 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "sisac:build"
-          },
+         
           "configurations": {
             "production": {
-              "browserTarget": "sisac:build:production"
+              "browserTarget": "sisac:build:production",
+              "proxyConfig": "src/proxy.prod.conf.js"
+            },
+            "development": {
+              "browserTarget": "sisac:build:development",
+              "proxyConfig": "src/proxy.conf.js"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -127,8 +156,8 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",    
-              "node_modules/admin-lte/dist/js/adminlte.js",       
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",                                    
+              "node_modules/bootstrap/dist/js/bootstrap.min.js", 
+              "node_modules/admin-lte/dist/js/adminlte.js",                                                        
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/jszip/dist/jszip.js",
@@ -140,7 +169,6 @@
               "node_modules/datatables.net-buttons/js/buttons.flash.js",
               "node_modules/datatables.net-buttons/js/buttons.html5.js",
               "node_modules/datatables.net-buttons/js/buttons.print.js"
-
             ]
           }
         },

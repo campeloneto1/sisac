@@ -2,7 +2,7 @@
     <app-navbar></app-navbar>
     <app-sidebar></app-sidebar>-->
 <!--INICIO CONTENT WRAPPER-->
-<div class="content-wrapper" *ngIf="user" style="min-height: 1604.44px">
+<div class="content-wrapper" *ngIf="user" >
   <!--INICIO SECTION HEADER-->
   <section class="content-header">
     <div class="container-fluid">
@@ -105,7 +105,7 @@
                 <span class="editdata">
                   <a
                     *ngIf="data.data_dev"
-                    target="_blank"
+                    
                     [routerLink]="['/Armamento', data.id]"
                     ><i
                       class="right fa fa-print text-primary point"
@@ -116,7 +116,7 @@
                   ></a>
                   <a
                     *ngIf="!data.data_dev"
-                    target="_blank"
+                    
                     [routerLink]="['/Cautela', data.id]"
                     ><i
                       class="right fa fa-print text-primary point"

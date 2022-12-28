@@ -10,30 +10,30 @@ export class MateriaisEmprestimosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"materiais-emprestimos");
+    return this.http.get("/api/materiais-emprestimos");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"materiais-emprestimos/"+id);
+    return this.http.get("/api/materiais-emprestimos/"+id);
   }
 
   where(id:number){
-    return this.http.get(environment.url+"materiais-emprestimos/"+id+"/where");
+    return this.http.get("/api/materiais-emprestimos/"+id+"/where");
   }
 
   receber(data:any){
-    return this.http.post(environment.url+"materiais-emprestimos-receber", data);
+    return this.http.post("/api/materiais-emprestimos-receber", data);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"materiais-emprestimos",data);
+    return this.http.post("/api/materiais-emprestimos",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"materiais-emprestimos/"+id,data);
+    return this.http.put("/api/materiais-emprestimos/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"materiais-emprestimos/"+id);
+    return this.http.delete("/api/materiais-emprestimos/"+id);
   }
 }

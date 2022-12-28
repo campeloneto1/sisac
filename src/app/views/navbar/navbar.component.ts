@@ -50,7 +50,7 @@ export class NavbarComponent implements OnInit {
 
   search(){
     this.inicio.search(this.textsearch).subscribe(data => {
-      console.log(data);
+      //console.log(data);
     });
   }
 

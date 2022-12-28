@@ -10,22 +10,22 @@ export class EscalasModelosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get(environment.url+"escalas-modelos");
+    return this.http.get("/api/escalas-modelos");
   }
 
   show(id:number){
-    return this.http.get(environment.url+"escalas-modelos/"+id);
+    return this.http.get("/api/escalas-modelos/"+id);
   }
 
   store(data:any){
-    return this.http.post(environment.url+"escalas-modelos",data);
+    return this.http.post("/api/escalas-modelos",data);
   }
 
   update(data:any,id:number){
-    return this.http.put(environment.url+"escalas-modelos/"+id,data);
+    return this.http.put("/api/escalas-modelos/"+id,data);
   }
 
   destroy(id:number){
-    return this.http.delete(environment.url+"escalas-modelos/"+id);
+    return this.http.delete("/api/escalas-modelos/"+id);
   }
 }
