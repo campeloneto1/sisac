@@ -19,6 +19,11 @@
     height: 6.4% !important;
 }
 
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+   
+    justify-content: center !important  ;
+}
+
 @media print {
     .noprint{
         display: none;
@@ -26,5 +31,6 @@
 
     body{
         -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact;
     }
 }

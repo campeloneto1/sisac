@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit   } from '@angular/core';
 import { SessionService } from './services/session.service';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     private router: Router) {
       //console.log(this.router.url);
 
-      //ng build --base-href /sisac/ --configuration production 
+      //ng build --configuration production 
     }
 
   ngOnInit(): void {

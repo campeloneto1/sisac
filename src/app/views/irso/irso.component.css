@@ -84,14 +84,16 @@
 @page {
   margin: 0;
   -webkit-print-color-adjust: exact; 
-  print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 @media print {
    .thead {display: table-header-group;} 
    .tfoot {display: table-footer-group;}
    
-   body {margin: 0;}
+   body {margin: 0;
+    -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;}
 
    .noprint{
     display: none;

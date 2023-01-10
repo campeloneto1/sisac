@@ -67,7 +67,7 @@
                 <tbody>
                   <tr *ngFor="let data of data$" class="hovers">
                     <td>{{ data.id }}</td>  
-                    <!----><td><a target="_blank" [routerLink]="['/Escala', data.escala?.id]">{{ data.escala?.codigo }}/{{data.escala?.created_at | date:'yyyy'}} ({{data.escala?.data | date:'dd/MM/yyyy'}})</a></td>  
+                    <!----><td><a [routerLink]="['/Escala', data.escala?.id]">{{ data.escala?.codigo }}/{{data.escala?.created_at | date:'yyyy'}} ({{data.escala?.data | date:'dd/MM/yyyy'}})</a></td>  
                     <td>{{ data.ocorrencia?.nome }}</td>  
                     <td>{{ data.codigo }}/{{data.created_at | date:'yyyy'}} </td>               
                     <td>{{ data.titulo }}</td>  

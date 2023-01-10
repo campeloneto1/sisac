@@ -157,7 +157,7 @@ import { RelPromocoesComponent } from './views/relatorios/rel-promocoes/rel-prom
     NgxMaskModule.forRoot(),
     BrowserAnimationsModule, 
     ToastrModule.forRoot({
-      timeOut: 5000,
+      timeOut: 4000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }), 

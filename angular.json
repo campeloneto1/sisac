@@ -26,11 +26,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-              
-            ],
+            "baseHref": "/",
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
@@ -41,10 +38,10 @@
               "node_modules/datatables.net-select-bs4/css/select.bootstrap4.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",    
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",    
-              "node_modules/admin-lte/dist/js/adminlte.js",       
-                                             
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/admin-lte/dist/js/adminlte.js",
+
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/jszip/dist/jszip.js",
@@ -55,7 +52,7 @@
               "node_modules/datatables.net-buttons/js/buttons.colVis.js",
               "node_modules/datatables.net-buttons/js/buttons.flash.js",
               "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"    
+              "node_modules/datatables.net-buttons/js/buttons.print.js"
             ]
           },
           "configurations": {
@@ -66,7 +63,6 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -74,6 +70,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "baseHref": "/sisac/",
               "budgets": [
                 {
                   "type": "initial",
@@ -88,7 +85,6 @@
               ]
             },
             "development": {
-              
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -114,7 +110,6 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-         
           "configurations": {
             "production": {
               "browserTarget": "sisac:build:production",
@@ -140,10 +135,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
@@ -152,12 +144,11 @@
               "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
               "node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.css",
               "node_modules/datatables.net-select-bs4/css/select.bootstrap4.css"
-              
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",    
-              "node_modules/bootstrap/dist/js/bootstrap.min.js", 
-              "node_modules/admin-lte/dist/js/adminlte.js",                                                        
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/admin-lte/dist/js/adminlte.js",
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/jszip/dist/jszip.js",
@@ -180,9 +171,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

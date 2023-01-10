@@ -4,8 +4,8 @@ const PROXY_CONFIG = [
           "/api",
           "/imagens"
       ],
-      target: "http://10.9.235.245:8080/apisisac/public",
-      secure: true,
+      target: "http://10.9.235.245/apisisac/public",
+      secure: false,
       changeOrigin: true,
       logLevel: "debug"
   }
