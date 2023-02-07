@@ -10,10 +10,10 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(data: any){    
-    return this.http.post("/api/login", data);
+    return this.http.post(`${environment.url}/api/login`, data);
   }
 
   logout(){    
-    return this.http.get("/api/logout");
+    return this.http.get(`${environment.url}/api/logout`);
   }
 }

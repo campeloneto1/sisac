@@ -10,22 +10,22 @@ export class PatrimoniosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/patrimonios");
+    return this.http.get(`${environment.url}/api/patrimonios`);
   }
 
   show(id:number){
-    return this.http.get("/api/patrimonios/"+id);
+    return this.http.get(`${environment.url}/api/patrimonios/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/patrimonios",data);
+    return this.http.post(`${environment.url}/api/patrimonios`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/patrimonios/"+id,data);
+    return this.http.put(`${environment.url}/api/patrimonios/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/patrimonios/"+id);
+    return this.http.delete(`${environment.url}/api/patrimonios/${id}`);
   }
 }

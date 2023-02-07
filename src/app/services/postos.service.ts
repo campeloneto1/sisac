@@ -10,22 +10,22 @@ export class PostosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/postos");
+    return this.http.get(`${environment.url}/api/postos`);
   }
 
   show(id:number){
-    return this.http.get("/api/postos/"+id);
+    return this.http.get(`${environment.url}/api/postos/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/postos",data);
+    return this.http.post(`${environment.url}/api/postos`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/postos/"+id,data);
+    return this.http.put(`${environment.url}/api/postos/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/postos/"+id);
+    return this.http.delete(`${environment.url}/api/postos/${id}`);
   }
 }

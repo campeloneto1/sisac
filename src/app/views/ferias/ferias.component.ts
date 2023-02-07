@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { SessionService } from '../../services/session.service';
 
 import { UsuariosService } from '../../services/usuarios.service';
 import { UsuariosFeriasService } from '../../services/usuarios-ferias.service';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-ferias',
@@ -15,6 +16,9 @@ import { UsuariosFeriasService } from '../../services/usuarios-ferias.service';
   styleUrls: ['./ferias.component.css']
 })
 export class FeriasComponent implements OnInit, OnDestroy {
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   user: any;
 
@@ -63,14 +67,7 @@ export class FeriasComponent implements OnInit, OnDestroy {
     private usuariosferias: UsuariosFeriasService) { 
 
         this.user = this.session.getUser();
-        if(this.user.perfil.usuarios_cad){
-          this.usuariosferias.index().subscribe(data => {
-            this.data$ = data;
-            this.dtTrigger.next();
-          }); 
-        }else{
-          this.router.navigate(['/Inicio']);
-        }
+       
     }
 
   ngOnInit(): void {
@@ -80,9 +77,18 @@ export class FeriasComponent implements OnInit, OnDestroy {
       processing: true,
       responsive: true,
       order: [0, 'desc'],
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      //dom: 'Bfrtip',
+      //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
+
+    if(this.user.perfil.usuarios_cad){
+      this.usuariosferias.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next(this.dtOptions);
+      }); 
+    }else{
+      this.router.navigate(['/Inicio']);
+    }
 
     this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
@@ -98,6 +104,12 @@ export class FeriasComponent implements OnInit, OnDestroy {
   refresh(){
     this.usuariosferias.index().subscribe(data => {
       this.data$ = data;
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next(this.dtOptions);
+      });
     }); 
   }
 

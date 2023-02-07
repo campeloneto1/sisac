@@ -4,10 +4,11 @@ const PROXY_CONFIG = [
           "/api",
           "/imagens"
       ],
-      target: "http://10.9.235.245/apisisac/public",
+      target: "http://10.9.255.218/apisisac/public",
       secure: false,
-      changeOrigin: true,
-      logLevel: "debug"
+      changeOrigin: false,
+      logLevel: "debug",
+      
   }
 ]
 

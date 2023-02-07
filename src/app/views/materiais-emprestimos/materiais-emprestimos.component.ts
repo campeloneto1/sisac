@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -10,12 +10,16 @@ import { SessionService } from '../../services/session.service';
 import { MateriaisService } from '../../services/materiais.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { MateriaisEmprestimosService } from '../../services/materiais-emprestimos.service';
+import { DataTableDirective } from 'angular-datatables';
 @Component({
   selector: 'app-materiais-emprestimos',
   templateUrl: './materiais-emprestimos.component.html',
   styleUrls: ['./materiais-emprestimos.component.css']
 })
 export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   p = 1;
 
@@ -26,17 +30,13 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
   data$: any;
   materiais$: any;
   usuarios$: any;
-
+  mats: any = [];
   excluir$: any;
 
   config = {
     displayFn:(item: any) => { 
-        if(item.serial){
-          return item.material_tipo.nome+' - '+item.serial+' ('+item.marca.nome+'/'+item.modelo.nome+')'; 
-        }else{
-          return item.material_tipo.nome+' ('+item.marca.nome+'/'+item.modelo.nome+')'; 
-        }
-        
+      
+        return item.material_tipo.nome+' - '+item.serial+' ('+item.marca.nome+'/'+item.modelo.nome+')'; 
       
     } ,//to support flexible text displaying for each item
     displayKey:"nome", //if objects array passed which key to be displayed defaults to description
@@ -48,7 +48,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
     moreText: 'mais', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
     noResultsFound: 'Nenhum resultado encontrado!', // text to be displayed when no items are found while searching
     searchPlaceholder:'Pesquisar', // label thats displayed in search input,
-    //searchOnKey: 'nome' ,// key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+    searchOnKey: undefined ,// key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
     clearOnSelection: false, // clears search criteria when an option is selected if set to true, default is false
     inputDirection: 'ltr' // the direction of the search input can be rtl or ltr(default)
   }
@@ -116,25 +116,24 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
 
   formcad = new FormGroup({
     id: new FormControl(''),
-    material_id: new FormControl(''),
     material: new FormControl(''),  
+    materiais: new FormControl([]),  
     user_id: new FormControl(''), 
     user: new FormControl(''), 
-    data_saida: new FormControl(''), 
-    hora_saida: new FormControl(''), 
-    observacoes: new FormControl(''), 
     quant: new FormControl(''), 
+    data_emp: new FormControl(''), 
+    hora_emp: new FormControl(''), 
+    observacoes: new FormControl(''), 
   });
 
   formcad2 = new FormGroup({
     id: new FormControl(''),
-    data_chegada: new FormControl(''), 
-    hora_chegada: new FormControl(''), 
+    data_dev: new FormControl(''), 
+    hora_dev: new FormControl(''), 
+    material_id: new FormControl(''), 
     danificado: new FormControl(''), 
     extraviado: new FormControl(''), 
-    material_id: new FormControl(''), 
     observacoes: new FormControl(''), 
-    serial: new FormControl(''), 
   });
 
   // We use this trigger because fetching the list of persons can be quite long,
@@ -150,14 +149,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
     private usuarios: UsuariosService) { 
 
         this.user = this.session.getUser();
-        if(this.user.perfil.materiais_emprestimos){
-          this.materiaisemprestimos.index().subscribe(data => {
-            this.data$ = data;
-            this.dtTrigger.next();
-          }); 
-        }else{
-          this.router.navigate(['/Inicio']);
-        }
+        
 
      
     }
@@ -169,9 +161,18 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
       processing: true,
       responsive: true,
       order: [0, 'desc'],
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+     //dom: 'Bfrtip',
+      //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
+
+    if(this.user.perfil.armamentos_emprestimos){
+      this.materiaisemprestimos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next(this.dtOptions);
+      }); 
+    }else{
+      this.router.navigate(['/Inicio']);
+    }
 
     this.materiais.index2().subscribe(data => {
       this.materiais$ = data;
@@ -191,6 +192,12 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
   refresh(){
     this.materiaisemprestimos.index().subscribe(data => {
       this.data$ = data;
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next(this.dtOptions);
+      });
     }); 
   }
 
@@ -201,7 +208,10 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
 
   salvar(){
     //@ts-ignore
-    this.formcad.controls.material_id.patchValue(this.formcad.value.material.id);
+    this.formcad.controls.materiais.patchValue(this.mats);
+    
+    /*console.log(this.formcad.value);*/
+    
     //@ts-ignore
     this.formcad.controls.user_id.patchValue(this.formcad.value.user.id);
     if(this.formcad.value.id){
@@ -237,12 +247,34 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
     })
   }
 
+  addMaterial(){
+    var data = this.formcad.value.material;
+    if(this.formcad.value.quant){
+      //@ts-ignore      
+      data.quant = this.formcad.value.quant;
+    }    
+
+    //@ts-ignore
+    this.mats.push(data);
+   //this.formcad.value.armamentos?.push(this.formcad.value.armamento);
+   this.formcad.controls.quant.patchValue('');
+   this.formcad.controls.material.patchValue('');
+    //console.log(this.arms);
+  }
+
+  delMaterial(id:number){
+    this.mats[id].quant = null;
+    this.mats[id].carregadores = null;
+    //console.log(id);
+    this.mats.splice(id, 1);
+  }
+
   receber(data:any){
     this.formcad2.patchValue(data);
-    this.formcad2.controls.serial.patchValue(data.material?.serial);
   }
 
   salvarreceber(){
+    
     this.materiaisemprestimos.receber(this.formcad2.value).subscribe(data => {
       if(data == 1){
         this.formcad2.reset();

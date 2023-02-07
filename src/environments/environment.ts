@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  imagens: 'http://10.9.235.245:8080/apisisac/public/imagens/',
-  ipserver: 'http://10.9.235.245:8080/sisac/'
+  url: 'http://localhost/apisisac/public',
+  imagens: 'http://localhost/apisisac/public/imagens/',
+  ipserver: 'http://localhost/sisac/'
 };
 
 /*

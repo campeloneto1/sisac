@@ -10,22 +10,22 @@ export class EscalasModalidadesService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/escalas-modalidades");
+    return this.http.get(`${environment.url}/api/escalas-modalidades`);
   }
 
   show(id:number){
-    return this.http.get("/api/escalas-modalidades/"+id);
+    return this.http.get(`${environment.url}/api/escalas-modalidades/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/escalas-modalidades",data);
+    return this.http.post(`${environment.url}/api/escalas-modalidades`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/escalas-modalidades/"+id,data);
+    return this.http.put(`${environment.url}/api/escalas-modalidades/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/escalas-modalidades/"+id);
+    return this.http.delete(`${environment.url}/api/escalas-modalidades/${id}`);
   }
 }

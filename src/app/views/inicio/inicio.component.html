@@ -150,20 +150,20 @@
                 <thead>
                   <tr>
                     <th>ID</th>                  
-                    <th>MARCA/MODELO</th>     
-                    <th>SERIAL</th> 
+                    <th>MATERIAL</th> 
                     <th>USUÁRIO</th>
                     <th>DATA</th>
                   </tr>
                 </thead>
                 <tbody *ngIf="materiaisemprestimos">
                   <tr *ngFor="let data of materiaisemprestimos" class="hovers">
-                    <td>{{ data.id }}</td>                
-                    <td>{{ data.material.marca.nome }} / {{ data.material.modelo.nome }}</td> 
-                    <td>
-                      {{ data.material.serial }}                      
-                    </td> 
+                    <td>{{ data.id }}</td>                                   
                     <td>{{ data.usuario.graduacao.abreviatura }} {{ data.usuario.numeral }} {{ data.usuario.nome_guerra }}</td> 
+                    <td>
+                      <ul>
+                        <li *ngFor="let material of data.materiais">{{material.material_tipo.nome}} {{material.serial}} ({{material.modelo.nome}} - {{material.marca.nome}})</li>
+                      </ul>
+                    </td>
                     <td>{{ data.data_saida | date:'dd/MM/yyyy' }}</td> 
                   </tr>
                 </tbody>

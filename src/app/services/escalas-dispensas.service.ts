@@ -9,23 +9,25 @@ export class EscalasDispensasService {
 
   constructor(private http: HttpClient) {}
 
+  
+
   index(){
-    return this.http.get("/api/escalas-dispensas");
+    return this.http.get(`${environment.url}/api/escalas-dispensas`);
   }
 
   show(id:number){
-    return this.http.get("/api/escalas-dispensas/"+id);
+    return this.http.get(`${environment.url}/api/escalas-dispensas/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/escalas-dispensas",data);
+    return this.http.post(`${environment.url}/api/escalas-dispensas`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/escalas-dispensas/"+id,data);
+    return this.http.put(`${environment.url}/api/escalas-dispensas/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/escalas-dispensas/"+id);
+    return this.http.delete(`${environment.url}/api/escalas-dispensas/${id}`);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { SessionService } from '../../services/session.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { UsuariosAfastamentosService } from '../../services/usuarios-afastamentos.service';
 import { AfastamentosTiposService } from '../../services/afastamentos-tipos.service';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-afastamentos',
@@ -16,11 +17,12 @@ import { AfastamentosTiposService } from '../../services/afastamentos-tipos.serv
 })
 export class AfastamentosComponent implements OnInit,OnDestroy {
 
-
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   user: any;
 
-  dtOptions: any = {};
+  dtOptions: DataTables.Settings = {};
   
   data$: any;
   usuarios$: any;
@@ -72,14 +74,7 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
     private usuariosafastamentos: UsuariosAfastamentosService,
     private afastamentostipos: AfastamentosTiposService) { 
       this.user = this.session.getUser();
-        if(this.user.perfil.afastamentos){
-          this.usuariosafastamentos.index().subscribe(data => {
-            this.data$ = data;
-            this.dtTrigger.next();
-          }); 
-        }else{
-          this.router.navigate(['/Inicio']);
-        }
+        
       
     }
 
@@ -90,9 +85,18 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
       processing: true,
       responsive: true,
       order: [0, 'desc'],
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      //dom: 'Bfrtip',
+      //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
+
+    if(this.user.perfil.afastamentos){
+      this.usuariosafastamentos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next(this.dtOptions);
+      }); 
+    }else{
+      this.router.navigate(['/Inicio']);
+    }
 
     this.usuarios.index2().subscribe(data => {
       next: this.usuarios$ = data;
@@ -112,7 +116,14 @@ export class AfastamentosComponent implements OnInit,OnDestroy {
 
   refresh(){
     this.usuariosafastamentos.index().subscribe(data => {
+      
       this.data$ = data;
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next(this.dtOptions);
+      });
     }); 
   }
 

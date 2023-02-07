@@ -10,22 +10,22 @@ export class LogsService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/logs");
+    return this.http.get(`${environment.url}/api/logs`);
   }
 
   show(id:number){
-    return this.http.get("/api/logs/"+id);
+    return this.http.get(`${environment.url}/api/logs/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/logs",data);
+    return this.http.post(`${environment.url}/api/logs`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/logs/"+id,data);
+    return this.http.put(`${environment.url}/api/logs/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/logs/"+id);
+    return this.http.delete(`${environment.url}/api/logs/${id}`);
   }
 }

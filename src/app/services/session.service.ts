@@ -79,7 +79,7 @@ export class SessionService {
   logout() {
     localStorage.clear();
     var teste = this.http
-      .get('/api/logout')
+      .get(`${environment.url}/api/logout`)
       .subscribe((data) => {
         this.token = null;
         this.user = null;

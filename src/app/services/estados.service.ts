@@ -10,26 +10,26 @@ export class EstadosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/estados");
+    return this.http.get(`${environment.url}/api/estados`);
   }
 
   where(id:number){
-    return this.http.get("/api/estados/"+id+"/where");
+    return this.http.get(`${environment.url}/api/estados/${id}/where`);
   }
 
   show(id:number){
-    return this.http.get("/api/estados/"+id);
+    return this.http.get(`${environment.url}/api/estados/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/estados",data);
+    return this.http.post(`${environment.url}/api/estados`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/estados/"+id,data);
+    return this.http.put(`${environment.url}/api/estados/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/estados/"+id);
+    return this.http.delete(`${environment.url}/api/estados/${id}`);
   }
 }

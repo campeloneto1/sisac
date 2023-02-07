@@ -3,7 +3,7 @@
   style="text-align: center; margin-bottom: 10px"
   *ngIf="data$"
 >
-  <img src="imagens/cabecalho.png" class="cabecalho" />
+  <img src="assets/cabecalho.png" class="cabecalho" />
   <br />
   <h4>
     {{ data$.ocorrencia?.nome }} Nº {{ data$.codigo }}/{{
@@ -47,7 +47,7 @@
       </p>
     </div>
   </div>
-  <img src="imagens/rodape.png" class="rodape" />
+  <img src="assets/rodape.png" class="rodape" />
 </div>
 
 <table style="width: 100%; min-width: 100%" *ngIf="data$">
@@ -68,7 +68,7 @@
           <div class="page">PAGE 2</div>-->
         <div class="page">
           <div class="noprint text-center">
-            <img src="imagens/cabecalho.png" class="cabecalho" />
+            <img src="assets/cabecalho.png" class="cabecalho" />
             <h4 style="margin-top: 30px;">
               {{ data$.ocorrencia?.nome }} Nº {{ data$.codigo }}/{{
                 data$.created_at | date: "yyyy"

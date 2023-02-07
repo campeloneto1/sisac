@@ -10,30 +10,30 @@ export class MateriaisService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/materiais");
+    return this.http.get(`${environment.url}/api/materiais`);
   }
 
   index2(){
-    return this.http.get("/api/materiais2");
+    return this.http.get(`${environment.url}/api/materiais2`);
   }
 
   reparar(id:number){
-    return this.http.get("/api/materiais-reparar/"+id);
+    return this.http.get(`${environment.url}/api/materiais-reparar/${id}`);
   }
 
   show(id:number){
-    return this.http.get("/api/materiais/"+id);
+    return this.http.get(`${environment.url}/api/materiais/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/materiais",data);
+    return this.http.post(`${environment.url}/api/materiais`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/materiais/"+id,data);
+    return this.http.put(`${environment.url}/api/materiais/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/materiais/"+id);
+    return this.http.delete(`${environment.url}/api/materiais/${id}`);
   }
 }

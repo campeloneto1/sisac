@@ -10,26 +10,26 @@ export class UsuariosAfastamentosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/usuarios-afastamentos");
+    return this.http.get(`${environment.url}/api/usuarios-afastamentos`);
   }
 
   show(id:number){
-    return this.http.get("/api/usuarios-afastamentos/"+id);
+    return this.http.get(`${environment.url}/api/usuarios-afastamentos/${id}`);
   }
 
   ativos(){
-    return this.http.get("/api/usuarios-afastamentos-ativos");
+    return this.http.get(`${environment.url}/api/usuarios-afastamentos-ativos`);
   }
 
   store(data:any){
-    return this.http.post("/api/usuarios-afastamentos",data);
+    return this.http.post(`${environment.url}/api/usuarios-afastamentos`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/usuarios-afastamentos/"+id,data);
+    return this.http.put(`${environment.url}/api/usuarios-afastamentos/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/usuarios-afastamentos/"+id);
+    return this.http.delete(`${environment.url}/api/usuarios-afastamentos/${id}`);
   }
 }

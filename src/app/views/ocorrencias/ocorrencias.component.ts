@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -10,6 +10,7 @@ import { SessionService } from '../../services/session.service';
 import { TiposOcorrenciasService } from '../../services/tipos-ocorrencias.service';
 import { OcorrenciasService } from '../../services/ocorrencias.service';
 import { EscalasService } from '../../services/escalas.service';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-ocorrencias',
@@ -17,6 +18,9 @@ import { EscalasService } from '../../services/escalas.service';
   styleUrls: ['./ocorrencias.component.css']
 })
 export class OcorrenciasComponent implements OnInit,OnDestroy {
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   user: any;
 
@@ -94,14 +98,7 @@ export class OcorrenciasComponent implements OnInit,OnDestroy {
     private ocorrencias: OcorrenciasService,
     private tiposocorrencias: TiposOcorrenciasService) {
         this.user = this.session.getUser();
-        if(this.user.perfil.ocorrencias){
-          this.ocorrencias.index().subscribe(data => {
-            this.data$ = data;
-            this.dtTrigger.next();
-          }); 
-        }else{
-          this.router.navigate(['/Inicio']);
-        }
+        
       
   
     }
@@ -113,10 +110,18 @@ export class OcorrenciasComponent implements OnInit,OnDestroy {
       processing: true,
       responsive: true,
       order: [0, 'desc'],
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      //dom: 'Bfrtip',
+      //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
+    if(this.user.perfil.ocorrencias){
+      this.ocorrencias.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next(this.dtOptions);
+      }); 
+    }else{
+      this.router.navigate(['/Inicio']);
+    }
     
     this.tiposocorrencias.index().subscribe(data => {
       this.tiposocorrencias$ = data;
@@ -135,6 +140,12 @@ export class OcorrenciasComponent implements OnInit,OnDestroy {
   refresh(){
     this.ocorrencias.index().subscribe(data => {
       this.data$ = data;
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next(this.dtOptions);
+      });
     }); 
   }
 

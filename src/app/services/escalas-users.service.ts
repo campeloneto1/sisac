@@ -10,26 +10,26 @@ export class EscalasUsersService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/escalas-users");
+    return this.http.get(`${environment.url}/api/escalas-users`);
   }
 
   show(id:number){
-    return this.http.get("/api/escalas-users/"+id);
+    return this.http.get(`${environment.url}/api/escalas-users/${id}`);
   }
 
   falta(data:any){
-    return this.http.post("/api/escalas-users-falta",data);
+    return this.http.post(`${environment.url}/api/escalas-users-falta`,data);
   }
 
   store(data:any){
-    return this.http.post("/api/escalas-users",data);
+    return this.http.post(`${environment.url}/api/escalas-users`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/escalas-users/"+id,data);
+    return this.http.put(`${environment.url}/api/escalas-users/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/escalas-users/"+id);
+    return this.http.delete(`${environment.url}/api/escalas-users/${id}`);
   }
 }

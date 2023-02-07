@@ -10,19 +10,19 @@ export class RelatoriosService {
   constructor(private http: HttpClient) {}
 
   getEmpArmamentos(data: any){
-    return this.http.post("/api/relatorios-emparmamentos", data);
+    return this.http.post(`${environment.url}/api/relatorios-emparmamentos`, data);
   }
 
   getEmpMateriais(data: any){
-    return this.http.post("/api/relatorios-empmateriais", data);
+    return this.http.post(`${environment.url}/api/relatorios-empmateriais`, data);
   }
 
   getEmpVeiculos(data: any){
-    return this.http.post("/api/relatorios-empveiculos", data);
+    return this.http.post(`${environment.url}/api/relatorios-empveiculos`, data);
   }
 
   getPromocoes(data: any){
-    return this.http.post("/api/relatorios-promocoes", data);
+    return this.http.post(`${environment.url}/api/relatorios-promocoes`, data);
   }
 
 

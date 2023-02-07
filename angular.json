@@ -1,8 +1,5 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "3e28f86f-6fa3-4b58-b45b-d9eced9951eb"
-  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -25,99 +22,85 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "css",
             "baseHref": "/",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/admin-lte/dist/css/adminlte.css",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
-              "node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.css",
-              "node_modules/datatables.net-select-bs4/css/select.bootstrap4.css"
+                "node_modules/bootstrap/dist/css/bootstrap.css",
+                "node_modules/admin-lte/dist/css/adminlte.css",
+                "node_modules/ngx-toastr/toastr.css",
+                "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
+                "node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.css",
+                "node_modules/datatables.net-select-bs4/css/select.bootstrap4.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/admin-lte/dist/js/adminlte.js",
-
-              "node_modules/datatables.net/js/jquery.dataTables.js",
-              "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
-              "node_modules/jszip/dist/jszip.js",
-              "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
-              "node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.js",
-              "node_modules/datatables.net-select/js/dataTables.select.js",
-              "node_modules/datatables.net-select-bs4/js/select.bootstrap4.js",
-              "node_modules/datatables.net-buttons/js/buttons.colVis.js",
-              "node_modules/datatables.net-buttons/js/buttons.flash.js",
-              "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"
-            ]
+            "node_modules/jquery/dist/jquery.min.js",
+                "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+                "node_modules/admin-lte/dist/js/adminlte.js",
+  
+                "node_modules/datatables.net/js/jquery.dataTables.js",
+                "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
+                "node_modules/jszip/dist/jszip.js",
+                "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
+                "node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.js",
+                "node_modules/datatables.net-select/js/dataTables.select.js",
+                "node_modules/datatables.net-select-bs4/js/select.bootstrap4.js",
+                "node_modules/datatables.net-buttons/js/buttons.colVis.js",
+                "node_modules/datatables.net-buttons/js/buttons.flash.js",
+                "node_modules/datatables.net-buttons/js/buttons.html5.js",
+                "node_modules/datatables.net-buttons/js/buttons.print.js"
+          ]
           },
           "configurations": {
             "production": {
+              "baseHref": "/sisac/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "baseHref": "/sisac/",
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "2mb",
                   "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5kb",
+                  "maximumError": "10kb"
                 }
-              ]
+              ],
+              "outputHashing": "all"
             },
             "development": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "4mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ]
+              "baseHref": "/",
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+              
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "sisac:build:production",
-              "proxyConfig": "src/proxy.prod.conf.js"
+              "browserTarget": "sisac:build:production"
+              
             },
             "development": {
-              "browserTarget": "sisac:build:development",
-              "proxyConfig": "src/proxy.conf.js"
+              "browserTarget": "sisac:build:development"
+        
             }
           },
           "defaultConfiguration": "development"
@@ -131,63 +114,43 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "inlineStyleLanguage": "css",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/admin-lte/dist/css/adminlte.css",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
-              "node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.css",
-              "node_modules/datatables.net-select-bs4/css/select.bootstrap4.css"
+                "node_modules/bootstrap/dist/css/bootstrap.css",
+                "node_modules/admin-lte/dist/css/adminlte.css",
+                "node_modules/ngx-toastr/toastr.css",
+                "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
+                "node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.css",
+                "node_modules/datatables.net-select-bs4/css/select.bootstrap4.css"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/admin-lte/dist/js/adminlte.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js",
-              "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
-              "node_modules/jszip/dist/jszip.js",
-              "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
-              "node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.js",
-              "node_modules/datatables.net-select/js/dataTables.select.js",
-              "node_modules/datatables.net-select-bs4/js/select.bootstrap4.js",
-              "node_modules/datatables.net-buttons/js/buttons.colVis.js",
-              "node_modules/datatables.net-buttons/js/buttons.flash.js",
-              "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "sisac:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "sisac:serve:production"
-            }
+            "scripts": [ "node_modules/jquery/dist/jquery.min.js",
+            "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+            "node_modules/admin-lte/dist/js/adminlte.js",
+
+            "node_modules/datatables.net/js/jquery.dataTables.js",
+            "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
+            "node_modules/jszip/dist/jszip.js",
+            "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
+            "node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.js",
+            "node_modules/datatables.net-select/js/dataTables.select.js",
+            "node_modules/datatables.net-select-bs4/js/select.bootstrap4.js",
+            "node_modules/datatables.net-buttons/js/buttons.colVis.js",
+            "node_modules/datatables.net-buttons/js/buttons.flash.js",
+            "node_modules/datatables.net-buttons/js/buttons.html5.js",
+            "node_modules/datatables.net-buttons/js/buttons.print.js"]
           }
         }
       }
     }
   },
-  "defaultProject": "sisac"
+  "cli": {
+    "analytics": "1c74b33c-2035-4fcb-9b7c-b083b7c1d335"
+  }
 }

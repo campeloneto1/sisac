@@ -10,26 +10,26 @@ export class ModelosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/modelos");
+    return this.http.get(`${environment.url}/api/modelos`);
   }
 
   show(id:number){
-    return this.http.get("/api/modelos/"+id);
+    return this.http.get(`${environment.url}/api/modelos/${id}`);
   }
 
   where(id:number){
-    return this.http.get("/api/modelos/"+id+"/where");
+    return this.http.get(`${environment.url}/api/modelos/${id}/where`);
   }
 
   store(data:any){
-    return this.http.post("/api/modelos",data);
+    return this.http.post(`${environment.url}/api/modelos`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/modelos/"+id,data);
+    return this.http.put(`${environment.url}/api/modelos/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/modelos/"+id);
+    return this.http.delete(`${environment.url}/api/modelos/${id}`);
   }
 }

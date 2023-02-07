@@ -10,22 +10,22 @@ export class UsuariosPromocoesService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/usuarios-promocoes");
+    return this.http.get(`${environment.url}/api/usuarios-promocoes`);
   }
 
   show(id:number){
-    return this.http.get("/api/usuarios-promocoes/"+id);
+    return this.http.get(`${environment.url}/api/usuarios-promocoes/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/usuarios-promocoes",data);
+    return this.http.post(`${environment.url}/api/usuarios-promocoes`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/usuarios-promocoes/"+id,data);
+    return this.http.put(`${environment.url}/api/usuarios-promocoes/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/usuarios-promocoes/"+id);
+    return this.http.delete(`${environment.url}/api/usuarios-promocoes/${id}`);
   }
 }

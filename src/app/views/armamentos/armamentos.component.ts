@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -13,6 +13,7 @@ import { MarcasService } from '../../services/marcas.service';
 import { ModelosService } from '../../services/modelos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { UsuariosArmamentosService } from '../../services/usuarios-armamentos.service';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-armamentos',
@@ -20,6 +21,9 @@ import { UsuariosArmamentosService } from '../../services/usuarios-armamentos.se
   styleUrls: ['./armamentos.component.css']
 })
 export class ArmamentosComponent implements OnInit, OnDestroy {
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   p = 1;
 
@@ -196,14 +200,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
 
       
         this.user = this.session.getUser();
-        if(this.user.perfil.armamentos){
-          this.armamentos.index().subscribe(data => {
-            this.data$ = data;
-            this.dtTrigger.next();
-          }); 
-        }else{
-          this.router.navigate(['/Inicio']);
-        }
+        
      
 
     }
@@ -215,9 +212,18 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
       processing: true,
       responsive: true,
       order: [[1, 'asc'],[2, 'asc'],[3, 'asc'],[4, 'asc']],
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      //dom: 'Bfrtip',
+      //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
+
+    if(this.user.perfil.armamentos){
+      this.armamentos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next(this.dtOptions);
+      }); 
+    }else{
+      this.router.navigate(['/Inicio']);
+    }
 
     this.marcas.where(2).subscribe(data => {
       this.marcas$ = data;
@@ -240,6 +246,12 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   refresh(){
     this.armamentos.index().subscribe(data => {
       this.data$ = data;
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next(this.dtOptions);
+      });
     }); 
   }
 

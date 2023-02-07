@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import {environment} from '../../../environments/environment';
@@ -10,6 +10,7 @@ import { IrsosService } from '../../services/irsos.service';
 import { IrsosUsersService } from '../../services/irsos-users.service';
 import { PostosService } from '../../services/postos.service';
 import { UsuariosService } from '../../services/usuarios.service';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-irsos',
@@ -17,6 +18,9 @@ import { UsuariosService } from '../../services/usuarios.service';
   styleUrls: ['./irsos.component.css']
 })
 export class IrsosComponent implements OnInit, OnDestroy {
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   user: any;
 
@@ -113,14 +117,7 @@ export class IrsosComponent implements OnInit, OnDestroy {
     private postos: PostosService,
     private usuarios: UsuariosService) {
         this.user = this.session.getUser();
-        if(this.user.perfil.irsos){
-          this.irsos.index().subscribe(data => {
-            this.data$ = data;
-            this.dtTrigger.next();
-          }); 
-        }else{
-          this.router.navigate(['/Inicio']);
-        }
+        
      }
 
   ngOnInit(): void {
@@ -139,9 +136,18 @@ export class IrsosComponent implements OnInit, OnDestroy {
           selector: 'td:first-child'
       },
       order: [1, 'desc'],
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      //dom: 'Bfrtip',
+      //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
+
+    if(this.user.perfil.irsos){
+      this.irsos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next(this.dtOptions);
+      }); 
+    }else{
+      this.router.navigate(['/Inicio']);
+    }
 
     this.usuarios.index2().subscribe(data => {
       this.usuarios$ = data;
@@ -161,6 +167,12 @@ export class IrsosComponent implements OnInit, OnDestroy {
   refresh(){
     this.irsos.index().subscribe(data => {
       this.data$ = data;
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next(this.dtOptions);
+      });
     }); 
   }
 

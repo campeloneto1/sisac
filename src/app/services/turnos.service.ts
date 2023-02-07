@@ -10,22 +10,22 @@ export class TurnosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/turnos");
+    return this.http.get(`${environment.url}/api/turnos`);
   }
 
   show(id:number){
-    return this.http.get("/api/turnos/"+id);
+    return this.http.get(`${environment.url}/api/turnos/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/turnos",data);
+    return this.http.post(`${environment.url}/api/turnos`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/turnos/"+id,data);
+    return this.http.put(`${environment.url}/api/turnos/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/turnos/"+id);
+    return this.http.delete(`${environment.url}/api/turnos/${id}`);
   }
 }

@@ -10,54 +10,54 @@ export class InicioService {
   constructor(private http: HttpClient) {}
 
   search(data:any){
-    return this.http.get("/api/search/"+data);
+    return this.http.get(`${environment.url}/api/search/${data}`);
   }
 
   getEscalaDia(){
-    return this.http.get("/api/inicio-escaladia");
+    return this.http.get(`${environment.url}/api/inicio-escaladia`);
   }
 
   getQuantPms(){
-    return this.http.get("/api/inicio-quantpms");
+    return this.http.get(`${environment.url}/api/inicio-quantpms`);
   }
 
   getQuantAfast(){
-    return this.http.get("/api/inicio-quantafast");
+    return this.http.get(`${environment.url}/api/inicio-quantafast`);
   }
 
   getQuantFerias(){
-    return this.http.get("/api/inicio-quantferias");
+    return this.http.get(`${environment.url}/api/inicio-quantferias`);
   }
 
   getQuantVeiculos(){
-    return this.http.get("/api/inicio-quantveiculos");
+    return this.http.get(`${environment.url}/api/inicio-quantveiculos`);
   }
 
   getSetores(){
-    return this.http.get("/api/inicio-setores");
+    return this.http.get(`${environment.url}/api/inicio-setores`);
   }
 
   getGraduacoes(){
-    return this.http.get("/api/inicio-graduacoes");
+    return this.http.get(`${environment.url}/api/inicio-graduacoes`);
   }
 
   getMateriaisEmprestimos(){
-    return this.http.get("/api/inicio-materiais-emprestimos");
+    return this.http.get(`${environment.url}/api/inicio-materiais-emprestimos`);
   }
 
   getVeiculosEmprestimos(){
-    return this.http.get("/api/inicio-veiculos-emprestimos");
+    return this.http.get(`${environment.url}/api/inicio-veiculos-emprestimos`);
   }
 
   getTrocaOleo(){
-    return this.http.get("/api/inicio-trocaoleo");
+    return this.http.get(`${environment.url}/api/inicio-trocaoleo`);
   }
 
   getArmVencimentos(){
-    return this.http.get("/api/inicio-armamentos-vencimentos");
+    return this.http.get(`${environment.url}/api/inicio-armamentos-vencimentos`);
   }
 
   getMatVencimentos(){
-    return this.http.get("/api/inicio-materiais-vencimentos");
+    return this.http.get(`${environment.url}/api/inicio-materiais-vencimentos`);
   }
 }

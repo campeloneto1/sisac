@@ -1,5 +1,5 @@
 <div class="page-header" style="text-align: center; margin-bottom: 10px" *ngIf="data$">
-  <img src="imagens/cabecalho.png" class="cabecalho" />
+  <img src="assets/cabecalho.png" class="cabecalho" />
   <h3>
     <b>{{ data$.escala_modelo?.nome }} Nº {{ data$.codigo }}/{{
       data$.created_at | date: "yyyy"
@@ -33,7 +33,7 @@
       </p>
     </div>
   </div>
-  <img src="imagens/rodape.png" class="rodape" />
+  <img src="assets/rodape.png" class="rodape" />
 </div>
 
 <table style="width: 100%; min-width: 100%" *ngIf="data$">
@@ -56,7 +56,7 @@
           <!--INICIO TABLE MODALIDADE-->
           <div style="width: 100%; min-width: 100%">
             <div class="noprint text-center">
-              <img src="imagens/cabecalho.png" class="cabecalho " />
+              <img src="assets/cabecalho.png" class="cabecalho " />
               <h3>
                 <b>{{ data$.escala_modelo?.nome }} Nº {{ data$.codigo }}/{{
                   data$.created_at | date: "yyyy"

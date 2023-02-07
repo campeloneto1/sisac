@@ -111,24 +111,17 @@
                             mask:'00.000'}} {{data$.usuario?.nome}},
                             Mat.: {{data$.usuario?.matricula | mask:'000.000-0-A'}}</dd>
 
-                        <dt class="col-sm-3">Material:</dt>
-                        <dd class="col-sm-8 ">{{data$.material?.serial}}</dd>
+                       
+                        
+                     
 
-                        <dt class="col-sm-3">Tipo:</dt>
-                        <dd class="col-sm-8 ">{{data$.material?.material_tipo?.nome}}</dd>
-
-                        <dt class="col-sm-3">Modelo/Marca:</dt>
-                        <dd class="col-sm-8 ">{{data$.material?.modelo?.nome}}/{{data$.material?.modelo?.marca?.nome}}
-                        </dd>
-
-                        <dt class="col-sm-3" *ngIf="data$.quant">Quantidade:</dt>
-                        <dd class="col-sm-8 " *ngIf="data$.quant">{{data$.quant}} </dd>
+                       
 
                         <dt class="col-sm-3">Data Saída:</dt>
-                        <dd class="col-sm-8 ">{{data$.data_saida | date: 'dd/MM/yyyy'}} {{data$.hora_saida }} </dd>
+                        <dd class="col-sm-8 ">{{data$.data_emp | date: 'dd/MM/yyyy'}} {{data$.hora_emp }} </dd>
 
                         <dt class="col-sm-3">Data Chegada:</dt>
-                        <dd class="col-sm-8 ">{{data$.data_chegada | date: 'dd/MM/yyyy'}} {{data$.hora_chegada }} </dd>
+                        <dd class="col-sm-8 ">{{data$.data_dev | date: 'dd/MM/yyyy'}} {{data$.hora_dev }} </dd>
 
                     </dl>
                 </div>

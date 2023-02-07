@@ -10,22 +10,22 @@ export class PostosTurnosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/postos-turnos");
+    return this.http.get(`${environment.url}/api/postos-turnos`);
   }
 
   show(id:number){
-    return this.http.get("/api/postos-turnos/"+id);
+    return this.http.get(`${environment.url}/api/postos-turnos/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/postos-turnos",data);
+    return this.http.post(`${environment.url}/api/postos-turnos`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/postos-turnos/"+id,data);
+    return this.http.put(`${environment.url}/api/postos-turnos/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/postos-turnos/"+id);
+    return this.http.delete(`${environment.url}/api/postos-turnos/${id}`);
   }
 }

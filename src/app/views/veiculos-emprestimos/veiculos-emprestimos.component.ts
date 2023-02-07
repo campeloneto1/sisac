@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -10,6 +10,7 @@ import { SessionService } from '../../services/session.service';
 import { VeiculosService } from '../../services/veiculos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { VeiculosEmprestimosService } from '../../services/veiculos-emprestimos.service';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-veiculos-emprestimos',
@@ -17,6 +18,9 @@ import { VeiculosEmprestimosService } from '../../services/veiculos-emprestimos.
   styleUrls: ['./veiculos-emprestimos.component.css']
 })
 export class VeiculosEmprestimosComponent implements OnInit,OnDestroy {
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   p = 1;
 
@@ -147,14 +151,7 @@ export class VeiculosEmprestimosComponent implements OnInit,OnDestroy {
     private usuarios: UsuariosService) { 
 
         this.user = this.session.getUser();
-        if(this.user.perfil.veiculos_emprestimos){
-          this.emprestimos.index().subscribe(data => {
-            this.data$ = data;
-            this.dtTrigger.next();
-          }); 
-        }else{
-          this.router.navigate(['/Inicio']);
-        }
+        
 
      
     }
@@ -166,9 +163,18 @@ export class VeiculosEmprestimosComponent implements OnInit,OnDestroy {
       processing: true,
       responsive: true,
       order: [0, 'desc'],
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      //dom: 'Bfrtip',
+      //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
+
+    if(this.user.perfil.veiculos_emprestimos){
+      this.emprestimos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next(this.dtOptions);
+      }); 
+    }else{
+      this.router.navigate(['/Inicio']);
+    }
 
     this.veiculos.index2().subscribe(data => {
       this.veiculos$ = data;
@@ -188,6 +194,12 @@ export class VeiculosEmprestimosComponent implements OnInit,OnDestroy {
   refresh(){
     this.emprestimos.index().subscribe(data => {
       this.data$ = data;
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next(this.dtOptions);
+      });
     }); 
   }
 

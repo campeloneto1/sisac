@@ -10,30 +10,30 @@ export class ArmamentosService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/armamentos");
+    return this.http.get(`${environment.url}/api/armamentos`);
   }
 
   index2(){
-    return this.http.get("/api/armamentos2");
+    return this.http.get(`${environment.url}/api/armamentos2`);
   }
 
   reparar(id:number){
-    return this.http.get("/api/armamentos-reparar/"+id);
+    return this.http.get(`${environment.url}/api/armamentos-reparar/${id}`);
   }
 
   show(id:number){
-    return this.http.get("/api/armamentos/"+id);
+    return this.http.get(`${environment.url}/api/armamentos/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/armamentos",data);
+    return this.http.post(`${environment.url}/api/armamentos`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/armamentos/"+id,data);
+    return this.http.put(`${environment.url}/api/armamentos/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/armamentos/"+id);
+    return this.http.delete(`${environment.url}/api/armamentos/${id}`);
   }
 }

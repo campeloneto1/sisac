@@ -366,10 +366,10 @@
                       <tr>
                         <th>MARCA/MODELO</th>
                         <th>SERIAL</th>
-                        <th>DATA SAÍDA</th>
-                        <th>HORA SAÍDA</th>
-                        <th>DATA CHEGADA</th>
-                        <th>HORA CHEGADA</th>
+                        <th>DATA EMPRÉSTIMO</th>
+                        <th>HORA EMPRÉSTIMO</th>
+                        <th>DATA DEVOLUÇÃO</th>
+                        <th>HORA DEVOLUÇÃO</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -384,10 +384,10 @@
                             ">
                         <td>{{ data.marca?.nome }} / {{ data.modelo.nome }}</td>
                         <td>{{ data.serial }}</td>
-                        <td>{{ data.pivot.data_saida | date: "dd/MM/yyyy" }}</td>
-                        <td>{{ data.pivot.hora_saida }}</td>
-                        <td>{{ data.pivot.data_chegada | date: "dd/MM/yyyy" }}</td>
-                        <td>{{ data.pivot.hora_chegada }}</td>
+                        <td>{{ data.pivot.data_emp | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.pivot.hora_emp }}</td>
+                        <td>{{ data.pivot.data_dev | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.pivot.hora_dev }}</td>
                       </tr>
                     </tbody>
                   </table>

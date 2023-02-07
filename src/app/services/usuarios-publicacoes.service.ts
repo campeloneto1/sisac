@@ -10,22 +10,22 @@ export class UsuariosPublicacoesService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/usuarios-publicacoes");
+    return this.http.get(`${environment.url}/api/usuarios-publicacoes`);
   }
 
   show(id:number){
-    return this.http.get("/api/usuarios-publicacoes/"+id);
+    return this.http.get(`${environment.url}/api/usuarios-publicacoes/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/usuarios-publicacoes",data);
+    return this.http.post(`${environment.url}/api/usuarios-publicacoes`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/usuarios-publicacoes/"+id,data);
+    return this.http.put(`${environment.url}/api/usuarios-publicacoes/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/usuarios-publicacoes/"+id);
+    return this.http.delete(`${environment.url}/api/usuarios-publicacoes/${id}`);
   }
 }

@@ -10,26 +10,26 @@ export class ValidacaoService {
   constructor(private http: HttpClient) {}
 
   validardocumento(data:any){
-    return this.http.get("/api/validar-documento/"+data);
+    return this.http.get(`${environment.url}/api/validar-documento/${data}`);
   }
 
   validararmamento(data:any){
-    return this.http.get("/api/validar-emparmamento/"+data);
+    return this.http.get(`${environment.url}/api/validar-emparmamento/${data}`);
   }
 
   validarmaterial(data:any){
-    return this.http.get("/api/validar-empmaterial/"+data);
+    return this.http.get(`${environment.url}/api/validar-empmaterial/${data}`);
   }
 
   validarveiculo(data:any){
-    return this.http.get("/api/validar-empveiculo/"+data);
+    return this.http.get(`${environment.url}/api/validar-empveiculo/${data}`);
   }
 
   validarocorrencia(data:any){
-    return this.http.get("/api/validar-ocorrencia/"+data);
+    return this.http.get(`${environment.url}/api/validar-ocorrencia/${data}`);
   }
 
   validarferias(data:any){
-    return this.http.get("/api/validar-ferias/"+data);
+    return this.http.get(`${environment.url}/api/validar-ferias/${data}`);
   }
 }

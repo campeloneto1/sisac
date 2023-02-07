@@ -10,22 +10,22 @@ export class AdministracaoService {
   constructor(private http: HttpClient) {}
 
   index(){
-    return this.http.get("/api/administracao");
+    return this.http.get(`${environment.url}/api/administracao`);
   }
 
   show(id:number){
-    return this.http.get("/api/administracao/"+id);
+    return this.http.get(`${environment.url}/api/administracao/${id}`);
   }
 
   store(data:any){
-    return this.http.post("/api/administracao",data);
+    return this.http.post(`${environment.url}/api/administracao`,data);
   }
 
   update(data:any,id:number){
-    return this.http.put("/api/administracao/"+id,data);
+    return this.http.put(`${environment.url}/api/administracao/${id}`,data);
   }
 
   destroy(id:number){
-    return this.http.delete("/api/administracao/"+id);
+    return this.http.delete(`${environment.url}/api/administracao/${id}`);
   }
 }

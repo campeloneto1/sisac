@@ -7,13 +7,15 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {SessionService} from '../services/session.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   token$: any;
 
-  constructor(private session: SessionService) {
+  constructor(private session: SessionService,
+    private router: Router) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -26,5 +28,6 @@ export class AuthInterceptor implements HttpInterceptor {
       
     });
     return next.handle(request);
+    
   }
 }

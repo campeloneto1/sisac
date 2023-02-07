@@ -1,5 +1,5 @@
 <div class="page-header" style="text-align: center; margin-bottom: 10px;" *ngIf="data$">
-    <img src="imagens/cabecalho.png" class="cabecalho" />
+    <img src="assets/cabecalho.png" class="cabecalho" />
     <br />
     <h4>
       Empréstimo de Material Nº {{ data$.id }}
@@ -42,7 +42,7 @@
         </p>
       </div>
     </div>
-    <img src="imagens/rodape.png" class="rodape" />
+    <img src="assets/rodape.png" class="rodape" />
   </div>
   
   <table style="width: 100%; min-width: 100%;" *ngIf="data$">
@@ -66,7 +66,7 @@
           <div class="page">PAGE 2</div>-->
           <div class="page" >
             <div class="noprint text-center">
-              <img src="imagens/cabecalho.png" class="cabecalho" />
+              <img src="assets/cabecalho.png" class="cabecalho" />
               <h4 style="margin-top: 30px;">
                 Empréstimo de Material Nº {{ data$.id }}
       - {{ data$.subunidade.abreviatura }}/{{ data$.subunidade.unidade?.abreviatura }}
@@ -75,18 +75,7 @@
             <h5 style="margin-top: 30px;">
               Fortaleza - CE, {{ datahj }}
             </h5>
-            <div style="margin-top: 50px;" class="row">
-                <div class="col-sm-2">
-                  <b>Tipo:</b> {{data$.material.material_tipo.nome}}
-                </div>
-                <div class="col-sm-6">
-                    <b>Marca/Modelo:</b> {{data$.material.marca.nome}}/{{data$.material.modelo.nome}}
-                </div>
-                <div class="col-sm-2">
-                    <b>Serial:</b> {{data$.material.serial}}
-                </div>
-                
-            </div>
+            
             <div class="row">
               <div class="col-sm-3">
                 <b>Graduação:</b> {{data$.usuario.graduacao.nome}}
@@ -103,24 +92,50 @@
           </div>
             <div class="row">
                 <div class="col-sm-3">
-                    <b>Data Saída:</b> {{data$.data_saida | date:'dd/MM/yyyy'}}
+                    <b>Data Empréstimo:</b> {{data$.data_emp | date:'dd/MM/yyyy'}}
                 </div>
                 <div class="col-sm-3">
-                    <b>Hora Saída:</b> {{data$.hora_saida}}
+                    <b>Hora Empréstimo:</b> {{data$.hora_emp}}
                 </div>
                 
             </div>
             <div class="row">
                 <div class="col-sm-3">
-                    <b>Data Chegada:</b> {{data$.data_chegada| date:'dd/MM/yyyy'}}
+                    <b>Data Devolução:</b> {{data$.data_dev | date:'dd/MM/yyyy'}}
                 </div>
                 <div class="col-sm-3">
-                    <b>Hora Chegada:</b> {{data$.hora_chegada}}
+                    <b>Hora Devolução:</b> {{data$.hora_dev}}
                 </div>  
                 <div class="col-sm-3">
                   <span *ngIf="data$.danificado"><b>Danificado:</b> Sim</span>
                   <span *ngIf="data$.extraviado"><b>Extraviado:</b> Sim</span>
               </div>                
+            </div>
+
+            <div class="row" style="margin-top: 30px">
+              <div class="col-sm-12">
+                <table  class="table table-hover table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>TIPO</th>
+                      <th>MARCA</th>
+                      <th>MODELO</th>
+                      <th>SERIAL</th>
+                      <th>QUANTIDADE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let mat of data$.materiais; index as i" class="hovers">
+                      <td> {{ mat.material_tipo.nome }}</td>
+                      <td>{{ mat.marca.nome }}</td>
+                      <td>{{ mat.modelo.nome }}</td>
+                      <td>{{ mat.serial }}</td>
+                      <td>{{ mat.pivot.quant }}</td>
+                     
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
 

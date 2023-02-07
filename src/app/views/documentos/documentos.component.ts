@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -9,6 +9,7 @@ import { SessionService } from '../../services/session.service';
 
 import { TiposDocumentosService } from '../../services/tipos-documentos.service';
 import { DocumentosService } from '../../services/documentos.service';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-documentos',
@@ -16,6 +17,9 @@ import { DocumentosService } from '../../services/documentos.service';
   styleUrls: ['./documentos.component.css']
 })
 export class DocumentosComponent implements OnInit, OnDestroy {
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
 
   user: any;
 
@@ -93,14 +97,7 @@ export class DocumentosComponent implements OnInit, OnDestroy {
       
       
         this.user = this.session.getUser();
-        if(this.user.perfil.documentos){
-          this.documentos.index().subscribe(data => {
-            this.data$ = data;
-            this.dtTrigger.next();
-          }); 
-        }else{
-          this.router.navigate(['/Inicio']);
-        }
+       
       
   
      }
@@ -112,10 +109,18 @@ export class DocumentosComponent implements OnInit, OnDestroy {
       processing: true,
       responsive: true,
       order: [0, 'desc'],
-      dom: 'Bfrtip',
-      buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      //dom: 'Bfrtip',
+      //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
+    if(this.user.perfil.documentos){
+      this.documentos.index().subscribe(data => {
+        this.data$ = data;
+        this.dtTrigger.next(this.dtOptions);
+      }); 
+    }else{
+      this.router.navigate(['/Inicio']);
+    }
     
     this.tiposdocumentos.index().subscribe(data => {
       this.tiposdocumentos$ = data;
@@ -130,6 +135,12 @@ export class DocumentosComponent implements OnInit, OnDestroy {
   refresh(){
     this.documentos.index().subscribe(data => {
       this.data$ = data;
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next(this.dtOptions);
+      });
     }); 
   }
 
