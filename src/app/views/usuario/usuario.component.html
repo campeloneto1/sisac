@@ -364,8 +364,7 @@
                   <table class="table table-hover text-nowrap">
                     <thead>
                       <tr>
-                        <th>MARCA/MODELO</th>
-                        <th>SERIAL</th>
+                        <th>MATERIAIS</th>
                         <th>DATA EMPRÉSTIMO</th>
                         <th>HORA EMPRÉSTIMO</th>
                         <th>DATA DEVOLUÇÃO</th>
@@ -382,12 +381,17 @@
                                       currentPage: w
                                     }
                             ">
-                        <td>{{ data.marca?.nome }} / {{ data.modelo.nome }}</td>
-                        <td>{{ data.serial }}</td>
-                        <td>{{ data.pivot.data_emp | date: "dd/MM/yyyy" }}</td>
-                        <td>{{ data.pivot.hora_emp }}</td>
-                        <td>{{ data.pivot.data_dev | date: "dd/MM/yyyy" }}</td>
-                        <td>{{ data.pivot.hora_dev }}</td>
+                        <td>
+                          <ol>
+                            <li *ngFor="let data2 of data.materiais">
+                              {{ data2.material_tipo.nome }} - {{ data2.marca.nome }}/{{ data2.modelo.nome }} - {{ data2.serial }}
+                            </li>
+                          </ol>
+                        </td>
+                        <td>{{ data.data_emp | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.hora_emp }}</td>
+                        <td>{{ data.data_dev | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ data.hora_dev }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -467,7 +471,7 @@
                                       currentPage: s
                                     }
                             ">
-                        <td><a target="_blank" [routerLink]="['/Escala', data$.id]">{{ data.escala?.data |
+                        <td><a target="_blank" [routerLink]="['/Escala', data$.escala?.id]">{{ data.escala?.data |
                             date:'dd/MM/yyyy' }}</a></td>
 
                         <td>{{ data.modalidade?.nome }}</td>

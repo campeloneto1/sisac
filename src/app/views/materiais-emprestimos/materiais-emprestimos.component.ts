@@ -165,7 +165,7 @@ export class MateriaisEmprestimosComponent implements OnInit, OnDestroy {
       //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
     };
 
-    if(this.user.perfil.armamentos_emprestimos){
+    if(this.user.perfil.materiais_emprestimos){
       this.materiaisemprestimos.index().subscribe(data => {
         this.data$ = data;
         this.dtTrigger.next(this.dtOptions);
