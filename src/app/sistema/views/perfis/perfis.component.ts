@@ -40,7 +40,14 @@ export class PerfisComponent implements OnInit {
   }
 
   refresh() {
-    this.data$ = this.perfisService.index();
+    this.data$ = this.perfisService.index().pipe(
+      tap(() => {
+        setTimeout(() => {
+          $('#datatableexample').DataTable().destroy();
+          $('#datatableexample').DataTable(this.dtOptions);
+        }, 1);
+      })
+    );
   }
 
   editar(data: Perfil) {

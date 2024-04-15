@@ -40,7 +40,14 @@ export class GraduacoesComponent implements OnInit {
   }
 
   refresh() {
-    this.data$ = this.graduacoesService.index();
+    this.data$ = this.graduacoesService.index().pipe(
+      tap(() => {
+        setTimeout(() => {
+          $('#datatableexample').DataTable().destroy();
+          $('#datatableexample').DataTable(this.dtOptions);
+        }, 1);
+      })
+    );
   }
 
   editar(data: Graduacao) {
