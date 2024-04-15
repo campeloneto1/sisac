@@ -1,0 +1,45 @@
+<div class="login-page">
+  <div class="login-box">
+    <div class="card">
+      <div class="card-header text-center">
+        <h1 class="h1"><b>SISAC</b></h1>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg">Informe usuário e senha para entrar</p>
+        <form [formGroup]="form" (ngSubmit)="entrar()">
+          
+          <input-text formControlName="cpf" mascara="000.000.000-00" label="CPF" tipo="text" id="cpf" />
+          
+          <input-text formControlName="password" label="Senha" tipo="password" id="password" />
+
+          <div class="row">
+            <div class="col-8">
+              <div class="icheck-primary">
+                <input
+                  type="checkbox"
+                  formControlName="lembrarme"
+                  id="remember"
+                />
+                <label for="remember"> Lembrar-Me </label>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <button
+                [disabled]="form.invalid"
+                type="submit"
+                class="btn btn-primary btn-block"
+              >
+                Entrar
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <p class="mb-1">
+          <a href="forgot-password.html">Esqueci minha senha</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
