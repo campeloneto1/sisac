@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
 @Component({
@@ -10,4 +10,12 @@ import { RouterModule } from "@angular/router";
     imports: [CommonModule, RouterModule]
 })
 
-export class SidebarComponent{}
+export class SidebarComponent{
+    
+    protected menuadmin: boolean = false;
+    
+    
+    openmenuadmin(){
+        this.menuadmin = !this.menuadmin;
+    }
+}

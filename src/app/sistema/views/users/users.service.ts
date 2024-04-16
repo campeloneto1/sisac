@@ -5,6 +5,7 @@ import { User, Users } from "./user";
 import { Observable } from "rxjs";
 
 const URL = environment.url;
+const endPoint = 'users';
 
 @Injectable({
     providedIn: 'root'
@@ -16,23 +17,22 @@ export class UsersService{
     ){}
 
     index(): Observable<Users>{
-        return this.http.get<Users>(`${URL}/users`);
+        return this.http.get<Users>(`${URL}/${endPoint}`);
     }
 
     find(id: number): Observable<User>{
-        return this.http.get<User>(`${URL}/users/${id}`);
+        return this.http.get<User>(`${URL}/${endPoint}/${id}`);
     }
 
-    create(data: User):void{
-        this.http.post(`${URL}/users`, data);
+    create(data: User){
+       return this.http.post(`${URL}/${endPoint}`, data);
     }
 
-    update(id:number, data: User):void{
-        this.http.put(`${URL}/users/${id}`, data);
+    update(id:number, data: User){
+        return this.http.put(`${URL}/${endPoint}/${id}`, data);
     }
 
-    remove(id:number, data: User):void{
-        this.http.delete(`${URL}/users/${id}`);
+    remove(id:number){
+        return this.http.delete(`${URL}/${endPoint}/${id}`);
     }
-   
 }

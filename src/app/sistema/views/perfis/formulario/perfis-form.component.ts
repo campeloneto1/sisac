@@ -32,15 +32,15 @@ export class PerfisFormComponent implements OnInit{
 
     ngOnInit() {
         this.form = this.formBuilder.group({
-            'id': [],
-            'nome': ['', Validators.compose([
+            'id': [null],
+            'nome': [null, Validators.compose([
                 Validators.required,
                 Validators.minLength(5),
                 Validators.maxLength(100)
             ])],
-            'administrador': [''],
-            'gestor': [''],
-            'relatorios': ['']
+            'administrador': [null],
+            'gestor': [null],
+            'relatorios': [null]
         });
 
     }

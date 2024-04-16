@@ -29,7 +29,7 @@ export class GraduacoesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOprtions();
+    this.dtOptions = this.sharedService.getDtOptions();
     this.data$ = this.graduacoesService.index().pipe(
       tap(() => {
         setTimeout(() => {

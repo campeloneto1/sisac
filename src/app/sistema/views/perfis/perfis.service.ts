@@ -5,6 +5,7 @@ import { Perfil, Perfis } from "./perfil";
 import { Observable } from "rxjs";
 
 const URL = environment.url;
+const endPoint = 'perfis';
 
 @Injectable({
     providedIn: 'root'
@@ -16,23 +17,23 @@ export class PerfisService{
     ){}
 
     index(): Observable<Perfis>{
-        return this.http.get<Perfis>(`${URL}/perfis`);
+        return this.http.get<Perfis>(`${URL}/${endPoint}`);
     }
 
     find(id: number): Observable<Perfil>{
-        return this.http.get<Perfil>(`${URL}/perfis/${id}`);
+        return this.http.get<Perfil>(`${URL}/${endPoint}/${id}`);
     }
 
     create(data: Perfil){
-       return this.http.post(`${URL}/perfis`, data);
+       return this.http.post(`${URL}/${endPoint}`, data);
     }
 
     update(id:number, data: Perfil){
-        return this.http.put(`${URL}/perfis/${id}`, data);
+        return this.http.put(`${URL}/${endPoint}/${id}`, data);
     }
 
     remove(id:number){
-        return this.http.delete(`${URL}/perfis/${id}`);
+        return this.http.delete(`${URL}/${endPoint}/${id}`);
     }
    
 }

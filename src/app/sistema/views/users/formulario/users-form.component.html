@@ -1,0 +1,61 @@
+<form [formGroup]="form">
+  <div class="row">
+    <input-text
+      class="col-sm-4"
+      formControlName="nome"
+      label="Nome"
+      id="nome"
+      tipo="text"
+    />
+    <input-text
+      mascara="000.000.000-00"
+      class="col-sm-2"
+      formControlName="cpf"
+      label="CPF"
+      id="cpf"
+      tipo="text"
+    />
+    <input-text
+      class="col-sm-2"
+      mascara="(00) 00000-0000"
+      formControlName="telefone"
+      label="Telefone"
+      id="telefone"
+      tipo="text"
+    />
+    <input-text
+      class="col-sm-4"
+      formControlName="email"
+      label="E-mail"
+      id="email"
+      tipo="email"
+    />
+  </div>
+  <div class="row">
+    <input-select
+      class="col-sm-4"
+      label="Perfil"
+      id="perfil"
+      [data$]="perfis$"
+      formControlName="perfil"
+    />
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <a
+      (click)="form.reset()"
+      data-bs-dismiss="modal"
+      class="btn btn-link text-danger"
+      >Cancelar</a
+    >
+    <button
+      [disabled]="form.invalid"
+      type="button"
+      (click)="cadastrar()"
+      data-bs-dismiss="modal"
+      class="btn btn-primary"
+    >
+      Cadastrar
+    </button>
+  </div>
+</form>

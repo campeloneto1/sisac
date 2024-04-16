@@ -14,7 +14,7 @@ export class SharedService{
         paging: true
       };    
 
-      getDtOprtions(){
+      getDtOptions(){
         return this.dtOptions;
       }
 }   

@@ -8,7 +8,7 @@ export interface User{
     cpf: string;
     password: string;
     salt: string;
-    perfil?: Perfil;
+    perfil: Perfil;
 
     created_by?: User;
     updated_by?: User;

@@ -40,8 +40,6 @@ export class InputSelectComponent implements ControlValueAccessor{
   @Input() optionid: string = 'id';
   @Input() optionname: any = 'nome';
 
-  @Input() config: any;
-
   ngOnInit(): void {
     
   }

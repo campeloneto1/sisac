@@ -1,0 +1,49 @@
+<form  [formGroup]="form" >
+    <div class="row">
+        <input-text class="col-sm-4" formControlName="nome" label="Nome" id="nome" tipo="text" />
+        <input-text class="col-sm-2" formControlName="abreviatura" label="Abreviatura" id="abreviatura" tipo="text" />
+        <input-text class="col-sm-2" mascara="(00) 00000-0000" formControlName="telefone" label="Telefone" id="telefone" tipo="text" />
+        <input-text class="col-sm-4" formControlName="email" label="E-mail" id="email" tipo="email" />
+    </div>    
+    <div class="row">
+        <input-text class="col-sm-4" formControlName="rua" label="Rua" id="rua" tipo="text" />
+        <input-text class="col-sm-2" formControlName="numero" label="Número" id="numero" tipo="text" />
+        <input-text class="col-sm-4" formControlName="bairro" label="Bairro" id="bairro" tipo="text" />
+    </div>
+    <div class="row">
+        
+            <input-select
+                class="col-sm-2"
+                label="País"
+                id="pais"
+                [data$]="paises$"
+                formControlName="pais"
+                (ngModelChange)="getEstados()"
+            />
+        
+        
+            <input-select
+                class="col-sm-2"
+                label="Estado"
+                id="estado"
+                [data$]="estados$"
+                formControlName="estado"
+                (ngModelChange)="getCidades()"
+            />
+        
+      
+            <input-select
+                class="col-sm-2"
+                label="Cidade"
+                id="cidade"
+                [data$]="cidades$"
+                formControlName="cidade"
+            />
+        
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>
+        <button [disabled]="form.invalid" type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-primary">Cadastrar</button>
+    </div>
+</form>
