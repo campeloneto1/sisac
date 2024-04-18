@@ -1,0 +1,221 @@
+<form [formGroup]="form">
+    <div class="row">
+      <input-select
+        class="col-sm-4"
+        label="Unidade"
+        id="unidade"
+        [data$]="unidades$"
+        formControlName="unidade"
+        (ngModelChange)="getSubunidades()"
+      />
+      <input-select
+        class="col-sm-4"
+        label="Subunidade"
+        id="subunidade"
+        [data$]="subunidades$"
+        formControlName="subunidade"
+        (ngModelChange)="getSetores()"
+        />
+        <input-select
+        class="col-sm-2"
+        label="Setor"
+        id="setor"
+        [data$]="setores$"
+        formControlName="setor"
+        />
+    </div>
+    <div class="row">
+      <input-text
+        class="col-sm-4"
+        formControlName="nome"
+        label="Nome"
+        id="nome"
+        tipo="text"
+      />
+      <input-text
+        class="col-sm-2"
+        formControlName="cpf"
+        label="CPF"
+        id="cpf"
+        mascara="000.000.000-00"
+        tipo="text"
+      />
+      <input-text
+        class="col-sm-2"
+        formControlName="data_nascimento"
+        label="Data Nasc."
+        id="data_nascimento"
+        tipo="date"
+      />
+    </div>
+
+    <div class="row">
+        <input-text
+        class="col-sm-2"
+        mascara="(00) 00000-0000"
+        formControlName="telefone1"
+        label="Telefone 1"
+        id="telefone1"
+        tipo="text"
+      />
+      <input-text
+        class="col-sm-2"
+        mascara="(00) 00000-0000"
+        formControlName="telefone2"
+        label="Telefone 2"
+        id="telefone2"
+        tipo="text"
+      />
+      <input-text
+        class="col-sm-4"
+        formControlName="email"
+        label="E-mail"
+        id="email"
+        tipo="email"
+      />
+    </div>
+
+    <div class="row">
+        <input-select
+        class="col-sm-2"
+        label="Graduação"
+        id="graduacao"
+        [data$]="graduacoes$"
+        formControlName="graduacao"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="numeral"
+            label="Numeral"
+            id="numeral"
+            tipo="text"
+            mascara="00.000"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="nome_guerra"
+            label="Nome Guerra"
+            id="nome_guerra"
+            tipo="text"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="matricula"
+            label="Matrícula"
+            id="matricula"
+            tipo="text"
+            mascara="000.000-0-0"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="data_apresentacao"
+            label="Data Apresentação"
+            id="data_apresentacao"
+            tipo="date"
+        />
+        
+        <input-text
+            class="col-sm-2"
+            formControlName="boletim_apresentacao"
+            label="BCG Apresentação"
+            id="boletim_apresentacao"
+            tipo="text"
+        />
+   
+
+    </div>
+
+    <div class="row">
+        <input-text
+            class="col-sm-2"
+            formControlName="data_inclusao"
+            label="Data Inclusão"
+            id="data_inclusao"
+            tipo="date"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="boletim_inclusao"
+            label="BCG Inclusão"
+            id="boletim_inclusao"
+            tipo="text"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="boletim_transferencia"
+            label="BCG Transferência"
+            id="boletim_transferencia"
+            tipo="text"
+        />
+    </div>
+
+    <div class="row">
+        <input-text
+          class="col-sm-4"
+          formControlName="rua"
+          label="Rua"
+          id="rua"
+          tipo="text"
+        />
+        <input-text
+          class="col-sm-2"
+          formControlName="numero"
+          label="Número"
+          id="numero"
+          tipo="text"
+        />
+        <input-text
+          class="col-sm-4"
+          formControlName="bairro"
+          label="Bairro"
+          id="bairro"
+          tipo="text"
+        />
+      </div>
+      <div class="row">
+        <input-select
+          class="col-sm-2"
+          label="País"
+          id="pais"
+          [data$]="paises$"
+          formControlName="pais"
+          (ngModelChange)="getEstados()"
+        />
+    
+        <input-select
+          class="col-sm-2"
+          label="Estado"
+          id="estado"
+          [data$]="estados$"
+          formControlName="estado"
+          (ngModelChange)="getCidades()"
+        />
+    
+        <input-select
+          class="col-sm-2"
+          label="Cidade"
+          id="cidade"
+          [data$]="cidades$"
+          formControlName="cidade"
+        />
+      </div>
+  
+    <div class="d-flex justify-content-end">
+      <a
+        (click)="form.reset()"
+        data-bs-dismiss="modal"
+        class="btn btn-link text-danger"
+        >Cancelar</a
+      >
+      <button
+        [disabled]="form.invalid"
+        type="button"
+        (click)="cadastrar()"
+        data-bs-dismiss="modal"
+        class="btn btn-primary"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </form>
+  

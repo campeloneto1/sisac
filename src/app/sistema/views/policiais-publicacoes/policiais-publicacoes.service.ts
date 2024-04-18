@@ -1,43 +1,39 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
-import { Setor, Setores } from "./setor";
+import { PolicialPublicacao, PoliciaisPublicacoes } from "./policial-publicacao";
 import { Observable } from "rxjs";
 
 const URL = environment.url;
-const endPoint = 'setores';
+const endPoint = 'policiais-publicacoes';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SetoresService{
+export class PoliciaisPublicacoesService{
 
     constructor(
         private http: HttpClient,
     ){}
 
-    index(): Observable<Setores>{
-        return this.http.get<Setores>(`${URL}/${endPoint}`);
+    index(): Observable<PoliciaisPublicacoes>{
+        return this.http.get<PoliciaisPublicacoes>(`${URL}/${endPoint}`);
     }
 
-    find(id: number): Observable<Setor>{
-        return this.http.get<Setor>(`${URL}/${endPoint}/${id}`);
+    find(id: number): Observable<PolicialPublicacao>{
+        return this.http.get<PolicialPublicacao>(`${URL}/${endPoint}/${id}`);
     }
 
-    create(data: Setor){
+    create(data: PolicialPublicacao){
        return this.http.post(`${URL}/${endPoint}`, data);
     }
 
-    update(id:number, data: Setor){
+    update(id:number, data: PolicialPublicacao){
         return this.http.put(`${URL}/${endPoint}/${id}`, data);
     }
 
     remove(id:number){
         return this.http.delete(`${URL}/${endPoint}/${id}`);
-    }
-
-    whereSubunidade(id: number): Observable<Setores>{
-        return this.http.get<Setores>(`${URL}/${endPoint}/${id}/whereSubunidade`);
     }
    
 }

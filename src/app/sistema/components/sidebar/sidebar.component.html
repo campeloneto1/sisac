@@ -14,7 +14,7 @@
         class="nav nav-pills nav-sidebar flex-column"
         data-widget="treeview"
         role="menu"
-        data-accordion="false"
+        data-accordion="true"
       >
         <li class="nav-item">
           <a
@@ -28,42 +28,173 @@
         </li>
         <li class="nav-item">
           <a
-          [routerLink]="['Usuarios']"
+          [routerLink]="['Atestados']"
           routerLinkActive="active"
             class="nav-link"
           >
-            <i class="nav-icon fa fa-users"></i>
-            <p>Usuários</p>
+            <i class="nav-icon fa fa-ambulance"></i>
+            <p>Atestados</p>
           </a>
         </li>
         <li class="nav-item">
           <a
-          [routerLink]="['Perfis']"
+          [routerLink]="['Ferias']"
+          routerLinkActive="active"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-plane"></i>
+            <p>Férias</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+          [routerLink]="['Policiais']"
           routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-users"></i>
-            <p>Perfis</p>
+            <p>Policiais</p>
           </a>
         </li>
-      
         <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-file"></i>
+          <a
+          [routerLink]="['Publicacoes']"
+          routerLinkActive="active"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-folder-open"></i>
+            <p>Publicações</p>
+          </a>
+        </li>
+
+        <li class="nav-item point" (click)="openMenuGestor()" [ngClass]="{'menu-is-opening menu-open': menuGestor}">
+          <a  class="nav-link" >
+            <i class="nav-icon fa fa-cog"></i>
             <p>
-              Relatórios
+              Gestor
               <i class="right fa fa-angle-left"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview" >
+          <ul class="nav nav-treeview" [ngStyle]="{'display: block;': menuGestor}">
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Usuarios']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Usuários</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item point" (click)="openMenuAdmin()" [ngClass]="{'menu-is-opening menu-open': menuAdmin}">
+          <a  class="nav-link" >
+            <i class="nav-icon fa fa-cogs"></i>
+            <p>
+              Administrador
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" [ngStyle]="{'display: block;': menuAdmin}">
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Cidades']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Cidades</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Estados']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Estados</p>
+              </a>
+            </li>
             <li class="nav-item" >
               <a
                 [routerLink]="['Graduacoes']"
                 routerLinkActive="active"
                 class="nav-link"
               >
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fa fa-circle nav-icon"></i>
                 <p>Graduações</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Paises']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Países</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Perfis']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Perfis</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Setores']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Setores</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Sexos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Sexos</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Subunidades']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Subunidades</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['PublicacoesTipos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Tipos de Publi.</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Unidades']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Unidades</p>
               </a>
             </li>
           </ul>

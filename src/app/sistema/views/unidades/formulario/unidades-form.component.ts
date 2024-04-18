@@ -66,7 +66,8 @@ export class UnidadesFormComponent implements OnInit{
                 Validators.maxLength(11)
             ])],
             'email': [null, Validators.compose([
-                Validators.maxLength(100)
+                Validators.maxLength(100),
+                Validators.email
             ])],
             'rua': [null, Validators.compose([
                 Validators.maxLength(100)

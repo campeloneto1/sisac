@@ -1,0 +1,33 @@
+<form  [formGroup]="form" >
+   
+    <div class="row">
+        @if(policiais$){
+            <input-select
+                class="col-sm-4"
+                label="Policial"
+                id="policial"
+                [data$]="policiais$"
+                formControlName="policial"
+            />
+            }
+            @if(publicacoesTipos$){
+                <input-select
+                    class="col-sm-4"
+                    label="Tipo"
+                    id="publicacao_tipo"
+                    [data$]="publicacoesTipos$"
+                    formControlName="publicacao_tipo"
+                />
+                }
+        <input-text class="col-sm-4" formControlName="boletim" label="Boletim" id="boletim" tipo="text" />
+    </div>    
+
+    <div class="row" style="height: 350px;">
+        <input-textarea class="col-sm-12" formControlName="texto" label="Texto" id="texto" />
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>
+        <button [disabled]="form.invalid" type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-primary">Cadastrar</button>
+    </div>
+</form>

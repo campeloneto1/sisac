@@ -60,7 +60,8 @@ export class SetoresFormComponent implements OnInit{
                 Validators.maxLength(11)
             ])],
             'email': [null, Validators.compose([
-                Validators.maxLength(100)
+                Validators.maxLength(100),
+                Validators.email
             ])],
             'unidade': [null, Validators.compose([
                 Validators.required,

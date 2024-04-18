@@ -1,0 +1,18 @@
+<div class="form-group">
+    <label for="{{ id }}">
+      {{ label }}
+      <span *ngIf="control?.errors?.['required']" class="text-danger">*</span>
+    </label>
+  
+    <angular-editor 
+    [config]="editorConfig"
+    (ngModelChange)="onChange($event)"
+    [(ngModel)]="inputvalor"
+      ></angular-editor>
+    
+    <div *ngIf="control.invalid && (control.dirty || control.touched)">
+      <span *ngIf="control?.errors?.['required']" class="text-danger"
+        >{{ label }} é obrigatório</span
+      >
+    </div>
+  </div>
