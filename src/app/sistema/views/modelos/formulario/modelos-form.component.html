@@ -1,12 +1,12 @@
 <form  [formGroup]="form" >
     <div class="row">
-        @if(estados$){
+        @if(marcas$){
             <input-select
                 class="col-sm-2"
-                label="Estado"
-                id="estado"
-                [data$]="estados$"
-                formControlName="estado"
+                label="Marca"
+                id="marca"
+                [data$]="marcas$"
+                formControlName="marca"
             />
             }
         <input-text class="col-sm-4" formControlName="nome" label="Nome" id="nome" tipo="text" />

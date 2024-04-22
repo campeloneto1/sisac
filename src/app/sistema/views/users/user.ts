@@ -1,4 +1,5 @@
 import { Perfil } from "../perfis/perfil";
+import { Subunidade } from "../subunidades/subunidade";
 
 export interface User{
     id?: number;
@@ -9,6 +10,7 @@ export interface User{
     password: string;
     salt: string;
     perfil: Perfil;
+    subunidade: Subunidade;
 
     created_by?: User;
     updated_by?: User;

@@ -1,0 +1,126 @@
+<form [formGroup]="form">
+  <!-- <div class="row">
+    @if(unidades$){
+    <input-select
+      class="col-sm-2"
+      label="Unidade"
+      id="unidade"
+      [data$]="unidades$"
+      formControlName="unidade"
+      (ngModelChange)="getSubunidades()"
+    />
+    } @if(subunidades$){
+    <input-select
+      class="col-sm-2"
+      label="Subunidade"
+      id="subunidade"
+      [data$]="subunidades$"
+      formControlName="subunidade"
+    />
+    }
+  </div> -->
+
+  <div class="row">
+    
+    <input-select
+      class="col-sm-2"
+      label="Marca"
+      id="marca"
+      [data$]="marcas$"
+      formControlName="marca"
+      (ngModelChange)="getModelos()"
+    />
+   
+    <input-select
+      class="col-sm-2"
+      label="Modelo"
+      id="modelo"
+      [data$]="modelos$"
+      formControlName="modelo"
+    />
+     
+    <input-select
+      class="col-sm-2"
+      label="Tipo"
+      id="armamento_tipo"
+      [data$]="armamentostipos$"
+      formControlName="armamento_tipo"
+      (ngModelChange)="getTamCal()"
+    />
+    
+    <input-text
+      class="col-sm-2"
+      formControlName="serial"
+      label="Serial"
+      id="serial"
+      tipo="text"
+    />
+
+    </div>
+    <div class="row">
+
+    @if(armamentoscalibres$){
+    <input-select
+      class="col-sm-2"
+      label="Calibre"
+      id="armamento_calibre"
+      [data$]="armamentoscalibres$"
+      formControlName="armamento_calibre"
+    />
+    } @if(armamentostamanhos$){
+    <input-select
+      class="col-sm-2"
+      label="Tamanho"
+      id="armamento_tamanho"
+      [data$]="armamentostamanhos$"
+      formControlName="armamento_tamanho"
+    />
+    }
+    <input-text
+    class="col-sm-2"
+    formControlName="quantidade"
+    label="Quantidade"
+    id="quantidade"
+    tipo="number"
+  />
+  </div>
+
+  <div class="row">
+    <input-text
+      class="col-sm-2"
+      formControlName="data_validade"
+      label="Data Validade"
+      id="data_validade"
+      tipo="date"
+    />
+    <input-text
+    class="col-sm-2"
+    formControlName="data_baixa"
+    label="Data Baixa"
+    id="data_baixa"
+    tipo="date"
+  />
+  </div>
+
+  <div class="row" style="height: 350px;">
+    <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+</div>
+
+  <div class="d-flex justify-content-end">
+    <a
+      (click)="form.reset()"
+      data-bs-dismiss="modal"
+      class="btn btn-link text-danger"
+      >Cancelar</a
+    >
+    <button
+      [disabled]="form.invalid"
+      type="button"
+      (click)="cadastrar()"
+      data-bs-dismiss="modal"
+      class="btn btn-primary"
+    >
+      Cadastrar
+    </button>
+  </div>
+</form>

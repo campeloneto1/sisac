@@ -10,6 +10,10 @@ import { Observable } from "rxjs";
 
 import { PerfisService } from "../../perfis/perfis.service";
 import { Perfis } from "../../perfis/perfil";
+import { Unidades } from "../../unidades/unidade";
+import { Subunidades } from "../../subunidades/subunidade";
+import { UnidadesService } from "../../unidades/unidades.service";
+import { SubunidadesService } from "../../subunidades/subunidades.service";
 
 @Component({
     selector: "app-users-form",
@@ -29,6 +33,8 @@ export class UsersFormComponent implements OnInit{
     form!: FormGroup;
 
     protected perfis$!: Observable<Perfis>;
+    protected unidades$!: Observable<Unidades>;
+    protected subunidades$!: Observable<Subunidades>;
 
     @Output('refresh') refresh: EventEmitter<User> = new EventEmitter();
     
@@ -36,6 +42,8 @@ export class UsersFormComponent implements OnInit{
         private formBuilder: FormBuilder,
         private usersService: UsersService,
         private perfisService: PerfisService,
+        private unidadesService: UnidadesService,
+        private subunidadesService: SubunidadesService,
         private toastr: ToastrService,
     ){}
 
@@ -64,12 +72,22 @@ export class UsersFormComponent implements OnInit{
                 Validators.required,
                 
             ])],
+            'unidade': [null, Validators.compose([
+                Validators.required,
+                
+            ])],
+            'subunidade': [null, Validators.compose([
+                Validators.required,
+                
+            ])],
         });
 
         this.perfis$ = this.perfisService.index();
+        this.unidades$ = this.unidadesService.index();
     }
 
     cadastrar(){
+        delete this.form.value.unidade;
         if(this.form.value.id){
             this.usersService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
@@ -99,7 +117,13 @@ export class UsersFormComponent implements OnInit{
     editar(data: User){
         this.form.patchValue(data);
         this.form.get('perfil')?.patchValue(data.perfil.id);
+
+        this.form.get('subunidade')?.patchValue(data.subunidade.id);
+        this.form.get('unidade')?.patchValue(data.subunidade.unidade.id);
+        this.getSubunidades();
     }
 
-   
+    getSubunidades(){
+        this.subunidades$ = this.subunidadesService.whereUnidade(this.form.get('unidade')?.value);
+    }
 }

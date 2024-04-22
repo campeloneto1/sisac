@@ -13,9 +13,14 @@ import { Router, RouterModule } from "@angular/router";
 export class SidebarComponent implements OnInit{
 
     private routesMenuAdm = [
+        '/ArmamentosTipos',
+        '/ArmamentosCalibres',
+        '/ArmamentosTamanhos',
         '/Graduacoes',
         '/Cidades',
         '/Estados',
+        '/Marcas',
+        '/Modelos',
         '/Paises',
         '/Perfis',
         '/PublicacoesTipos',

@@ -37,6 +37,26 @@ export const routes: Routes = [
               import('./sistema/views/home/home.component').then((c) => c.HomeComponent),
           },
           {
+            path: 'Armamentos',
+            loadComponent: () =>
+              import('./sistema/views/armamentos/armamentos.component').then((c) => c.ArmamentosComponent),
+          },
+          {
+            path: 'ArmamentosTipos',
+            loadComponent: () =>
+              import('./sistema/views/armamentos-tipos/armamentos-tipos.component').then((c) => c.ArmamentosTiposComponent),
+          },
+          {
+            path: 'ArmamentosTamanhos',
+            loadComponent: () =>
+              import('./sistema/views/armamentos-tamanhos/armamentos-tamanhos.component').then((c) => c.ArmamentosTamanhosComponent),
+          },
+          {
+            path: 'ArmamentosCalibres',
+            loadComponent: () =>
+              import('./sistema/views/armamentos-calibres/armamentos-calibres.component').then((c) => c.ArmamentosCalibresComponent),
+          },
+          {
             path: 'Atestados',
             loadComponent: () =>
               import('./sistema/views/policiais-atestados/policiais-atestados.component').then((c) => c.PoliciaisAtestadosComponent),
@@ -60,6 +80,16 @@ export const routes: Routes = [
             path: 'Graduacoes',
             loadComponent: () =>
               import('./sistema/views/graduacoes/graduacoes.component').then((c) => c.GraduacoesComponent),
+          },
+          {
+            path: 'Marcas',
+            loadComponent: () =>
+              import('./sistema/views/marcas/marcas.component').then((c) => c.MarcasComponent),
+          },
+          {
+            path: 'Modelos',
+            loadComponent: () =>
+              import('./sistema/views/modelos/modelos.component').then((c) => c.ModelosComponent),
           },
           {
             path: 'Paises',
@@ -111,6 +141,10 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./sistema/views/users/users.component').then((c) => c.UsersComponent),
           },
+          {
+            path:'**',
+            redirectTo: '/Inicio'
+          }
         ],
       },
       {

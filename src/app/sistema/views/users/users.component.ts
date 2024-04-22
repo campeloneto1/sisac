@@ -1,89 +1,104 @@
-import { CommonModule } from "@angular/common";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { User, Users } from "./user";
-import { Observable, tap } from "rxjs";
-import { UsersService } from "./users.service";
-import { TitleComponent } from "../../components/title/title.component";
-import { DataTablesModule } from "angular-datatables";
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
-import { UsersFormComponent } from "./formulario/users-form.component";
-import { ToastrService } from "ngx-toastr";
-import { SharedService } from "../../shared/shared.service";
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { User, Users } from './user';
+import { UsersService } from './users.service';
+import { TitleComponent } from '../../components/title/title.component';
+import { UsersFormComponent } from './formulario/users-form.component';
+import { ToastrService } from 'ngx-toastr';
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 @Component({
-    selector: 'app-users',
-    templateUrl: './users.component.html',
-    styleUrl: './users.component.css',
-    standalone: true,
-    imports: [
-        CommonModule, 
-        TitleComponent, 
-        DataTablesModule,
-        NgxMaskDirective, 
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrl: './users.component.css',
+  standalone: true,
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    UsersFormComponent,
+    DataTableModule,
+    FormsModule,
+    NgxMaskDirective, 
         NgxMaskPipe,
-        UsersFormComponent
-    ],
-    providers:[
-        UsersService, 
-        provideNgxMask(),
-    ]
+  ],
+  providers: [
+    provideNgxMask(),
+  ]
 })
-export class UsersComponent implements OnInit{
-
-    protected data$!: Observable<Users>;
-    protected excluir!: User;
-  protected dtOptions!: any;
+export class UsersComponent implements OnInit, OnDestroy {
+  protected data$!: Users;
+  protected excluir!: User;
+  protected pesquisa!: string;
+  protected temp!: Users;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(UsersFormComponent) child!: UsersFormComponent;
 
+  constructor(
+    private usersService: UsersService,
+    private toastr: ToastrService,
+  ) {}
+ 
 
-    constructor(
-      private usersService:UsersService,
-      private toastr: ToastrService,
-      private sharedService: SharedService
-    ){}
+  ngOnInit(): void {
+    this.subscription = this.usersService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
 
-    ngOnInit(): void {
-        
-      this.dtOptions = this.sharedService.getDtOptions();
-
-      this.data$ = this.usersService.index().pipe(
-        tap(() => {
-          setTimeout(() => {
-            $('#datatableexample').DataTable(this.dtOptions);
-          }, 1);
-        })
-      );
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
     }
+  }
 
-    refresh() {
-      this.data$ = this.usersService.index().pipe(
-        tap(() => {
-          setTimeout(() => {
-            $('#datatableexample').DataTable().destroy();
-            $('#datatableexample').DataTable(this.dtOptions);
-          }, 1);
-        })
-      );
-    }
+  refresh() {
+    this.usersService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
+  }
 
-    editar(data: User) {
-      this.child.editar(data);
-    }
-  
-    delete(data: User) {
-      this.excluir = data;
-    }
+  editar(data: User) {
+    this.child.editar(data);
+  }
 
-    confirm() {
-      this.usersService.remove(this.excluir.id || 0).subscribe({
-        next: (data: any) => {
-          this.toastr.success('Exclusão realizada com sucesso!');
-          this.refresh();
-        },
-        error: (error: any) => {
-          this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
-        },
+  delete(data: User) {
+    this.excluir = data;
+  }
+
+  confirm() {
+    this.usersService.remove(this.excluir.id || 0).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Exclusão realizada com sucesso!');
+        this.refresh();
+      },
+      error: (error: any) => {
+        this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
+      },
+    });
+  }
+
+  pesquisar(){
+   
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || 
+        data.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 ||
+        data.perfil.nome.toLocaleLowerCase().indexOf(pesq) !== -1 ||
+        !pesq
       });
+    }else{
+      this.data$ = this.temp;
     }
+    
+  }
 
 }

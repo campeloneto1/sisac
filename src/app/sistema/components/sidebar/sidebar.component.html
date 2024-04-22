@@ -38,6 +38,16 @@
         </li>
         <li class="nav-item">
           <a
+          [routerLink]="['Armamentos']"
+          routerLinkActive="active"
+            class="nav-link"
+          >
+            <i class="nav-icon fa fa-crosshairs"></i>
+            <p>Armamentos</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
           [routerLink]="['Ferias']"
           routerLinkActive="active"
             class="nav-link"
@@ -99,6 +109,16 @@
           <ul class="nav nav-treeview" [ngStyle]="{'display: block;': menuAdmin}">
             <li class="nav-item" >
               <a
+                [routerLink]="['ArmamentosCalibres']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Calibres de Armamen.</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
                 [routerLink]="['Cidades']"
                 routerLinkActive="active"
                 class="nav-link"
@@ -125,6 +145,26 @@
               >
                 <i class="fa fa-circle nav-icon"></i>
                 <p>Graduações</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Marcas']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Marcas</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['Modelos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Modelos</p>
               </a>
             </li>
             <li class="nav-item" >
@@ -179,12 +219,32 @@
             </li>
             <li class="nav-item" >
               <a
+                [routerLink]="['ArmamentosTamanhos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Tamanhos de Armamen.</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
                 [routerLink]="['PublicacoesTipos']"
                 routerLinkActive="active"
                 class="nav-link"
               >
                 <i class="fa fa-circle nav-icon"></i>
                 <p>Tipos de Publi.</p>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a
+                [routerLink]="['ArmamentosTipos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Tipos de Armamen.</p>
               </a>
             </li>
             <li class="nav-item" >

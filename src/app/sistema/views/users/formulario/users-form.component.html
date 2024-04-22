@@ -1,5 +1,22 @@
 <form [formGroup]="form">
   <div class="row">
+    <input-select
+      class="col-sm-4"
+      label="Unidade"
+      id="unidade"
+      [data$]="unidades$"
+      formControlName="unidade"
+      (ngModelChange)="getSubunidades()"
+    />
+    <input-select
+      class="col-sm-4"
+      label="Subunidade"
+      id="subunidade"
+      [data$]="subunidades$"
+      formControlName="subunidade"
+      />
+  </div>
+  <div class="row">
     <input-text
       class="col-sm-4"
       formControlName="nome"

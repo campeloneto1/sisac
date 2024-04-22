@@ -16,67 +16,104 @@
           >
             <i class="fa fa-plus"></i>
           </button>
-        </h3>    
+        </h3>
+        <div class="card-tools">
+          <div class="input-group input-group-sm" style="width: 250px">
+            <select style="width: 50px"  class="form-control float-right" [(ngModel)]="quant">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+           
+            <input
+            style="width: 200px"
+              type="text"
+              name="table_search"
+              class="form-control float-right"
+              placeholder="Pesquisar..."
+              [(ngModel)]="pesquisa"
+              (ngModelChange)="pesquisar()"
+            />
+           
+          </div>
+        </div>
       </div>
       <!-- FIM CARD HEADER-->
       <!-- INICIO CARD BODY-->
       <div class="card-body table-responsive p-1">
         <!-- INICIO TABLE-->
         <table
-        id="datatableexample"
-          class="table table-hover table-head-fixed text-nowrap "
+          [mfData]="data$"
+          #mf="mfDataTable"
+          [mfRowsOnPage]="quant"
+          class="table table-hover table-head-fixed text-nowrap"
         >
           <thead>
             <tr>
-              <th>#</th>
-              <th>Nome</th>
-              <th>CPF</th>
-              <th>Telefone</th>
-              <th>Perfil</th>
+              <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="cpf">CPF</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="telefone">Telefone</mfDefaultSorter></th>
+             
+              <th><mfDefaultSorter by="perfil.nome">Perfil</mfDefaultSorter></th>
               <th>Opções</th>
             </tr>
           </thead>
           @if(data$){
-            <tbody>
-              @for(row of data$ | async; track row){
-                <tr class="optionshover">
-                  <td>{{ row.id }}</td>
-                  <td>{{ row.nome }}</td>
-                  <td>{{ row.cpf | mask: '000.000.000-00' }}</td>
-                  <td>@if(row.telefone){{{ row.telefone | mask: '(00) 00000-0000' }}}</td>
-                  <td>@if(row.perfil){{{ row.perfil.nome }}}</td>
-                  <td>
-                    <a
-                      
-                      class="options point"
-                      title="Editar"
-                      (click)="editar(row)"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalcad"
-                    >
-                      <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                    </a>
-                    <a 
-                      class="options point" 
-                      title="Excluir"
-                      (click)="delete(row)"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modaldel"
-                    >
-                      <i
-                        class="fa fa-trash text-danger ml-1"
-                        aria-hidden="true"
-                      ></i>
-                    </a>
-                  </td>
-                </tr>
-              } @empty {
-              <tr>
-                <td colspan="100%">Sem informação</td>
-              </tr>
-              }
-            </tbody>
+          <tbody>
+            @for(row of mf.data; track row){
+            <tr class="optionshover">
+              <td>{{ row.id }}</td>
+              <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
+              <td>{{ row.nome }}</td>
+              <td>{{ row.cpf | mask: '000.000.000-00' }}</td>
+              <td>@if(row.telefone){{{ row.telefone | mask: '(00) 00000-0000' }}}</td>
+              <td>@if(row.perfil){{{ row.perfil.nome }}}</td>
+              <td>
+                <a
+                  class="options point"
+                  title="Editar"
+                  (click)="editar(row)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalcad"
+                >
+                  <i class="fa fa-edit text-primary" aria-hidden="true"></i>
+                </a>
+                <a
+                  class="options point"
+                  title="Excluir"
+                  (click)="delete(row)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modaldel"
+                >
+                  <i
+                    class="fa fa-trash text-danger ml-1"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="100%">Sem informação</td>
+            </tr>
+            }
+          </tbody>
           }
+          <tfoot>
+            <tr>
+              <td colspan="100%">
+                <div style="display: flex; align-items: center; justify-content: center;">
+                  <mfBootstrapPaginator
+                  [rowsOnPageSet]="[5, 10, 25]"
+                ></mfBootstrapPaginator>
+                </div>
+               
+              </td>
+            </tr>
+          </tfoot>
         </table>
         <!-- FIM TABLE-->
       </div>
@@ -135,17 +172,25 @@
           </button>
         </div>
         <div class="modal-body">
-          @if(excluir){
-              Tem certeza que deseja excluir: <b>{{excluir.nome}}</b>
-              <div class="d-flex justify-content-end">
-                <a  data-bs-dismiss="modal" class="btn btn-link text-primary">Cancelar</a>
-                <button type="button" (click)="confirm()" data-bs-dismiss="modal" class="btn btn-danger">Excluir</button>
-            </div>
+          @if(excluir){ Tem certeza que deseja excluir:
+          <b>{{ excluir.nome }}</b>
+          <div class="d-flex justify-content-end">
+            <a data-bs-dismiss="modal" class="btn btn-link text-primary"
+              >Cancelar</a
+            >
+            <button
+              type="button"
+              (click)="confirm()"
+              data-bs-dismiss="modal"
+              class="btn btn-danger"
+            >
+              Excluir
+            </button>
+          </div>
           }
         </div>
       </div>
     </div>
   </div>
   <!--FIM MODAL exclusao-->
-
 </div>
