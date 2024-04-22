@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Estado, Estados } from './estado';
 import { EstadosService } from './estados.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { EstadosFormComponent } from './formulario/estados-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-estados',
   templateUrl: './estados.component.html',
   styleUrl: './estados.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, EstadosFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    EstadosFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class EstadosComponent implements OnInit {
-  protected data$!: Observable<Estados>;
+export class EstadosComponent implements OnInit, OnDestroy {
+  protected data$!: Estados;
   protected excluir!: Estado;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: Estados;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(EstadosFormComponent) child!: EstadosFormComponent;
 
   constructor(
     private estadosService: EstadosService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.estadosService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.estadosService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.estadosService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.estadosService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: Estado) {
@@ -69,4 +78,19 @@ export class EstadosComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.pais.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.pais.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || !pesq
+      });
+    }
+  }
+
 }

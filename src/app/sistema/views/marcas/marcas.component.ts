@@ -1,52 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Marca, Marcas } from './marca';
 import { MarcasService } from './marcas.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { MarcasFormComponent } from './formulario/marcas-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-marcas',
   templateUrl: './marcas.component.html',
   styleUrl: './marcas.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, MarcasFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    MarcasFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class MarcasComponent implements OnInit {
-  protected data$!: Observable<Marcas>;
+export class MarcasComponent implements OnInit, OnDestroy {
+  protected data$!: Marcas;
   protected excluir!: Marca;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: Marcas;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(MarcasFormComponent) child!: MarcasFormComponent;
 
   constructor(
     private marcasService: MarcasService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.marcasService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.marcasService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.marcasService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable({...this.dtOptions, destroy: true  });
-        }, 1);
-      })
-    );
+    this.marcasService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: Marca) {
@@ -68,4 +78,17 @@ export class MarcasComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.abreviatura?.toLocaleLowerCase().indexOf(pesq) !== -1
+        || !pesq
+      });
+    }
+  }
+
 }

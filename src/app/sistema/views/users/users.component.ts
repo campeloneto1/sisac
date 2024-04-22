@@ -86,7 +86,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   pesquisar(){
-   
+    this.data$ = this.temp;
     if(this.pesquisa.length > 0){
       var pesq = this.pesquisa.toLocaleLowerCase();
       this.data$ = this.data$.filter((data) => {
@@ -95,8 +95,6 @@ export class UsersComponent implements OnInit, OnDestroy {
         data.perfil.nome.toLocaleLowerCase().indexOf(pesq) !== -1 ||
         !pesq
       });
-    }else{
-      this.data$ = this.temp;
     }
     
   }

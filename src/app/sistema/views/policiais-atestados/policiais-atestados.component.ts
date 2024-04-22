@@ -1,53 +1,68 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { PoliciaisAtestados, PolicialAtestado } from './policial-atestado';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { PoliciaisAtestados, PolicialAtestado} from './policial-atestado';
 import { PoliciaisAtestadosService } from './policiais-atestados.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PoliciaisAtestadosFormComponent } from './formulario/policiais-atestados-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 @Component({
   selector: 'app-policiais-atestados',
   templateUrl: './policiais-atestados.component.html',
   styleUrl: './policiais-atestados.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, PoliciaisAtestadosFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    PoliciaisAtestadosFormComponent,
+    DataTableModule,
+    FormsModule,
+    NgxMaskDirective, 
+        NgxMaskPipe,
+  ],
+  providers: [
+    provideNgxMask(),
+  ]
 })
-export class PoliciaisAtestadosComponent implements OnInit {
-  protected data$!: Observable<PoliciaisAtestados>;
+export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
+  protected data$!: PoliciaisAtestados;
   protected excluir!: PolicialAtestado;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: PoliciaisAtestados;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(PoliciaisAtestadosFormComponent) child!: PoliciaisAtestadosFormComponent;
 
   constructor(
     private policiaisAtestadosService: PoliciaisAtestadosService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.policiaisAtestadosService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.policiaisAtestadosService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.policiaisAtestadosService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.policiaisAtestadosService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: PolicialAtestado) {
@@ -75,4 +90,20 @@ export class PoliciaisAtestadosComponent implements OnInit {
     result.setDate(result.getDate() + dias);
     return result;
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.cid?.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || !pesq
+      });
+    }
+  }
+
 }

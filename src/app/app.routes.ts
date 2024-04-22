@@ -42,6 +42,11 @@ export const routes: Routes = [
               import('./sistema/views/armamentos/armamentos.component').then((c) => c.ArmamentosComponent),
           },
           {
+            path: 'ArmamentosEmprestimos',
+            loadComponent: () =>
+              import('./sistema/views/armamentos-emprestimos/armamentos-emprestimos.component').then((c) => c.ArmamentosEmprestimosComponent),
+          },
+          {
             path: 'ArmamentosTipos',
             loadComponent: () =>
               import('./sistema/views/armamentos-tipos/armamentos-tipos.component').then((c) => c.ArmamentosTiposComponent),

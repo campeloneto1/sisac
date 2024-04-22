@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PublicacaoTipo, PublicacoesTipos } from './publicacao-tipo';
 import { PublicacoesTiposService } from './publicacoes-tipos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PublicacoesTiposFormComponent } from './formulario/publicacoes-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-publicacoes-tipos',
   templateUrl: './publicacoes-tipos.component.html',
   styleUrl: './publicacoes-tipos.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, PublicacoesTiposFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    PublicacoesTiposFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class PublicacoesTiposComponent implements OnInit {
-  protected data$!: Observable<PublicacoesTipos>;
+export class PublicacoesTiposComponent implements OnInit, OnDestroy {
+  protected data$!: PublicacoesTipos;
   protected excluir!: PublicacaoTipo;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: PublicacoesTipos;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(PublicacoesTiposFormComponent) child!: PublicacoesTiposFormComponent;
 
   constructor(
     private publicacoesTiposService: PublicacoesTiposService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.publicacoesTiposService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.publicacoesTiposService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.publicacoesTiposService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.publicacoesTiposService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: PublicacaoTipo) {
@@ -69,4 +78,15 @@ export class PublicacoesTiposComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
+      });
+    }
+  }
+
 }

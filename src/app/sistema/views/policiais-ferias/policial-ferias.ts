@@ -7,7 +7,7 @@ export interface PolicialFerias{
     policial: Policial;
     data_inicial: Date;
     dias: number;
-    boletim?: string;
+    boletim: string;
 
     created_by?: User;
     updated_by?: User;

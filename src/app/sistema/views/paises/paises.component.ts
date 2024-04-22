@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Pais, Paises } from './pais';
 import { PaisesService } from './paises.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PaisesFormComponent } from './formulario/paises-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-paises',
   templateUrl: './paises.component.html',
   styleUrl: './paises.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, PaisesFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    PaisesFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class PaisesComponent implements OnInit {
-  protected data$!: Observable<Paises>;
+export class PaisesComponent implements OnInit, OnDestroy {
+  protected data$!: Paises;
   protected excluir!: Pais;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: Paises;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(PaisesFormComponent) child!: PaisesFormComponent;
 
   constructor(
-    private paisesService:PaisesService,
+    private paisesService: PaisesService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.paisesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.paisesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.paisesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.paisesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: Pais) {
@@ -69,4 +78,17 @@ export class PaisesComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1
+        || !pesq
+      });
+    }
+  }
+
 }

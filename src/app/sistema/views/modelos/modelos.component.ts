@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Modelo, Modelos } from './modelo';
 import { ModelosService } from './modelos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ModelosFormComponent } from './formulario/modelos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-modelos',
   templateUrl: './modelos.component.html',
   styleUrl: './modelos.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, ModelosFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    ModelosFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class ModelosComponent implements OnInit {
-  protected data$!: Observable<Modelos>;
+export class ModelosComponent implements OnInit, OnDestroy {
+  protected data$!: Modelos;
   protected excluir!: Modelo;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: Modelos;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(ModelosFormComponent) child!: ModelosFormComponent;
 
   constructor(
     private modelosService: ModelosService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.modelosService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.modelosService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.modelosService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.modelosService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: Modelo) {
@@ -69,4 +78,19 @@ export class ModelosComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.abreviatura?.toLocaleLowerCase().indexOf(pesq) !== -1
+        || data.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+        || data.marca.abreviatura?.toLocaleLowerCase().indexOf(pesq) !== -1
+        || !pesq
+      });
+    }
+  }
+
 }

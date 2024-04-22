@@ -1,53 +1,68 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { PoliciaisPublicacoes, PolicialPublicacao } from './policial-publicacao';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { PoliciaisPublicacoes, PolicialPublicacao} from './policial-publicacao';
 import { PoliciaisPublicacoesService } from './policiais-publicacoes.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PoliciaisPublicacoesFormComponent } from './formulario/policiais-publicacoes-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 @Component({
   selector: 'app-policiais-publicacoes',
   templateUrl: './policiais-publicacoes.component.html',
   styleUrl: './policiais-publicacoes.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, PoliciaisPublicacoesFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    PoliciaisPublicacoesFormComponent,
+    DataTableModule,
+    FormsModule,
+    NgxMaskDirective, 
+    NgxMaskPipe,
+  ],
+  providers: [
+    provideNgxMask(),
+  ]
 })
-export class PoliciaisPublicacoesComponent implements OnInit {
-  protected data$!: Observable<PoliciaisPublicacoes>;
+export class PoliciaisPublicacoesComponent implements OnInit, OnDestroy {
+  protected data$!: PoliciaisPublicacoes;
   protected excluir!: PolicialPublicacao;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: PoliciaisPublicacoes;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(PoliciaisPublicacoesFormComponent) child!: PoliciaisPublicacoesFormComponent;
 
   constructor(
     private policiaisPublicacoesService: PoliciaisPublicacoesService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.policiaisPublicacoesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.policiaisPublicacoesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.policiaisPublicacoesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.policiaisPublicacoesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: PolicialPublicacao) {
@@ -68,6 +83,23 @@ export class PoliciaisPublicacoesComponent implements OnInit {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
+  }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.publicacao_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.boletim?.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || !pesq
+      });
+    }
+    
   }
 
 }

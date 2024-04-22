@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Unidade, Unidades } from './unidade';
 import { UnidadesService } from './unidades.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { UnidadesFormComponent } from './formulario/unidades-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-unidades',
   templateUrl: './unidades.component.html',
   styleUrl: './unidades.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, UnidadesFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    UnidadesFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class UnidadesComponent implements OnInit {
-  protected data$!: Observable<Unidades>;
+export class UnidadesComponent implements OnInit, OnDestroy {
+  protected data$!: Unidades;
   protected excluir!: Unidade;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: Unidades;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(UnidadesFormComponent) child!: UnidadesFormComponent;
 
   constructor(
-    private unidadesService:UnidadesService,
+    private unidadesService: UnidadesService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.unidadesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.unidadesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.unidadesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.unidadesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: Unidade) {
@@ -69,4 +78,17 @@ export class UnidadesComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || !pesq
+      });
+    }    
+  }
+
 }

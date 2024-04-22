@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Graduacao, Graduacoes } from './graduacao';
 import { GraduacoesService } from './graduacoes.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { GraduacoesFormComponent } from './formulario/graduacoes-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-graduacoes',
   templateUrl: './graduacoes.component.html',
   styleUrl: './graduacoes.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, GraduacoesFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    GraduacoesFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class GraduacoesComponent implements OnInit {
-  protected data$!: Observable<Graduacoes>;
+export class GraduacoesComponent implements OnInit, OnDestroy {
+  protected data$!: Graduacoes;
   protected excluir!: Graduacao;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: Graduacoes;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(GraduacoesFormComponent) child!: GraduacoesFormComponent;
 
   constructor(
     private graduacoesService: GraduacoesService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.graduacoesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.graduacoesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.graduacoesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.graduacoesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: Graduacao) {
@@ -69,4 +78,17 @@ export class GraduacoesComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1
+        || !pesq
+      });
+    }
+  }
+
 }

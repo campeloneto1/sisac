@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Perfil, Perfis } from './perfil';
 import { PerfisService } from './perfis.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PerfisFormComponent } from './formulario/perfis-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-perfis',
   templateUrl: './perfis.component.html',
   styleUrl: './perfis.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, PerfisFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    PerfisFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class PerfisComponent implements OnInit {
-  protected data$!: Observable<Perfis>;
+export class PerfisComponent implements OnInit, OnDestroy {
+  protected data$!: Perfis;
   protected excluir!: Perfil;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: Perfis;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(PerfisFormComponent) child!: PerfisFormComponent;
 
   constructor(
     private perfisService: PerfisService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.perfisService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.perfisService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.perfisService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.perfisService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: Perfil) {
@@ -69,4 +78,15 @@ export class PerfisComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
+      });
+    }
+  }
+
 }

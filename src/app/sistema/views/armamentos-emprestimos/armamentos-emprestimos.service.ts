@@ -1,43 +1,39 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
-import { Armamento, Armamentos } from "./armamento";
+import { ArmamentoEmprestimo, ArmamentosEmprestimos } from "./armamento-emprestimo";
 import { Observable } from "rxjs";
 
 const URL = environment.url;
-const endPoint = 'armamentos';
+const endPoint = 'armamentos-emprestimos';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ArmamentosService{
+export class ArmamentosEmprestimosService{
 
     constructor(
         private http: HttpClient,
     ){}
 
-    index(): Observable<Armamentos>{
-        return this.http.get<Armamentos>(`${URL}/${endPoint}`);
+    index(): Observable<ArmamentosEmprestimos>{
+        return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}`);
     }
 
-    find(id: number): Observable<Armamento>{
-        return this.http.get<Armamento>(`${URL}/${endPoint}/${id}`);
+    find(id: number): Observable<ArmamentoEmprestimo>{
+        return this.http.get<ArmamentoEmprestimo>(`${URL}/${endPoint}/${id}`);
     }
 
-    create(data: Armamento){
+    create(data: ArmamentoEmprestimo){
        return this.http.post(`${URL}/${endPoint}`, data);
     }
 
-    update(id:number, data: Armamento){
+    update(id:number, data: ArmamentoEmprestimo){
         return this.http.put(`${URL}/${endPoint}/${id}`, data);
     }
 
     remove(id:number){
         return this.http.delete(`${URL}/${endPoint}/${id}`);
-    }
-
-    disponiveis(): Observable<Armamentos>{
-        return this.http.get<Armamentos>(`${URL}/${endPoint}/disponiveis`);
     }
    
 }

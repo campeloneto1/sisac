@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ArmamentoCalibre, ArmamentosCalibres } from './armamento-calibre';
 import { ArmamentosCalibresService } from './armamentos-calibres.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ArmamentosCalibresFormComponent } from './formulario/armamentos-calibres-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-armamentos-calibres',
   templateUrl: './armamentos-calibres.component.html',
   styleUrl: './armamentos-calibres.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, ArmamentosCalibresFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    ArmamentosCalibresFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class ArmamentosCalibresComponent implements OnInit {
-  protected data$!: Observable<ArmamentosCalibres>;
+export class ArmamentosCalibresComponent implements OnInit, OnDestroy {
+  protected data$!: ArmamentosCalibres;
   protected excluir!: ArmamentoCalibre;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: ArmamentosCalibres;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(ArmamentosCalibresFormComponent) child!: ArmamentosCalibresFormComponent;
 
   constructor(
     private armamentosCalibresService: ArmamentosCalibresService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.armamentosCalibresService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.armamentosCalibresService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.armamentosCalibresService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.armamentosCalibresService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: ArmamentoCalibre) {
@@ -69,4 +78,16 @@ export class ArmamentosCalibresComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || !pesq
+      });
+    }
+  }
+
 }

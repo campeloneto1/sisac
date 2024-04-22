@@ -1,49 +1,49 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { PoliciaisFerias, PolicialFerias } from './policial-ferias';
-import { PoliciaisFeriasService } from './policiais-ferias.service';
+import { ArmamentoEmprestimo, ArmamentosEmprestimos } from './armamento-emprestimo';
+import { ArmamentosEmprestimosService } from './armamentos-emprestimos.service';
 import { TitleComponent } from '../../components/title/title.component';
-import { PoliciaisFeriasFormComponent } from './formulario/policiais-ferias-form.component';
+import { ArmamentosEmprestimosFormComponent } from './formulario/armamentos-emprestimos-form.component';
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 @Component({
-  selector: 'app-policiais-ferias',
-  templateUrl: './policiais-ferias.component.html',
-  styleUrl: './policiais-ferias.component.css',
+  selector: 'app-armamentos-emprestimos',
+  templateUrl: './armamentos-emprestimos.component.html',
+  styleUrl: './armamentos-emprestimos.component.css',
   standalone: true,
   imports: [
     CommonModule, 
     TitleComponent, 
-    PoliciaisFeriasFormComponent,
+    ArmamentosEmprestimosFormComponent,
     DataTableModule,
     FormsModule,
     NgxMaskDirective, 
-        NgxMaskPipe,
+    NgxMaskPipe,
   ],
   providers: [
     provideNgxMask(),
   ]
 })
-export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
-  protected data$!: PoliciaisFerias;
-  protected excluir!: PolicialFerias;
+export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
+  protected data$!: ArmamentosEmprestimos;
+  protected excluir!: ArmamentoEmprestimo;
   protected pesquisa!: string;
-  protected temp!: PoliciaisFerias;
+  protected temp!: ArmamentosEmprestimos;
   protected quant: number = 10;
   protected subscription: any;
 
-  @ViewChild(PoliciaisFeriasFormComponent) child!: PoliciaisFeriasFormComponent;
+  @ViewChild(ArmamentosEmprestimosFormComponent) child!: ArmamentosEmprestimosFormComponent;
 
   constructor(
-    private policiaisFeriasService: PoliciaisFeriasService,
+    private armamentosEmprestimosService: ArmamentosEmprestimosService,
     private toastr: ToastrService,
   ) {}
  
 
   ngOnInit(): void {
-    this.subscription = this.policiaisFeriasService.index().subscribe({
+    this.subscription = this.armamentosEmprestimosService.index().subscribe({
       next: (data) => {
         this.data$ = data;
         this.temp = data;
@@ -58,23 +58,23 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.policiaisFeriasService.index().subscribe({
+    this.armamentosEmprestimosService.index().subscribe({
       next: (data) => {
         this.data$ = data;
       }
     });
   }
 
-  editar(data: PolicialFerias) {
+  editar(data: ArmamentoEmprestimo) {
     this.child.editar(data);
   }
 
-  delete(data: PolicialFerias) {
+  delete(data: ArmamentoEmprestimo) {
     this.excluir = data;
   }
 
   confirm() {
-    this.policiaisFeriasService.remove(this.excluir.id || 0).subscribe({
+    this.armamentosEmprestimosService.remove(this.excluir.id || 0).subscribe({
       next: (data: any) => {
         this.toastr.success('Exclusão realizada com sucesso!');
         this.refresh();
@@ -85,12 +85,6 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
     });
   }
 
-  dataFinal(data: Date, dias:number): Date{
-    let result = new Date(data);
-    result.setDate(result.getDate() + dias);
-    return result;
-  }
-
   pesquisar(){
     this.data$ = this.temp;
     if(this.pesquisa.length > 0){
@@ -99,12 +93,10 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
         return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
         || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
         || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.boletim?.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1         
         || !pesq
       });
     }
-    
   }
 
 }

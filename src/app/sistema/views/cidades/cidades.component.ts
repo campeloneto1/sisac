@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Cidade, Cidades } from './cidade';
 import { CidadesService } from './cidades.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { CidadesFormComponent } from './formulario/cidades-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-cidades',
   templateUrl: './cidades.component.html',
   styleUrl: './cidades.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, CidadesFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    CidadesFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class CidadesComponent implements OnInit {
-  protected data$!: Observable<Cidades>;
+export class CidadesComponent implements OnInit, OnDestroy {
+  protected data$!: Cidades;
   protected excluir!: Cidade;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: Cidades;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(CidadesFormComponent) child!: CidadesFormComponent;
 
   constructor(
     private cidadesService: CidadesService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.cidadesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.cidadesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.cidadesService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.cidadesService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: Cidade) {
@@ -69,4 +78,19 @@ export class CidadesComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.estado.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.estado.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || !pesq
+      });
+    }
+  }
+
 }

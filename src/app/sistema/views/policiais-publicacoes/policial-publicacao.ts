@@ -8,7 +8,7 @@ export interface PolicialPublicacao{
     policial: Policial;
     publicacao_tipo: PublicacaoTipo;
     texto: string;
-    boletim?: string;
+    boletim: string;
 
     created_by?: User;
     updated_by?: User;

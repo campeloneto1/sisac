@@ -1,53 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ArmamentoTipo, ArmamentosTipos } from './armamento-tipo';
 import { ArmamentosTiposService } from './armamentos-tipos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ArmamentosTiposFormComponent } from './formulario/armamentos-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../../shared/shared.service';
-
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-armamentos-tipos',
   templateUrl: './armamentos-tipos.component.html',
   styleUrl: './armamentos-tipos.component.css',
   standalone: true,
-  imports: [CommonModule, TitleComponent, ArmamentosTiposFormComponent],
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    ArmamentosTiposFormComponent,
+    DataTableModule,
+    FormsModule
+  ],
 })
-export class ArmamentosTiposComponent implements OnInit {
-  protected data$!: Observable<ArmamentosTipos>;
+export class ArmamentosTiposComponent implements OnInit, OnDestroy {
+  protected data$!: ArmamentosTipos;
   protected excluir!: ArmamentoTipo;
-  protected dtOptions!: any;
+  protected pesquisa!: string;
+  protected temp!: ArmamentosTipos;
+  protected quant: number = 10;
+  protected subscription: any;
 
   @ViewChild(ArmamentosTiposFormComponent) child!: ArmamentosTiposFormComponent;
 
   constructor(
     private armamentosTiposService: ArmamentosTiposService,
     private toastr: ToastrService,
-    private sharedService: SharedService
   ) {}
+ 
 
   ngOnInit(): void {
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.data$ = this.armamentosTiposService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.subscription = this.armamentosTiposService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
   }
 
   refresh() {
-    this.data$ = this.armamentosTiposService.index().pipe(
-      tap(() => {
-        setTimeout(() => {
-          $('#datatableexample').DataTable().destroy();
-          $('#datatableexample').DataTable(this.dtOptions);
-        }, 1);
-      })
-    );
+    this.armamentosTiposService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
   }
 
   editar(data: ArmamentoTipo) {
@@ -69,4 +78,16 @@ export class ArmamentosTiposComponent implements OnInit {
       },
     });
   }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || !pesq
+      });
+    }
+  }
+
 }
