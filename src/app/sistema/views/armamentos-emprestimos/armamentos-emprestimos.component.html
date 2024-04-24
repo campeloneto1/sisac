@@ -1,198 +1,324 @@
 <div class="content-wrapper">
-    <app-title titulo="Empréstimos de Armamentos" />
-  
-    <!--INICIO SECTION content-->
-    <section class="content">
-      <!-- INICIO CARD-->
-      <div class="card">
-        <!-- INICIO CARD HEADER-->
-        <div class="card-header border-0">
-          <h3 class="card-title">
+  <app-title titulo="Empréstimos de Armamentos" />
+
+  <!--INICIO SECTION content-->
+  <section class="content">
+    <!-- INICIO CARD-->
+    <div class="card">
+      <!-- INICIO CARD HEADER-->
+      <div class="card-header border-0">
+        <h3 class="card-title">
+          <button
+            class="btn btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalcad"
+            title="Cadastrar"
+            (click)="child.reset()"
+          >
+            <i class="fa fa-plus"></i>
+          </button>
+        </h3>
+        <div class="card-tools">
+          <div class="input-group input-group-sm" style="width: 250px">
+            <select
+              style="width: 50px"
+              class="form-control float-right"
+              [(ngModel)]="quant"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+
+            <input
+              style="width: 200px"
+              type="text"
+              name="table_search"
+              class="form-control float-right"
+              placeholder="Pesquisar..."
+              [(ngModel)]="pesquisa"
+              (ngModelChange)="pesquisar()"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- FIM CARD HEADER-->
+      <!-- INICIO CARD BODY-->
+      <div class="card-body table-responsive p-1">
+        <!-- INICIO TABLE-->
+        <table
+          [mfData]="data$"
+          #mf="mfDataTable"
+          [mfRowsOnPage]="quant"
+          class="table table-hover table-head-fixed text-nowrap"
+        >
+          <thead>
+            <tr>
+              <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+              <th>
+                <mfDefaultSorter by="policial.graduacao.nome"
+                  >Graduação</mfDefaultSorter
+                >
+              </th>
+              <th>
+                <mfDefaultSorter by="policial.numeral">Numeral</mfDefaultSorter>
+              </th>
+              <th>
+                <mfDefaultSorter by="policial.nome_guerra"
+                  >Nome Guerra</mfDefaultSorter
+                >
+              </th>
+              <th>
+                <mfDefaultSorter by="policial.matricula"
+                  >Matrícula</mfDefaultSorter
+                >
+              </th>
+              <th>
+                <mfDefaultSorter by="data_emprestimo"
+                  >Data Emprestimo</mfDefaultSorter
+                >
+              </th>
+              <th>Armamentos</th>
+              <th>
+                <mfDefaultSorter by="data_devolucao"
+                  >Data Devolução</mfDefaultSorter
+                >
+              </th>
+              <th>Opções</th>
+            </tr>
+          </thead>
+          @if(data$){
+          <tbody>
+            @for(row of mf.data; track row){
+            <tr class="optionshover">
+              <td>{{ row.id }}</td>
+              <td>{{ row.policial.graduacao.nome }}</td>
+              <td>
+                @if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000'
+
+                }}}
+              </td>
+              <td>{{ row.policial.nome_guerra }}</td>
+              <td>{{ row.policial.matricula | mask : "000.000-0-0" }}</td>
+              <td>{{ row.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td>
+                <button
+                  (click)="showArms(row)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalarm"
+                  class="btn btn-xs btn-outline-primary"
+                >
+                  Armamentos
+                </button>
+              </td>
+              <td>{{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td>
+                <a
+                  class="options point"
+                  title="Editar"
+                  (click)="editar(row)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalcad"
+                >
+                  <i class="fa fa-edit text-primary" aria-hidden="true"></i>
+                </a>
+                <a
+                  class="options point"
+                  title="Excluir"
+                  (click)="delete(row)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modaldel"
+                >
+                  <i
+                    class="fa fa-trash text-danger ml-1"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="100%">Sem informação</td>
+            </tr>
+            }
+          </tbody>
+          }
+          <tfoot>
+            <tr>
+              <td colspan="100%">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <mfBootstrapPaginator
+                    [rowsOnPageSet]="[5, 10, 25]"
+                  ></mfBootstrapPaginator>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        <!-- FIM TABLE-->
+      </div>
+      <!-- FIM CARD BODY-->
+    </div>
+    <!--FIM CARD-->
+  </section>
+  <!--FIM SECTION content-->
+
+  <!-- INICIO MODAL CADASTRO-->
+  <div
+    class="modal fade"
+    id="modalcad"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">Cadastrar</h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-armamentos-emprestimos-form (refresh)="refresh()" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL CADASTRO-->
+
+  <!-- INICIO MODAL ARMAMENTOS-->
+  <div
+    class="modal fade"
+    id="modalarm"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">
+            Armamentos
             <button
               class="btn btn-outline-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#modalcad"
               title="Cadastrar"
+              (click)="cadarmamento = true;"
             >
               <i class="fa fa-plus"></i>
             </button>
-          </h3>
-          <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 250px">
-              <select style="width: 50px"  class="form-control float-right" [(ngModel)]="quant">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-             
-              <input
-              style="width: 200px"
-                type="text"
-                name="table_search"
-                class="form-control float-right"
-                placeholder="Pesquisar..."
-                [(ngModel)]="pesquisa"
-                (ngModelChange)="pesquisar()"
-              />
-             
-            </div>
-          </div>
-        </div>
-        <!-- FIM CARD HEADER-->
-        <!-- INICIO CARD BODY-->
-        <div class="card-body table-responsive p-1">
-          <!-- INICIO TABLE-->
-          <table
-            [mfData]="data$"
-            #mf="mfDataTable"
-            [mfRowsOnPage]="quant"
-            class="table table-hover table-head-fixed text-nowrap"
+          </h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
           >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        @if(armamentoEmprestimo){
+        <div class="modal-body">
+          <!--INICIO TABLE-->
+
+          @if(cadarmamento){
+            <app-armamentos-emprestimos-itens-form (refresh)="refreshArms()" (cancel)="cancelArm()" [armamento_emprestimo_id]="armamentoEmprestimo.id" />
+          }
+          <table class="table table-hover table-head-fixed text-nowrap">
             <thead>
               <tr>
-                <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.graduacao.nome">Graduação</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.numeral">Numeral</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.nome_guerra">Nome Guerra</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.matricula">Matrícula</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="data_emprestimo">Data Emprestimo</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="data_devolucao">Data Devolução</mfDefaultSorter></th>
+                <th>#</th>
+                <th>Tipo</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Calibre</th>
+                <th>Tamanho</th>
+                <th>Serial</th>
+                <th>Quantidade</th>
                 <th>Opções</th>
               </tr>
             </thead>
-            @if(data$){
             <tbody>
-              @for(row of mf.data; track row){
-              <tr class="optionshover">
-                <td>{{ row.id }}</td>
-                      <td>{{ row.policial.graduacao.nome }}</td>
-                      <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
-                      <td>{{ row.policial.nome_guerra }}</td>
-                      <td>{{ row.policial.matricula | mask: '000.000-0-0' }}</td>
-                      <td>{{ row.data_emprestimo | date: 'dd/MM/yyyy HH:mm' }}</td>
-                      <td>{{ row.data_devolucao | date: 'dd/MM/yyyy HH:mm' }}</td>
-                <td>
-                  <a
-                    class="options point"
-                    title="Editar"
-                    (click)="editar(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalcad"
-                  >
-                    <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                  </a>
-                  <a
-                    class="options point"
-                    title="Excluir"
-                    (click)="delete(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modaldel"
-                  >
-                    <i
-                      class="fa fa-trash text-danger ml-1"
-                      aria-hidden="true"
-                    ></i>
-                  </a>
-                </td>
-              </tr>
-              } @empty {
+              @for(item of
+              armamentoEmprestimo.armamentos_emprestimos_itens; track item){
               <tr>
-                <td colspan="100%">Sem informação</td>
+                <td>{{item.id}}</td>
+                <td>{{item.armamento.armamento_tipo.nome}}</td>
+                <td>{{item.armamento.modelo.marca?.nome}}</td>
+                <td>{{item.armamento.modelo.nome}}</td>
+                <td>{{item.armamento.armamento_calibre?.nome}}</td>
+                <td>{{item.armamento.armamento_tamanho?.nome}}</td>
+                <td>{{item.armamento.serial}}</td>
+                <td>{{item.quantidade}}</td>
+                <td>
+                  <i
+                    class="fa fa-trash text-danger point"
+                    aria-hidden="true"
+                    (click)="rmvArmamento(item.id || 0)"
+                  ></i>
+                </td>
               </tr>
               }
             </tbody>
-            }
-            <tfoot>
-              <tr>
-                <td colspan="100%">
-                  <div style="display: flex; align-items: center; justify-content: center;">
-                    <mfBootstrapPaginator
-                    [rowsOnPageSet]="[5, 10, 25]"
-                  ></mfBootstrapPaginator>
-                  </div>
-                 
-                </td>
-              </tr>
-            </tfoot>
           </table>
-          <!-- FIM TABLE-->
+          <!--FIM TABLE-->
         </div>
-        <!-- FIM CARD BODY-->
-      </div>
-      <!--FIM CARD-->
-    </section>
-    <!--FIM SECTION content-->
-  
-    <!-- INICIO MODAL CADASTRO-->
-    <div
-      class="modal fade"
-      id="modalcad"
-      style="display: none"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-          <div class="modal-header border-0">
-            <h4 class="modal-title">Cadastrar</h4>
-            <button
-              type="button"
-              class="close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <app-armamentos-emprestimos-form (refresh)="refresh()" />
-          </div>
-        </div>
+        }
       </div>
     </div>
-    <!--FIM MODAL CADASTRO-->
-  
-    <!-- INICIO MODAL exclusao-->
-    <div
-      class="modal fade"
-      id="modaldel"
-      style="display: none"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header border-0">
-            <h4 class="modal-title">Excluir</h4>
-            <button
-              type="button"
-              class="close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            @if(excluir){ Tem certeza que deseja excluir:
-            <b>{{ excluir.policial.nome }}</b>
-            <div class="d-flex justify-content-end">
-              <a data-bs-dismiss="modal" class="btn btn-link text-primary"
-                >Cancelar</a
-              >
-              <button
-                type="button"
-                (click)="confirm()"
-                data-bs-dismiss="modal"
-                class="btn btn-danger"
-              >
-                Excluir
-              </button>
-            </div>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--FIM MODAL exclusao-->
   </div>
-  
+  <!--FIM MODAL ARMAMENTOS-->
+
+  <!-- INICIO MODAL exclusao-->
+  <div
+    class="modal fade"
+    id="modaldel"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">Excluir</h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          @if(excluir){ Tem certeza que deseja excluir:
+          <b>{{ excluir.policial.nome }}</b>
+          <div class="d-flex justify-content-end">
+            <a data-bs-dismiss="modal" class="btn btn-link text-primary"
+              >Cancelar</a
+            >
+            <button
+              type="button"
+              (click)="confirm()"
+              data-bs-dismiss="modal"
+              class="btn btn-danger"
+            >
+              Excluir
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL exclusao-->
+</div>

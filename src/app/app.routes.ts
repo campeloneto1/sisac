@@ -107,6 +107,11 @@ export const routes: Routes = [
               import('./sistema/views/perfis/perfis.component').then((c) => c.PerfisComponent),
           },
           {
+            path: 'Policial/:id',
+            loadComponent: () =>
+              import('./sistema/views/policiais/policial/policial.component').then((c) => c.PolicialComponent),
+          },
+          {
             path: 'Policiais',
             loadComponent: () =>
               import('./sistema/views/policiais/policiais.component').then((c) => c.PoliciaisComponent),

@@ -44,21 +44,19 @@
       <div class="card-body table-responsive p-1">
         <!-- INICIO TABLE-->
         <table
-          [mfData]="data$"
-          #mf="mfDataTable"
-          [mfRowsOnPage]="quant"
+        datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
           class="table table-hover table-head-fixed text-nowrap"
         >
           <thead>
             <tr>
-              <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
+              <th>#</th>
+              <th>Nome</th>
               <th>Opções</th>
             </tr>
           </thead>
           @if(data$){
           <tbody>
-            @for(row of mf.data; track row){
+            @for(row of data$; track row){
             <tr class="optionshover">
               <td>{{ row.id }}</td>
               <td>{{ row.nome }}</td>
@@ -93,18 +91,7 @@
             }
           </tbody>
           }
-          <tfoot>
-            <tr>
-              <td colspan="100%">
-                <div style="display: flex; align-items: center; justify-content: center;">
-                  <mfBootstrapPaginator
-                  [rowsOnPageSet]="[5, 10, 25]"
-                ></mfBootstrapPaginator>
-                </div>
-               
-              </td>
-            </tr>
-          </tfoot>
+         
         </table>
         <!-- FIM TABLE-->
       </div>

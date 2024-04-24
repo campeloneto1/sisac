@@ -1,5 +1,9 @@
+import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
 import { Cidade } from "../cidades/cidade";
 import { Graduacao } from "../graduacoes/graduacao";
+import { PoliciaisAtestados } from "../policiais-atestados/policial-atestado";
+import { PoliciaisFerias } from "../policiais-ferias/policial-ferias";
+import { PoliciaisPublicacoes } from "../policiais-publicacoes/policial-publicacao";
 import { Setor } from "../setores/setor";
 import { Sexo } from "../sexos/sexo";
 import { User } from "../users/user";
@@ -22,7 +26,7 @@ export interface Policial{
     cidade?: Cidade;
     cep?: string;
 
-    data_ingresso?: Date;
+    data_inclusao?: Date;
     boletim_inclusao?: string;
     data_apresentacao?: Date;
     boletim_apresentacao?: string;
@@ -31,6 +35,11 @@ export interface Policial{
     sexo?: Sexo;
     graduacao: Graduacao;
     setor: Setor;
+
+    policiais_atestados: PoliciaisAtestados;
+    policiais_ferias: PoliciaisFerias;
+    policiais_publicacoes: PoliciaisPublicacoes;
+    armamentos_emprestimos: ArmamentosEmprestimos;
 
     created_by?: User;
     updated_by?: User;

@@ -151,11 +151,13 @@ export class PoliciaisFormComponent implements OnInit{
     }
 
     cadastrar(){
+        if(!this.form.value.boletim_transferencia){
+            this.form.get('boletim_transferencia')?.patchValue(null);
+        }
         delete this.form.value.pais;
         delete this.form.value.estado;
         delete this.form.value.unidade;
         delete this.form.value.subunidade;
-       
         if(this.form.value.id){
             this.policiaisService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {

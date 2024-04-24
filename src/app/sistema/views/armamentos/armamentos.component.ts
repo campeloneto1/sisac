@@ -88,8 +88,6 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
         || data.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
         || data.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
         || data.armamento_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.armamento_calibre?.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.armamento_tamanho?.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
         || !pesq
       });
     }

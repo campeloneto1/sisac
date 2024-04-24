@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { ArmamentosEmprestimosItensService } from '../armamentos-emprestimos-itens/armamentos-emprestimos-itens.service';
+import { ArmamentosEmprestimosItensFormComponent } from '../armamentos-emprestimos-itens/formulario/armamentos-emprestimos-itens-form.component';
 @Component({
   selector: 'app-armamentos-emprestimos',
   templateUrl: './armamentos-emprestimos.component.html',
@@ -17,6 +19,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     CommonModule, 
     TitleComponent, 
     ArmamentosEmprestimosFormComponent,
+    ArmamentosEmprestimosItensFormComponent,
     DataTableModule,
     FormsModule,
     NgxMaskDirective, 
@@ -33,11 +36,16 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   protected temp!: ArmamentosEmprestimos;
   protected quant: number = 10;
   protected subscription: any;
+  protected armamentoEmprestimo!: ArmamentoEmprestimo;
+
+  protected cadarmamento:boolean = false;
 
   @ViewChild(ArmamentosEmprestimosFormComponent) child!: ArmamentosEmprestimosFormComponent;
+  @ViewChild(ArmamentosEmprestimosItensFormComponent) childarmamento!: ArmamentosEmprestimosItensFormComponent;
 
   constructor(
     private armamentosEmprestimosService: ArmamentosEmprestimosService,
+    private armamentosEmprestimosItensService: ArmamentosEmprestimosItensService,
     private toastr: ToastrService,
   ) {}
  
@@ -67,6 +75,7 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
 
   editar(data: ArmamentoEmprestimo) {
     this.child.editar(data);
+
   }
 
   delete(data: ArmamentoEmprestimo) {
@@ -97,6 +106,44 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
         || !pesq
       });
     }
+  }
+
+  showArms(data: ArmamentoEmprestimo){
+    this.cadarmamento = false;
+    this.armamentosEmprestimosService.find(data.id || 0).subscribe({
+      next: (data) => {
+        this.armamentoEmprestimo = data;
+      }
+    })
+    
+  }
+
+  refreshArms(){
+    this.cadarmamento = false;
+    this.armamentosEmprestimosService.find(this.armamentoEmprestimo.id || 0).subscribe({
+      next: (data) => {
+        this.armamentoEmprestimo = data;
+      }
+    });
+  }
+
+  rmvArmamento(id: number){
+    if(window.confirm("Tem certeza que deseja excluir o armamento?")){
+      this.armamentosEmprestimosItensService.remove(id).subscribe({
+        next: (data) => {
+          this.armamentosEmprestimosService.find(this.armamentoEmprestimo.id || 0).subscribe({
+            next: (data) => {
+              this.armamentoEmprestimo = data;
+            }
+          });
+        }
+      });
+    }
+   
+  }
+
+  cancelArm(){
+    this.cadarmamento = false;
   }
 
 }

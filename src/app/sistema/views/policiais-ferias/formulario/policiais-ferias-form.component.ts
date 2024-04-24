@@ -60,10 +60,14 @@ export class PoliciaisFeriasFormComponent implements OnInit, OnDestroy{
             ])],        
         });
 
-        this.subscription = this.policiaisService.index().subscribe({
+        this.subscription = this.policiaisService.disponiveis().subscribe({
             next: (data) => {
                 data.forEach(element => {
-                    element.nome = `${element.numeral} ${element.nome_guerra}, ${element.matricula}`;
+                    if(element.numeral){
+                        element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}`;
+                    }else{
+                        element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}`;
+                    }
                 });
                 this.policiais$ = of(data);
             }

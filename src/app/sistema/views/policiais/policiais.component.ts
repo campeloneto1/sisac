@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-policiais',
   templateUrl: './policiais.component.html',
@@ -19,6 +20,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     PoliciaisFormComponent,
     DataTableModule,
     FormsModule,
+    RouterModule,
     NgxMaskDirective, 
         NgxMaskPipe,
   ],
@@ -39,6 +41,7 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   constructor(
     private policiaisService: PoliciaisService,
     private toastr: ToastrService,
+    
   ) {}
  
 
@@ -90,15 +93,24 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
     if(this.pesquisa.length > 0){
       var pesq = this.pesquisa.toLocaleLowerCase();
       this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.telefone1?.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
+        if(data.numeral){
+          return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || !pesq
+        }else{
+          return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || !pesq
+        }
       });
     }    
   }

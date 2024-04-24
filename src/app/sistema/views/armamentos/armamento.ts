@@ -15,6 +15,7 @@ export interface Armamento{
     armamento_tamanho?: ArmamentoTamanho;
     data_validade?: Date;
     quantidade: number;
+    quantidade_disponivel: number;
     
     data_baixa?: Date;
     observacoes?: string;
