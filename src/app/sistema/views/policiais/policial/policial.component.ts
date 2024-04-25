@@ -41,7 +41,7 @@ export class PolicialComponent implements OnInit, OnDestroy{
             next: (data) => {
                 this.policial = data;
             }
-        })
+        });
     }
 
     ngOnDestroy(): void {

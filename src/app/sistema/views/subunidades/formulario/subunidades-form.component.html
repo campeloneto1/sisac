@@ -40,6 +40,22 @@
     />
   </div>
   <div class="row">
+    <input-select
+            class="col-sm-6"
+            label="Comandante"
+            id="comandate"
+            [data$]="policiais$"
+            formControlName="comandante"
+        />
+        <input-select
+            class="col-sm-6"
+            label="subcomandante"
+            id="subcomandate"
+            [data$]="policiais$"
+            formControlName="subcomandante"
+        />
+</div>
+  <div class="row">
     <input-text
       class="col-sm-4"
       formControlName="rua"

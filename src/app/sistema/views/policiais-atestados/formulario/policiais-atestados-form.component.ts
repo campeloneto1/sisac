@@ -9,6 +9,7 @@ import { InputSelectComponent } from "../../../components/input-select/input-sel
 import { Observable, of } from "rxjs";
 import { Policiais } from "../../policiais/policial";
 import { PoliciaisService } from "../../policiais/policiais.service";
+import { format } from "date-fns";
 
 @Component({
     selector: "app-policiais-atestados-form",
@@ -54,6 +55,7 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
                 Validators.required,
                 Validators.min(1)
             ])],
+            'data_final': [null],
             'cid': [null, Validators.compose([
                 Validators.maxLength(20)
             ])],
@@ -88,6 +90,7 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
     }
 
     cadastrar(){
+        this.form.get('data_final')?.patchValue(this.dataFinal(this.form.value.data_inicial, Number(this.form.value.dias)));
         if(this.form.value.id){
             this.policiaisAtestadosService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
@@ -119,5 +122,11 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
         this.form.get('policial')?.patchValue(data.policial.id);
     }
 
+    dataFinal(data: Date, dias:number): string{
+        let result:Date = new Date(data);
+        result.setDate(result.getDate() + dias);
+        return format(result, 'yyyy-MM-dd');
+      }
+   
    
 }

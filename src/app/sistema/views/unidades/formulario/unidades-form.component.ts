@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { InputTextComponent } from "../../../components/input-text/input-text.component";
 import { InputSelectComponent } from "../../../components/input-select/input-select.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { UnidadesService } from "../unidades.service";
 import { Unidade } from "../unidade";
 import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 
 import { PaisesService } from "../../paises/paises.service";
 import { EstadosService } from "../../estados/estados.service";
@@ -14,6 +14,8 @@ import { CidadesService } from "../../cidades/cidades.service";
 import { Paises } from "../../paises/pais";
 import { Estados } from "../../estados/estado";
 import { Cidades } from "../../cidades/cidade";
+import { Policiais } from "../../policiais/policial";
+import { PoliciaisService } from "../../policiais/policiais.service";
 
 
 @Component({
@@ -29,13 +31,16 @@ import { Cidades } from "../../cidades/cidade";
         InputSelectComponent
     ]
 })
-export class UnidadesFormComponent implements OnInit{
+export class UnidadesFormComponent implements OnInit, OnDestroy{
     
     protected form!: FormGroup;
 
+    protected policiais$!: Observable<Policiais>;
     protected paises$!: Observable<Paises>;
     protected estados$!: Observable<Estados>;
     protected cidades$!: Observable<Cidades>;
+
+    private subscription:any;
 
     @Output('refresh') refresh: EventEmitter<Unidade> = new EventEmitter();
     
@@ -45,8 +50,10 @@ export class UnidadesFormComponent implements OnInit{
         private paisesService:PaisesService,
         private estadosService:EstadosService,
         private cidadesService:CidadesService,
+        private policiaisService: PoliciaisService,
         private toastr: ToastrService,
     ){}
+   
 
     ngOnInit() {
         this.form = this.formBuilder.group({
@@ -84,13 +91,35 @@ export class UnidadesFormComponent implements OnInit{
             'pais': [null],
             'estado': [null],
             'cidade': [null],
+            'comandante': [null, Validators.compose([
+                Validators.required
+            ])],
+            'subcomandante': [null, Validators.compose([
+                Validators.required
+            ])],
         });
         this.paises$ = this.paisesService.index();
+        this.subscription = this.policiaisService.disponiveis().subscribe({
+            next: (data) => {
+                data.forEach(element => {
+                    if(element.numeral){
+                        element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}`;
+                    }else{
+                        element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}`;
+                    }
+                });
+                this.policiais$ = of(data);
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        if(this.subscription){
+            this.subscription.unsubscribe();
+        }
     }
 
     cadastrar(){
-      
-       
         delete this.form.value.pais;
         delete this.form.value.estado;
       
@@ -129,7 +158,12 @@ export class UnidadesFormComponent implements OnInit{
             this.getEstados();
             this.getCidades();
         }
-        
+        if(data.comandante){
+            this.form.get('comandante')?.patchValue(data.comandante.id);
+        }
+        if(data.subcomandante){
+            this.form.get('subcomandante')?.patchValue(data.subcomandante.id);
+        }
     }
 
     getEstados(){

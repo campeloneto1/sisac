@@ -4,7 +4,23 @@
         <input-text class="col-sm-2" formControlName="abreviatura" label="Abreviatura" id="abreviatura" tipo="text" />
         <input-text class="col-sm-2" mascara="(00) 00000-0000" formControlName="telefone" label="Telefone" id="telefone" tipo="text" />
         <input-text class="col-sm-4" formControlName="email" label="E-mail" id="email" tipo="email" />
-    </div>    
+    </div>   
+    <div class="row">
+        <input-select
+                class="col-sm-6"
+                label="Comandante"
+                id="comandate"
+                [data$]="policiais$"
+                formControlName="comandante"
+            />
+            <input-select
+                class="col-sm-6"
+                label="subcomandante"
+                id="subcomandate"
+                [data$]="policiais$"
+                formControlName="subcomandante"
+            />
+    </div> 
     <div class="row">
         <input-text class="col-sm-4" formControlName="rua" label="Rua" id="rua" tipo="text" />
         <input-text class="col-sm-2" formControlName="numero" label="Número" id="numero" tipo="text" />

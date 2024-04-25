@@ -1,4 +1,5 @@
 import { Cidade } from "../cidades/cidade";
+import { Policial } from "../policiais/policial";
 import { Unidade } from "../unidades/unidade";
 import { User } from "../users/user";
 
@@ -9,6 +10,10 @@ export interface Subunidade{
     telefone?: string;
     email?: string;
     unidade: Unidade;
+
+    comandante: Policial;
+    subcomandante: Policial;
+
 
     rua?: string;
     numero?: string;

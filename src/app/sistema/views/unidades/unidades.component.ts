@@ -7,6 +7,7 @@ import { UnidadesFormComponent } from './formulario/unidades-form.component';
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-unidades',
   templateUrl: './unidades.component.html',
@@ -33,10 +34,12 @@ export class UnidadesComponent implements OnInit, OnDestroy {
   constructor(
     private unidadesService: UnidadesService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.unidadesService.index().subscribe({
       next: (data) => {
         this.data$ = data;

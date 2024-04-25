@@ -7,6 +7,7 @@ import { EstadosFormComponent } from './formulario/estados-form.component';
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-estados',
   templateUrl: './estados.component.html',
@@ -33,10 +34,12 @@ export class EstadosComponent implements OnInit, OnDestroy {
   constructor(
     private estadosService: EstadosService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.estadosService.index().subscribe({
       next: (data) => {
         this.data$ = data;

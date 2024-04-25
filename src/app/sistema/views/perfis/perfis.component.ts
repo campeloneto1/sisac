@@ -7,6 +7,7 @@ import { PerfisFormComponent } from './formulario/perfis-form.component';
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-perfis',
   templateUrl: './perfis.component.html',
@@ -33,10 +34,12 @@ export class PerfisComponent implements OnInit, OnDestroy {
   constructor(
     private perfisService: PerfisService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.perfisService.index().subscribe({
       next: (data) => {
         this.data$ = data;

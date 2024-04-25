@@ -7,6 +7,7 @@ import { CidadesFormComponent } from './formulario/cidades-form.component';
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-cidades',
   templateUrl: './cidades.component.html',
@@ -33,10 +34,12 @@ export class CidadesComponent implements OnInit, OnDestroy {
   constructor(
     private cidadesService: CidadesService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.cidadesService.index().subscribe({
       next: (data) => {
         this.data$ = data;

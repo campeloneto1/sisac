@@ -8,15 +8,17 @@
       <!-- INICIO CARD HEADER-->
       <div class="card-header border-0">
         <h3 class="card-title">
-          <button
-            class="btn btn-outline-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#modalcad"
-            title="Cadastrar"
-            (click)="child.reset()"
-          >
-            <i class="fa fa-plus"></i>
-          </button>
+          @if(user.perfil.armamentos_emprestimos_cad){
+            <button
+              class="btn btn-outline-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modalcad"
+              title="Cadastrar"
+              (click)="child.reset()"
+            >
+              <i class="fa fa-plus"></i>
+            </button>
+          }
         </h3>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 250px">
@@ -114,27 +116,66 @@
               </td>
               <td>{{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}</td>
               <td>
-                <a
-                  class="options point"
-                  title="Editar"
-                  (click)="editar(row)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalcad"
-                >
-                  <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                </a>
-                <a
-                  class="options point"
-                  title="Excluir"
-                  (click)="delete(row)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modaldel"
-                >
-                  <i
-                    class="fa fa-trash text-danger ml-1"
-                    aria-hidden="true"
-                  ></i>
-                </a>
+                @if(!row.data_devolucao){
+                  <a
+                    class="options point"
+                    title="Imprimir Cautela"
+                    target="_blank"
+                    [routerLink]="['/ArmamentosEmprestimosCautela', row.id]"
+                  >
+                    <i class="fa fa-print text-primary" aria-hidden="true"></i>
+                  </a>
+
+                    @if(user.perfil.armamentos_emprestimos_cad){
+                      <a
+                        class="options point ml-1"
+                        title="Devolver"
+                        (click)="devolver(row)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modaldev"
+                      >
+                        <i class="fa fa-download text-primary" aria-hidden="true"></i>
+                      </a>
+                    }
+
+                    @if(user.perfil.armamentos_emprestimos_edt){
+                    <a
+                      class="options point ml-1"
+                      title="Editar"
+                      (click)="editar(row)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalcad"
+                    >
+                      <i class="fa fa-edit text-primary  " aria-hidden="true"></i>
+                    </a>
+                  }
+                  @if(user.perfil.armamentos_emprestimos_del){
+                    <a
+                      class="options point ml-1"
+                      title="Excluir"
+                      (click)="delete(row)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modaldel"
+                    >
+                      <i
+                        class="fa fa-trash text-danger"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  }
+                }
+                
+                @if(row.data_devolucao){
+                  <a
+                    class="options point"
+                    title="Imprimir Justificativa"
+                    target="_blank"
+                    [routerLink]="['/ArmamentosEmprestimosJustificativa', row.id]"
+                  >
+                    <i class="fa fa-print text-primary" aria-hidden="true"></i>
+                  </a>
+
+                }
               </td>
             </tr>
             } @empty {
@@ -206,18 +247,22 @@
     aria-hidden="true"
   >
     <div class="modal-dialog modal-xl">
+      @if(armamentoEmprestimo){
       <div class="modal-content">
         <div class="modal-header border-0">
           <h4 class="modal-title">
             Armamentos
-            <button
-              class="btn btn-outline-primary"
-              title="Cadastrar"
-              (click)="cadarmamento = true;"
-            >
-              <i class="fa fa-plus"></i>
-            </button>
+            @if(!armamentoEmprestimo.data_devolucao){
+              <button
+                class="btn btn-outline-primary"
+                title="Cadastrar"
+                (click)="cadarmamento = true;"
+              >
+                <i class="fa fa-plus"></i>
+              </button>
+            }
           </h4>
+
           <button
             type="button"
             class="close"
@@ -227,7 +272,7 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        @if(armamentoEmprestimo){
+        
         <div class="modal-body">
           <!--INICIO TABLE-->
 
@@ -245,6 +290,7 @@
                 <th>Tamanho</th>
                 <th>Serial</th>
                 <th>Quantidade</th>
+                <th>Quant. Devolvido</th>
                 <th>Opções</th>
               </tr>
             </thead>
@@ -254,18 +300,21 @@
               <tr>
                 <td>{{item.id}}</td>
                 <td>{{item.armamento.armamento_tipo.nome}}</td>
-                <td>{{item.armamento.modelo.marca?.nome}}</td>
+                <td>@if(item.armamento.modelo.marca){{{item.armamento.modelo.marca.nome}}}</td>
                 <td>{{item.armamento.modelo.nome}}</td>
                 <td>{{item.armamento.armamento_calibre?.nome}}</td>
                 <td>{{item.armamento.armamento_tamanho?.nome}}</td>
                 <td>{{item.armamento.serial}}</td>
                 <td>{{item.quantidade}}</td>
+                <td>{{item.quantidade_devolucao}}</td>
                 <td>
-                  <i
-                    class="fa fa-trash text-danger point"
-                    aria-hidden="true"
-                    (click)="rmvArmamento(item.id || 0)"
-                  ></i>
+                  @if(!armamentoEmprestimo.data_devolucao){
+                    <i
+                      class="fa fa-trash text-danger point"
+                      aria-hidden="true"
+                      (click)="rmvArmamento(item.id || 0)"
+                    ></i>
+                  }
                 </td>
               </tr>
               }
@@ -273,11 +322,46 @@
           </table>
           <!--FIM TABLE-->
         </div>
-        }
+        
       </div>
+    }
     </div>
   </div>
   <!--FIM MODAL ARMAMENTOS-->
+
+  <!-- INICIO MODAL DEVOLVER-->
+  <div
+    class="modal fade"
+    id="modaldev"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">
+            Devolução
+          </h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          @if(armamentoEmprestimo){
+            <app-armamentos-emprestimos-form-receber (refresh)="refresh()" [armamentoEmprestimo]="armamentoEmprestimo" />
+          }
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL DEVOLVER-->
 
   <!-- INICIO MODAL exclusao-->
   <div

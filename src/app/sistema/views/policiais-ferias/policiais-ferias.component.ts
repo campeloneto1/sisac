@@ -8,6 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { SessionService } from '../../session.service';
+import { User } from '../users/user';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-policiais-ferias',
   templateUrl: './policiais-ferias.component.html',
@@ -20,7 +23,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     DataTableModule,
     FormsModule,
     NgxMaskDirective, 
-        NgxMaskPipe,
+    NgxMaskPipe,
+    RouterModule
   ],
   providers: [
     provideNgxMask(),
@@ -34,15 +38,20 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
 
+  protected user!: User;
+
   @ViewChild(PoliciaisFeriasFormComponent) child!: PoliciaisFeriasFormComponent;
 
   constructor(
     private policiaisFeriasService: PoliciaisFeriasService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUser();
+    this.sessionService.checkPermission('policiais_ferias');
     this.subscription = this.policiaisFeriasService.index().subscribe({
       next: (data) => {
         this.data$ = data;
@@ -83,12 +92,6 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  dataFinal(data: Date, dias:number): Date{
-    let result = new Date(data);
-    result.setDate(result.getDate() + dias);
-    return result;
   }
 
   pesquisar(){

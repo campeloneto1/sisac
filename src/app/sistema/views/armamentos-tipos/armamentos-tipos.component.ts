@@ -7,6 +7,7 @@ import { ArmamentosTiposFormComponent } from './formulario/armamentos-tipos-form
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-armamentos-tipos',
   templateUrl: './armamentos-tipos.component.html',
@@ -33,10 +34,12 @@ export class ArmamentosTiposComponent implements OnInit, OnDestroy {
   constructor(
     private armamentosTiposService: ArmamentosTiposService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.armamentosTiposService.index().subscribe({
       next: (data) => {
         this.data$ = data;

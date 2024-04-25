@@ -1,0 +1,61 @@
+<form id="formdev" name="formdev" [formGroup]="form">
+  <!--INICIO TABLE-->
+  <table class="table table-hover table-head-fixed text-nowrap">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Tipo</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Calibre</th>
+        <th>Tamanho</th>
+        <th>Serial</th>
+        <th>Quantidade</th>
+        <th>Quant. Recebida</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(item of armamentoEmprestimo.armamentos_emprestimos_itens; track
+      item){
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.armamento.armamento_tipo.nome }}</td>
+        <td>
+          @if(item.armamento.modelo.marca){{{item.armamento.modelo.marca.nome}}}
+        </td>
+        <td>{{ item.armamento.modelo.nome }}</td>
+        <td>{{ item.armamento.armamento_calibre?.nome }}</td>
+        <td>{{ item.armamento.armamento_tamanho?.nome }}</td>
+        <td>{{ item.armamento.serial }}</td>
+        <td>{{ item.quantidade }}</td>
+        <td>
+          <input class="form-control" type="number" min="0" max="{{item.quantidade}}" id="{{item.id}}" [value]="item.quantidade" />
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  <!--FIM TABLE-->
+
+  <div class="row" style="height: 350px">
+    <input-textarea
+      class="col-sm-12"
+      formControlName="observacoes"
+      label="Observações"
+      id="observacoes"
+    />
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <a data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>
+    <button
+      type="button"
+      (click)="cadastrar()"
+      data-bs-dismiss="modal"
+      class="btn btn-primary"
+    >
+      Receber
+    </button>
+  </div>
+</form>
+      <!-- data-bs-dismiss="modal" -->

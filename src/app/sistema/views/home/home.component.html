@@ -16,10 +16,25 @@
   
     <!--INICIO SECTION content-->
     <section class="content">
-     
-  
-      
-      
+      <!--INICIO DIV INFOBOX-->
+      <div class="row">
+        @if(user.perfil.policiais){
+          <div class="col-sm-2">
+            <app-info-box titulo="Policiais" [subtitulo]="quantPoliciais" icon="fa-users" class="bg-info" />
+          </div>
+        }
+        @if(user.perfil.policiais_ferias){
+          <div class="col-sm-2">
+            <app-info-box titulo="Férias" [subtitulo]="quantFerias" icon="fa-plane" class="bg-success" />
+          </div>
+        }
+        @if(user.perfil.policiais_atestados){
+          <div class="col-sm-2">
+            <app-info-box titulo="Atestados" [subtitulo]="quantAtestados" icon="fa-ambulance" class="bg-danger" />
+          </div>
+        }
+      </div>
+      <!--FIM DIV INFOBOX-->
     </section>
     <!--FIM SECTION content-->
   </div>

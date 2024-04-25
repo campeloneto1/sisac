@@ -7,6 +7,7 @@ import { GraduacoesFormComponent } from './formulario/graduacoes-form.component'
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-graduacoes',
   templateUrl: './graduacoes.component.html',
@@ -33,10 +34,12 @@ export class GraduacoesComponent implements OnInit, OnDestroy {
   constructor(
     private graduacoesService: GraduacoesService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.graduacoesService.index().subscribe({
       next: (data) => {
         this.data$ = data;

@@ -8,14 +8,16 @@
       <!-- INICIO CARD HEADER-->
       <div class="card-header border-0">
         <h3 class="card-title">
-          <button
-            class="btn btn-outline-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#modalcad"
-            title="Cadastrar"
-          >
-            <i class="fa fa-plus"></i>
-          </button>
+          @if(user.perfil.policiais_cad){
+            <button
+              class="btn btn-outline-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modalcad"
+              title="Cadastrar"
+            >
+              <i class="fa fa-plus"></i>
+            </button>
+          }
         </h3>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 250px">
@@ -75,27 +77,31 @@
               <td>{{ row.matricula | mask: '000.000-0-0' }}</td>
               <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
               <td>
-                <a
-                  class="options point"
-                  title="Editar"
-                  (click)="editar(row)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalcad"
-                >
-                  <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                </a>
-                <a
-                  class="options point"
-                  title="Excluir"
-                  (click)="delete(row)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modaldel"
-                >
-                  <i
-                    class="fa fa-trash text-danger ml-1"
-                    aria-hidden="true"
-                  ></i>
-                </a>
+                @if(user.perfil.policiais_edt){
+                  <a
+                    class="options point"
+                    title="Editar"
+                    (click)="editar(row)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalcad"
+                  >
+                    <i class="fa fa-edit text-primary" aria-hidden="true"></i>
+                  </a>
+                }
+                @if(user.perfil.policiais_del){
+                  <a
+                    class="options point"
+                    title="Excluir"
+                    (click)="delete(row)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modaldel"
+                  >
+                    <i
+                      class="fa fa-trash text-danger ml-1"
+                      aria-hidden="true"
+                    ></i>
+                  </a>
+                }
               </td>
             </tr>
             } @empty {

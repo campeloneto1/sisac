@@ -7,6 +7,7 @@ import { ModelosFormComponent } from './formulario/modelos-form.component';
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-modelos',
   templateUrl: './modelos.component.html',
@@ -33,10 +34,12 @@ export class ModelosComponent implements OnInit, OnDestroy {
   constructor(
     private modelosService: ModelosService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.modelosService.index().subscribe({
       next: (data) => {
         this.data$ = data;

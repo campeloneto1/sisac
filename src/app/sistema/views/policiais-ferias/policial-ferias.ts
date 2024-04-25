@@ -5,7 +5,9 @@ import { User } from "../users/user";
 export interface PolicialFerias{
     id?: number;
     policial: Policial;
+    ano: number;
     data_inicial: Date;
+    data_final: Date;
     dias: number;
     boletim: string;
 

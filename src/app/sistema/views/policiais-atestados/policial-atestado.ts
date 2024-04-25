@@ -5,6 +5,7 @@ export interface PolicialAtestado{
     id?: number;
     policial: Policial;
     data_inicial: Date;
+    data_final: Date;
     dias: number;
     cid?: string;
     hospital?: string;

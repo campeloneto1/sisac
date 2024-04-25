@@ -47,6 +47,16 @@ export const routes: Routes = [
               import('./sistema/views/armamentos-emprestimos/armamentos-emprestimos.component').then((c) => c.ArmamentosEmprestimosComponent),
           },
           {
+            path: 'ArmamentosEmprestimosCautela/:id',
+            loadComponent: () =>
+              import('./sistema/views/armamentos-emprestimos/print-cautela/armamentos-emprestimos-print-cautela.component').then((c) => c.ArmamentosEmprestimosPrintCautela),
+          },
+          {
+            path: 'ArmamentosEmprestimosJustificativa/:id',
+            loadComponent: () =>
+              import('./sistema/views/armamentos-emprestimos/print-justificativa/armamentos-emprestimos-print-justificativa.component').then((c) => c.ArmamentosEmprestimosPrintJustificativa),
+          },
+          {
             path: 'ArmamentosTipos',
             loadComponent: () =>
               import('./sistema/views/armamentos-tipos/armamentos-tipos.component').then((c) => c.ArmamentosTiposComponent),
@@ -80,6 +90,11 @@ export const routes: Routes = [
             path: 'Ferias',
             loadComponent: () =>
               import('./sistema/views/policiais-ferias/policiais-ferias.component').then((c) => c.PoliciaisFeriasComponent),
+          },
+          {
+            path: 'FeriasGuia/:id',
+            loadComponent: () =>
+              import('./sistema/views/policiais-ferias/print/policiais-ferias-print.component').then((c) => c.PoliciaisFeriasPrintComponent),
           },
           {
             path: 'Graduacoes',

@@ -1,0 +1,140 @@
+<div
+  class="page-header"
+  style="text-align: center; "
+  *ngIf="data$"
+>
+  <img src="assets/cabecalho.png" class="cabecalho" />
+  <br />
+  <h4>
+    Guia de Férias -
+    {{ subunidade.abreviatura }}/{{
+      subunidade.unidade?.abreviatura
+    }}
+  </h4>
+</div>
+
+<div class="page-footer" *ngIf="data$">
+  <div class="row rodape2" *ngIf="user">
+    <div class="col-sm-3 text-center">
+      <!-- <qrcode
+        [qrdata]="qrcod"
+        [allowEmptyString]="true"
+        [cssClass]="'center'"
+        [elementType]="'canvas'"
+        [errorCorrectionLevel]="'M'"
+        [scale]="1"
+        [width]="120"
+      ></qrcode> -->
+    </div>
+    <div class="col-sm-6 text-center">
+      <p>
+        {{ subunidade?.nome }} – {{ subunidade.unidade?.nome }}<br />
+        {{ subunidade?.rua }}, {{ subunidade?.numero }} -
+        {{ subunidade?.bairro }} | CEP:
+        @if(subunidade.cep){
+        {{ subunidade.cep | mask: "00.000-00" }}
+        }
+        {{ subunidade.cidade?.nome }} /
+        {{ subunidade.cidade?.estado?.abreviatura }} <br />
+        @if(subunidade.telefone){
+            Fones: {{ subunidade.telefone | mask: "(00) 0000-0000" }} 
+        }   |
+        E-mail: {{ subunidade?.email }}<br />
+        <b>“Raça de Fortes, Povo de Bravos”</b>
+      </p>
+    </div>
+    <div class="col-sm-3">
+      <p>
+        <b>Usuário:</b> 
+        {{ user.nome }}<br />
+        <b>Data:</b> {{ datahj | date: "dd/MM/yyyy HH:mm" }}
+      </p>
+    </div>
+  </div>
+  <img src="assets/rodape.png" class="rodape" />
+</div>
+
+<table style="width: 100%; min-width: 100%" *ngIf="data$">
+  <thead class="thead">
+    <tr>
+      <td>
+        <!--place holder for the fixed-position header-->
+        <div class="page-header-space"></div>
+      </td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        <!--*** CONTENT GOES HERE ***
+          <div class="page">PAGE 1</div>
+          <div class="page">PAGE 2</div>-->
+        <div class="page">
+
+            <!-- --------------------------------------------------------- -->
+              <h5 style="margin-top: 30px;">
+                Fortaleza - CE, {{ datahj | date: 'dd/MM/yyyy' }}
+              </h5>
+              <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.policial.graduacao?.nome}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome}}, 
+                matrícula {{data$.policial.matricula | mask: '000.000-0-A'}}</b>, desta {{ data$.policial.setor.subunidade.abreviatura }}/{{ data$.policial.setor.subunidade.unidade?.abreviatura }}, 
+                o gozo de {{data$.dias}} dias de suas férias relativas ao período aquisitivo <b>{{data$.ano}}</b>, conforme publicação contida no 
+                {{data$.boletim}}, no período de {{data$.data_inicial | date: 'dd/MM/yyyy'}} a {{data$.data_final | date: 'dd/MM/yyyy'}}, devendo retornar para 
+                o expediente normal e/ou serviço no dia <!--{{data$.apto | date: 'dd/MM/yyyy'}}-->, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
+                Art. 59, da Lei nº 13.729 (Estatuto dos Militares Estaduais do Ceará) e regulamentação prevista na Portaria nº 309/2019-GC, 
+                publicado no BCG nº 202, de 24/10/2019.
+
+            </div>
+            @if(subunidade.comandante){
+              <div style="margin-top: 50px; margin-bottom: 60px;" class="text-center" *ngIf="subunidade.comandante">
+                <b>{{subunidade.comandante?.nome}} - {{subunidade.comandante?.graduacao?.abreviatura}}</b><br />
+                Mat.: @if(subunidade.comandante.matricula){{{subunidade.comandante.matricula | mask:'000.000-0-A'}}}<br />
+                Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
+              </div>
+            } 
+              <b style="margin-top: 120px; border-top: 1px solid;">
+                {{data$.policial.graduacao?.abreviatura}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome_guerra}}, 
+                  mat.: {{data$.policial.matricula | mask: '000.000-0-A'}}
+              </b> 
+              
+              <hr style="margin-top: 80px;" />
+              
+              <h4 style="margin-top: 80px; width: 100%; text-align: center;">
+                  Guia de Férias - {{ subunidade.abreviatura }}/{{ subunidade.unidade?.abreviatura }}
+              </h4>
+              <h5 style="margin-top: 30px;">
+                Fortaleza - CE, {{ datahj | date: 'dd/MM/yyyy'  }}
+              </h5>
+              <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.policial.graduacao?.nome}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome}}, 
+                matrícula {{data$.policial.matricula | mask: '000.000-0-A'}}</b>, desta {{ data$.policial.setor.subunidade.abreviatura }}/{{ data$.policial.setor.subunidade.unidade?.abreviatura }}, 
+                o gozo de {{data$.dias}} dias de suas férias relativas ao período aquisitivo <b>{{data$.ano}}</b>, conforme publicação contida no 
+                {{data$.boletim}}, no período de {{data$.data_inicial | date: 'dd/MM/yyyy'}} a {{data$.data_final | date: 'dd/MM/yyyy'}}, devendo retornar para 
+                o expediente normal e/ou serviço no dia <!--{{data$.apto | date: 'dd/MM/yyyy'}}-->, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
+                Art. 59, da Lei nº 13.729 (Estatuto dos Militares Estaduais do Ceará) e regulamentação prevista na Portaria nº 309/2019-GC, 
+                publicado no BCG nº 202, de 24/10/2019.
+
+            </div>
+            @if(subunidade.comandante){
+               <div style="margin-top: 50px;" class="text-center" *ngIf="subunidade.comandante">
+                <b>{{subunidade.comandante?.nome}} - {{subunidade.comandante?.graduacao?.abreviatura}}</b><br />
+                Mat.: @if(subunidade.comandante.matricula){{{subunidade.comandante.matricula | mask:'000.000-0-A'}}}<br />
+                Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
+              </div>
+            } 
+            <!-- --------------------------------------------------------- -->
+
+        </div>
+        <!-- FIM PAGE-->
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot class="tfoot">
+    <tr>
+      <td>
+        <!--place holder for the fixed-position footer-->
+        <div class="page-footer-space"></div>
+      </td>
+    </tr>
+  </tfoot>
+</table>

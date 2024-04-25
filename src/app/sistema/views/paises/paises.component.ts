@@ -7,6 +7,7 @@ import { PaisesFormComponent } from './formulario/paises-form.component';
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-paises',
   templateUrl: './paises.component.html',
@@ -33,10 +34,12 @@ export class PaisesComponent implements OnInit, OnDestroy {
   constructor(
     private paisesService: PaisesService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.paisesService.index().subscribe({
       next: (data) => {
         this.data$ = data;

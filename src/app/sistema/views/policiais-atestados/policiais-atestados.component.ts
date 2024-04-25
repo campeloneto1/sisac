@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { User } from '../users/user';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-policiais-atestados',
   templateUrl: './policiais-atestados.component.html',
@@ -34,15 +36,20 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
 
+  protected user!: User;
+
   @ViewChild(PoliciaisAtestadosFormComponent) child!: PoliciaisAtestadosFormComponent;
 
   constructor(
     private policiaisAtestadosService: PoliciaisAtestadosService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUser();
+    this.sessionService.checkPermission('policiais_atestados');
     this.subscription = this.policiaisAtestadosService.index().subscribe({
       next: (data) => {
         this.data$ = data;
@@ -85,11 +92,7 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
     });
   }
 
-  dataFinal(data: Date, dias:number): Date{
-    let result = new Date(data);
-    result.setDate(result.getDate() + dias);
-    return result;
-  }
+  
 
   pesquisar(){
     this.data$ = this.temp;

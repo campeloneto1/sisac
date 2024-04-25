@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -34,15 +35,20 @@ export class UsersComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
 
+  protected user!: User;
+
   @ViewChild(UsersFormComponent) child!: UsersFormComponent;
 
   constructor(
     private usersService: UsersService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUser();
+    this.sessionService.checkPermission('usuarios');
     this.subscription = this.usersService.index().subscribe({
       next: (data) => {
         this.data$ = data;

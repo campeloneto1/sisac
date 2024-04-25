@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { InputTextComponent } from "../../../components/input-text/input-text.component";
 import { InputSelectComponent } from "../../../components/input-select/input-select.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { SubunidadesService } from "../subunidades.service";
 import { Subunidade } from "../subunidade";
 import { ToastrService } from "ngx-toastr";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 
 import { UnidadesService } from "../../unidades/unidades.service";
 import { PaisesService } from "../../paises/paises.service";
@@ -16,6 +16,8 @@ import { Paises } from "../../paises/pais";
 import { Estados } from "../../estados/estado";
 import { Cidades } from "../../cidades/cidade";
 import { Unidades } from "../../unidades/unidade";
+import { PoliciaisService } from "../../policiais/policiais.service";
+import { Policiais } from "../../policiais/policial";
 
 
 @Component({
@@ -31,13 +33,16 @@ import { Unidades } from "../../unidades/unidade";
         InputSelectComponent
     ]
 })
-export class SubunidadesFormComponent implements OnInit{
+export class SubunidadesFormComponent implements OnInit, OnDestroy{
     
     protected form!: FormGroup;
+    protected policiais$!: Observable<Policiais>;
     protected unidades$!: Observable<Unidades>;
     protected paises$!: Observable<Paises>;
     protected estados$!: Observable<Estados>;
     protected cidades$!: Observable<Cidades>;
+
+    private subscription:any;
 
     @Output('refresh') refresh: EventEmitter<Subunidade> = new EventEmitter();
     
@@ -48,8 +53,10 @@ export class SubunidadesFormComponent implements OnInit{
         private paisesService:PaisesService,
         private estadosService:EstadosService,
         private cidadesService:CidadesService,
+        private policiaisService: PoliciaisService,
         private toastr: ToastrService,
     ){}
+    
 
     ngOnInit() {
         this.form = this.formBuilder.group({
@@ -90,9 +97,33 @@ export class SubunidadesFormComponent implements OnInit{
             'unidade': [null, Validators.compose([
                 Validators.required,
             ])],
+            'comandante': [null, Validators.compose([
+                Validators.required
+            ])],
+            'subcomandante': [null, Validators.compose([
+                Validators.required
+            ])],
         });
         this.unidades$ = this.unidadesService.index();
         this.paises$ = this.paisesService.index();
+        this.subscription = this.policiaisService.disponiveis().subscribe({
+            next: (data) => {
+                data.forEach(element => {
+                    if(element.numeral){
+                        element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}`;
+                    }else{
+                        element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}`;
+                    }
+                });
+                this.policiais$ = of(data);
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        if(this.subscription){
+            this.subscription.unsubscribe();
+        }
     }
 
     cadastrar(){
@@ -131,6 +162,12 @@ export class SubunidadesFormComponent implements OnInit{
         this.form.patchValue(data);
         if(data.unidade){
             this.form.get('unidade')?.patchValue(data.unidade.id);
+        }
+        if(data.comandante){
+            this.form.get('comandante')?.patchValue(data.comandante.id);
+        }
+        if(data.subcomandante){
+            this.form.get('subcomandante')?.patchValue(data.subcomandante.id);
         }
         if(data.cidade){
             this.form.get('pais')?.patchValue(data.cidade.estado.pais.id);

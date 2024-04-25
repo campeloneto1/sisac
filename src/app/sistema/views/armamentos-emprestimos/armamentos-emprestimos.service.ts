@@ -35,5 +35,9 @@ export class ArmamentosEmprestimosService{
     remove(id:number){
         return this.http.delete(`${URL}/${endPoint}/${id}`);
     }
+
+    receber(data:any){
+        return this.http.post(`${URL}/${endPoint}/receber`, data);
+    }
    
 }

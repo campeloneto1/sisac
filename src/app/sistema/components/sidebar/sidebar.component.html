@@ -18,85 +18,99 @@
       >
         <li class="nav-item">
           <a
-          [routerLink]="['Inicio']"
-          routerLinkActive="active"
+            [routerLink]="['Inicio']"
+            routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-home"></i>
             <p>Início</p>
           </a>
         </li>
+        @if(user.perfil.policiais_atestados){
         <li class="nav-item">
+          
           <a
-          [routerLink]="['Atestados']"
-          routerLinkActive="active"
+            [routerLink]="['Atestados']"
+            routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-ambulance"></i>
             <p>Atestados</p>
           </a>
         </li>
+        } @if(user.perfil.armamentos){
         <li class="nav-item">
           <a
-          [routerLink]="['Armamentos']"
-          routerLinkActive="active"
+            [routerLink]="['Armamentos']"
+            routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-crosshairs"></i>
             <p>Armamentos</p>
           </a>
         </li>
+        } @if(user.perfil.armamentos_emprestimos){
         <li class="nav-item">
           <a
-          [routerLink]="['ArmamentosEmprestimos']"
-          routerLinkActive="active"
+            [routerLink]="['ArmamentosEmprestimos']"
+            routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-briefcase"></i>
             <p>Emp. de Armamentos</p>
           </a>
         </li>
+        } @if(user.perfil.policiais_ferias){
         <li class="nav-item">
           <a
-          [routerLink]="['Ferias']"
-          routerLinkActive="active"
+            [routerLink]="['Ferias']"
+            routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-plane"></i>
             <p>Férias</p>
           </a>
         </li>
+        } @if(user.perfil.policiais){
         <li class="nav-item">
           <a
-          [routerLink]="['Policiais']"
-          routerLinkActive="active"
+            [routerLink]="['Policiais']"
+            routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-users"></i>
             <p>Policiais</p>
           </a>
         </li>
+        } @if(user.perfil.policiais_publicacoes){
         <li class="nav-item">
           <a
-          [routerLink]="['Publicacoes']"
-          routerLinkActive="active"
+            [routerLink]="['Publicacoes']"
+            routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-folder-open"></i>
             <p>Publicações</p>
           </a>
         </li>
-
-        <li class="nav-item point" (click)="openMenuGestor()" [ngClass]="{'menu-is-opening menu-open': menuGestor}">
-          <a  class="nav-link" >
+        } @if(user.perfil.gestor){
+        <li
+          class="nav-item point"
+          (click)="openMenuGestor()"
+          [ngClass]="{ 'menu-is-opening menu-open': menuGestor }"
+        >
+          <a class="nav-link">
             <i class="nav-icon fa fa-cog"></i>
             <p>
               Gestor
               <i class="right fa fa-angle-left"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview" [ngStyle]="{'display: block;': menuGestor}">
-            <li class="nav-item" >
+          <ul
+            class="nav nav-treeview"
+            [ngStyle]="{ 'display: block;': menuGestor }"
+          >
+            <li class="nav-item">
               <a
                 [routerLink]="['Usuarios']"
                 routerLinkActive="active"
@@ -108,16 +122,24 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item point" (click)="openMenuAdmin()" [ngClass]="{'menu-is-opening menu-open': menuAdmin}">
-          <a  class="nav-link" >
+        } @if(user.perfil.administrador){
+        <li
+          class="nav-item point"
+          (click)="openMenuAdmin()"
+          [ngClass]="{ 'menu-is-opening menu-open': menuAdmin }"
+        >
+          <a class="nav-link">
             <i class="nav-icon fa fa-cogs"></i>
             <p>
               Administrador
               <i class="right fa fa-angle-left"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview" [ngStyle]="{'display: block;': menuAdmin}">
-            <li class="nav-item" >
+          <ul
+            class="nav nav-treeview"
+            [ngStyle]="{ 'display: block;': menuAdmin }"
+          >
+            <li class="nav-item">
               <a
                 [routerLink]="['ArmamentosCalibres']"
                 routerLinkActive="active"
@@ -127,7 +149,7 @@
                 <p>Calibres de Armamen.</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Cidades']"
                 routerLinkActive="active"
@@ -137,7 +159,7 @@
                 <p>Cidades</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Estados']"
                 routerLinkActive="active"
@@ -147,7 +169,7 @@
                 <p>Estados</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Graduacoes']"
                 routerLinkActive="active"
@@ -157,7 +179,7 @@
                 <p>Graduações</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Marcas']"
                 routerLinkActive="active"
@@ -167,7 +189,7 @@
                 <p>Marcas</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Modelos']"
                 routerLinkActive="active"
@@ -177,7 +199,7 @@
                 <p>Modelos</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Paises']"
                 routerLinkActive="active"
@@ -187,7 +209,7 @@
                 <p>Países</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Perfis']"
                 routerLinkActive="active"
@@ -197,7 +219,7 @@
                 <p>Perfis</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Setores']"
                 routerLinkActive="active"
@@ -207,7 +229,7 @@
                 <p>Setores</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Sexos']"
                 routerLinkActive="active"
@@ -217,7 +239,7 @@
                 <p>Sexos</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Subunidades']"
                 routerLinkActive="active"
@@ -227,7 +249,7 @@
                 <p>Subunidades</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['ArmamentosTamanhos']"
                 routerLinkActive="active"
@@ -237,7 +259,7 @@
                 <p>Tamanhos de Armamen.</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['PublicacoesTipos']"
                 routerLinkActive="active"
@@ -247,7 +269,7 @@
                 <p>Tipos de Publi.</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['ArmamentosTipos']"
                 routerLinkActive="active"
@@ -257,7 +279,7 @@
                 <p>Tipos de Armamen.</p>
               </a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
               <a
                 [routerLink]="['Unidades']"
                 routerLinkActive="active"
@@ -269,6 +291,7 @@
             </li>
           </ul>
         </li>
+        }
       </ul>
     </nav>
   </div>

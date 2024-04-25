@@ -9,6 +9,8 @@ import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { Router, RouterModule } from '@angular/router';
+import { SessionService } from '../../session.service';
+import { User } from '../users/user';
 @Component({
   selector: 'app-policiais',
   templateUrl: './policiais.component.html',
@@ -36,16 +38,21 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
 
+  protected user!: User;
+
   @ViewChild(PoliciaisFormComponent) child!: PoliciaisFormComponent;
 
   constructor(
     private policiaisService: PoliciaisService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
     
   ) {}
  
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUser();
+    this.sessionService.checkPermission('policiais');
     this.subscription = this.policiaisService.index().subscribe({
       next: (data) => {
         this.data$ = data;

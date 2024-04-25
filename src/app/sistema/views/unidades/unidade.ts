@@ -1,4 +1,5 @@
 import { Cidade } from "../cidades/cidade";
+import { Policial } from "../policiais/policial";
 import { User } from "../users/user";
 
 export interface Unidade{
@@ -7,6 +8,9 @@ export interface Unidade{
     abreviatura: string;
     telefone?: string;
     email?: string;
+
+    comandante: Policial;
+    subcomandante: Policial;
 
     rua?: string;
     numero?: string;

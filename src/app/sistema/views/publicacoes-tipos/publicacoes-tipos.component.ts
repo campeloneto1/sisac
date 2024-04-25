@@ -7,6 +7,7 @@ import { PublicacoesTiposFormComponent } from './formulario/publicacoes-tipos-fo
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-publicacoes-tipos',
   templateUrl: './publicacoes-tipos.component.html',
@@ -33,10 +34,12 @@ export class PublicacoesTiposComponent implements OnInit, OnDestroy {
   constructor(
     private publicacoesTiposService: PublicacoesTiposService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.publicacoesTiposService.index().subscribe({
       next: (data) => {
         this.data$ = data;

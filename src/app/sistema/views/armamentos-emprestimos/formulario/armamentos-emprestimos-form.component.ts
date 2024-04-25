@@ -109,8 +109,12 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
     }
 
     cadastrar(){
-        this.form.get('armamentos')?.patchValue(this.armamentosselected);
+        
         if(this.form.value.id){
+            delete this.form.value.armamentos;
+            delete this.form.value.armamento;
+            delete this.form.value.quantidade;
+
             this.armamentosEmprestimosService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Edição realizada com sucesso!');
@@ -122,6 +126,7 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
                 }
             });
         }else{
+            this.form.get('armamentos')?.patchValue(this.armamentosselected);
             this.armamentosEmprestimosService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');
@@ -158,6 +163,7 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
             }
         );
         this.form.get('armamento')?.patchValue(null);
+        this.form.get('quantidade')?.patchValue(1);
     }
 
     removeArmamento(index:number){

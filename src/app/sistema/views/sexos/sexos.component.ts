@@ -11,6 +11,7 @@ import { DataTableDirective, DataTablesModule } from "angular-datatables";
 import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
 import { SharedService } from '../../shared/shared.service';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-sexos',
   templateUrl: './sexos.component.html',
@@ -44,11 +45,13 @@ export class SexosComponent implements OnInit, OnDestroy {
   constructor(
     private sexosService: SexosService,
     private toastr: ToastrService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.dtOptions = this.sharedService.getDtOptions();
     this.subscription = this.sexosService.index().subscribe({
       next: (data) => {

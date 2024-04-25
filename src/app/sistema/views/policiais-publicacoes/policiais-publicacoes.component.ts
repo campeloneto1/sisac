@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { SessionService } from '../../session.service';
+import { User } from '../users/user';
 @Component({
   selector: 'app-policiais-publicacoes',
   templateUrl: './policiais-publicacoes.component.html',
@@ -34,15 +36,20 @@ export class PoliciaisPublicacoesComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
 
+  protected user!: User;
+
   @ViewChild(PoliciaisPublicacoesFormComponent) child!: PoliciaisPublicacoesFormComponent;
 
   constructor(
     private policiaisPublicacoesService: PoliciaisPublicacoesService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUser();
+    this.sessionService.checkPermission('policiais_publicacoes');
     this.subscription = this.policiaisPublicacoesService.index().subscribe({
       next: (data) => {
         this.data$ = data;

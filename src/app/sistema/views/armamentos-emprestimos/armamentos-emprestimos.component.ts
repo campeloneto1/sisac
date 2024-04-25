@@ -10,6 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ArmamentosEmprestimosItensService } from '../armamentos-emprestimos-itens/armamentos-emprestimos-itens.service';
 import { ArmamentosEmprestimosItensFormComponent } from '../armamentos-emprestimos-itens/formulario/armamentos-emprestimos-itens-form.component';
+import { SessionService } from '../../session.service';
+import { User } from '../users/user';
+import { InputTextareaComponent } from '../../components/input-textarea/input-textarea.component';
+import { ArmamentosEmprestimosFormReceberComponent } from './formulario-receber/armamentos-emprestimos-form-receber.component';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-armamentos-emprestimos',
   templateUrl: './armamentos-emprestimos.component.html',
@@ -19,11 +24,14 @@ import { ArmamentosEmprestimosItensFormComponent } from '../armamentos-emprestim
     CommonModule, 
     TitleComponent, 
     ArmamentosEmprestimosFormComponent,
+    ArmamentosEmprestimosFormReceberComponent,
     ArmamentosEmprestimosItensFormComponent,
     DataTableModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
+    InputTextareaComponent,
+    RouterModule
   ],
   providers: [
     provideNgxMask(),
@@ -40,17 +48,24 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
 
   protected cadarmamento:boolean = false;
 
+  protected user!: User;
+
   @ViewChild(ArmamentosEmprestimosFormComponent) child!: ArmamentosEmprestimosFormComponent;
+  @ViewChild(ArmamentosEmprestimosFormReceberComponent) childreceber!: ArmamentosEmprestimosFormReceberComponent;
   @ViewChild(ArmamentosEmprestimosItensFormComponent) childarmamento!: ArmamentosEmprestimosItensFormComponent;
 
   constructor(
     private armamentosEmprestimosService: ArmamentosEmprestimosService,
     private armamentosEmprestimosItensService: ArmamentosEmprestimosItensService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
+    
   ) {}
  
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUser();
+    this.sessionService.checkPermission('armamentos_emprestimos');
     this.subscription = this.armamentosEmprestimosService.index().subscribe({
       next: (data) => {
         this.data$ = data;
@@ -144,6 +159,14 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
 
   cancelArm(){
     this.cadarmamento = false;
+  }
+
+  devolver(data:ArmamentoEmprestimo){
+    this.armamentosEmprestimosService.find(data.id || 0).subscribe({
+      next: (data) => {
+        this.armamentoEmprestimo = data;
+      }
+    })
   }
 
 }

@@ -7,6 +7,7 @@ import { SetoresFormComponent } from './formulario/setores-form.component';
 import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
+import { SessionService } from '../../session.service';
 @Component({
   selector: 'app-setores',
   templateUrl: './setores.component.html',
@@ -33,10 +34,12 @@ export class SetoresComponent implements OnInit, OnDestroy {
   constructor(
     private setoresService: SetoresService,
     private toastr: ToastrService,
+    private sessionService: SessionService,
   ) {}
  
 
   ngOnInit(): void {
+    this.sessionService.checkPermission('administrador');
     this.subscription = this.setoresService.index().subscribe({
       next: (data) => {
         this.data$ = data;

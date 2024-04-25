@@ -40,7 +40,43 @@ export class PerfisFormComponent implements OnInit{
             ])],
             'administrador': [null],
             'gestor': [null],
-            'relatorios': [null]
+            'relatorios': [null],
+
+            'armamentos': [null],
+            'armamentos_cad': [null],
+            'armamentos_edt': [null],
+            'armamentos_del': [null],
+
+            'armamentos_emprestimos': [null],
+            'armamentos_emprestimos_cad': [null],
+            'armamentos_emprestimos_edt': [null],
+            'armamentos_emprestimos_del': [null],
+
+            'policiais': [null],
+            'policiais_cad': [null],
+            'policiais_edt': [null],
+            'policiais_del': [null],
+
+            'policiais_atestados': [null],
+            'policiais_atestados_cad': [null],
+            'policiais_atestados_edt': [null],
+            'policiais_atestados_del': [null],
+
+            'policiais_ferias': [null],
+            'policiais_ferias_cad': [null],
+            'policiais_ferias_edt': [null],
+            'policiais_ferias_del': [null],
+
+            'policiais_publicacoes': [null],
+            'policiais_publicacoes_cad': [null],
+            'policiais_publicacoes_edt': [null],
+            'policiais_publicacoes_del': [null],
+
+            'usuarios': [null],
+            'usuarios_cad': [null],
+            'usuarios_edt': [null],
+            'usuarios_del': [null],
+
         });
 
     }
