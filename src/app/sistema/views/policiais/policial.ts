@@ -41,6 +41,8 @@ export interface Policial{
     policiais_publicacoes: PoliciaisPublicacoes;
     armamentos_emprestimos: ArmamentosEmprestimos;
 
+    usuario?: User;
+
     created_by?: User;
     updated_by?: User;
     created_at?: Date;

@@ -46,7 +46,12 @@
     <div class="col-sm-3">
       <p>
         <b>Usuário:</b> 
-        {{ user.nome }}<br />
+        @if(user.policial){
+          {{ user.policial.graduacao.abreviatura }} {{ user.policial.nome_guerra }}
+        }@else{
+          {{ user.nome }}
+        }
+        <br />
         <b>Data:</b> {{ datahj | date: "dd/MM/yyyy HH:mm" }}
       </p>
     </div>

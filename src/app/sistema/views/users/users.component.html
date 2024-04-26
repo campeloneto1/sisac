@@ -77,6 +77,17 @@
                 @if(user.perfil.usuarios_edt){
                   <a
                     class="options point"
+                    title="Resetar Senha"
+                    (click)="reset(row)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalreset"
+                  >
+                    <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
+                  </a>
+                }
+                @if(user.perfil.usuarios_edt){
+                  <a
+                    class="options point ml-1"
                     title="Editar"
                     (click)="editar(row)"
                     data-bs-toggle="modal"
@@ -87,14 +98,14 @@
                 }
                 @if(user.perfil.usuarios_del){
                   <a
-                    class="options point"
+                    class="options point ml-1"
                     title="Excluir"
                     (click)="delete(row)"
                     data-bs-toggle="modal"
                     data-bs-target="#modaldel"
                   >
                     <i
-                      class="fa fa-trash text-danger ml-1"
+                      class="fa fa-trash text-danger "
                       aria-hidden="true"
                     ></i>
                   </a>
@@ -155,6 +166,50 @@
     </div>
   </div>
   <!--FIM MODAL CADASTRO-->
+
+   <!-- INICIO MODAL RESET-->
+   <div
+   class="modal fade"
+   id="modalreset"
+   style="display: none"
+   aria-hidden="true"
+ >
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header border-0">
+         <h4 class="modal-title">Excluir</h4>
+         <button
+           type="button"
+           class="close"
+           data-bs-dismiss="modal"
+           aria-label="Close"
+         >
+           <span aria-hidden="true">×</span>
+         </button>
+       </div>
+       <div class="modal-body">
+         @if(usuario){ 
+          Tem certeza que deseja resetar a senha de <b>{{ usuario.nome }}</b>?
+         
+          <div class="d-flex justify-content-end">
+           <a data-bs-dismiss="modal" class="btn btn-link text-danger"
+             >Cancelar</a
+           >
+           <button
+             type="button"
+             (click)="confirmReset()"
+             data-bs-dismiss="modal"
+             class="btn btn-primary"
+           >
+             Confirmar
+           </button>
+         </div>
+         }
+       </div>
+     </div>
+   </div>
+ </div>
+ <!--FIM MODAL exclusRESETao-->
 
   <!-- INICIO MODAL exclusao-->
   <div

@@ -29,6 +29,7 @@ import { SessionService } from '../../session.service';
 })
 export class UsersComponent implements OnInit, OnDestroy {
   protected data$!: Users;
+  protected usuario!: User;
   protected excluir!: User;
   protected pesquisa!: string;
   protected temp!: Users;
@@ -87,6 +88,22 @@ export class UsersComponent implements OnInit, OnDestroy {
       },
       error: (error: any) => {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
+      },
+    });
+  }
+
+  reset(data:User){
+    this.usuario = data;
+  }
+
+  confirmReset(){
+    this.usersService.reset(this.usuario).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Senha alterada com sucesso!');
+        this.refresh();
+      },
+      error: (error: any) => {
+        this.toastr.error('Erro ao alterar senha, tente novamente mais tarde!');
       },
     });
   }

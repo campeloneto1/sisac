@@ -11,6 +11,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { Router, RouterModule } from '@angular/router';
 import { SessionService } from '../../session.service';
 import { User } from '../users/user';
+import { UsersService } from '../users/users.service';
 @Component({
   selector: 'app-policiais',
   templateUrl: './policiais.component.html',
@@ -33,6 +34,7 @@ import { User } from '../users/user';
 export class PoliciaisComponent implements OnInit, OnDestroy {
   protected data$!: Policiais;
   protected excluir!: Policial;
+  protected policial!: Policial;
   protected pesquisa!: string;
   protected temp!: Policiais;
   protected quant: number = 10;
@@ -46,7 +48,7 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
     private policiaisService: PoliciaisService,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    
+    private usersService: UsersService
   ) {}
  
 
@@ -91,6 +93,32 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
       },
       error: (error: any) => {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
+      },
+    });
+  }
+
+  usuario(data: Policial){
+    this.policial = data;
+  }
+
+  confirmUser(){
+    var user: User = {
+      nome: this.policial.nome,
+      cpf: this.policial.cpf,
+      //@ts-ignore
+      subunidade: this.policial.setor.subunidade.id,
+      policial: this.policial,
+      //@ts-ignore
+      perfil: 3
+    }
+
+    this.usersService.create(user).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Usuário gerado com sucesso!');
+        this.refresh();
+      },
+      error: (error: any) => {
+        this.toastr.error('Erro ao gerar, tente novamente mais tarde!');
       },
     });
   }

@@ -5,6 +5,7 @@ import { SessionService } from "../../session.service";
 import { User } from "../users/user";
 import { HomeService } from "./home.service";
 import { Observable } from "rxjs";
+import { Armamentos } from "../armamentos/armamento";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantAtestados!: any;
     protected quantFerias!: any;
     protected policiaisSetores!: any;
+    protected armamentosVencendo!: Armamentos;
 
     protected subscription: any;
     protected subscription2: any;
@@ -51,11 +53,17 @@ export class HomeComponent implements OnInit, OnDestroy{
             }
         });
 
-        this.subscription4 = this.homeService.getPoliciaisSetores().subscribe({
+        this.subscription4 = this.homeService.getArmamentosVencendo().subscribe({
             next: (data) => {
-                this.policiaisSetores = data;
+                this.armamentosVencendo = data;
             }
         });
+
+        // this.subscription4 = this.homeService.getPoliciaisSetores().subscribe({
+        //     next: (data) => {
+        //         this.policiaisSetores = data;
+        //     }
+        // });
     }
 
     ngOnDestroy(): void {

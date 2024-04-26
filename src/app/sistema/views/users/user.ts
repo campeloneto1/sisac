@@ -1,4 +1,5 @@
 import { Perfil } from "../perfis/perfil";
+import { Policial } from "../policiais/policial";
 import { Subunidade } from "../subunidades/subunidade";
 
 export interface User{
@@ -11,6 +12,8 @@ export interface User{
     salt: string;
     perfil: Perfil;
     subunidade: Subunidade;
+
+    policial?: Policial;
 
     created_by?: User;
     updated_by?: User;

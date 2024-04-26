@@ -46,7 +46,11 @@
     <div class="col-sm-3">
       <p>
         <b>Usuário:</b> 
-        {{ user.nome }}<br />
+        @if(user.policial){
+          {{ user.policial.graduacao.abreviatura }} {{ user.policial.nome_guerra }}
+        }@else{
+          {{ user.nome }}
+        }<br />
         <b>Data:</b> {{ datahj | date: "dd/MM/yyyy HH:mm" }}
       </p>
     </div>
@@ -113,10 +117,10 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
               <b>Data Empréstimo:</b> {{ data$.data_emprestimo | date: "dd/MM/yyyy HH:mm" }}
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <b>Data Devolução:</b> {{ data$.data_devolucao | date: "dd/MM/yyyy HH:mm" }}
               </div>
           </div>
@@ -159,8 +163,7 @@
           <div style="margin-top: 30px" class="text-center">
             <b>{{ data$.policial.nome }}</b> - {{ data$.policial.graduacao.abreviatura
             }}<br />
-            Mat.: {{ data$.policial.matricula | mask: "000.000-0-A" }} -
-            RECEBEDOR<br />
+            Mat.: {{ data$.policial.matricula | mask: "000.000-0-A" }}<br />
           </div>
         </div>
         <!-- FIM PAGE-->

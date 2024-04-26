@@ -29,7 +29,16 @@
             class="user-image img-circle elevation-2"
             alt="User Image"
           />
-          @if(user){<span class="d-none d-md-inline">{{user.nome}}</span>}
+          @if(user){
+            <span class="d-none d-md-inline">
+              @if(user.policial){
+                {{user.policial.graduacao.abreviatura}}  {{user.policial.nome_guerra}}
+              }@else{
+                {{user.nome}}
+              }
+              
+            </span>
+          }
         </a>
         <ul
             class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
@@ -43,7 +52,7 @@
             />
             @if(user){ <p>
              <span>{{user.nome}}</span>
-              <small>{{user.cpf}}</small>
+              <small>{{user.cpf | mask: '000.000.000-00'}}</small>
             </p>}
           </li>
   
@@ -69,4 +78,52 @@
      
     </ul>
   </nav>
+
+  <!-- INICIO MODAL exclusao-->
+  <div
+    class="modal fade"
+    id="modalsenha"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">Alterar Senha</h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form  [formGroup]="form" >
+            <div class="row">
+              <input-text class="col-sm-6" formControlName="password" label="Senha" id="password" tipo="password" />
+              <input-text class="col-sm-6" formControlName="confirm" label="Confirmar Senha" id="confirm" tipo="password" />
+            </div>
+            
+            <div class="d-flex justify-content-end">
+                <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger"
+                  >Cancelar</a
+                >
+                <button
+                  type="button"
+                  (click)="alterarSenha()"
+                  data-bs-dismiss="modal"
+                  class="btn btn-primary"
+                  [disabled]="form.invalid || form.value.password != form.value.confirm"
+                >
+                  Confirmar
+                </button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL exclusao-->
   

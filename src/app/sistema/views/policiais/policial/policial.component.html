@@ -35,7 +35,7 @@
                 <li class="list-group-item">
                   <b>Matrícula</b>
                   <a class="float-right">{{
-                    policial.matricula | mask : "000.000-0-0"
+                    policial.matricula | mask : "000.000-0-A"
                   }}</a>
                 </li>
                 <li class="list-group-item">
@@ -175,13 +175,15 @@
                     [mfData]="policial.armamentos_emprestimos"
                     #four="mfDataTable"
                     [mfRowsOnPage]="10"
-                    class="table table-bordered table-hover"
+                    class="table table-hover table-head-fixed text-nowrap"
                   >
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Data Empréstimo</th>
-                        <th>Data Devolução</th>
+                        <th><mfDefaultSorter by="data_emprestimo"
+                          >Data Empréstimo</mfDefaultSorter></th>
+                        <th><mfDefaultSorter by="data_devolucao"
+                          >Data Devolução</mfDefaultSorter></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -223,6 +225,22 @@
                       </tr>
                       }
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="100%">
+                          <div
+                            style="
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
+                            <mfBootstrapPaginator
+                            ></mfBootstrapPaginator>
+                          </div>
+                        </td>
+                      </tr>
+                    </tfoot>
                   </table>
                   <!--------------------------------------------------->
                 </div>
@@ -280,7 +298,6 @@
                             "
                           >
                             <mfBootstrapPaginator
-                              [rowsOnPageSet]="[5, 10, 25]"
                             ></mfBootstrapPaginator>
                           </div>
                         </td>
@@ -347,7 +364,6 @@
                             "
                           >
                             <mfBootstrapPaginator
-                              [rowsOnPageSet]="[5, 10, 25]"
                             ></mfBootstrapPaginator>
                           </div>
                         </td>
@@ -409,7 +425,6 @@
                             "
                           >
                             <mfBootstrapPaginator
-                              [rowsOnPageSet]="[5, 10, 25]"
                             ></mfBootstrapPaginator>
                           </div>
                         </td>

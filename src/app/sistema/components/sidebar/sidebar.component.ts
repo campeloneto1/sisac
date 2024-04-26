@@ -4,13 +4,18 @@ import { Router, RouterModule } from "@angular/router";
 import { User } from "../../views/users/user";
 import { SessionService } from "../../session.service";
 import { StorageService } from "../../storage.service";
+import { NavItemComponent } from "../nav-item/nav-item.component";
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrl: './sidebar.component.css',
     standalone: true,
-    imports: [CommonModule, RouterModule]
+    imports: [
+        CommonModule, 
+        RouterModule,
+        NavItemComponent
+    ]
 })
 
 export class SidebarComponent implements OnInit{
@@ -23,9 +28,12 @@ export class SidebarComponent implements OnInit{
         '/ArmamentosTamanhos',
         '/Graduacoes',
         '/Cidades',
+        '/Cores',
         '/Estados',
+        '/ManutencoesTipos',
         '/Marcas',
         '/Modelos',
+        '/Oficinas',
         '/Paises',
         '/Perfis',
         '/PublicacoesTipos',
@@ -33,6 +41,7 @@ export class SidebarComponent implements OnInit{
         '/Subunidades',
         '/Setores',
         '/Unidades',
+        '/VeiculosTipos',
     ]
     protected menuAdmin:boolean = false;
 

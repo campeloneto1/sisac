@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Observable } from "rxjs";
+import { Armamentos } from "../armamentos/armamento";
 
 const URL = environment.url;
 const endPoint = 'home';
@@ -27,7 +28,11 @@ export class HomeService{
     }
 
     getPoliciaisSetores(): Observable<number>{
-        return this.http.get<number>(`${URL}/${endPoint}/policiaisSetores`);
+        return this.http.get<number>(`${URL}/${endPoint}/policiais-setores`);
+    }
+
+    getArmamentosVencendo(): Observable<Armamentos>{
+        return this.http.get<Armamentos>(`${URL}/${endPoint}/armamentos-vencendo`);
     }
 
 }

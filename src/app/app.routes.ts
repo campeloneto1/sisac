@@ -82,6 +82,11 @@ export const routes: Routes = [
               import('./sistema/views/cidades/cidades.component').then((c) => c.CidadesComponent),
           },
           {
+            path: 'Cores',
+            loadComponent: () =>
+              import('./sistema/views/cores/cores.component').then((c) => c.CoresComponent),
+          },
+          {
             path: 'Estados',
             loadComponent: () =>
               import('./sistema/views/estados/estados.component').then((c) => c.EstadosComponent),
@@ -102,6 +107,11 @@ export const routes: Routes = [
               import('./sistema/views/graduacoes/graduacoes.component').then((c) => c.GraduacoesComponent),
           },
           {
+            path: 'ManutencoesTipos',
+            loadComponent: () =>
+              import('./sistema/views/manutencoes-tipos/manutencoes-tipos.component').then((c) => c.ManutencoesTiposComponent),
+          },
+          {
             path: 'Marcas',
             loadComponent: () =>
               import('./sistema/views/marcas/marcas.component').then((c) => c.MarcasComponent),
@@ -110,6 +120,11 @@ export const routes: Routes = [
             path: 'Modelos',
             loadComponent: () =>
               import('./sistema/views/modelos/modelos.component').then((c) => c.ModelosComponent),
+          },
+          {
+            path: 'Oficinas',
+            loadComponent: () =>
+              import('./sistema/views/oficinas/oficinas.component').then((c) => c.OficinasComponent),
           },
           {
             path: 'Paises',
@@ -165,6 +180,11 @@ export const routes: Routes = [
             path: 'Usuarios',
             loadComponent: () =>
               import('./sistema/views/users/users.component').then((c) => c.UsersComponent),
+          },
+          {
+            path: 'VeiculosTipos',
+            loadComponent: () =>
+              import('./sistema/views/veiculos-tipos/veiculos-tipos.component').then((c) => c.VeiculosTiposComponent),
           },
           {
             path:'**',

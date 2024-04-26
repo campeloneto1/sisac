@@ -74,12 +74,23 @@
               <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
               <td><a [routerLink]="['/Policial', row.id]">{{ row.nome }}</a></td>
               <td>{{row.nome_guerra}}</td>
-              <td>{{ row.matricula | mask: '000.000-0-0' }}</td>
+              <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
               <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
               <td>
-                @if(user.perfil.policiais_edt){
+                @if(user.perfil.gestor && !row.user){
                   <a
                     class="options point"
+                    title="Gerar Usuário"
+                    (click)="usuario(row)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modaluser"
+                  >
+                    <i class="fa fa-user text-primary" aria-hidden="true"></i>
+                  </a>
+                }                
+                @if(user.perfil.policiais_edt){
+                  <a
+                    class="options point ml-1"
                     title="Editar"
                     (click)="editar(row)"
                     data-bs-toggle="modal"
@@ -90,14 +101,14 @@
                 }
                 @if(user.perfil.policiais_del){
                   <a
-                    class="options point"
+                    class="options point ml-1"
                     title="Excluir"
                     (click)="delete(row)"
                     data-bs-toggle="modal"
                     data-bs-target="#modaldel"
                   >
                     <i
-                      class="fa fa-trash text-danger ml-1"
+                      class="fa fa-trash text-danger "
                       aria-hidden="true"
                     ></i>
                   </a>
@@ -158,6 +169,53 @@
     </div>
   </div>
   <!--FIM MODAL CADASTRO-->
+
+   <!-- INICIO MODAL GERAR USUARIO-->
+   <div
+   class="modal fade"
+   id="modaluser"
+   style="display: none"
+   aria-hidden="true"
+ >
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header border-0">
+         <h4 class="modal-title">Gerar Usuário</h4>
+         <button
+           type="button"
+           class="close"
+           data-bs-dismiss="modal"
+           aria-label="Close"
+         >
+           <span aria-hidden="true">×</span>
+         </button>
+       </div>
+       @if(policial){
+        <div class="modal-body">
+          Tem certeza que deseja criar o usuário de <b>{{policial.nome}}</b>?
+
+          <div class="d-flex justify-content-end">
+            <a             
+              data-bs-dismiss="modal"
+              class="btn btn-link text-danger"
+              >Cancelar</a
+            >
+            <button
+             
+              type="button"
+              (click)="confirmUser()"
+              data-bs-dismiss="modal"
+              class="btn btn-primary"
+            >
+              Gerar
+            </button>
+          </div>
+        </div>
+        }
+     </div>
+   </div>
+ </div>
+ <!--FIM MODAL GERAR USUARIO-->
 
   <!-- INICIO MODAL exclusao-->
   <div

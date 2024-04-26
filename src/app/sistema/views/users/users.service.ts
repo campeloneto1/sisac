@@ -35,4 +35,12 @@ export class UsersService{
     remove(id:number){
         return this.http.delete(`${URL}/${endPoint}/${id}`);
     }
+
+    reset(data: User){
+        return this.http.post(`${URL}/${endPoint}/reset`, data);
+     }
+
+     change(data: any){
+        return this.http.post(`${URL}/${endPoint}/change`, data);
+     }
 }

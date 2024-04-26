@@ -1,6 +1,5 @@
 import { User } from "../users/user";
 
-
 export interface PublicacaoTipo{
     id?: number;
     nome: string;
