@@ -19,10 +19,12 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantPoliciais!: any;
     protected quantAtestados!: any;
     protected quantFerias!: any;
+    protected policiaisSetores!: any;
 
     protected subscription: any;
     protected subscription2: any;
     protected subscription3: any;
+    protected subscription4: any;
 
     constructor(
         private sessionService: SessionService,
@@ -37,15 +39,21 @@ export class HomeComponent implements OnInit, OnDestroy{
             }
         });
 
-        this.subscription = this.homeService.getAtestados().subscribe({
+        this.subscription2 = this.homeService.getAtestados().subscribe({
             next: (data) => {
                 this.quantAtestados = data;
             }
         });
 
-        this.subscription = this.homeService.getFerias().subscribe({
+        this.subscription3 = this.homeService.getFerias().subscribe({
             next: (data) => {
                 this.quantFerias = data;
+            }
+        });
+
+        this.subscription4 = this.homeService.getPoliciaisSetores().subscribe({
+            next: (data) => {
+                this.policiaisSetores = data;
             }
         });
     }
@@ -59,6 +67,9 @@ export class HomeComponent implements OnInit, OnDestroy{
         }
         if(this.subscription3){
             this.subscription3.unsubscribe();
+        }
+        if(this.subscription4){
+            this.subscription4.unsubscribe();
         }
     }
 }

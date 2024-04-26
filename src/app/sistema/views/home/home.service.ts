@@ -26,4 +26,8 @@ export class HomeService{
         return this.http.get<number>(`${URL}/${endPoint}/ferias`);
     }
 
+    getPoliciaisSetores(): Observable<number>{
+        return this.http.get<number>(`${URL}/${endPoint}/policiaisSetores`);
+    }
+
 }

@@ -8,7 +8,7 @@
   <h4>
     Empréstimo de Armamento Nº {{ data$.id }} -
     {{ data$.subunidade.abreviatura }}/{{
-      data$.subunidade.unidade?.abreviatura
+      data$.subunidade.unidade.abreviatura
     }}
   </h4>
 </div>
@@ -28,9 +28,9 @@
     </div>
     <div class="col-sm-6 text-center">
       <p>
-        {{ subunidade?.nome }} – {{ subunidade.unidade?.nome }}<br />
-        {{ subunidade?.rua }}, {{ subunidade?.numero }} -
-        {{ subunidade?.bairro }} | CEP:
+        {{ subunidade.nome }} – {{ subunidade.unidade.nome }}<br />
+        {{ subunidade.rua }}, {{ subunidade.numero }} -
+        {{ subunidade.bairro }} | CEP:
         @if(subunidade.cep){
         {{ subunidade.cep | mask: "00.000-00" }}
         }
@@ -39,7 +39,7 @@
         @if(subunidade.telefone){
             Fones: {{ subunidade.telefone | mask: "(00) 0000-0000" }} 
         }   |
-        E-mail: {{ subunidade?.email }}<br />
+        E-mail: {{ subunidade.email }}<br />
         <b>“Raça de Fortes, Povo de Bravos”</b>
       </p>
     </div>
@@ -76,7 +76,7 @@
             <h4 style="margin-top: 20px">
               Empréstimo de Armamento Nº {{ data$.id }} -
               {{ data$.subunidade.abreviatura }}/{{
-                data$.subunidade.unidade?.abreviatura
+                data$.subunidade.unidade.abreviatura
               }}
             </h4>
           </div>
@@ -157,7 +157,7 @@
 
           <div style="margin-top: 30px" [innerHTML]="data$.observacoes"></div>
           <div style="margin-top: 30px" class="text-center">
-            <b>{{ data$.policial.nome }}</b> - {{ data$.policial.graduacao?.abreviatura
+            <b>{{ data$.policial.nome }}</b> - {{ data$.policial.graduacao.abreviatura
             }}<br />
             Mat.: {{ data$.policial.matricula | mask: "000.000-0-A" }} -
             RECEBEDOR<br />

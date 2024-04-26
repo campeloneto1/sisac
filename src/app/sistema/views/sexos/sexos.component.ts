@@ -57,7 +57,7 @@ export class SexosComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.data$ = data;
         this.temp = data;
-        this.dtTrigger.next(null);
+        this.dtTrigger.next(this.dtOptions);
       }
     });
   }
@@ -77,7 +77,7 @@ export class SexosComponent implements OnInit, OnDestroy {
           // Destroy the table first
           dtInstance.destroy();
           // Call the dtTrigger to rerender again
-          this.dtTrigger.next(null);
+          this.dtTrigger.next(this.dtOptions);
         });
       }
     });

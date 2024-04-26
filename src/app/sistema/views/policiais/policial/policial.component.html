@@ -73,31 +73,35 @@
                     >Informações</a
                   >
                 </li>
+                @if(user.perfil.armamentos_emprestimos){
                 <li class="nav-item">
                   <a class="nav-link" href="#armamentos" data-bs-toggle="tab"
                     >Emp. Armamentos</a
                   >
                 </li>
+                } @if(user.perfil.policiais_atestados){
                 <li class="nav-item">
                   <a class="nav-link" href="#atestados" data-bs-toggle="tab"
                     >Atestados</a
                   >
                 </li>
+                } @if(user.perfil.policiais_ferias){
                 <li class="nav-item">
                   <a class="nav-link" href="#ferias" data-bs-toggle="tab"
                     >Férias</a
                   >
                 </li>
+                } @if(user.perfil.policiais_publicacoes){
                 <li class="nav-item">
                   <a class="nav-link" href="#publicacoes" data-bs-toggle="tab"
                     >Publicações</a
                   >
                 </li>
+                }
               </ul>
             </div>
             <div class="card-body">
               <div class="tab-content">
-               
                 <!--INICIO TAB INFORMACOES-->
                 <div class="active tab-pane" id="informacoes">
                   <!--div inicio row-->
@@ -163,11 +167,67 @@
                   <!--div fim row-->
                 </div>
                 <!--FIM TAB INFORMACOES-->
-                 <!--INICIO TAB ARMAMENTOS-->
-                 <div class="active tab-pane" id="armamentos">
-                  
-                 </div>
-                 <!--FIM TAB ARMAMENTOS-->
+                @if(user.perfil.armamentos_emprestimos){
+                <!--INICIO TAB ARMAMENTOS-->
+                <div class="tab-pane" id="armamentos">
+                  <!-- -------------------------------------------- -->
+                  <table
+                    [mfData]="policial.armamentos_emprestimos"
+                    #four="mfDataTable"
+                    [mfRowsOnPage]="10"
+                    class="table table-bordered table-hover"
+                  >
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Data Empréstimo</th>
+                        <th>Data Devolução</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(row of four.data; track row){
+                      <tr data-widget="expandable-table" aria-expanded="false">
+                        <td>{{ row.id }}</td>
+                        <td>
+                          {{ row.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
+                        </td>
+                        <td>
+                          {{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
+                        </td>
+                      </tr>
+                      <tr class="expandable-body d-none">
+                        <td colspan="3">
+                          <div style="display: none">
+                            <ul>
+                              @for(arm of row.armamentos_emprestimos_itens;
+                              track arm){
+                              <li>
+                                <b>Armamento:</b>
+                                {{ arm.armamento.armamento_tipo.nome }}
+                                {{ arm.armamento.modelo.marca.nome }}
+                                {{ arm.armamento.modelo.nome }}
+                                @if(arm.armamento.armamento_calibre){{{arm.armamento.armamento_calibre.nome
+                                }}} @if(arm.armamento.armamento_tamanho){{{arm.armamento.armamento_tamanho.nome
+                                }}} {{ arm.armamento.serial }},
+
+                                <b>Quantidade:</b> {{ arm.quantidade }},
+                                @if(arm.quantidade_devolucao){<b
+                                  >Quantidade Devolução:</b
+                                >
+                                {{ arm.quantidade_devolucao }}}
+                              </li>
+                              }
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      }
+                    </tbody>
+                  </table>
+                  <!--------------------------------------------------->
+                </div>
+                <!--FIM TAB ARMAMENTOS-->
+                } @if(user.perfil.policiais_atestados){
                 <!--INICIO TAB ATESTADOS-->
                 <div class="tab-pane" id="atestados">
                   <!-- INICIO TABLE-->
@@ -180,25 +240,35 @@
                     <thead>
                       <tr>
                         <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="dias">Dias</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="dataFinal(data_inicial, dias)">Data Final</mfDefaultSorter></th>
+                        <th>
+                          <mfDefaultSorter by="data_inicial"
+                            >Data Inicial</mfDefaultSorter
+                          >
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="dias">Dias</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="dataFinal(data_inicial, dias)"
+                            >Data Final</mfDefaultSorter
+                          >
+                        </th>
                         <th><mfDefaultSorter by="cid">CID</mfDefaultSorter></th>
                       </tr>
                     </thead>
-                    
+
                     <tbody>
                       @for(row of first.data; track row){
                       <tr class="optionshover">
                         <td>{{ row.id }}</td>
                         <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
                         <td>{{ row.dias }}</td>
-                        <td>{{ dataFinal(row.data_inicial, row.dias) | date : "dd/MM/yyyy" }}</td>
+                        <td>{{ row.data_final | date : "dd/MM/yyyy" }}</td>
                         <td>{{ row.cid }}</td>
                       </tr>
-                    }
+                      }
                     </tbody>
-                   
+
                     <tfoot>
                       <tr>
                         <td colspan="100%">
@@ -220,10 +290,11 @@
                   <!-- FIM TABLE-->
                 </div>
                 <!--FIM TAB ATESTADOS-->
+                } @if(user.perfil.policiais_ferias){
                 <!--INICIO TAB FERIAS-->
                 <div class="tab-pane" id="ferias">
-                   <!-- INICIO TABLE-->
-                    <table
+                  <!-- INICIO TABLE-->
+                  <table
                     [mfData]="policial.policiais_ferias"
                     #second="mfDataTable"
                     [mfRowsOnPage]="10"
@@ -231,35 +302,54 @@
                   >
                     <thead>
                       <tr>
-                        <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>      
-                        <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="dias">Dias</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="dataFinal(data_inicial, dias)">Data Final</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="boletim">Boletim</mfDefaultSorter></th>
+                        <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                        <th>
+                          <mfDefaultSorter by="data_inicial"
+                            >Data Inicial</mfDefaultSorter
+                          >
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="dias">Dias</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="dataFinal(data_inicial, dias)"
+                            >Data Final</mfDefaultSorter
+                          >
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="boletim"
+                            >Boletim</mfDefaultSorter
+                          >
+                        </th>
                       </tr>
                     </thead>
-                    
+
                     <tbody>
                       @for(row of second.data; track row){
                       <tr class="optionshover">
-                        <td>{{ row.id }}</td>           
-                        <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
                         <td>{{ row.dias }}</td>
-                        <td>{{ dataFinal(row.data_inicial, row.dias) | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ row.data_final | date : "dd/MM/yyyy" }}</td>
                         <td>{{ row.boletim }}</td>
                       </tr>
-                      } 
+                      }
                     </tbody>
-                    
+
                     <tfoot>
                       <tr>
                         <td colspan="100%">
-                          <div style="display: flex; align-items: center; justify-content: center;">
+                          <div
+                            style="
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
                             <mfBootstrapPaginator
-                            [rowsOnPageSet]="[5, 10, 25]"
-                          ></mfBootstrapPaginator>
+                              [rowsOnPageSet]="[5, 10, 25]"
+                            ></mfBootstrapPaginator>
                           </div>
-                        
                         </td>
                       </tr>
                     </tfoot>
@@ -267,10 +357,11 @@
                   <!-- FIM TABLE-->
                 </div>
                 <!--FIM TAB FERIAS-->
+                } @if(user.perfil.policiais_publicacoes){
                 <!--INICIO TAB PUBLICACOES-->
                 <div class="tab-pane" id="publicacoes">
                   <!-- INICIO TABLE-->
-                    <table
+                  <table
                     [mfData]="policial.policiais_publicacoes"
                     #third="mfDataTable"
                     [mfRowsOnPage]="10"
@@ -278,32 +369,49 @@
                   >
                     <thead>
                       <tr>
-                        <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="publicacao_tipo.nome">Tipo</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="publicacao_tipo.texto">Texto</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="boletim">Boletim</mfDefaultSorter></th>
+                        <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                        <th>
+                          <mfDefaultSorter by="publicacao_tipo.nome"
+                            >Tipo</mfDefaultSorter
+                          >
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="publicacao_tipo.texto"
+                            >Texto</mfDefaultSorter
+                          >
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="boletim"
+                            >Boletim</mfDefaultSorter
+                          >
+                        </th>
                       </tr>
                     </thead>
-                    
+
                     <tbody>
                       @for(row of third.data; track row){
                       <tr class="optionshover">
                         <td>{{ row.id }}</td>
                         <td>{{ row.publicacao_tipo?.nome }}</td>
-                        <td ><div [innerHTML]="row.texto"></div></td>
+                        <td><div [innerHTML]="row.texto"></div></td>
                         <td>{{ row.boletim }}</td>
                       </tr>
-                      } 
+                      }
                     </tbody>
                     <tfoot>
                       <tr>
                         <td colspan="100%">
-                          <div style="display: flex; align-items: center; justify-content: center;">
+                          <div
+                            style="
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                            "
+                          >
                             <mfBootstrapPaginator
-                            [rowsOnPageSet]="[5, 10, 25]"
-                          ></mfBootstrapPaginator>
+                              [rowsOnPageSet]="[5, 10, 25]"
+                            ></mfBootstrapPaginator>
                           </div>
-                        
                         </td>
                       </tr>
                     </tfoot>
@@ -311,6 +419,7 @@
                   <!-- FIM TABLE-->
                 </div>
                 <!--FIM TAB PUBLICACOES-->
+                }
               </div>
             </div>
           </div>

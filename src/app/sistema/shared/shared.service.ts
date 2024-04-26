@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Config } from 'datatables.net';
 
 @Injectable({
     providedIn: 'root'
@@ -6,11 +7,10 @@ import { Injectable } from "@angular/core";
 
 export class SharedService{
 
-    protected dtOptions: any = {
+    protected dtOptions: Config = {
         pagingType: 'full_numbers',
         pageLength: 10,
         processing: true,
-        responsive: true,
         paging: true
       };    
 

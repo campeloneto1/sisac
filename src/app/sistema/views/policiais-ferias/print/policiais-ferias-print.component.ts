@@ -69,4 +69,10 @@ export class PoliciaisFeriasPrintComponent implements OnInit, OnDestroy{
         }
     }
 
+    dataFinal(data: Date, dias:number): Date{
+        let result = new Date(data);
+        result.setDate(result.getDate() + dias);
+        return result;
+      }
+
 }

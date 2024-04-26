@@ -196,7 +196,6 @@
                   "
                 >
                   <mfBootstrapPaginator
-                    [rowsOnPageSet]="[5, 10, 25]"
                   ></mfBootstrapPaginator>
                 </div>
               </td>
@@ -252,7 +251,7 @@
         <div class="modal-header border-0">
           <h4 class="modal-title">
             Armamentos
-            @if(!armamentoEmprestimo.data_devolucao){
+            @if(!armamentoEmprestimo.data_devolucao  && user.perfil.armamentos_emprestimos_edt){
               <button
                 class="btn btn-outline-primary"
                 title="Cadastrar"
@@ -308,7 +307,7 @@
                 <td>{{item.quantidade}}</td>
                 <td>{{item.quantidade_devolucao}}</td>
                 <td>
-                  @if(!armamentoEmprestimo.data_devolucao){
+                  @if(!armamentoEmprestimo.data_devolucao && user.perfil.armamentos_emprestimos_edt){
                     <i
                       class="fa fa-trash text-danger point"
                       aria-hidden="true"

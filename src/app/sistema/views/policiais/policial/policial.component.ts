@@ -6,6 +6,8 @@ import { PoliciaisService } from "../policiais.service";
 import { Router,ActivatedRoute } from '@angular/router';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { DataTableModule } from "@pascalhonegger/ng-datatable";
+import { SessionService } from "../../../session.service";
+import { User } from "../../users/user";
 
 @Component({
     selector: 'app-policial',
@@ -29,12 +31,16 @@ export class PolicialComponent implements OnInit, OnDestroy{
     protected id!:number;
     private subscription:any;
 
+    protected user!: User;
+
     constructor(
         private policiaisService: PoliciaisService,
+        private sessionService: SessionService,
         private activatedRoute: ActivatedRoute
     ){}
 
     ngOnInit(): void {
+        this.user = this.sessionService.getUser();
         this.id = this.activatedRoute.snapshot.params['id'];
 
        this.subscription =  this.policiaisService.find(this.id).subscribe({

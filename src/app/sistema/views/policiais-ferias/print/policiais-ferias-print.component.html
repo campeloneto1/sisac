@@ -8,7 +8,7 @@
   <h4>
     Guia de Férias -
     {{ subunidade.abreviatura }}/{{
-      subunidade.unidade?.abreviatura
+      subunidade.unidade.abreviatura
     }}
   </h4>
 </div>
@@ -28,9 +28,9 @@
     </div>
     <div class="col-sm-6 text-center">
       <p>
-        {{ subunidade?.nome }} – {{ subunidade.unidade?.nome }}<br />
-        {{ subunidade?.rua }}, {{ subunidade?.numero }} -
-        {{ subunidade?.bairro }} | CEP:
+        {{ subunidade.nome }} – {{ subunidade.unidade.nome }}<br />
+        {{ subunidade.rua }}, {{ subunidade.numero }} -
+        {{ subunidade.bairro }} | CEP:
         @if(subunidade.cep){
         {{ subunidade.cep | mask: "00.000-00" }}
         }
@@ -39,7 +39,7 @@
         @if(subunidade.telefone){
             Fones: {{ subunidade.telefone | mask: "(00) 0000-0000" }} 
         }   |
-        E-mail: {{ subunidade?.email }}<br />
+        E-mail: {{ subunidade.email }}<br />
         <b>“Raça de Fortes, Povo de Bravos”</b>
       </p>
     </div>
@@ -76,49 +76,49 @@
               <h5 style="margin-top: 30px;">
                 Fortaleza - CE, {{ datahj | date: 'dd/MM/yyyy' }}
               </h5>
-              <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.policial.graduacao?.nome}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome}}, 
-                matrícula {{data$.policial.matricula | mask: '000.000-0-A'}}</b>, desta {{ data$.policial.setor.subunidade.abreviatura }}/{{ data$.policial.setor.subunidade.unidade?.abreviatura }}, 
+              <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.policial.graduacao.nome}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome}}, 
+                matrícula {{data$.policial.matricula | mask: '000.000-0-A'}}</b>, desta {{ data$.policial.setor.subunidade.abreviatura }}/{{ data$.policial.setor.subunidade.unidade.abreviatura }}, 
                 o gozo de {{data$.dias}} dias de suas férias relativas ao período aquisitivo <b>{{data$.ano}}</b>, conforme publicação contida no 
                 {{data$.boletim}}, no período de {{data$.data_inicial | date: 'dd/MM/yyyy'}} a {{data$.data_final | date: 'dd/MM/yyyy'}}, devendo retornar para 
-                o expediente normal e/ou serviço no dia <!--{{data$.apto | date: 'dd/MM/yyyy'}}-->, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
+                o expediente normal e/ou serviço no dia {{dataFinal(data$.data_final, 2) | date: 'dd/MM/yyyy'}}, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
                 Art. 59, da Lei nº 13.729 (Estatuto dos Militares Estaduais do Ceará) e regulamentação prevista na Portaria nº 309/2019-GC, 
                 publicado no BCG nº 202, de 24/10/2019.
 
             </div>
             @if(subunidade.comandante){
               <div style="margin-top: 50px; margin-bottom: 60px;" class="text-center" *ngIf="subunidade.comandante">
-                <b>{{subunidade.comandante?.nome}} - {{subunidade.comandante?.graduacao?.abreviatura}}</b><br />
+                <b>{{subunidade.comandante.nome}} - {{subunidade.comandante.graduacao.abreviatura}}</b><br />
                 Mat.: @if(subunidade.comandante.matricula){{{subunidade.comandante.matricula | mask:'000.000-0-A'}}}<br />
-                Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
+                Comandante da {{subunidade.nome}} -  {{subunidade.unidade.nome}}
               </div>
             } 
               <b style="margin-top: 120px; border-top: 1px solid;">
-                {{data$.policial.graduacao?.abreviatura}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome_guerra}}, 
+                {{data$.policial.graduacao.abreviatura}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome_guerra}}, 
                   mat.: {{data$.policial.matricula | mask: '000.000-0-A'}}
               </b> 
               
               <hr style="margin-top: 80px;" />
               
               <h4 style="margin-top: 80px; width: 100%; text-align: center;">
-                  Guia de Férias - {{ subunidade.abreviatura }}/{{ subunidade.unidade?.abreviatura }}
+                  Guia de Férias - {{ subunidade.abreviatura }}/{{ subunidade.unidade.abreviatura }}
               </h4>
               <h5 style="margin-top: 30px;">
                 Fortaleza - CE, {{ datahj | date: 'dd/MM/yyyy'  }}
               </h5>
-              <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.policial.graduacao?.nome}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome}}, 
-                matrícula {{data$.policial.matricula | mask: '000.000-0-A'}}</b>, desta {{ data$.policial.setor.subunidade.abreviatura }}/{{ data$.policial.setor.subunidade.unidade?.abreviatura }}, 
+              <div style="margin-top: 40px;">Foi concedido ao <b>{{data$.policial.graduacao.nome}} @if(data$.policial.numeral){{{data$.policial.numeral | mask: '00.000'}}} {{data$.policial.nome}}, 
+                matrícula {{data$.policial.matricula | mask: '000.000-0-A'}}</b>, desta {{ data$.policial.setor.subunidade.abreviatura }}/{{ data$.policial.setor.subunidade.unidade.abreviatura }}, 
                 o gozo de {{data$.dias}} dias de suas férias relativas ao período aquisitivo <b>{{data$.ano}}</b>, conforme publicação contida no 
                 {{data$.boletim}}, no período de {{data$.data_inicial | date: 'dd/MM/yyyy'}} a {{data$.data_final | date: 'dd/MM/yyyy'}}, devendo retornar para 
-                o expediente normal e/ou serviço no dia <!--{{data$.apto | date: 'dd/MM/yyyy'}}-->, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
+                o expediente normal e/ou serviço no dia  {{dataFinal(data$.data_final, 2) | date: 'dd/MM/yyyy'}}, com permissão para gozo dentro e fora do Estado do Ceará, com esteio no 
                 Art. 59, da Lei nº 13.729 (Estatuto dos Militares Estaduais do Ceará) e regulamentação prevista na Portaria nº 309/2019-GC, 
                 publicado no BCG nº 202, de 24/10/2019.
 
             </div>
             @if(subunidade.comandante){
                <div style="margin-top: 50px;" class="text-center" *ngIf="subunidade.comandante">
-                <b>{{subunidade.comandante?.nome}} - {{subunidade.comandante?.graduacao?.abreviatura}}</b><br />
+                <b>{{subunidade.comandante.nome}} - {{subunidade.comandante.graduacao.abreviatura}}</b><br />
                 Mat.: @if(subunidade.comandante.matricula){{{subunidade.comandante.matricula | mask:'000.000-0-A'}}}<br />
-                Comandante da {{subunidade.nome}} -  {{subunidade.unidade?.nome}}
+                Comandante da {{subunidade.nome}} -  {{subunidade.unidade.nome}}
               </div>
             } 
             <!-- --------------------------------------------------------- -->
