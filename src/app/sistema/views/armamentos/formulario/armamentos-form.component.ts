@@ -8,10 +8,6 @@ import { Armamento } from "../armamento";
 import { ToastrService } from "ngx-toastr";
 import { Observable, of } from "rxjs";
 
-import { UnidadesService } from "../../unidades/unidades.service";
-import { Unidades } from "../../unidades/unidade";
-import { Subunidades } from "../../subunidades/subunidade";
-import { SubunidadesService } from "../../subunidades/subunidades.service";
 import { ArmamentosTiposService } from "../../armamentos-tipos/armamentos-tipos.service";
 import { ArmamentosTamanhosService } from "../../armamentos-tamanhos/armamentos-tamanhos.service";
 import { ArmamentosCalibresService } from "../../armamentos-calibres/armamentos-calibres.service";
@@ -42,8 +38,6 @@ import { InputTextareaComponent } from "../../../components/input-textarea/input
 export class ArmamentosFormComponent implements OnInit{
     
     protected form!: FormGroup;
-    protected unidades$!: Observable<Unidades>;
-    protected subunidades$!: Observable<Subunidades>;
     protected marcas$!: Observable<Marcas>;
     protected modelos$!: Observable<Modelos>;
     protected armamentostipos$!: Observable<ArmamentosTipos>;
@@ -57,8 +51,6 @@ export class ArmamentosFormComponent implements OnInit{
     constructor(
         private formBuilder: FormBuilder,
         private armamentosService: ArmamentosService,
-        private unidadesService:UnidadesService,
-        private subunidadesService:SubunidadesService,
         private armamentosTiposService:ArmamentosTiposService,
         private armamanetosTamanhosService:ArmamentosTamanhosService,
         private armamentosCalibresService:ArmamentosCalibresService,
@@ -87,12 +79,6 @@ export class ArmamentosFormComponent implements OnInit{
             'modelo': [null, Validators.compose([
                 Validators.required,
             ])],
-            // 'unidade': [null, Validators.compose([
-            //     Validators.required,
-            // ])],
-            // 'subunidade': [null, Validators.compose([
-            //     Validators.required,
-            // ])],
             'armamento_tipo': [null, Validators.compose([
                 Validators.required,
             ])],
@@ -138,11 +124,6 @@ export class ArmamentosFormComponent implements OnInit{
 
     editar(data: Armamento){
         this.form.patchValue(data);
-        // if(data.subunidade){
-        //     this.form.get('unidade')?.patchValue(data.subunidade.unidade.id);
-        //     this.form.get('subunidade')?.patchValue(data.subunidade.id);
-        //     this.getSubunidades();
-        // }
         if(data.modelo){
             this.form.get('marca')?.patchValue(data.modelo.marca.id);
             this.form.get('modelo')?.patchValue(data.modelo.id);

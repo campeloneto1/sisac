@@ -1,0 +1,132 @@
+<form [formGroup]="form">
+      
+    <div class="row">
+      
+      <input-select
+        class="col-sm-2"
+        label="Tipo de Veículo"
+        id="veiculo_tipo"
+        [data$]="veiculostipos$"
+        formControlName="veiculo_tipo"
+      />
+
+      <input-select
+        class="col-sm-2"
+        label="Marca"
+        id="marca"
+        [data$]="marcas$"
+        formControlName="marca"
+        (ngModelChange)="getModelos()"
+      />
+     
+      <input-select
+        class="col-sm-2"
+        label="Modelo"
+        id="modelo"
+        [data$]="modelos$"
+        formControlName="modelo"
+      />
+       
+      <input-select
+        class="col-sm-2"
+        label="Cor"
+        id="cor"
+        [data$]="cores$"
+        formControlName="cor"
+      />
+      <input-text
+            class="col-sm-2"
+            formControlName="ano"
+            label="Ano"
+            id="ano"
+            tipo="number"
+        />
+      
+  
+      </div>
+      <div class="row">
+        <input-text
+            class="col-sm-2"
+            formControlName="placa"
+            label="Placa"
+            id="placa"
+            tipo="text"
+            mascara="SSS0A00"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="placa_especial"
+            label="Placa Especial"
+            id="placa_especial"
+            tipo="text"
+            mascara="SSS0A00"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="chassi"
+            label="Chassi"
+            id="chassi"
+            tipo="text"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="renavam"
+            label="Renavam"
+            id="renavam"
+            tipo="text"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="km_inicial"
+            label="KM Inicial"
+            id="km_inicial"
+            tipo="number"
+        />
+     
+    </div>
+  
+    <div class="row">
+        <input-text
+            class="col-sm-2"
+            formControlName="km_troca_oleo"
+            label="KM Troca Óleo"
+            id="km_troca_oleo"
+            tipo="number"
+        />
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked="" id="organico" formControlName="organico">
+                <label class="form-check-label" for="organico">Orgânico</label>
+            </div>
+        </div> 
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked="" id="blindado" formControlName="blindado">
+                <label class="form-check-label" for="blindado">Blindado</label>
+            </div>
+        </div> 
+    </div>
+  
+    <div class="row" style="height: 350px;">
+      <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+  </div>
+  
+    <div class="d-flex justify-content-end">
+      <a
+        (click)="form.reset()"
+        data-bs-dismiss="modal"
+        class="btn btn-link text-danger"
+        >Cancelar</a
+      >
+      <button
+        [disabled]="form.invalid"
+        type="button"
+        (click)="cadastrar()"
+        data-bs-dismiss="modal"
+        class="btn btn-primary"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </form>
+  

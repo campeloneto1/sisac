@@ -51,6 +51,38 @@
 
     <!-- INICIO DIV CARDAS-->
     <div class="row">
+
+      <!--INICIO CARD POLICIAIS SETOR-->
+      @if(user.perfil.policiais){
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Policiais por Setor</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>Setor</th>
+                    <th>Quantidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(pol of policiaisSetores; track pol){
+                    <tr>
+                      <td>{{pol.nome}}</td>
+                      <td>{{pol.quantidade}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+        <!--FIM CARD POLICIAIS SETOR-->
+
+      <!--INICIO CAR ARMAMENTOS VENCIMENTO-->
       @if(user.perfil.armamentos){
       <div class="col-sm-4">
         <div class="card">
@@ -86,6 +118,90 @@
         </div>
       </div>
       }
+      <!--FIM CAR ARMAMENTOS VENCIMENTO-->
+
+      <!-- INICIO CARD VEICULOS MANUTENCAO-->
+      @if(user.perfil.veiculos_oficinas){
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Veículos em manutenção</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Placa</th>
+                    <th>Placa Esp.</th>
+                    <th>Oficina</th>
+                    <th>Manutenção</th>
+                    <th>Dt. Inicio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(vei of veiculosManutencao; track vei){
+                    <tr>
+                      <td>{{vei.id}}</td>
+                      <td>{{vei.veiculo.modelo.marca.nome}}</td>
+                      <td>{{vei.veiculo.modelo.nome}}</td>
+                      <td>{{vei.veiculo.placa}}</td>
+                      <td>{{vei.veiculo.placa_especial}}</td>
+                      <td>{{vei.oficina.nome}}</td>
+                      <td>{{vei.manutencao_tipo.nome}}</td>
+                      <td>{{vei.data_inicial | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+      <!--FIM CARD VEICULOS MANUTENCAO-->
+
+        <!-- INICIO CARD VEICULOS TROCA OLEO-->
+      @if(user.perfil.veiculos){
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Veículos Trocca Óleo</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Placa</th>
+                    <th>Placa Esp.</th>
+                    <th>KM Atual</th>
+                    <th>KM Troca Óleo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(vei of veiculosTrocaOleo; track vei){
+                    <tr>
+                      <td>{{vei.id}}</td>
+                      <td>{{vei.modelo.marca.nome}}</td>
+                      <td>{{vei.modelo.nome}}</td>
+                      <td>{{vei.placa}}</td>
+                      <td>{{vei.placa_especial}}</td>
+                      <td>{{vei.km_atual}}</td>
+                      <td>{{vei.km_troca_oleo}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+      <!--FIM CARD VEICULOS TROCA OLEO-->
+
     </div>
 
     <!--FIM DIV CARDS-->

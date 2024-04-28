@@ -77,6 +77,16 @@ export class PerfisFormComponent implements OnInit{
             'usuarios_edt': [null],
             'usuarios_del': [null],
 
+            'veiculos': [null],
+            'veiculos_cad': [null],
+            'veiculos_edt': [null],
+            'veiculos_del': [null],
+
+            'veiculos_oficinas': [null],
+            'veiculos_oficinas_cad': [null],
+            'veiculos_oficinas_edt': [null],
+            'veiculos_oficinas_del': [null],
+
         });
 
     }

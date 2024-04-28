@@ -182,6 +182,16 @@ export const routes: Routes = [
               import('./sistema/views/users/users.component').then((c) => c.UsersComponent),
           },
           {
+            path: 'Veiculos',
+            loadComponent: () =>
+              import('./sistema/views/veiculos/veiculos.component').then((c) => c.VeiculosComponent),
+          },
+          {
+            path: 'VeiculosOficinas',
+            loadComponent: () =>
+              import('./sistema/views/veiculos-oficinas/veiculos-oficinas.component').then((c) => c.VeiculosOficinasComponent),
+          },
+          {
             path: 'VeiculosTipos',
             loadComponent: () =>
               import('./sistema/views/veiculos-tipos/veiculos-tipos.component').then((c) => c.VeiculosTiposComponent),

@@ -1,0 +1,255 @@
+<div class="content-wrapper">
+    <app-title titulo="Manutenção de Veículos" />
+  
+    <!--INICIO SECTION content-->
+    <section class="content">
+      <!-- INICIO CARD-->
+      <div class="card">
+        <!-- INICIO CARD HEADER-->
+        <div class="card-header border-0">
+          <h3 class="card-title">
+            @if(user.perfil.veiculos_oficinas_cad){
+              <button
+                class="btn btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#modalcad"
+                title="Cadastrar"
+              >
+                <i class="fa fa-plus"></i>
+              </button>
+            }
+          </h3>
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 250px">
+              <select style="width: 50px"  class="form-control float-right" [(ngModel)]="quant">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+             
+              <input
+              style="width: 200px"
+                type="text"
+                name="table_search"
+                class="form-control float-right"
+                placeholder="Pesquisar..."
+                [(ngModel)]="pesquisa"
+                (ngModelChange)="pesquisar()"
+              />
+             
+            </div>
+          </div>
+        </div>
+        <!-- FIM CARD HEADER-->
+        <!-- INICIO CARD BODY-->
+        <div class="card-body table-responsive p-1">
+          <!-- INICIO TABLE-->
+          <table
+            [mfData]="data$"
+            #mf="mfDataTable"
+            [mfRowsOnPage]="quant"
+            class="table table-hover table-head-fixed text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="veiculo.modelo.marca.nome">Marca</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="veiculo.modelo.nome">Modelo</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="veiculo.placa">Placa</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="veiculo.placa_especial">Placa Especial</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="oficina.nome">Oficina</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="manutencao_tipo.nome">Manutenção</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="km_inicial">KM Inicial</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="km_final">KM Final</mfDefaultSorter></th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+            @if(data$){
+            <tbody>
+              @for(row of mf.data; track row){
+              <tr class="optionshover">
+                <td>{{ row.id }}</td>
+                <td>{{ row.veiculo.modelo.marca.nome }}</td>
+                <td>{{ row.veiculo.modelo.nome }}</td>
+                <td>{{ row.veiculo.placa }}</td>
+                <td>{{ row.veiculo.placa_especial }}</td>
+                <td>{{ row.oficina.nome }}</td>
+                <td>{{ row.manutencao_tipo.nome }}</td>
+                <td>{{ row.data_inicial | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ row.data_final | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ row.km_inicial }}</td>
+                <td>{{ row.km_final }}</td>
+                <td>
+                  @if(!row.data_final){
+                      @if(user.perfil.veiculos_oficinas_cad){
+                          <a
+                            class="options point"
+                            title="Receber"
+                            (click)="receber(row)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalreceb"
+                          >
+                            <i class="fa fa-download text-primary" aria-hidden="true"></i>
+                          </a>
+                        }
+                      @if(user.perfil.veiculos_oficinas_edt){
+                        <a
+                          class="options point ml-1"
+                          title="Editar"
+                          (click)="editar(row)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalcad"
+                        >
+                          <i class="fa fa-edit text-primary" aria-hidden="true"></i>
+                        </a>
+                      }
+                    }
+                    @if(user.perfil.veiculos_oficinas_del){
+                      <a
+                        class="options point ml-1"
+                        title="Excluir"
+                        (click)="delete(row)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modaldel"
+                      >
+                        <i
+                          class="fa fa-trash text-danger "
+                          aria-hidden="true"
+                        ></i>
+                      </a>
+                    }
+                  
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="100%">Sem informação</td>
+              </tr>
+              }
+            </tbody>
+            }
+            <tfoot>
+              <tr>
+                <td colspan="100%">
+                  <div style="display: flex; align-items: center; justify-content: center;">
+                    <mfBootstrapPaginator
+                  ></mfBootstrapPaginator>
+                  </div>
+                 
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+          <!-- FIM TABLE-->
+        </div>
+        <!-- FIM CARD BODY-->
+      </div>
+      <!--FIM CARD-->
+    </section>
+    <!--FIM SECTION content-->
+  
+    <!-- INICIO MODAL CADASTRO-->
+    <div
+      class="modal fade"
+      id="modalcad"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Cadastrar</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <app-veiculos-oficinas-form (refresh)="refresh()" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL CADASTRO-->
+
+    <!-- INICIO MODAL RECEBER-->
+    <div
+      class="modal fade"
+      id="modalreceb"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Receber veículo</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            @if(recebveiculo){
+              <app-veiculos-oficinas-form-receber (refresh)="refresh()" [veiculooficina]="recebveiculo" />
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL RECEBER-->
+  
+    <!-- INICIO MODAL exclusao-->
+    <div
+      class="modal fade"
+      id="modaldel"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Excluir</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            @if(excluir){ Tem certeza que deseja excluir:
+            <b>{{ excluir.veiculo.placa }}</b>
+            <div class="d-flex justify-content-end">
+              <a data-bs-dismiss="modal" class="btn btn-link text-primary"
+                >Cancelar</a
+              >
+              <button
+                type="button"
+                (click)="confirm()"
+                data-bs-dismiss="modal"
+                class="btn btn-danger"
+              >
+                Excluir
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL exclusao-->
+  </div>
+  

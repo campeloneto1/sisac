@@ -43,6 +43,16 @@ export interface Perfil{
     usuarios_edt?: boolean;
     usuarios_del?: boolean;
 
+    veiculos?: boolean;
+    veiculos_cad?: boolean;
+    veiculos_edt?: boolean;
+    veiculos_del?: boolean;
+
+    veiculos_oficinas?: boolean;
+    veiculos_oficinas_cad?: boolean;
+    veiculos_oficinas_edt?: boolean;
+    veiculos_oficinas_del?: boolean;
+
     created_by?: User;
     updated_by?: User;
     created_at?: Date;

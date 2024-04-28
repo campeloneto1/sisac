@@ -1,0 +1,66 @@
+<form [formGroup]="form">
+    <div class="row">
+
+        @if(veiculos$){
+            <input-select
+              class="col-sm-6"
+              label="Veículo"
+              id="veiculo"
+              [data$]="veiculos$"
+              formControlName="veiculo"
+            />
+        }
+        @if(oficinas$){
+            <input-select
+              class="col-sm-4"
+              label="Oficina"
+              id="oficina"
+              [data$]="oficinas$"
+              formControlName="oficina"
+            />
+        }
+        @if(manutencoestipos$){
+            <input-select
+              class="col-sm-2"
+              label="Tipo de Manutenção"
+              id="manutencao_tipo"
+              [data$]="manutencoestipos$"
+              formControlName="manutencao_tipo"
+            />
+        }
+    </div>
+      
+    <!-- <div class="row">
+      <input-text
+        class="col-sm-2"
+        formControlName="data_inicial"
+        label="Data Inicial"
+        id="data_inicial"
+        tipo="date"
+      />
+      
+    </div>
+   -->
+    <div class="row" style="height: 350px;">
+      <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+  </div>
+  
+    <div class="d-flex justify-content-end">
+      <a
+        (click)="form.reset()"
+        data-bs-dismiss="modal"
+        class="btn btn-link text-danger"
+        >Cancelar</a
+      >
+      <button
+        [disabled]="form.invalid"
+        type="button"
+        (click)="cadastrar()"
+        data-bs-dismiss="modal"
+        class="btn btn-primary"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </form>
+  

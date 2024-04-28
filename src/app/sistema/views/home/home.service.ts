@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Observable } from "rxjs";
 import { Armamentos } from "../armamentos/armamento";
+import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
+import { Veiculos } from "../veiculos/veiculo";
 
 const URL = environment.url;
 const endPoint = 'home';
@@ -33,6 +35,14 @@ export class HomeService{
 
     getArmamentosVencendo(): Observable<Armamentos>{
         return this.http.get<Armamentos>(`${URL}/${endPoint}/armamentos-vencendo`);
+    }
+
+    getVeiculosManutencao(): Observable<VeiculosOficinas>{
+        return this.http.get<VeiculosOficinas>(`${URL}/${endPoint}/veiculos-manutencao`);
+    }
+
+    getVeiculosTrocaOleo(): Observable<Veiculos>{
+        return this.http.get<Veiculos>(`${URL}/${endPoint}/veiculos-troca-oleo`);
     }
 
 }

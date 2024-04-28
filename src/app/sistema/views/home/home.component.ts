@@ -6,6 +6,8 @@ import { User } from "../users/user";
 import { HomeService } from "./home.service";
 import { Observable } from "rxjs";
 import { Armamentos } from "../armamentos/armamento";
+import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
+import { Veiculos } from "../veiculos/veiculo";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -22,11 +24,16 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantFerias!: any;
     protected policiaisSetores!: any;
     protected armamentosVencendo!: Armamentos;
+    protected veiculosManutencao!: VeiculosOficinas;
+    protected veiculosTrocaOleo!: Veiculos;
 
     protected subscription: any;
     protected subscription2: any;
     protected subscription3: any;
     protected subscription4: any;
+    protected subscription5: any;
+    protected subscription6: any;
+    protected subscription7: any;
 
     constructor(
         private sessionService: SessionService,
@@ -35,35 +42,53 @@ export class HomeComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
-        this.subscription = this.homeService.getPoliciais().subscribe({
-            next: (data) => {
-                this.quantPoliciais = data;
-            }
-        });
-
-        this.subscription2 = this.homeService.getAtestados().subscribe({
-            next: (data) => {
-                this.quantAtestados = data;
-            }
-        });
-
-        this.subscription3 = this.homeService.getFerias().subscribe({
-            next: (data) => {
-                this.quantFerias = data;
-            }
-        });
-
-        this.subscription4 = this.homeService.getArmamentosVencendo().subscribe({
-            next: (data) => {
-                this.armamentosVencendo = data;
-            }
-        });
-
-        // this.subscription4 = this.homeService.getPoliciaisSetores().subscribe({
-        //     next: (data) => {
-        //         this.policiaisSetores = data;
-        //     }
-        // });
+        if(this.user.perfil.policiais){
+            this.subscription = this.homeService.getPoliciais().subscribe({
+                next: (data) => {
+                    this.quantPoliciais = data;
+                }
+            });
+        }
+        if(this.user.perfil.policiais_atestados){
+            this.subscription2 = this.homeService.getAtestados().subscribe({
+                next: (data) => {
+                    this.quantAtestados = data;
+                }
+            });
+        }
+        if(this.user.perfil.policiais_ferias){
+            this.subscription3 = this.homeService.getFerias().subscribe({
+                next: (data) => {
+                    this.quantFerias = data;
+                }
+            });
+        }
+        if(this.user.perfil.armamentos){
+            this.subscription4 = this.homeService.getArmamentosVencendo().subscribe({
+                next: (data) => {
+                    this.armamentosVencendo = data;
+                }
+            });
+        }
+        if(this.user.perfil.veiculos_oficinas){
+            this.subscription5 = this.homeService.getVeiculosManutencao().subscribe({
+                next: (data) => {
+                    this.veiculosManutencao = data;
+                }
+            });
+        }
+        if(this.user.perfil.veiculos){
+            this.subscription6 = this.homeService.getVeiculosTrocaOleo().subscribe({
+                next: (data) => {
+                    this.veiculosTrocaOleo = data;
+                }
+            });
+        }
+         this.subscription7 = this.homeService.getPoliciaisSetores().subscribe({
+             next: (data) => {
+                 this.policiaisSetores = data;
+             }
+         });
     }
 
     ngOnDestroy(): void {
@@ -78,6 +103,15 @@ export class HomeComponent implements OnInit, OnDestroy{
         }
         if(this.subscription4){
             this.subscription4.unsubscribe();
+        }
+        if(this.subscription5){
+            this.subscription5.unsubscribe();
+        }
+        if(this.subscription6){
+            this.subscription6.unsubscribe();
+        }
+        if(this.subscription7){
+            this.subscription7.unsubscribe();
         }
     }
 }

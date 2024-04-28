@@ -71,7 +71,18 @@
             <p>Férias</p>
           </a>
         </li>
-        } @if(user.perfil.policiais){
+        } @if(user.perfil.veiculos_oficinas){
+          <li class="nav-item">
+            <a
+              [routerLink]="['VeiculosOficinas']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-wrench"></i>
+              <p>Manutenção de Veículos</p>
+            </a>
+          </li>
+          }@if(user.perfil.policiais){
         <li class="nav-item">
           <a
             [routerLink]="['Policiais']"
@@ -93,7 +104,18 @@
             <p>Publicações</p>
           </a>
         </li>
-        } @if(user.perfil.gestor){
+        } @if(user.perfil.veiculos){
+          <li class="nav-item">
+            <a
+              [routerLink]="['Veiculos']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-car"></i>
+              <p>Veículos</p>
+            </a>
+          </li>
+          } @if(user.perfil.gestor){
         <li
           class="nav-item point"
           (click)="openMenuGestor()"
