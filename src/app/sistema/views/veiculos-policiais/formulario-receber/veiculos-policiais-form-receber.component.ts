@@ -3,16 +3,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { InputTextComponent } from "../../../components/input-text/input-text.component";
 import { InputSelectComponent } from "../../../components/input-select/input-select.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { VeiculosOficinasService } from "../veiculos-oficinas.service";
-import { VeiculoOficina } from "../veiculo-oficina";
+import { VeiculosPoliciaisService } from "../veiculos-policiais.service";
+import { VeiculoPolicial } from "../veiculo-policial";
 import { ToastrService } from "ngx-toastr";
 
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
 
 @Component({
-    selector: "app-veiculos-oficinas-form-receber",
-    templateUrl: './veiculos-oficinas-form-receber.component.html',
-    styleUrl: './veiculos-oficinas-form-receber.component.css',
+    selector: "app-veiculos-policiais-form-receber",
+    templateUrl: './veiculos-policiais-form-receber.component.html',
+    styleUrl: './veiculos-policiais-form-receber.component.css',
     standalone: true,
     imports: [
         CommonModule,
@@ -23,17 +23,17 @@ import { InputTextareaComponent } from "../../../components/input-textarea/input
         InputTextareaComponent
     ]
 })
-export class VeiculosOficinasFormReceberComponent implements OnInit{
+export class VeiculosPoliciaisFormReceberComponent implements OnInit{
     
     protected form!: FormGroup;
 
-    @Input() veiculooficina!: VeiculoOficina;
+    @Input() veiculopolicial!: VeiculoPolicial;
 
-    @Output('refresh') refresh: EventEmitter<VeiculoOficina> = new EventEmitter();
+    @Output('refresh') refresh: EventEmitter<VeiculoPolicial> = new EventEmitter();
     
     constructor(
         private formBuilder: FormBuilder,
-        private veiculosOficinasService: VeiculosOficinasService,
+        private veiculosPoliciaisService: VeiculosPoliciaisService,
         private toastr: ToastrService,
     ){}
 
@@ -46,12 +46,12 @@ export class VeiculosOficinasFormReceberComponent implements OnInit{
             'observacoes': [null],
         });
 
-        this.form.get('observacoes')?.patchValue(this.veiculooficina.observacoes);
-        this.form.get('id')?.patchValue(this.veiculooficina.id);
+        this.form.get('observacoes')?.patchValue(this.veiculopolicial.observacoes);
+        this.form.get('id')?.patchValue(this.veiculopolicial.id);
     }
 
     cadastrar(){
-        this.veiculosOficinasService.receber(this.form.value).subscribe({
+        this.veiculosPoliciaisService.receber(this.form.value).subscribe({
             next: (data:any) => {
                 this.toastr.success('Edição realizada com sucesso!');
                 this.form.reset();

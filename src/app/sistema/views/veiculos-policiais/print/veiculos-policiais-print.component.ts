@@ -1,0 +1,72 @@
+import { CommonModule } from "@angular/common";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { VeiculoPolicial } from "../veiculo-policial";
+import { VeiculosPoliciaisService } from "../veiculos-policiais.service";
+import { ActivatedRoute } from "@angular/router";
+import { User } from "../../users/user";
+import { SessionService } from "../../../session.service";
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
+import { Subunidade } from "../../subunidades/subunidade";
+import { SubunidadesService } from "../../subunidades/subunidades.service";
+
+@Component({
+    selector: 'app-veiculos-policiais-print',
+    templateUrl: './veiculos-policiais-print.component.html',
+    styleUrl: './veiculos-policiais-print.component.css',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxMaskDirective, 
+        NgxMaskPipe,
+    ],
+    providers: [
+        provideNgxMask(),
+    ]
+})
+export class VeiculosPoliciaisPrint implements OnInit, OnDestroy{
+
+    protected data$!: VeiculoPolicial;
+    protected id!:number;
+    protected user!: User;
+    protected datahj!: Date;
+    protected subunidade!: Subunidade;
+
+    private subscription: any;
+    private subscription2: any;
+
+    constructor(
+        private veiculoPolicialService: VeiculosPoliciaisService,
+        private activatedRoute: ActivatedRoute,
+        private sessionService: SessionService,
+        private subunidadesService: SubunidadesService
+    ){}
+    
+    
+    ngOnInit(): void {
+        this.datahj = new Date;
+        this.user = this.sessionService.getUser();
+        this.id = this.activatedRoute.snapshot.params['id'];
+
+       this.subscription =  this.veiculoPolicialService.find(this.id).subscribe({
+            next: (data) => {
+                this.data$ = data;
+            }
+        });
+
+        this.subscription2 =  this.subunidadesService.find(this.user.subunidade.id || 0).subscribe({
+            next: (data) => {
+                this.subunidade = data;
+            }
+        })
+    }
+    ngOnDestroy(): void {
+        if(this.subscription){
+            this.subscription.unsubscribe();
+        }
+
+        if(this.subscription2){
+            this.subscription2.unsubscribe();
+        }
+    }
+
+}

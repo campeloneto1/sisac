@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 import { Armamentos } from "../armamentos/armamento";
 import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
 import { Veiculos } from "../veiculos/veiculo";
+import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected armamentosVencendo!: Armamentos;
     protected veiculosManutencao!: VeiculosOficinas;
     protected veiculosTrocaOleo!: Veiculos;
+    protected veiculosPoliciais!: VeiculosPoliciais;
 
     protected subscription: any;
     protected subscription2: any;
@@ -34,6 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected subscription5: any;
     protected subscription6: any;
     protected subscription7: any;
+    protected subscription8: any;
 
     constructor(
         private sessionService: SessionService,
@@ -84,11 +87,20 @@ export class HomeComponent implements OnInit, OnDestroy{
                 }
             });
         }
+        if(this.user.perfil.policiais){
          this.subscription7 = this.homeService.getPoliciaisSetores().subscribe({
              next: (data) => {
                  this.policiaisSetores = data;
              }
          });
+        }
+        if(this.user.perfil.veiculos_policiais){
+            this.subscription8 = this.homeService.getVeiculosEmprestados().subscribe({
+                next: (data) => {
+                    this.veiculosPoliciais = data;
+                }
+            });
+        }
     }
 
     ngOnDestroy(): void {
@@ -112,6 +124,9 @@ export class HomeComponent implements OnInit, OnDestroy{
         }
         if(this.subscription7){
             this.subscription7.unsubscribe();
+        }
+        if(this.subscription8){
+            this.subscription8.unsubscribe();
         }
     }
 }

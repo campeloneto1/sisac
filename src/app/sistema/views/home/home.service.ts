@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { Armamentos } from "../armamentos/armamento";
 import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
 import { Veiculos } from "../veiculos/veiculo";
+import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
 
 const URL = environment.url;
 const endPoint = 'home';
@@ -43,6 +44,10 @@ export class HomeService{
 
     getVeiculosTrocaOleo(): Observable<Veiculos>{
         return this.http.get<Veiculos>(`${URL}/${endPoint}/veiculos-troca-oleo`);
+    }
+
+    getVeiculosEmprestados(): Observable<VeiculosPoliciais>{
+        return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}/veiculos-emprestados`);
     }
 
 }

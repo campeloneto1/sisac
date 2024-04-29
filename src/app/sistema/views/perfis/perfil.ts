@@ -53,6 +53,11 @@ export interface Perfil{
     veiculos_oficinas_edt?: boolean;
     veiculos_oficinas_del?: boolean;
 
+    veiculos_policiais?: boolean;
+    veiculos_policiais_cad?: boolean;
+    veiculos_policiais_edt?: boolean;
+    veiculos_policiais_del?: boolean;
+
     created_by?: User;
     updated_by?: User;
     created_at?: Date;

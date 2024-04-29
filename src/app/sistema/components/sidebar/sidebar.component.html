@@ -60,7 +60,18 @@
             <p>Emp. de Armamentos</p>
           </a>
         </li>
-        } @if(user.perfil.policiais_ferias){
+        } @if(user.perfil.veiculos_policiais){
+          <li class="nav-item">
+            <a
+              [routerLink]="['VeiculosEmprestimos']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-map-signs"></i>
+              <p>Emp. de Veículos</p>
+            </a>
+          </li>
+          }@if(user.perfil.policiais_ferias){
         <li class="nav-item">
           <a
             [routerLink]="['Ferias']"

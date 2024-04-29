@@ -87,6 +87,11 @@ export class PerfisFormComponent implements OnInit{
             'veiculos_oficinas_edt': [null],
             'veiculos_oficinas_del': [null],
 
+            'veiculos_policiais': [null],
+            'veiculos_policiais_cad': [null],
+            'veiculos_policiais_edt': [null],
+            'veiculos_policiais_del': [null],
+
         });
 
     }

@@ -192,6 +192,16 @@ export const routes: Routes = [
               import('./sistema/views/veiculos-oficinas/veiculos-oficinas.component').then((c) => c.VeiculosOficinasComponent),
           },
           {
+            path: 'VeiculosEmprestimos',
+            loadComponent: () =>
+              import('./sistema/views/veiculos-policiais/veiculos-policiais.component').then((c) => c.VeiculosPoliciaisComponent),
+          },
+          {
+            path: 'VeiculosEmprestimosImprimir/:id',
+            loadComponent: () =>
+              import('./sistema/views/veiculos-policiais/print/veiculos-policiais-print.component').then((c) => c.VeiculosPoliciaisPrint),
+          },
+          {
             path: 'VeiculosTipos',
             loadComponent: () =>
               import('./sistema/views/veiculos-tipos/veiculos-tipos.component').then((c) => c.VeiculosTiposComponent),

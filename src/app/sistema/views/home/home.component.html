@@ -120,6 +120,49 @@
       }
       <!--FIM CAR ARMAMENTOS VENCIMENTO-->
 
+      <!-- INICIO CARD VEICULOS POLICIAIS-->
+      @if(user.perfil.veiculos_policiais){
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Veículos Emprestados</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Placa</th>
+                    <th>Placa Esp.</th>
+                    <th>Policial</th>
+                    <th>Dt. Inicio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(vei of veiculosPoliciais; track vei){
+                    <tr>
+                      <td>{{vei.id}}</td>
+                      <td>{{vei.veiculo.modelo.marca.nome}}</td>
+                      <td>{{vei.veiculo.modelo.nome}}</td>
+                      <td>{{vei.veiculo.placa}}</td>
+                      <td>{{vei.veiculo.placa_especial}}</td>
+                      <td>
+                        {{vei.policial.graduacao.abreviatura}} 
+                        {{vei.policial.numeral}}
+                        {{vei.policial.nome_guerra}}</td>
+                      <td>{{vei.data_inicial | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+      <!--FIM CARD VEICULOS POLICIAIS-->
+
       <!-- INICIO CARD VEICULOS MANUTENCAO-->
       @if(user.perfil.veiculos_oficinas){
         <div class="col-sm-4">
