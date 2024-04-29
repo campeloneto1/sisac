@@ -93,7 +93,18 @@
               <p>Manutenção de Veículos</p>
             </a>
           </li>
-          }@if(user.perfil.policiais){
+          }@if(user.perfil.patrimonios){
+            <li class="nav-item">
+              <a
+                [routerLink]="['Patrimonios']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="nav-icon fa fa-laptop"></i>
+                <p>Patrimônios</p>
+              </a>
+            </li>
+            }@if(user.perfil.policiais){
         <li class="nav-item">
           <a
             [routerLink]="['Policiais']"
@@ -262,6 +273,7 @@
                 <p>Países</p>
               </a>
             </li>
+            
             <li class="nav-item">
               <a
                 [routerLink]="['Perfis']"
@@ -330,6 +342,16 @@
               >
                 <i class="fa fa-circle nav-icon"></i>
                 <p>Tipos de Manutenções</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['PatrimoniosTipos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Tipos de Patrimônio</p>
               </a>
             </li>
             <li class="nav-item">

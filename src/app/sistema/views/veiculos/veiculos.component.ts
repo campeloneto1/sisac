@@ -9,6 +9,7 @@ import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-veiculos',
   templateUrl: './veiculos.component.html',
@@ -19,7 +20,8 @@ import { SessionService } from '../../session.service';
     TitleComponent, 
     VeiculosFormComponent,
     DataTableModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
 })
 export class VeiculosComponent implements OnInit, OnDestroy {
@@ -38,6 +40,7 @@ export class VeiculosComponent implements OnInit, OnDestroy {
     private veiculosService: VeiculosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+
   ) {}
  
 

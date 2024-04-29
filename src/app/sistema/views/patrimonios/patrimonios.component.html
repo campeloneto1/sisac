@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-    <app-title titulo="Veículos" />
+    <app-title titulo="Patrimônios" />
   
     <!--INICIO SECTION content-->
     <section class="content">
@@ -8,7 +8,7 @@
         <!-- INICIO CARD HEADER-->
         <div class="card-header border-0">
           <h3 class="card-title">
-            @if(user.perfil.veiculos_cad){
+            @if(user.perfil.patrimonios_cad){
               <button
                 class="btn btn-outline-primary"
                 data-bs-toggle="modal"
@@ -54,16 +54,12 @@
             <thead>
               <tr>
                 <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="veiculo.tipo">Tipo</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="modelo.marca.nome">Marca</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="modelo.nome">Modelo</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="cor?.nome">Cor</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="placa">Placa</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="placa_especial">Placa Esp.</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="km_inicial">KM Inicial</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="km_atual">KM Atual</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="km_troca_oleo">KM Troca O.</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="setor.nome">Setor</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="patrimonios_tipo.nome">Tipo</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="nome">Descrição</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="serial">Serial</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="tombo">Tombo</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="data_baixa">Dt. Baixa</mfDefaultSorter></th>
                 <th>Opções</th>
               </tr>
             </thead>
@@ -72,18 +68,14 @@
               @for(row of mf.data; track row){
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
-                <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
-                <td>{{ row.veiculo_tipo.nome }}</td>
-                <td>{{ row.modelo.marca.nome }}</td>
-                <td>{{ row.modelo.nome }}</td>
-                <td>{{ row.cor.nome }}</td>
-                <td><a [routerLink]="['/Veiculo', row.id]">{{ row.placa }}</a></td>
-                <td>{{ row.placa_especial }}</td>
-                <td>{{ row.km_inicial }}</td>
-                <td>{{ row.km_atual }}</td>
-                <td>{{ row.km_troca_oleo }}</td>
+                <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }}</td>
+                <td>{{ row.patrimonio_tipo.nome }}</td>
+                <td>{{ row.nome }}</td>
+                <td>{{ row.serial }}</td>
+                <td>{{ row.tombo }}</td>
+                <td>{{ row.data_baixa | date: 'dd/MM/yyyy' }}</td>
                 <td>
-                  @if(user.perfil.veiculos_edt){
+                  @if(user.perfil.patrimonios_edt){
                     <a
                       class="options point"
                       title="Editar"
@@ -94,7 +86,7 @@
                       <i class="fa fa-edit text-primary" aria-hidden="true"></i>
                     </a>
                   }
-                  @if(user.perfil.veiculos_del){
+                  @if(user.perfil.patrimonios_del){
                     <a
                       class="options point"
                       title="Excluir"
@@ -158,7 +150,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <app-veiculos-form (refresh)="refresh()" />
+            <app-patrimonios-form (refresh)="refresh()" />
           </div>
         </div>
       </div>
@@ -187,7 +179,7 @@
           </div>
           <div class="modal-body">
             @if(excluir){ Tem certeza que deseja excluir:
-            <b>{{ excluir.placa }}</b>
+            <b>{{ excluir.serial }}</b>
             <div class="d-flex justify-content-end">
               <a data-bs-dismiss="modal" class="btn btn-link text-primary"
                 >Cancelar</a

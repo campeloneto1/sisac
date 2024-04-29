@@ -137,6 +137,16 @@ export const routes: Routes = [
               import('./sistema/views/perfis/perfis.component').then((c) => c.PerfisComponent),
           },
           {
+            path: 'Patrimonios',
+            loadComponent: () =>
+              import('./sistema/views/patrimonios/patrimonios.component').then((c) => c.PatrimoniosComponent),
+          },
+          {
+            path: 'PatrimoniosTipos',
+            loadComponent: () =>
+              import('./sistema/views/patrimonios-tipos/patrimonios-tipos.component').then((c) => c.ManutencoesTiposComponent),
+          },
+          {
             path: 'Policial/:id',
             loadComponent: () =>
               import('./sistema/views/policiais/policial/policial.component').then((c) => c.PolicialComponent),
@@ -180,6 +190,11 @@ export const routes: Routes = [
             path: 'Usuarios',
             loadComponent: () =>
               import('./sistema/views/users/users.component').then((c) => c.UsersComponent),
+          },
+          {
+            path: 'Veiculo/:id',
+            loadComponent: () =>
+              import('./sistema/views/veiculos/veiculo/veiculo.component').then((c) => c.VeiculoComponent),
           },
           {
             path: 'Veiculos',

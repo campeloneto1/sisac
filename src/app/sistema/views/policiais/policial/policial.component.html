@@ -79,7 +79,13 @@
                     >Emp. Armamentos</a
                   >
                 </li>
-                } @if(user.perfil.policiais_atestados){
+                }@if(user.perfil.veiculos_policiais){
+                  <li class="nav-item">
+                    <a class="nav-link" href="#veiculos" data-bs-toggle="tab"
+                      >Emp. Veículos</a
+                    >
+                  </li>
+                  } @if(user.perfil.policiais_atestados){
                 <li class="nav-item">
                   <a class="nav-link" href="#atestados" data-bs-toggle="tab"
                     >Atestados</a
@@ -245,7 +251,81 @@
                   <!--------------------------------------------------->
                 </div>
                 <!--FIM TAB ARMAMENTOS-->
-                } @if(user.perfil.policiais_atestados){
+                }@if(user.perfil.veiculos_policiais){
+                  <!--INICIO TAB VEICULOS-->
+                  <div class="tab-pane" id="veiculos">
+                    <!-- -------------------------------------------- -->
+                    <table
+                      [mfData]="policial.veiculos_policiais"
+                      #five="mfDataTable"
+                      [mfRowsOnPage]="10"
+                      class="table table-hover table-head-fixed text-nowrap"
+                    >
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th><mfDefaultSorter by="veiculo.veiculo_tipo.nome"
+                            >Tipo</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="veiculo.modelo.marca.nome"
+                            >Marca</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="veiculo.modelo.nome"
+                            >Modelo</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="veiculo.placa"
+                            >Placa</mfDefaultSorter></th>  
+                          <th><mfDefaultSorter by="veiculo.placa_especial"
+                            >Placa Esp.</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="data_emprestimo"
+                            >Data Empréstimo</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="data_devolucao"
+                            >Data Devolução</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="km_inicial"
+                            >KM Inicial</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="km_final"
+                            >KM Final</mfDefaultSorter></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for(row of five.data; track row){
+                        <tr >
+                          <td>{{ row.id }}</td>
+                          <td>{{ row.veiculo.veiculo_tipo.nome }}</td>
+                          <td>{{ row.veiculo.modelo.marca.nome }}</td>
+                          <td>{{ row.veiculo.modelo.nome }}</td>
+                          <td>{{ row.veiculo.placa }}</td>
+                          <td>{{ row.veiculo.placa_especial }}</td>
+                          <td>
+                            {{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}
+                          </td>
+                          <td>
+                            {{ row.data_final | date : "dd/MM/yyyy HH:mm" }}
+                          </td>
+                          <td>{{ row.km_inicial }}</td>
+                          <td>{{ row.km_final }}</td>
+                        </tr>
+                        
+                        }
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="100%">
+                            <div
+                              style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                              "
+                            >
+                              <mfBootstrapPaginator
+                              ></mfBootstrapPaginator>
+                            </div>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    <!--------------------------------------------------->
+                  </div>
+                  <!--FIM TAB VEICULOS-->
+                  } @if(user.perfil.policiais_atestados){
                 <!--INICIO TAB ATESTADOS-->
                 <div class="tab-pane" id="atestados">
                   <!-- INICIO TABLE-->

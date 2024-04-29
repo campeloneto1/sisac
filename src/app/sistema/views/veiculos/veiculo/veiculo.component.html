@@ -1,0 +1,268 @@
+<div class="content-wrapper">
+    <app-title titulo="Veículo" />
+  
+    <!--INICIO SECTION content-->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img
+                    class="profile-user-img img-fluid img-circle"
+                    src="assets/casamil.png"
+                    alt="User profile picture"
+                  />
+                </div>
+                <h3 class="profile-username text-center"> {{veiculo.placa}}</h3>
+                <p class="text-muted text-center">
+                    {{ veiculo.modelo.marca.nome }} {{ veiculo.modelo.nome }}
+                </p>
+                <ul class="list-group list-group-unbordered mb-3">
+                    @if(veiculo.placa_especial){
+                  <li class="list-group-item">
+                    <b>Placa Especial</b>
+                    <a class="float-right">{{ veiculo.placa_especial}}</a>
+                  </li>
+                }
+                @if(veiculo.chassi){
+                    <li class="list-group-item">
+                      <b>Chassi</b>
+                      <a class="float-right">{{
+                        veiculo.chassi
+                      }}</a>
+                    </li>
+                  }
+                  @if(veiculo.renavam){
+                    <li class="list-group-item">
+                      <b>Renavam</b>
+                      <a class="float-right">{{
+                        veiculo.renavam
+                      }}</a>
+                    </li>
+                  }
+                  @if(veiculo.ano){
+                  <li class="list-group-item">
+                    <b>Ano</b>
+                    <a class="float-right">{{
+                      veiculo.ano
+                    }}</a>
+                  </li>
+                  }
+                  @if(veiculo.cor){
+                  <li class="list-group-item">
+                    <b>Cor</b>
+                    <a class="float-right">{{
+                      veiculo.cor.nome
+                    }}</a>
+                  </li>
+                }
+
+                  
+                  <li class="list-group-item">
+                    <b>Subunidade</b>
+                    <a class="float-right"
+                      >{{ veiculo.subunidade.abreviatura }} -
+                      {{ veiculo.subunidade.unidade.abreviatura }}</a
+                    >
+                  </li>
+                </ul>
+                <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      href="#informacoes"
+                      data-bs-toggle="tab"
+                      >Informações</a
+                    >
+                  </li>
+                  @if(user.perfil.veiculos_policiais){
+                  <li class="nav-item">
+                    <a class="nav-link" href="#emprestimos" data-bs-toggle="tab"
+                      >Empréstimos</a
+                    >
+                  </li>
+                  }@if(user.perfil.veiculos_oficinas){
+                    <li class="nav-item">
+                      <a class="nav-link" href="#manutencoes" data-bs-toggle="tab"
+                        >Manutenções</a
+                      >
+                    </li>
+                    } 
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content">
+                  <!--INICIO TAB INFORMACOES-->
+                  <div class="active tab-pane" id="informacoes">
+                    <!--div inicio row-->
+                    <div class="row">
+                      
+                    
+                    </div>
+                    <!--div fim row-->
+                  </div>
+                  <!--FIM TAB INFORMACOES-->
+                  @if(user.perfil.veiculos_policiais){
+                  <!--INICIO TAB EMPRESTIMOS-->
+                  <div class="tab-pane" id="emprestimos">
+                    <!-- -------------------------------------------- -->
+                    <table
+                      [mfData]="veiculo.veiculos_policiais"
+                      #four="mfDataTable"
+                      [mfRowsOnPage]="10"
+                      class="table table-hover table-head-fixed text-wrap"
+                    >
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th><mfDefaultSorter by="policial.graduacao.abreviatura">Graduação</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="policial.numeral">Numeral</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="policial.nome_guerra">Nome Guerra</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="policial.matricula">Matrícula</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="data_inicial"
+                            >Data Inicial</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="data_final"
+                            >Data Final</mfDefaultSorter></th>
+                        <th><mfDefaultSorter by="km_inicial"
+                            >KM Inicial</mfDefaultSorter></th>
+                        <th><mfDefaultSorter by="km_final"
+                            >KM Final</mfDefaultSorter></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for(row of four.data; track row){
+                        <tr data-widget="expandable-table" aria-expanded="false">
+                          <td>{{ row.id }}</td>
+                          <td>{{ row.policial.graduacao.abreviatura }}</td>
+                          <td>{{ row.policial.numeral }}</td>
+                          <td>{{ row.policial.nome_guerra }}</td>
+                          <td>{{ row.policial.matricula }}</td>
+                          <td>
+                            {{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}
+                          </td>
+                          <td>
+                            {{ row.data_final | date : "dd/MM/yyyy HH:mm" }}
+                          </td>
+                          <td>{{row.km_inicial}}</td>
+                          <td>{{row.km_final}}</td>
+                        </tr>
+                        <tr class="expandable-body d-none">
+                          <td colspan="9">
+                            <div style="display: none" [innerHTML]="row.observacoes">
+                              
+                            </div>
+                          </td>
+                        </tr>
+                        }
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="100%">
+                            <div
+                              style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                              "
+                            >
+                              <mfBootstrapPaginator
+                              ></mfBootstrapPaginator>
+                            </div>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    <!--------------------------------------------------->
+                  </div>
+                  <!--FIM TAB ARMAMENTOS-->
+                  }
+                  @if(user.perfil.veiculos_oficinas){
+                    <!--INICIO TAB OFICINAS-->
+                    <div class="tab-pane" id="manutencoes">
+                      <!-- -------------------------------------------- -->
+                      <table
+                        [mfData]="veiculo.veiculos_oficinas"
+                        #two="mfDataTable"
+                        [mfRowsOnPage]="10"
+                        class="table table-hover table-head-fixed text-wrap"
+                      >
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th><mfDefaultSorter by="oficina.nome">Oficina</mfDefaultSorter></th>
+                              <th><mfDefaultSorter by="manutencao_tipo.nome">Manutenção</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="data_inicial"
+                              >Data Inicial</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="data_final"
+                              >Data Final</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="km_inicial"
+                              >KM Inicial</mfDefaultSorter></th>
+                          <th><mfDefaultSorter by="km_final"
+                              >KM Final</mfDefaultSorter></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for(row of two.data; track row){
+                          <tr data-widget="expandable-table" aria-expanded="false">
+                            <td>{{ row.id }}</td>
+                            <td>{{ row.oficina.nome }}</td>
+                            <td>{{ row.manutencao_tipo.nome}}</td>
+                            <td>
+                              {{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}
+                            </td>
+                            <td>
+                              {{ row.data_final | date : "dd/MM/yyyy HH:mm" }}
+                            </td>
+                            <td>{{row.km_inicial}}</td>
+                            <td>{{row.km_final}}</td>
+                          </tr>
+                          <tr class="expandable-body d-none">
+                            <td colspan="7">
+                              <div style="display: none" [innerHTML]="row.observacoes">
+                                
+                              </div>
+                            </td>
+                          </tr>
+                          }
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="100%">
+                              <div
+                                style="
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                "
+                              >
+                                <mfBootstrapPaginator
+                                ></mfBootstrapPaginator>
+                              </div>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                      <!--------------------------------------------------->
+                    </div>
+                    <!--FIM TAB MANUTENCOES-->
+                    }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--FIM SECTION content-->
+  </div>
+  

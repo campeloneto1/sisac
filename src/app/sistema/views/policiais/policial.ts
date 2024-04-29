@@ -7,6 +7,7 @@ import { PoliciaisPublicacoes } from "../policiais-publicacoes/policial-publicac
 import { Setor } from "../setores/setor";
 import { Sexo } from "../sexos/sexo";
 import { User } from "../users/user";
+import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
 
 export interface Policial{
     id?: number;
@@ -40,6 +41,7 @@ export interface Policial{
     policiais_ferias: PoliciaisFerias;
     policiais_publicacoes: PoliciaisPublicacoes;
     armamentos_emprestimos: ArmamentosEmprestimos;
+    veiculos_policiais: VeiculosPoliciais;
 
     usuario?: User;
 

@@ -1,6 +1,9 @@
 import { Cor } from "../cores/cor";
 import { Modelo } from "../modelos/modelo";
+import { Subunidade } from "../subunidades/subunidade";
 import { User } from "../users/user";
+import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
+import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
 import { VeiculoTipo } from "../veiculos-tipos/veiculo-tipo";
 
 export interface Veiculo{
@@ -20,8 +23,12 @@ export interface Veiculo{
     veiculo_tipo: VeiculoTipo;
     modelo: Modelo;
     cor: Cor;
+    subunidade: Subunidade;
 
     observacoes?: string;
+
+    veiculos_policiais: VeiculosPoliciais;
+    veiculos_oficinas: VeiculosOficinas;
 
     created_by: User;
     updated_by: User;

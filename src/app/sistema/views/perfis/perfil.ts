@@ -18,6 +18,11 @@ export interface Perfil{
     armamentos_emprestimos_edt?: boolean;
     armamentos_emprestimos_del?: boolean;
 
+    patrimonios?: boolean;
+    patrimonios_cad?: boolean;
+    patrimonios_edt?: boolean;
+    patrimonios_del?: boolean;
+
     policiais?: boolean;
     policiais_cad?: boolean;
     policiais_edt?: boolean;

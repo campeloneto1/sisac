@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Sexo, Sexos } from './sexo';
 import { SexosService } from './sexos.service';
 import { TitleComponent } from '../../components/title/title.component';
@@ -12,6 +12,8 @@ import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
 import { SharedService } from '../../shared/shared.service';
 import { SessionService } from '../../session.service';
+import { ADTSettings } from 'angular-datatables/src/models/settings';
+import { OpcoesTableComponent } from '../../components/opcoes-table/opcoes-table.component';
 @Component({
   selector: 'app-sexos',
   templateUrl: './sexos.component.html',
@@ -25,7 +27,7 @@ import { SessionService } from '../../session.service';
     FormsModule
   ],
 })
-export class SexosComponent implements OnInit, OnDestroy {
+export class SexosComponent implements OnInit, OnDestroy, AfterViewInit {
   protected data$!: Sexos;
   protected excluir!: Sexo;
   protected pesquisa!: string;
@@ -35,12 +37,11 @@ export class SexosComponent implements OnInit, OnDestroy {
 
   @ViewChild(SexosFormComponent) child!: SexosFormComponent;
 
-  @ViewChild(DataTableDirective, {static: false})
-  dtElement!: DataTableDirective;
+  dtOptions: ADTSettings = {};
+  dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
-  dtOptions: Config = {};
-
-  dtTrigger: Subject<any> = new Subject();
+  @ViewChild('opcoestable') opcoestable!: TemplateRef<OpcoesTableComponent>;
+  message = '';
 
   constructor(
     private sexosService: SexosService,
@@ -52,12 +53,42 @@ export class SexosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.dtOptions = this.sharedService.getDtOptions();
+    
     this.subscription = this.sexosService.index().subscribe({
       next: (data) => {
         this.data$ = data;
         this.temp = data;
-        this.dtTrigger.next(this.dtOptions);
+        
+
+        setTimeout(() => {
+          const self = this;
+          this.dtOptions = {
+            ajax: this.data$ as any,
+            columns: [
+              {
+                title: '#',
+                data: 'id'
+              },
+              {
+                title: 'Nome',
+                data: 'nome',
+              },              
+              {
+                title: 'Opções',
+                data: null,
+                defaultContent: '',
+                ngTemplateRef: {
+                  ref: this.opcoestable,
+                  context: {
+                    // needed for capturing events inside <ng-template>
+                    captureEvents: self.onCaptureEvent.bind(self)
+                  }
+                }
+              }
+            ]
+          };
+        });
+
       }
     });
   }
@@ -69,16 +100,22 @@ export class SexosComponent implements OnInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      // race condition fails unit tests if dtOptions isn't sent with dtTrigger
+      this.dtTrigger.next(this.dtOptions);
+    }, 200);
+  }
+
+  onCaptureEvent(event: any) {
+    console.log(event)
+  }
+
   refresh() {
     this.sexosService.index().subscribe({
       next: (data) => {
         this.data$ = data;
-        this.dtElement.dtInstance.then(dtInstance => {
-          // Destroy the table first
-          dtInstance.destroy();
-          // Call the dtTrigger to rerender again
-          this.dtTrigger.next(this.dtOptions);
-        });
+        
       }
     });
   }
