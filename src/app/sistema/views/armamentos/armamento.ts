@@ -1,4 +1,5 @@
 import { ArmamentoCalibre } from "../armamentos-calibres/armamento-calibre";
+import { ArmamentosEmprestimosItens } from "../armamentos-emprestimos-itens/armamento-emprestimo-item";
 import { ArmamentoTamanho } from "../armamentos-tamanhos/armamento-tamanho";
 import { ArmamentoTipo } from "../armamentos-tipos/armamento-tipo";
 import { Modelo } from "../modelos/modelo";
@@ -19,6 +20,8 @@ export interface Armamento{
     
     data_baixa?: Date;
     observacoes?: string;
+
+    armamentos_emprestimos_itens: ArmamentosEmprestimosItens;
 
     created_by?: User;
     updated_by?: User;

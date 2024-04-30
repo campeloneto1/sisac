@@ -49,6 +49,7 @@
             [mfData]="data$"
             #mf="mfDataTable"
             [mfRowsOnPage]="quant"
+            [mfSortBy]="'placa'" [mfSortOrder]="'asc'"
             class="table table-hover table-head-fixed text-nowrap"
           >
             <thead>
@@ -59,6 +60,7 @@
                 <th><mfDefaultSorter by="modelo.marca.nome">Marca</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="modelo.nome">Modelo</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="cor?.nome">Cor</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="organico">Propietário</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="placa">Placa</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="placa_especial">Placa Esp.</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="km_inicial">KM Inicial</mfDefaultSorter></th>
@@ -77,6 +79,13 @@
                 <td>{{ row.modelo.marca.nome }}</td>
                 <td>{{ row.modelo.nome }}</td>
                 <td>{{ row.cor.nome }}</td>
+                <td>
+                  @if(row.organico){
+                    Orgânico
+                  }@else{
+                    Locado
+                  }
+                </td>
                 <td><a [routerLink]="['/Veiculo', row.id]">{{ row.placa }}</a></td>
                 <td>{{ row.placa_especial }}</td>
                 <td>{{ row.km_inicial }}</td>

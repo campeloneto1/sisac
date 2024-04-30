@@ -1,18 +1,18 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { TitleComponent } from "../../../components/title/title.component";
-import { Veiculo } from "../veiculo";
-import { VeiculosService } from "../veiculos.service";
-import { Router,ActivatedRoute } from '@angular/router';
+import { Armamento } from "../armamento";
+import { ArmamentosService } from "../armamentos.service";
+import { ActivatedRoute } from '@angular/router';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { DataTableModule } from "@pascalhonegger/ng-datatable";
 import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
 
 @Component({
-    selector: 'app-veiculo',
-    templateUrl: './veiculo.component.html',
-    styleUrl: './veiculo.component.css',
+    selector: 'app-armamento',
+    templateUrl: './armamento.component.html',
+    styleUrl: './armamento.component.css',
     standalone: true,
     imports: [
         CommonModule,
@@ -25,28 +25,28 @@ import { User } from "../../users/user";
         provideNgxMask(),
     ]
 })
-export class VeiculoComponent implements OnInit, OnDestroy{
+export class ArmamentoComponent implements OnInit, OnDestroy{
 
-    protected veiculo!: Veiculo;
+    protected armamento!: Armamento;
     protected id!:number;
     private subscription:any;
 
     protected user!: User;
 
     constructor(
-        private veiculosService: VeiculosService,
+        private armamentosService: ArmamentosService,
         private sessionService: SessionService,
         private activatedRoute: ActivatedRoute
     ){}
 
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
-        this.sessionService.checkPermission('veiculos');
+        this.sessionService.checkPermission('armamentos');
         this.id = this.activatedRoute.snapshot.params['id'];
 
-       this.subscription =  this.veiculosService.find(this.id).subscribe({
+       this.subscription =  this.armamentosService.find(this.id).subscribe({
             next: (data) => {
-                this.veiculo = data;
+                this.armamento = data;
             }
         });
     }

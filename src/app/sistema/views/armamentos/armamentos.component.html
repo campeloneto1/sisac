@@ -81,7 +81,7 @@
               <td>{{ row.modelo.nome }}</td>
               <td>{{ row.armamento_calibre?.nome }}</td>
               <td>{{ row.armamento_tamanho?.nome }}</td>
-              <td>{{ row.serial }}</td>
+              <td><a [routerLink]="['/Armamento', row.id]">{{ row.serial }}</a></td>
               <td>{{ row.quantidade }}</td>
               <!-- <td>{{ row.quantidade - row.quantidade_disponivel }}</td> -->
               <td>{{ row.quantidade_disponivel }}</td>

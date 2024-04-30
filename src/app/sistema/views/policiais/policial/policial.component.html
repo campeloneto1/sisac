@@ -1,308 +1,245 @@
 <div class="content-wrapper">
   <app-title titulo="Policial" />
 
-  <!--INICIO SECTION content-->
-  <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="card">
-            <div class="card-body box-profile">
-              <div class="text-center">
-                <img
-                  class="profile-user-img img-fluid img-circle"
-                  src="assets/casamil.png"
-                  alt="User profile picture"
-                />
-              </div>
-              <h3 class="profile-username text-center">{{ policial.nome }}</h3>
-              <p class="text-muted text-center">
-                {{ policial.graduacao.nome }}
-              </p>
-              <ul class="list-group list-group-unbordered mb-3">
-                <li class="list-group-item">
-                  <b>Nome de Guerra</b>
-                  <a class="float-right">{{ policial.nome_guerra }}</a>
-                </li>
-                @if(policial.numeral){
-                <li class="list-group-item">
-                  <b>Numeral</b>
-                  <a class="float-right">{{
-                    policial.numeral | mask : "00.000"
-                  }}</a>
-                </li>
-                }
-                <li class="list-group-item">
-                  <b>Matrícula</b>
-                  <a class="float-right">{{
-                    policial.matricula | mask : "000.000-0-A"
-                  }}</a>
-                </li>
-                <li class="list-group-item">
-                  <b>CPF</b>
-                  <a class="float-right">{{
-                    policial.cpf | mask : "000.000.000-00"
-                  }}</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Setor</b>
-                  <a class="float-right">{{ policial.setor.nome }}</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Subunidade</b>
-                  <a class="float-right"
-                    >{{ policial.setor.subunidade.abreviatura }} -
-                    {{ policial.setor.subunidade.unidade.abreviatura }}</a
-                  >
-                </li>
-              </ul>
-              <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-9">
-          <div class="card">
-            <div class="card-header p-2">
-              <ul class="nav nav-pills">
-                <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    href="#informacoes"
-                    data-bs-toggle="tab"
-                    >Informações</a
-                  >
-                </li>
-                @if(user.perfil.armamentos_emprestimos){
-                <li class="nav-item">
-                  <a class="nav-link" href="#armamentos" data-bs-toggle="tab"
-                    >Emp. Armamentos</a
-                  >
-                </li>
-                }@if(user.perfil.veiculos_policiais){
-                  <li class="nav-item">
-                    <a class="nav-link" href="#veiculos" data-bs-toggle="tab"
-                      >Emp. Veículos</a
+  @if(policial){
+    <!--INICIO SECTION content-->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img
+                    class="profile-user-img img-fluid img-circle"
+                    src="assets/casamil.png"
+                    alt="User profile picture"
+                  />
+                </div>
+                <h3 class="profile-username text-center">{{ policial.nome }}</h3>
+                <p class="text-muted text-center">
+                  {{ policial.graduacao.nome }}
+                </p>
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Nome de Guerra</b>
+                    <a class="float-right">{{ policial.nome_guerra }}</a>
+                  </li>
+                  @if(policial.numeral){
+                  <li class="list-group-item">
+                    <b>Numeral</b>
+                    <a class="float-right">{{
+                      policial.numeral | mask : "00.000"
+                    }}</a>
+                  </li>
+                  }
+                  <li class="list-group-item">
+                    <b>Matrícula</b>
+                    <a class="float-right">{{
+                      policial.matricula | mask : "000.000-0-A"
+                    }}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>CPF</b>
+                    <a class="float-right">{{
+                      policial.cpf | mask : "000.000.000-00"
+                    }}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Setor</b>
+                    <a class="float-right">{{ policial.setor.nome }}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Subunidade</b>
+                    <a class="float-right"
+                      >{{ policial.setor.subunidade.abreviatura }} -
+                      {{ policial.setor.subunidade.unidade.abreviatura }}</a
                     >
                   </li>
-                  } @if(user.perfil.policiais_atestados){
-                <li class="nav-item">
-                  <a class="nav-link" href="#atestados" data-bs-toggle="tab"
-                    >Atestados</a
-                  >
-                </li>
-                } @if(user.perfil.policiais_ferias){
-                <li class="nav-item">
-                  <a class="nav-link" href="#ferias" data-bs-toggle="tab"
-                    >Férias</a
-                  >
-                </li>
-                } @if(user.perfil.policiais_publicacoes){
-                <li class="nav-item">
-                  <a class="nav-link" href="#publicacoes" data-bs-toggle="tab"
-                    >Publicações</a
-                  >
-                </li>
-                }
-              </ul>
+                </ul>
+                <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+              </div>
             </div>
-            <div class="card-body">
-              <div class="tab-content">
-                <!--INICIO TAB INFORMACOES-->
-                <div class="active tab-pane" id="informacoes">
-                  <!--div inicio row-->
-                  <div class="row">
-                    <!--div inicio col sm 6-->
-                    <div class="col-sm-6">
-                      <dl class="row">
-                        @if(policial.data_nascimento){
-                        <dt class="col-sm-4">Data Nascimento:</dt>
-                        <dd class="col-sm-8">
-                          {{ policial.data_nascimento | date : "dd/MM/yyyy" }}
-                        </dd>
-                        } @if(policial.telefone1){
-                        <dt class="col-sm-4">Telefone 1:</dt>
-                        <dd class="col-sm-8">
-                          {{ policial.telefone1 | mask : "(00) 00000-0000" }}
-                        </dd>
-                        } @if(policial.telefone2){
-                        <dt class="col-sm-4">Telefone 2:</dt>
-                        <dd class="col-sm-8">
-                          {{ policial.telefone2 | mask : "(00) 00000-0000" }}
-                        </dd>
-                        } @if(policial.email){
-                        <dt class="col-sm-4">E-mail:</dt>
-                        <dd class="col-sm-8">{{ policial.email }}</dd>
-                        }
-                      </dl>
-                    </div>
-                    <!--div fim col sm 6-->
-                    <!--div inicio col sm 6-->
-                    <div class="col-sm-6">
-                      <dl class="row">
-                        @if(policial.data_apresentacao){
-                        <dt class="col-sm-4">Data Apresentação:</dt>
-                        <dd class="col-sm-8">
-                          {{ policial.data_apresentacao | date : "dd/MM/yyyy" }}
-                        </dd>
-                        } @if(policial.boletim_apresentacao){
-                        <dt class="col-sm-4">BCG Apresentação:</dt>
-                        <dd class="col-sm-8">
-                          {{ policial.boletim_apresentacao }}
-                        </dd>
-                        } @if(policial.data_inclusao){
-                        <dt class="col-sm-4">Data Inclusão:</dt>
-                        <dd class="col-sm-8">
-                          {{ policial.data_inclusao | date : "dd/MM/yyyy" }}
-                        </dd>
-                        } @if(policial.boletim_inclusao){
-                        <dt class="col-sm-4">BCG Inclusão:</dt>
-                        <dd class="col-sm-8">
-                          {{ policial.boletim_inclusao }}
-                        </dd>
-                        } @if(policial.boletim_transferencia){
-                        <dt class="col-sm-4">BCG Transferência:</dt>
-                        <dd class="col-sm-8">
-                          {{ policial.boletim_transferencia }}
-                        </dd>
-                        }
-                      </dl>
-                    </div>
-                    <!--div fim col sm 6-->
-                  </div>
-                  <!--div fim row-->
-                </div>
-                <!--FIM TAB INFORMACOES-->
-                @if(user.perfil.armamentos_emprestimos){
-                <!--INICIO TAB ARMAMENTOS-->
-                <div class="tab-pane" id="armamentos">
-                  <!-- -------------------------------------------- -->
-                  <table
-                    [mfData]="policial.armamentos_emprestimos"
-                    #four="mfDataTable"
-                    [mfRowsOnPage]="10"
-                    class="table table-hover table-head-fixed text-nowrap"
-                  >
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th><mfDefaultSorter by="data_emprestimo"
-                          >Data Empréstimo</mfDefaultSorter></th>
-                        <th><mfDefaultSorter by="data_devolucao"
-                          >Data Devolução</mfDefaultSorter></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for(row of four.data; track row){
-                      <tr data-widget="expandable-table" aria-expanded="false">
-                        <td>{{ row.id }}</td>
-                        <td>
-                          {{ row.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
-                        </td>
-                        <td>
-                          {{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
-                        </td>
-                      </tr>
-                      <tr class="expandable-body d-none">
-                        <td colspan="3">
-                          <div style="display: none">
-                            <ul>
-                              @for(arm of row.armamentos_emprestimos_itens;
-                              track arm){
-                              <li>
-                                <b>Armamento:</b>
-                                {{ arm.armamento.armamento_tipo.nome }}
-                                {{ arm.armamento.modelo.marca.nome }}
-                                {{ arm.armamento.modelo.nome }}
-                                @if(arm.armamento.armamento_calibre){{{arm.armamento.armamento_calibre.nome
-                                }}} @if(arm.armamento.armamento_tamanho){{{arm.armamento.armamento_tamanho.nome
-                                }}} {{ arm.armamento.serial }},
+          </div>
 
-                                <b>Quantidade:</b> {{ arm.quantidade }},
-                                @if(arm.quantidade_devolucao){<b
-                                  >Quantidade Devolução:</b
-                                >
-                                {{ arm.quantidade_devolucao }}}
-                              </li>
-                              }
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                      }
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colspan="100%">
-                          <div
-                            style="
-                              display: flex;
-                              align-items: center;
-                              justify-content: center;
-                            "
-                          >
-                            <mfBootstrapPaginator
-                            ></mfBootstrapPaginator>
-                          </div>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                  <!--------------------------------------------------->
-                </div>
-                <!--FIM TAB ARMAMENTOS-->
-                }@if(user.perfil.veiculos_policiais){
-                  <!--INICIO TAB VEICULOS-->
-                  <div class="tab-pane" id="veiculos">
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      href="#informacoes"
+                      data-bs-toggle="tab"
+                      >Informações</a
+                    >
+                  </li>
+                  @if(user.perfil.armamentos_emprestimos){
+                  <li class="nav-item">
+                    <a class="nav-link" href="#armamentos" data-bs-toggle="tab"
+                      >Emp. Armamentos</a
+                    >
+                  </li>
+                  }@if(user.perfil.veiculos_policiais){
+                    <li class="nav-item">
+                      <a class="nav-link" href="#veiculos" data-bs-toggle="tab"
+                        >Emp. Veículos</a
+                      >
+                    </li>
+                    } @if(user.perfil.policiais_atestados){
+                  <li class="nav-item">
+                    <a class="nav-link" href="#atestados" data-bs-toggle="tab"
+                      >Atestados</a
+                    >
+                  </li>
+                  } @if(user.perfil.policiais_ferias){
+                  <li class="nav-item">
+                    <a class="nav-link" href="#ferias" data-bs-toggle="tab"
+                      >Férias</a
+                    >
+                  </li>
+                  } @if(user.perfil.policiais_publicacoes){
+                  <li class="nav-item">
+                    <a class="nav-link" href="#publicacoes" data-bs-toggle="tab"
+                      >Publicações</a
+                    >
+                  </li>
+                  }
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content">
+                  <!--INICIO TAB INFORMACOES-->
+                  <div class="active tab-pane" id="informacoes">
+                    <!--div inicio row-->
+                    <div class="row">
+                      <!--div inicio col sm 6-->
+                      <div class="col-sm-6">
+                        <dl class="row">
+                          @if(policial.data_nascimento){
+                          <dt class="col-sm-4">Data Nascimento:</dt>
+                          <dd class="col-sm-8">
+                            {{ policial.data_nascimento | date : "dd/MM/yyyy" }}
+                          </dd>
+                          } @if(policial.telefone1){
+                          <dt class="col-sm-4">Telefone 1:</dt>
+                          <dd class="col-sm-8">
+                            {{ policial.telefone1 | mask : "(00) 00000-0000" }}
+                          </dd>
+                          } @if(policial.telefone2){
+                          <dt class="col-sm-4">Telefone 2:</dt>
+                          <dd class="col-sm-8">
+                            {{ policial.telefone2 | mask : "(00) 00000-0000" }}
+                          </dd>
+                          } @if(policial.email){
+                          <dt class="col-sm-4">E-mail:</dt>
+                          <dd class="col-sm-8">{{ policial.email }}</dd>
+                          }
+                          @if(policial.rua){
+                            <dt class="col-sm-4">Endereço:</dt>
+                            <dd class="col-sm-8">
+                              @if(policial.rua){{{ policial.rua }}}
+                              @if(policial.numero){, {{ policial.numero }}}
+                              @if(policial.bairro){, {{ policial.bairro }}}
+                              @if(policial.cidade){, {{ policial.cidade.nome }} - {{policial.cidade.estado.abreviatura}}}
+                            </dd>
+                            }
+                        </dl>
+                      </div>
+                      <!--div fim col sm 6-->
+                      <!--div inicio col sm 6-->
+                      <div class="col-sm-6">
+                        <dl class="row">
+                          @if(policial.data_apresentacao){
+                          <dt class="col-sm-4">Data Apresentação:</dt>
+                          <dd class="col-sm-8">
+                            {{ policial.data_apresentacao | date : "dd/MM/yyyy" }}
+                          </dd>
+                          } @if(policial.boletim_apresentacao){
+                          <dt class="col-sm-4">BCG Apresentação:</dt>
+                          <dd class="col-sm-8">
+                            {{ policial.boletim_apresentacao }}
+                          </dd>
+                          } @if(policial.data_inclusao){
+                          <dt class="col-sm-4">Data Inclusão:</dt>
+                          <dd class="col-sm-8">
+                            {{ policial.data_inclusao | date : "dd/MM/yyyy" }}
+                          </dd>
+                          } @if(policial.boletim_inclusao){
+                          <dt class="col-sm-4">BCG Inclusão:</dt>
+                          <dd class="col-sm-8">
+                            {{ policial.boletim_inclusao }}
+                          </dd>
+                          } @if(policial.boletim_transferencia){
+                          <dt class="col-sm-4">BCG Transferência:</dt>
+                          <dd class="col-sm-8">
+                            {{ policial.boletim_transferencia }}
+                          </dd>
+                          }
+                        </dl>
+                      </div>
+                      <!--div fim col sm 6-->
+                    </div>
+                    <!--div fim row-->
+                  </div>
+                  <!--FIM TAB INFORMACOES-->
+                  @if(user.perfil.armamentos_emprestimos){
+                  <!--INICIO TAB ARMAMENTOS-->
+                  <div class="tab-pane" id="armamentos">
                     <!-- -------------------------------------------- -->
                     <table
-                      [mfData]="policial.veiculos_policiais"
-                      #five="mfDataTable"
+                      [mfData]="policial.armamentos_emprestimos"
+                      #four="mfDataTable"
                       [mfRowsOnPage]="10"
+                      [mfSortBy]="'id'" [mfSortOrder]="'desc'"
                       class="table table-hover table-head-fixed text-nowrap"
                     >
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th><mfDefaultSorter by="veiculo.veiculo_tipo.nome"
-                            >Tipo</mfDefaultSorter></th>
-                          <th><mfDefaultSorter by="veiculo.modelo.marca.nome"
-                            >Marca</mfDefaultSorter></th>
-                          <th><mfDefaultSorter by="veiculo.modelo.nome"
-                            >Modelo</mfDefaultSorter></th>
-                          <th><mfDefaultSorter by="veiculo.placa"
-                            >Placa</mfDefaultSorter></th>  
-                          <th><mfDefaultSorter by="veiculo.placa_especial"
-                            >Placa Esp.</mfDefaultSorter></th>
                           <th><mfDefaultSorter by="data_emprestimo"
                             >Data Empréstimo</mfDefaultSorter></th>
                           <th><mfDefaultSorter by="data_devolucao"
                             >Data Devolução</mfDefaultSorter></th>
-                          <th><mfDefaultSorter by="km_inicial"
-                            >KM Inicial</mfDefaultSorter></th>
-                          <th><mfDefaultSorter by="km_final"
-                            >KM Final</mfDefaultSorter></th>
                         </tr>
                       </thead>
                       <tbody>
-                        @for(row of five.data; track row){
-                        <tr >
+                        @for(row of four.data; track row){
+                        <tr data-widget="expandable-table" aria-expanded="false">
                           <td>{{ row.id }}</td>
-                          <td>{{ row.veiculo.veiculo_tipo.nome }}</td>
-                          <td>{{ row.veiculo.modelo.marca.nome }}</td>
-                          <td>{{ row.veiculo.modelo.nome }}</td>
-                          <td>{{ row.veiculo.placa }}</td>
-                          <td>{{ row.veiculo.placa_especial }}</td>
                           <td>
-                            {{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}
+                            {{ row.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
                           </td>
                           <td>
-                            {{ row.data_final | date : "dd/MM/yyyy HH:mm" }}
+                            {{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
                           </td>
-                          <td>{{ row.km_inicial }}</td>
-                          <td>{{ row.km_final }}</td>
                         </tr>
-                        
+                        <tr class="expandable-body d-none">
+                          <td colspan="3">
+                            <div style="display: none">
+                              <ul>
+                                @for(arm of row.armamentos_emprestimos_itens;
+                                track arm){
+                                <li>
+                                  <b>Armamento:</b>
+                                  {{ arm.armamento.armamento_tipo.nome }}
+                                  {{ arm.armamento.modelo.marca.nome }}
+                                  {{ arm.armamento.modelo.nome }}
+                                  @if(arm.armamento.armamento_calibre){{{arm.armamento.armamento_calibre.nome
+                                  }}} @if(arm.armamento.armamento_tamanho){{{arm.armamento.armamento_tamanho.nome
+                                  }}} {{ arm.armamento.serial }},
+
+                                  <b>Quantidade:</b> {{ arm.quantidade }},
+                                  @if(arm.quantidade_devolucao){<b
+                                    >Quantidade Devolução:</b
+                                  >
+                                  {{ arm.quantidade_devolucao }}}
+                                </li>
+                                }
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
                         }
                       </tbody>
                       <tfoot>
@@ -324,203 +261,282 @@
                     </table>
                     <!--------------------------------------------------->
                   </div>
-                  <!--FIM TAB VEICULOS-->
-                  } @if(user.perfil.policiais_atestados){
-                <!--INICIO TAB ATESTADOS-->
-                <div class="tab-pane" id="atestados">
-                  <!-- INICIO TABLE-->
-                  <table
-                    [mfData]="policial.policiais_atestados"
-                    #first="mfDataTable"
-                    [mfRowsOnPage]="10"
-                    class="table table-hover table-head-fixed text-nowrap"
-                  >
-                    <thead>
-                      <tr>
-                        <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
-                        <th>
-                          <mfDefaultSorter by="data_inicial"
-                            >Data Inicial</mfDefaultSorter
-                          >
-                        </th>
-                        <th>
-                          <mfDefaultSorter by="dias">Dias</mfDefaultSorter>
-                        </th>
-                        <th>
-                          <mfDefaultSorter by="dataFinal(data_inicial, dias)"
-                            >Data Final</mfDefaultSorter
-                          >
-                        </th>
-                        <th><mfDefaultSorter by="cid">CID</mfDefaultSorter></th>
-                      </tr>
-                    </thead>
+                  <!--FIM TAB ARMAMENTOS-->
+                  }@if(user.perfil.veiculos_policiais){
+                    <!--INICIO TAB VEICULOS-->
+                    <div class="tab-pane" id="veiculos">
+                      <!-- -------------------------------------------- -->
+                      <table
+                        [mfData]="policial.veiculos_policiais"
+                        #five="mfDataTable"
+                        [mfRowsOnPage]="10"
+                        [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                        class="table table-hover table-head-fixed text-nowrap"
+                      >
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th><mfDefaultSorter by="veiculo.veiculo_tipo.nome"
+                              >Tipo</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="veiculo.modelo.marca.nome"
+                              >Marca</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="veiculo.modelo.nome"
+                              >Modelo</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="veiculo.placa"
+                              >Placa</mfDefaultSorter></th>  
+                            <th><mfDefaultSorter by="veiculo.placa_especial"
+                              >Placa Esp.</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="data_emprestimo"
+                              >Data Empréstimo</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="data_devolucao"
+                              >Data Devolução</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="km_inicial"
+                              >KM Inicial</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="km_final"
+                              >KM Final</mfDefaultSorter></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for(row of five.data; track row){
+                          <tr >
+                            <td>{{ row.id }}</td>
+                            <td>{{ row.veiculo.veiculo_tipo.nome }}</td>
+                            <td>{{ row.veiculo.modelo.marca.nome }}</td>
+                            <td>{{ row.veiculo.modelo.nome }}</td>
+                            <td>{{ row.veiculo.placa }}</td>
+                            <td>{{ row.veiculo.placa_especial }}</td>
+                            <td>
+                              {{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}
+                            </td>
+                            <td>
+                              {{ row.data_final | date : "dd/MM/yyyy HH:mm" }}
+                            </td>
+                            <td>{{ row.km_inicial }}</td>
+                            <td>{{ row.km_final }}</td>
+                          </tr>
+                          
+                          }
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="100%">
+                              <div
+                                style="
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                "
+                              >
+                                <mfBootstrapPaginator
+                                ></mfBootstrapPaginator>
+                              </div>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                      <!--------------------------------------------------->
+                    </div>
+                    <!--FIM TAB VEICULOS-->
+                    } @if(user.perfil.policiais_atestados){
+                  <!--INICIO TAB ATESTADOS-->
+                  <div class="tab-pane" id="atestados">
+                    <!-- INICIO TABLE-->
+                    <table
+                      [mfData]="policial.policiais_atestados"
+                      #first="mfDataTable"
+                      [mfRowsOnPage]="10"
+                      [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                      class="table table-hover table-head-fixed text-nowrap"
+                    >
+                      <thead>
+                        <tr>
+                          <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                          <th>
+                            <mfDefaultSorter by="data_inicial"
+                              >Data Inicial</mfDefaultSorter
+                            >
+                          </th>
+                          <th>
+                            <mfDefaultSorter by="dias">Dias</mfDefaultSorter>
+                          </th>
+                          <th>
+                            <mfDefaultSorter by="dataFinal(data_inicial, dias)"
+                              >Data Final</mfDefaultSorter
+                            >
+                          </th>
+                          <th><mfDefaultSorter by="cid">CID</mfDefaultSorter></th>
+                        </tr>
+                      </thead>
 
-                    <tbody>
-                      @for(row of first.data; track row){
-                      <tr class="optionshover">
-                        <td>{{ row.id }}</td>
-                        <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
-                        <td>{{ row.dias }}</td>
-                        <td>{{ row.data_final | date : "dd/MM/yyyy" }}</td>
-                        <td>{{ row.cid }}</td>
-                      </tr>
-                      }
-                    </tbody>
+                      <tbody>
+                        @for(row of first.data; track row){
+                        <tr class="optionshover">
+                          <td>{{ row.id }}</td>
+                          <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
+                          <td>{{ row.dias }}</td>
+                          <td>{{ row.data_final | date : "dd/MM/yyyy" }}</td>
+                          <td>{{ row.cid }}</td>
+                        </tr>
+                        }
+                      </tbody>
 
-                    <tfoot>
-                      <tr>
-                        <td colspan="100%">
-                          <div
-                            style="
-                              display: flex;
-                              align-items: center;
-                              justify-content: center;
-                            "
-                          >
-                            <mfBootstrapPaginator
-                            ></mfBootstrapPaginator>
-                          </div>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                  <!-- FIM TABLE-->
+                      <tfoot>
+                        <tr>
+                          <td colspan="100%">
+                            <div
+                              style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                              "
+                            >
+                              <mfBootstrapPaginator
+                              ></mfBootstrapPaginator>
+                            </div>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    <!-- FIM TABLE-->
+                  </div>
+                  <!--FIM TAB ATESTADOS-->
+                  } @if(user.perfil.policiais_ferias){
+                  <!--INICIO TAB FERIAS-->
+                  <div class="tab-pane" id="ferias">
+                    <!-- INICIO TABLE-->
+                    <table
+                      [mfData]="policial.policiais_ferias"
+                      #second="mfDataTable"
+                      [mfRowsOnPage]="10"
+                      [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                      class="table table-hover table-head-fixed text-nowrap"
+                    >
+                      <thead>
+                        <tr>
+                          <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                          <th>
+                            <mfDefaultSorter by="data_inicial"
+                              >Data Inicial</mfDefaultSorter
+                            >
+                          </th>
+                          <th>
+                            <mfDefaultSorter by="dias">Dias</mfDefaultSorter>
+                          </th>
+                          <th>
+                            <mfDefaultSorter by="dataFinal(data_inicial, dias)"
+                              >Data Final</mfDefaultSorter
+                            >
+                          </th>
+                          <th>
+                            <mfDefaultSorter by="boletim"
+                              >Boletim</mfDefaultSorter
+                            >
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        @for(row of second.data; track row){
+                        <tr class="optionshover">
+                          <td>{{ row.id }}</td>
+                          <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
+                          <td>{{ row.dias }}</td>
+                          <td>{{ row.data_final | date : "dd/MM/yyyy" }}</td>
+                          <td>{{ row.boletim }}</td>
+                        </tr>
+                        }
+                      </tbody>
+
+                      <tfoot>
+                        <tr>
+                          <td colspan="100%">
+                            <div
+                              style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                              "
+                            >
+                              <mfBootstrapPaginator
+                              ></mfBootstrapPaginator>
+                            </div>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    <!-- FIM TABLE-->
+                  </div>
+                  <!--FIM TAB FERIAS-->
+                  } @if(user.perfil.policiais_publicacoes){
+                  <!--INICIO TAB PUBLICACOES-->
+                  <div class="tab-pane" id="publicacoes">
+                    <!-- INICIO TABLE-->
+                    <table
+                      [mfData]="policial.policiais_publicacoes"
+                      #third="mfDataTable"
+                      [mfRowsOnPage]="10"
+                      [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                      class="table table-hover table-head-fixed"
+                    >
+                      <thead>
+                        <tr>
+                          <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                          <th>
+                            <mfDefaultSorter by="publicacao_tipo.nome"
+                              >Tipo</mfDefaultSorter
+                            >
+                          </th>
+                          <th>
+                            <mfDefaultSorter by="publicacao_tipo.texto"
+                              >Texto</mfDefaultSorter
+                            >
+                          </th>
+                          <th>
+                            <mfDefaultSorter by="boletim"
+                              >Boletim</mfDefaultSorter
+                            >
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        @for(row of third.data; track row){
+                        <tr class="optionshover">
+                          <td>{{ row.id }}</td>
+                          <td>{{ row.publicacao_tipo?.nome }}</td>
+                          <td><div [innerHTML]="row.texto"></div></td>
+                          <td>{{ row.boletim }}</td>
+                        </tr>
+                        }
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="100%">
+                            <div
+                              style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                              "
+                            >
+                              <mfBootstrapPaginator
+                              ></mfBootstrapPaginator>
+                            </div>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    <!-- FIM TABLE-->
+                  </div>
+                  <!--FIM TAB PUBLICACOES-->
+                  }
                 </div>
-                <!--FIM TAB ATESTADOS-->
-                } @if(user.perfil.policiais_ferias){
-                <!--INICIO TAB FERIAS-->
-                <div class="tab-pane" id="ferias">
-                  <!-- INICIO TABLE-->
-                  <table
-                    [mfData]="policial.policiais_ferias"
-                    #second="mfDataTable"
-                    [mfRowsOnPage]="10"
-                    class="table table-hover table-head-fixed text-nowrap"
-                  >
-                    <thead>
-                      <tr>
-                        <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
-                        <th>
-                          <mfDefaultSorter by="data_inicial"
-                            >Data Inicial</mfDefaultSorter
-                          >
-                        </th>
-                        <th>
-                          <mfDefaultSorter by="dias">Dias</mfDefaultSorter>
-                        </th>
-                        <th>
-                          <mfDefaultSorter by="dataFinal(data_inicial, dias)"
-                            >Data Final</mfDefaultSorter
-                          >
-                        </th>
-                        <th>
-                          <mfDefaultSorter by="boletim"
-                            >Boletim</mfDefaultSorter
-                          >
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      @for(row of second.data; track row){
-                      <tr class="optionshover">
-                        <td>{{ row.id }}</td>
-                        <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
-                        <td>{{ row.dias }}</td>
-                        <td>{{ row.data_final | date : "dd/MM/yyyy" }}</td>
-                        <td>{{ row.boletim }}</td>
-                      </tr>
-                      }
-                    </tbody>
-
-                    <tfoot>
-                      <tr>
-                        <td colspan="100%">
-                          <div
-                            style="
-                              display: flex;
-                              align-items: center;
-                              justify-content: center;
-                            "
-                          >
-                            <mfBootstrapPaginator
-                            ></mfBootstrapPaginator>
-                          </div>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                  <!-- FIM TABLE-->
-                </div>
-                <!--FIM TAB FERIAS-->
-                } @if(user.perfil.policiais_publicacoes){
-                <!--INICIO TAB PUBLICACOES-->
-                <div class="tab-pane" id="publicacoes">
-                  <!-- INICIO TABLE-->
-                  <table
-                    [mfData]="policial.policiais_publicacoes"
-                    #third="mfDataTable"
-                    [mfRowsOnPage]="10"
-                    class="table table-hover table-head-fixed"
-                  >
-                    <thead>
-                      <tr>
-                        <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
-                        <th>
-                          <mfDefaultSorter by="publicacao_tipo.nome"
-                            >Tipo</mfDefaultSorter
-                          >
-                        </th>
-                        <th>
-                          <mfDefaultSorter by="publicacao_tipo.texto"
-                            >Texto</mfDefaultSorter
-                          >
-                        </th>
-                        <th>
-                          <mfDefaultSorter by="boletim"
-                            >Boletim</mfDefaultSorter
-                          >
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      @for(row of third.data; track row){
-                      <tr class="optionshover">
-                        <td>{{ row.id }}</td>
-                        <td>{{ row.publicacao_tipo?.nome }}</td>
-                        <td><div [innerHTML]="row.texto"></div></td>
-                        <td>{{ row.boletim }}</td>
-                      </tr>
-                      }
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colspan="100%">
-                          <div
-                            style="
-                              display: flex;
-                              align-items: center;
-                              justify-content: center;
-                            "
-                          >
-                            <mfBootstrapPaginator
-                            ></mfBootstrapPaginator>
-                          </div>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                  <!-- FIM TABLE-->
-                </div>
-                <!--FIM TAB PUBLICACOES-->
-                }
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!--FIM SECTION content-->
+    </section>
+    <!--FIM SECTION content-->
+  }
 </div>

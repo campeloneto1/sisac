@@ -69,6 +69,7 @@ export class ArmamentosFormComponent implements OnInit{
             ])],
             'quantidade': [null, Validators.compose([                
                 Validators.min(1),
+                Validators.required
             ])],
             'data_validade': [null],
             'data_baixa': [null],

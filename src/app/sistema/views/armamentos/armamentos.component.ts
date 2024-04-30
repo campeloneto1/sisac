@@ -9,6 +9,7 @@ import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-armamentos',
   templateUrl: './armamentos.component.html',
@@ -19,7 +20,8 @@ import { SessionService } from '../../session.service';
     TitleComponent, 
     ArmamentosFormComponent,
     DataTableModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
 })
 export class ArmamentosComponent implements OnInit, OnDestroy {

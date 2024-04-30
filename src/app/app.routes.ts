@@ -37,6 +37,11 @@ export const routes: Routes = [
               import('./sistema/views/home/home.component').then((c) => c.HomeComponent),
           },
           {
+            path: 'Armamento/:id',
+            loadComponent: () =>
+              import('./sistema/views/armamentos/armamento/armamento.component').then((c) => c.ArmamentoComponent),
+          },
+          {
             path: 'Armamentos',
             loadComponent: () =>
               import('./sistema/views/armamentos/armamentos.component').then((c) => c.ArmamentosComponent),

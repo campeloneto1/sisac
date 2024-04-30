@@ -1,0 +1,222 @@
+<div class="content-wrapper">
+    <app-title titulo="Armamento" />
+    @if(armamento){
+      <!--INICIO SECTION content-->
+      <section class="content" >
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body box-profile">
+                  <div class="text-center">
+                    <img
+                      class="profile-user-img img-fluid img-circle"
+                      src="assets/casamil.png"
+                      alt="User profile picture"
+                    />
+                  </div>
+                  <h3 class="profile-username text-center">{{ armamento.serial }}</h3>
+                  <p class="text-muted text-center">
+                    {{ armamento.modelo.marca.nome }} {{ armamento.modelo.nome }}
+                  </p>
+                  <ul class="list-group list-group-unbordered mb-3">
+                    @if(armamento.armamento_tipo){
+                    <li class="list-group-item">
+                      <b>Tipo</b>
+                      <a class="float-right">{{ armamento.armamento_tipo.nome }}</a>
+                    </li>
+                    } 
+                    
+                    @if(armamento.armamento_calibre){
+                    <li class="list-group-item">
+                      <b>Calibre</b>
+                      <a class="float-right">{{ armamento.armamento_calibre.nome }}</a>
+                    </li>
+                    } @if(armamento.armamento_tamanho){
+                    <li class="list-group-item">
+                      <b>Tamanho</b>
+                      <a class="float-right">{{ armamento.armamento_tamanho.nome }}</a>
+                    </li>
+                    } 
+                    <li class="list-group-item">
+                      <b>Subunidade</b>
+                      <a class="float-right"
+                        >{{ armamento.subunidade.abreviatura }} -
+                        {{ armamento.subunidade.unidade.abreviatura }}</a
+                      >
+                    </li>
+                  </ul>
+                  <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+                </div>
+              </div>
+            </div>
+    
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-header p-2">
+                  <ul class="nav nav-pills">
+                    <li class="nav-item">
+                      <a
+                        class="nav-link active"
+                        href="#informacoes"
+                        data-bs-toggle="tab"
+                        >Informações</a
+                      >
+                    </li>
+                    @if(user.perfil.armamentos_emprestimos){
+                    <li class="nav-item">
+                      <a class="nav-link" href="#emprestimos" data-bs-toggle="tab"
+                        >Empréstimos</a
+                      >
+                    </li>
+                    }
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content">
+                    <!--INICIO TAB INFORMACOES-->
+                    <div class="active tab-pane" id="informacoes">
+                      <!--div inicio row-->
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="row">
+                            @if(armamento.quantidade >= 0){
+                            <dt class="col-sm-2">Quantidade:</dt>
+                            <dd class="col-sm-2">
+                              {{ armamento.quantidade }}
+                            </dd>
+                            } @if(armamento.quantidade_disponivel){
+                            <dt class="col-sm-2">Disponível:</dt>
+                            <dd class="col-sm-2">
+                              {{ armamento.quantidade_disponivel }}
+                            </dd>
+                            } 
+                          </div>
+                        </div>
+                      </div>
+                      @if(armamento.observacoes){
+                        <h5 class="mt-4">Observações</h5>
+                        <div [innerHTML]="armamento.observacoes"></div>
+                      }
+                      <!--div fim row-->
+                    </div>
+                    <!--FIM TAB INFORMACOES-->
+                    @if(user.perfil.armamentos_emprestimos){
+                      <!--INICIO TAB EMPRESTIMOS-->
+                      <div class="tab-pane" id="emprestimos">
+                        <!-- -------------------------------------------- -->
+                        <table
+                          [mfData]="armamento.armamentos_emprestimos_itens"
+                          #four="mfDataTable"
+                          [mfRowsOnPage]="10"
+                          [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                          class="table table-hover table-head-fixed text-wrap"
+                        >
+                          <thead>
+                            <tr>
+                              <th>
+                                <mfDefaultSorter by="id"
+                                  >#</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.policial.graduacao.abreviatura"
+                                  >Graduação</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.policial.numeral"
+                                  >Numeral</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.policial.nome_guerra"
+                                  >Nome Guerra</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.policial.matricula"
+                                  >Matrícula</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.data_emprestimo"
+                                  >Data Empréstimo</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.data_devolucao"
+                                  >Data Devolução</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="quantidade"
+                                  >Quantidade</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="quantidade_devolucao"
+                                  >Quantidade Devolução</mfDefaultSorter
+                                >
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for(row of four.data; track row){
+                            <tr data-widget="expandable-table" aria-expanded="false">
+                              <td>{{ row.armamento_emprestimo.id }}</td>
+                              <td>{{ row.armamento_emprestimo.policial.graduacao.abreviatura }}</td>
+                              <td>{{ row.armamento_emprestimo.policial.numeral }}</td>
+                              <td>{{ row.armamento_emprestimo.policial.nome_guerra }}</td>
+                              <td>{{ row.armamento_emprestimo.policial.matricula }}</td>
+                              <td>
+                                {{ row.armamento_emprestimo.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
+                              </td>
+                              <td>
+                                {{ row.armamento_emprestimo.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
+                              </td>
+                              <td>{{ row.quantidade }}</td>
+                              <td>{{ row.quantidade_devolucao }}</td>
+                            </tr>
+                            <tr class="expandable-body d-none">
+                                
+                              <td colspan="9">
+                                <div
+                                  style="display: none"
+                                  [innerHTML]="row.armamento_emprestimo.observacoes"
+                                ></div>
+                              </td>
+                            </tr>
+                            }
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="100%">
+                                <div
+                                  style="
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                  "
+                                >
+                                  <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </div>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                        <!--------------------------------------------------->
+                      </div>
+                      <!--FIM TAB ARMAMENTOS-->
+                      } 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--FIM SECTION content-->
+    }
+  </div>
+  
