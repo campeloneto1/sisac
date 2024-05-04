@@ -80,6 +80,7 @@ export class UsersFormComponent implements OnInit{
                 Validators.required,
                 
             ])],
+            'policial': [null],
         });
 
         this.perfis$ = this.perfisService.index();

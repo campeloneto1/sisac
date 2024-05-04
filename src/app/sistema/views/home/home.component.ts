@@ -9,6 +9,7 @@ import { Armamentos } from "../armamentos/armamento";
 import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
 import { Veiculos } from "../veiculos/veiculo";
 import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
+import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantFerias!: any;
     protected policiaisSetores!: any;
     protected armamentosVencendo!: Armamentos;
+    protected armamentosEmprestimos!: ArmamentosEmprestimos;
     protected veiculosManutencao!: VeiculosOficinas;
     protected veiculosTrocaOleo!: Veiculos;
     protected veiculosPoliciais!: VeiculosPoliciais;
@@ -37,6 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected subscription6: any;
     protected subscription7: any;
     protected subscription8: any;
+    protected subscription9: any;
 
     constructor(
         private sessionService: SessionService,
@@ -70,6 +73,13 @@ export class HomeComponent implements OnInit, OnDestroy{
             this.subscription4 = this.homeService.getArmamentosVencendo().subscribe({
                 next: (data) => {
                     this.armamentosVencendo = data;
+                }
+            });
+        }
+        if(this.user.perfil.armamentos_emprestimos){
+            this.subscription9 = this.homeService.getArmamentosEmprestados().subscribe({
+                next: (data) => {
+                    this.armamentosEmprestimos = data;
                 }
             });
         }
@@ -127,6 +137,9 @@ export class HomeComponent implements OnInit, OnDestroy{
         }
         if(this.subscription8){
             this.subscription8.unsubscribe();
+        }
+        if(this.subscription9){
+            this.subscription9.unsubscribe();
         }
     }
 }

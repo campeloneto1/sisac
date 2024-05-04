@@ -33,6 +33,8 @@ export class InputTextComponent implements ControlValueAccessor{
   @Input() label!: string;
   @Input() tipo!: string;
   @Input() mascara!: string;
+  @Input() min: number = 0;
+  @Input() max!: number;
 
   protected inputvalor!: any;
   protected control!: AbstractControl;

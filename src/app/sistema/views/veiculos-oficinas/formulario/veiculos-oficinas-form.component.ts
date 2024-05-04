@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { InputTextComponent } from "../../../components/input-text/input-text.component";
 import { InputSelectComponent } from "../../../components/input-select/input-select.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -31,7 +31,7 @@ import { OficinasService } from "../../oficinas/oficinas.service";
         InputTextareaComponent
     ]
 })
-export class VeiculosOficinasFormComponent implements OnInit{
+export class VeiculosOficinasFormComponent implements OnInit, OnDestroy{
     
     protected form!: FormGroup;
     protected veiculos$!: Observable<Veiculos>;
@@ -50,7 +50,7 @@ export class VeiculosOficinasFormComponent implements OnInit{
         private manutencoesTiposService:ManutencoesTiposService,
         private toastr: ToastrService,
     ){}
-
+    
     ngOnInit() {
         this.form = this.formBuilder.group({
             'id': [null],
@@ -91,6 +91,13 @@ export class VeiculosOficinasFormComponent implements OnInit{
         });
        
     }
+
+    ngOnDestroy(): void {
+        if(this.subscription){
+            this.subscription.unsubscribe();
+        }
+    }
+
 
     cadastrar(){
         if(this.form.value.id){

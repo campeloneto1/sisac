@@ -5,7 +5,7 @@
     </label>
   
     <input
-      *ngIf="!mascara && tipo != 'textarea' && tipo != 'checkbox'"
+      *ngIf="!mascara && tipo != 'textarea' && tipo != 'checkbox' && !max"
       [(ngModel)]="inputvalor"
       (ngModelChange)="change()"
       [ngClass]="{
@@ -15,6 +15,21 @@
       class="form-control"
       id="{{ id }}"
       placeholder="{{ label }}"
+    />
+
+    <input
+      *ngIf="max"
+      [(ngModel)]="inputvalor"
+      (ngModelChange)="change()"
+      [ngClass]="{
+        'is-invalid': control.invalid && (control.dirty || control.touched)
+      }"
+      type="{{ tipo }}"
+      class="form-control"
+      id="{{ id }}"
+      placeholder="{{ label }}"
+      max="{{max}}"
+      min="{{min}}"
     />
   
     <input

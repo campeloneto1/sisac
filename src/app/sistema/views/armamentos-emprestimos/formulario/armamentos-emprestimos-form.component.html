@@ -7,6 +7,12 @@
             [data$]="policiais$"
             formControlName="policial"
         />
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked="" id="cautela" formControlName="cautela">
+                <label class="form-check-label" for="cautela">Cautela</label>
+            </div>
+        </div>
     </div>  
     @if(!editando){
     <div class="row">
@@ -17,8 +23,9 @@
             [data$]="armamentos$"
             formControlName="armamento"
             optionname="serial"
+            (ngModelChange)="select()"
         />
-        <input-text class="col-sm-2" formControlName="quantidade" label="Quantidade" id="quantidade" tipo="number" />
+        <input-text [max]="maxamon" [min]="1" class="col-sm-2" formControlName="quantidade" label="Quantidade" id="quantidade" tipo="number" />
         <div class="col-sm-2" style="padding-top: 30px;">
             <button (click)="addArmamento()" [disabled]="!form.value.armamento || !form.value.quantidade" class="btn btn-primary "><i class="fa fa-plus"></i></button>
         </div>

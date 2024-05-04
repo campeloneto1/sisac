@@ -217,6 +217,11 @@ export const routes: Routes = [
               import('./sistema/views/veiculos-policiais/veiculos-policiais.component').then((c) => c.VeiculosPoliciaisComponent),
           },
           {
+            path: 'RelVeiculosEmprestimos',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/veiculos-policiais/veiculos-policiais-rel.component').then((c) => c.VeiculosPoliciaisRel),
+          },
+          {
             path: 'VeiculosEmprestimosImprimir/:id',
             loadComponent: () =>
               import('./sistema/views/veiculos-policiais/print/veiculos-policiais-print.component').then((c) => c.VeiculosPoliciaisPrint),
@@ -225,6 +230,11 @@ export const routes: Routes = [
             path: 'VeiculosTipos',
             loadComponent: () =>
               import('./sistema/views/veiculos-tipos/veiculos-tipos.component').then((c) => c.VeiculosTiposComponent),
+          },
+          {
+            path: 'RelVeiculosOficinas',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/veiculos-oficinas/veiculos-oficinas-rel.component').then((c) => c.VeiculosOficinasRel),
           },
           {
             path:'**',

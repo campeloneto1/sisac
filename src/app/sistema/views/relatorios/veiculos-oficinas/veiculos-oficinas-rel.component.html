@@ -1,0 +1,119 @@
+<div class="content-wrapper">
+  <app-title titulo="Relatório de Manutenção de Veículos" />
+
+  <!--INICIO SECTION content-->
+  <section class="content">
+    <!--INICIO CARD -->
+    <div class="card">
+      <div class="card-header border-0 ">
+        <h3 class="card-title noprint">Filtro</h3>
+        <h3 class="card-title print">Relatório de Manutenção de Veículos</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <form [formGroup]="form" class="noprint">
+          <div class="row">
+            <input-text
+              class="col-sm-2"
+              formControlName="data_inicial"
+              label="Data Inical maior ou igual a"
+              id="data_inicial"
+              tipo="date"
+            />
+            <input-text
+              class="col-sm-2"
+              formControlName="data_final"
+              label="Data Inicial menor ou igual a"
+              id="data_final"
+              tipo="date"
+            />
+          </div>
+          <div class="row">
+            @if(veiculos$){
+            <input-select
+              class="col-sm-3"
+              label="Veículo"
+              id="veiculo"
+              [data$]="veiculos$"
+              formControlName="veiculo"
+            />
+            } @if(oficinas$){
+            <input-select
+              class="col-sm-3"
+              label="Oficina"
+              id="oficina"
+              [data$]="oficinas$"
+              formControlName="oficina"
+            />
+            } @if(manutencoestipos$){
+            <input-select
+              class="col-sm-2"
+              label="Tipo de Manutenção"
+              id="manutencao_tipo"
+              [data$]="manutencoestipos$"
+              formControlName="manutencao_tipo"
+            />
+            }
+          </div>
+          <div>
+            <button
+              [disabled]="form.invalid"
+              type="button"
+              (click)="pesquisar()"
+              class="btn btn-primary btn-block"
+            >
+              Pesquisar
+            </button>
+          </div>
+        </form>
+
+        @if(data$){
+        <table class="table table-hover table-head-fixed text-wrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Placa</th>
+              <th>Placa Especial</th>
+              <th>Oficina</th>
+              <th>Manutenção</th>
+              <th>Data Inicial</th>
+              <th>Data Final</th>
+              <th>KM Inicial</th>
+              <th>KM Final</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for(row of data$ | async; track row){
+              <tr data-widget="expandable-table" aria-expanded="false">
+                <td>{{ row.id }}</td>
+                <td>{{ row.veiculo.modelo.marca.nome }}</td>
+                <td>{{ row.veiculo.modelo.nome }}</td>
+                <td>{{ row.veiculo.placa }}</td>
+                <td>{{ row.veiculo.placa_especial }}</td>
+                <td>{{ row.oficina.nome }}</td>
+                <td>{{ row.manutencao_tipo.nome }}</td>
+                <td>{{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ row.data_final | date : "dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ row.km_inicial }}</td>
+                <td>{{ row.km_final }}</td>
+              </tr>
+              <tr class="expandable-body d-none">
+                <td colspan="11">
+                  <div
+                    style="display: none"
+                    [innerHTML]="row.observacoes"
+                  ></div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+    </div>
+    <!--FIM CARD -->
+  </section>
+  <!--FIM SECTION content-->
+</div>

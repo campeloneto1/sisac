@@ -388,6 +388,50 @@
           </ul>
         </li>
         }
+        @if(user.perfil.relatorios){
+          <li
+            class="nav-item point"
+            (click)="openMenuRelatorio()"
+            [ngClass]="{ 'menu-is-opening menu-open': menuRelatorio }"
+          >
+            <a class="nav-link">
+              <i class="nav-icon fa fa-file"></i>
+              <p>
+                Relatórios
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul
+              class="nav nav-treeview"
+              [ngStyle]="{ 'display: block;': menuRelatorio }"
+            >
+              @if(user.perfil.veiculos_policiais){
+                <li class="nav-item">
+                  <a
+                    [routerLink]="['RelVeiculosEmprestimos']"
+                    routerLinkActive="active"
+                    class="nav-link"
+                  >
+                    <i class="fa fa-circle nav-icon"></i>
+                    <p>Empréstimos de Veículos</p>
+                  </a>
+                </li>
+              }
+              @if(user.perfil.veiculos_oficinas){
+                <li class="nav-item">
+                  <a
+                    [routerLink]="['RelVeiculosOficinas']"
+                    routerLinkActive="active"
+                    class="nav-link"
+                  >
+                    <i class="fa fa-circle nav-icon"></i>
+                    <p>Manutenção de Veículos</p>
+                  </a>
+                </li>
+              }
+            </ul>
+          </li>
+          }
       </ul>
     </nav>
   </div>

@@ -10,7 +10,7 @@ import { Observable, of } from "rxjs";
 import { Policiais } from "../../policiais/policial";
 import { PoliciaisService } from "../../policiais/policiais.service";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
-import { Armamentos } from "../../armamentos/armamento";
+import { Armamento, Armamentos } from "../../armamentos/armamento";
 import { ArmamentosService } from "../../armamentos/armamentos.service";
 
 @Component({
@@ -35,6 +35,7 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
     protected armamentos$!: Observable<Armamentos>;
     protected armamentosselected:any = [];
     protected editando: boolean = false;
+    protected maxamon: number = 1;
     private subscription!:any;
     private subscription2!:any;
 
@@ -59,7 +60,8 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
             'quantidade': [1, Validators.compose([
                 Validators.min(1),
             ])],
-            'observacoes': [null],  
+            'observacoes': [null], 
+            'cautela': [null],  
             'armamentos': [null],                  
         });
 
@@ -109,6 +111,9 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
     }
 
     cadastrar(){
+        if(this.form.value.cautela !== true){
+            this.form.get('cautela')?.patchValue(null);
+        }
         
         if(this.form.value.id){
             delete this.form.value.armamentos;
@@ -132,6 +137,7 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
                     this.toastr.success('Cadastro realizado com sucesso!');
                     this.form.reset();
                     this.refresh.emit();
+                    this.armamentosselected = [];
                 },
                 error: (error:any) => {
                     this.toastr.error('Erro ao cadastrar, tente novamente mais tarde!');
@@ -141,6 +147,22 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
        
     }
 
+    async select(){
+        if(this.form.value.armamento){
+            var arma;
+            await this.armamentos$.subscribe((data) => {
+                arma =  data.filter((element) => {
+                    return element.id == this.form.value.armamento
+                })
+            });
+            
+            if(arma){
+                //@ts-ignore
+                this.maxamon = arma[0].quantidade_disponivel;
+            }
+        }
+    }
+
     editar(data: ArmamentoEmprestimo){
         this.editando = true;
         this.form.patchValue(data);
@@ -148,22 +170,33 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
     }
 
     addArmamento(){
-        let arma;
-        this.armamentos$.subscribe((data) => {
-            arma =  data.filter((element) => {
-                return element.id == this.form.value.armamento
-            })
-        });
-        this.armamentosselected.push(
-            {
-                armamentoId: this.form.value.armamento,
+        
+
+        if(this.form.value.quantidade > 0){
+            let arma;
+            this.armamentos$.subscribe((data) => {
+                arma =  data.filter((element) => {
+                    return element.id == this.form.value.armamento
+                })
+            });
+
+            //@ts-ignore
+            if(this.form.value.quantidade > arma[0].quantidade_disponivel){
                 //@ts-ignore
-                armamento: arma[0],
-                quantidade: this.form.value.quantidade  
+                this.form.get('quantidade')?.patchValue(arma[0].quantidade_disponivel);
             }
-        );
-        this.form.get('armamento')?.patchValue(null);
-        this.form.get('quantidade')?.patchValue(1);
+
+            this.armamentosselected.push(
+                {
+                    armamentoId: this.form.value.armamento,
+                    //@ts-ignore
+                    armamento: arma[0],
+                    quantidade: this.form.value.quantidade  
+                }
+            );
+            this.form.get('armamento')?.patchValue(null);
+            this.form.get('quantidade')?.patchValue(1);
+        }
     }
 
     removeArmamento(index:number){

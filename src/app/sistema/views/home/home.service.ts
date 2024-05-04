@@ -6,6 +6,7 @@ import { Armamentos } from "../armamentos/armamento";
 import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
 import { Veiculos } from "../veiculos/veiculo";
 import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
+import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
 
 const URL = environment.url;
 const endPoint = 'home';
@@ -36,6 +37,10 @@ export class HomeService{
 
     getArmamentosVencendo(): Observable<Armamentos>{
         return this.http.get<Armamentos>(`${URL}/${endPoint}/armamentos-vencendo`);
+    }
+
+    getArmamentosEmprestados(): Observable<ArmamentosEmprestimos>{
+        return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}/armamentos-emprestados`);
     }
 
     getVeiculosManutencao(): Observable<VeiculosOficinas>{

@@ -110,12 +110,19 @@
             <div class="col-sm-2"><b>Placa:</b> {{ data$.veiculo.placa }}</div>
             <div class="col-sm-4"><b>PLaca Esp.:</b> {{ data$.veiculo.placa_especial }}</div>
           </div>
-          <div class="row">
-            <div class="col-sm-5">
-              <b>KM Inicial:</b> {{ data$.km_inicial }}
-            </div>
-            <div class="col-sm-5">
-                <b>KM Final:</b> {{ data$.km_final }}
+         
+            <div class="row">
+              @if(data$.cidade){
+                <div class="col-sm-4">
+                  <b>Destino: </b> {{data$.cidade.nome}}, {{data$.cidade.estado.nome}}
+                </div>
+              }
+         
+              <div class="col-sm-4">
+                <b>KM Inicial:</b> {{ data$.km_inicial }}
+              </div>
+              <div class="col-sm-4">
+                  <b>KM Final:</b> {{ data$.km_final }}
               </div>
           </div>
           <div class="row">

@@ -1,0 +1,115 @@
+<div class="content-wrapper">
+  <app-title titulo="Relatório de Empréstimos de Veículos" />
+
+  <!--INICIO SECTION content-->
+  <section class="content">
+    <!--INICIO CARD -->
+    <div class="card">
+      <div class="card-header border-0 ">
+        <h3 class="card-title noprint">Filtro</h3>
+        <h3 class="card-title print">Relatório de Empréstimos de Veículos</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <form [formGroup]="form" class="noprint">
+          <div class="row">
+            <input-text
+              class="col-sm-2"
+              formControlName="data_inicial"
+              label="Data Inical maior ou igual a"
+              id="data_inicial"
+              tipo="date"
+            />
+            <input-text
+              class="col-sm-2"
+              formControlName="data_final"
+              label="Data Inicial menor ou igual a"
+              id="data_final"
+              tipo="date"
+            />
+          </div>
+          <div class="row">
+            @if(veiculos$){
+            <input-select
+              class="col-sm-3"
+              label="Veículo"
+              id="veiculo"
+              [data$]="veiculos$"
+              formControlName="veiculo"
+            />
+            } @if(policiais$){
+            <input-select
+              class="col-sm-3"
+              label="Policial"
+              id="policial"
+              [data$]="policiais$"
+              formControlName="policial"
+            />
+            } 
+          </div>
+          <div>
+            <button
+              [disabled]="form.invalid"
+              type="button"
+              (click)="pesquisar()"
+              class="btn btn-primary btn-block"
+            >
+              Pesquisar
+            </button>
+          </div>
+        </form>
+
+        @if(data$){
+        <table class="table table-hover table-head-fixed text-wrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Placa</th>
+              <th>Placa Especial</th>
+              <th>Graduação</th>
+              <th>Numeral</th>
+              <th>Nome de Guerra</th>
+              <th>Matrícula</th>
+              <th>Data Inicial</th>
+              <th>Data Final</th>
+              <th>KM Inicial</th>
+              <th>KM Final</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for(row of data$ | async; track row){
+              <tr data-widget="expandable-table" aria-expanded="false">
+                <td>{{ row.id }}</td>
+                <td>{{ row.veiculo.modelo.marca.nome }}</td>
+                <td>{{ row.veiculo.modelo.nome }}</td>
+                <td>{{ row.veiculo.placa }}</td>
+                <td>{{ row.veiculo.placa_especial }}</td>
+                <td>{{ row.policial.graduacao.abreviatura }}</td>
+                <td>{{ row.policial.numeral }}</td>
+                <td>{{ row.policial.nome_guerra }}</td>
+                <td>{{ row.policial.matricula }}</td>
+                <td>{{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ row.data_final | date : "dd/MM/yyyy HH:mm" }}</td>
+                <td>{{ row.km_inicial }}</td>
+                <td>{{ row.km_final }}</td>
+              </tr>
+              <tr class="expandable-body d-none">
+                <td colspan="14">
+                  <div
+                    style="display: none"
+                    [innerHTML]="row.observacoes"
+                  ></div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+    </div>
+    <!--FIM CARD -->
+  </section>
+  <!--FIM SECTION content-->
+</div>

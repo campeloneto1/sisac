@@ -51,6 +51,12 @@ export class SidebarComponent implements OnInit{
     ]
     protected menuGestor:boolean = false;
 
+    private routesMenuRelatorio = [
+        '/RelVeiculosEmprestimos',
+        '/RelVeiculosOficinas'
+    ]
+    protected menuRelatorio:boolean = false;
+
     constructor(
         private router: Router,
         private sessionService: SessionService,
@@ -60,6 +66,7 @@ export class SidebarComponent implements OnInit{
     async ngOnInit(){
         this.routesMenuAdm.includes(this.router.url) ? this.menuAdmin = true : this.menuAdmin = false;
         this.routesMenuGestor.includes(this.router.url) ? this.menuGestor = true : this.menuGestor = false;
+        this.routesMenuRelatorio.includes(this.router.url) ? this.menuRelatorio = true : this.menuRelatorio = false;
 
         this.user = this.sessionService.getUser();
         
@@ -74,5 +81,9 @@ export class SidebarComponent implements OnInit{
     
     openMenuGestor(){
         this.menuGestor = !this.menuGestor;
+    }
+
+    openMenuRelatorio(){
+        this.menuRelatorio = !this.menuRelatorio;
     }
 }

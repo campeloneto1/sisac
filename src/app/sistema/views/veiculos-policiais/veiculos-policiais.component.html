@@ -122,21 +122,22 @@
                           <i class="fa fa-edit text-primary" aria-hidden="true"></i>
                         </a>
                       }
+                      @if(user.perfil.veiculos_policiais_del){
+                        <a
+                          class="options point ml-1"
+                          title="Excluir"
+                          (click)="delete(row)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modaldel"
+                        >
+                          <i
+                            class="fa fa-trash text-danger "
+                            aria-hidden="true"
+                          ></i>
+                        </a>
+                      }
                     }
-                    @if(user.perfil.veiculos_policiais_del){
-                      <a
-                        class="options point ml-1"
-                        title="Excluir"
-                        (click)="delete(row)"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modaldel"
-                      >
-                        <i
-                          class="fa fa-trash text-danger "
-                          aria-hidden="true"
-                        ></i>
-                      </a>
-                    }
+                   
                   
                 </td>
               </tr>
