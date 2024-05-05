@@ -1,0 +1,94 @@
+<div class="content-wrapper">
+  <app-title titulo="Relatório de Patrimônios" />
+
+  <!--INICIO SECTION content-->
+  <section class="content">
+    <!--INICIO CARD -->
+    <div class="card">
+      <div class="card-header border-0 ">
+        <h3 class="card-title noprint">Filtro</h3>
+        <h3 class="card-title print">Relatório de Patrimônios</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <form [formGroup]="form" class="noprint">
+          
+          <div class="row">
+            @if(setores$){
+            <input-select
+              class="col-sm-3"
+              label="Setor"
+              id="setor"
+              [data$]="setores$"
+              formControlName="setor"
+            />
+            }  @if(patrimoniostipos$){
+            <input-select
+              class="col-sm-2"
+              label="Tipo de Patrimônio"
+              id="patrimonio_tipo"
+              [data$]="patrimoniostipos$"
+              formControlName="patrimonio_tipo"
+            />
+            }
+            <div class="col-sm-2">
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked="" id="data_baixa" formControlName="data_baixa">
+                  <label class="form-check-label" for="data_baixa">Data baixa</label>
+              </div>
+          </div>
+          </div>
+          <div>
+            <button
+              [disabled]="form.invalid"
+              type="button"
+              (click)="pesquisar()"
+              class="btn btn-primary btn-block"
+            >
+              Pesquisar
+            </button>
+          </div>
+        </form>
+
+        @if(data$){
+        <table class="table table-hover table-head-fixed text-wrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Setor</th>
+              <th>Tipo</th>
+              <th>Descrição</th>
+              <th>Serial</th>
+              <th>Tombo</th>
+              <th>Data Baixa</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for(row of data$ | async; track row){
+              <tr data-widget="expandable-table" aria-expanded="false">
+                <td>{{ row.id }}</td>
+                <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }}</td>
+                <td>{{ row.patrimonio_tipo.nome }}</td>
+                <td>{{ row.nome }}</td>
+                <td>{{ row.serial }}</td>
+                <td>{{ row.tombo }}</td>
+                <td>{{ row.data_baixa | date: 'dd/MM/yyyy' }}</td>
+              </tr>
+              <tr class="expandable-body d-none">
+                <td colspan="11">
+                  <div
+                    style="display: none"
+                    [innerHTML]="row.observacoes"
+                  ></div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+    </div>
+    <!--FIM CARD -->
+  </section>
+  <!--FIM SECTION content-->
+</div>

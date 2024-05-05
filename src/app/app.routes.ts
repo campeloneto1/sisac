@@ -47,9 +47,19 @@ export const routes: Routes = [
               import('./sistema/views/armamentos/armamentos.component').then((c) => c.ArmamentosComponent),
           },
           {
+            path: 'RelArmamentos',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/armamentos/armamentos-rel.component').then((c) => c.ArmamentosRelComponent),
+          },
+          {
             path: 'ArmamentosEmprestimos',
             loadComponent: () =>
               import('./sistema/views/armamentos-emprestimos/armamentos-emprestimos.component').then((c) => c.ArmamentosEmprestimosComponent),
+          },
+          {
+            path: 'RelArmamentosEmprestimos',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/armamentos-emprestimos/armamentos-emprestimos-rel.component').then((c) => c.ArmamentosEmprestimosRel),
           },
           {
             path: 'ArmamentosEmprestimosCautela/:id',
@@ -147,6 +157,11 @@ export const routes: Routes = [
               import('./sistema/views/patrimonios/patrimonios.component').then((c) => c.PatrimoniosComponent),
           },
           {
+            path: 'RelPatrimonios',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/patrimonios/patrimonios-rel.component').then((c) => c.PatrimoniosRel),
+          },
+          {
             path: 'PatrimoniosTipos',
             loadComponent: () =>
               import('./sistema/views/patrimonios-tipos/patrimonios-tipos.component').then((c) => c.ManutencoesTiposComponent),
@@ -205,6 +220,11 @@ export const routes: Routes = [
             path: 'Veiculos',
             loadComponent: () =>
               import('./sistema/views/veiculos/veiculos.component').then((c) => c.VeiculosComponent),
+          },
+          {
+            path: 'RelVeiculos',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/veiculos/veiculos-rel.component').then((c) => c.VeiculosRelComponent),
           },
           {
             path: 'VeiculosOficinas',

@@ -106,6 +106,7 @@ export class VeiculosFormComponent implements OnInit{
                 Validators.required,
             ])],
             'observacoes': [null],
+            'data_baixa': [null],
         });
         //this.unidades$ = this.unidadesService.index();
         this.marcas$ = this.marcasService.marcasTransporte();
@@ -115,13 +116,17 @@ export class VeiculosFormComponent implements OnInit{
     }
 
     cadastrar(){
-        delete this.form.value.marca;
+        
+
+        if(!this.form.value.data_baixa){
+            this.form.get('data_baixa')?.patchValue(null);
+        }
 
         this.form.value.placa = this.form.value.placa.toUpperCase();
         if(this.form.value.placa_especial){
             this.form.value.placa_especial = this.form.value.placa_especial.toUpperCase();
         }
-        
+        delete this.form.value.marca;
         if(this.form.value.id){
             this.veiculosService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {

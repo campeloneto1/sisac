@@ -11,6 +11,7 @@ import { VeiculosPoliciaisRelService } from "./veiculos-policiais-rel.service";
 import { VeiculosPoliciais } from "../../veiculos-policiais/veiculo-policial";
 import { Policiais } from "../../policiais/policial";
 import { PoliciaisService } from "../../policiais/policiais.service";
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 
 @Component({
     selector: 'app-veiculos-policiais-rel',
@@ -24,7 +25,12 @@ import { PoliciaisService } from "../../policiais/policiais.service";
         ReactiveFormsModule, 
         InputTextComponent,
         InputSelectComponent,
-    ]
+        NgxMaskDirective, 
+        NgxMaskPipe,
+    ],
+    providers: [
+        provideNgxMask(),
+      ]
 })
 export class VeiculosPoliciaisRel implements OnInit, OnDestroy{
 

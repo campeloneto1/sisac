@@ -52,8 +52,12 @@ export class SidebarComponent implements OnInit{
     protected menuGestor:boolean = false;
 
     private routesMenuRelatorio = [
+        '/RelArmamentos',
+        '/RelArmamentosEmprestimos',
+        '/RelPatrimonios',
+        '/RelVeiculos',
         '/RelVeiculosEmprestimos',
-        '/RelVeiculosOficinas'
+        '/RelVeiculosOficinas',
     ]
     protected menuRelatorio:boolean = false;
 

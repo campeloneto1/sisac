@@ -1,0 +1,127 @@
+<div class="content-wrapper">
+  <app-title titulo="Relatório de Empréstimos de Armamentos" />
+
+  <!--INICIO SECTION content-->
+  <section class="content">
+    <!--INICIO CARD -->
+    <div class="card">
+      <div class="card-header border-0">
+        <h3 class="card-title noprint">Filtro</h3>
+        <h3 class="card-title print">Relatório de Empréstimos de Armamentos</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <form [formGroup]="form" class="noprint">
+          <div class="row">
+            <input-text
+              class="col-sm-2"
+              formControlName="data_inicial"
+              label="Data Inical maior ou igual a"
+              id="data_inicial"
+              tipo="date"
+            />
+            <input-text
+              class="col-sm-2"
+              formControlName="data_final"
+              label="Data Inicial menor ou igual a"
+              id="data_final"
+              tipo="date"
+            />
+          </div>
+          <div class="row">
+            @if(policiais$){
+            <input-select
+              class="col-sm-4"
+              label="Policial"
+              id="policial"
+              [data$]="policiais$"
+              formControlName="policial"
+            />
+            } @if(armamentos$){
+                <input-select
+                class="col-sm-4"
+                label="Armamento"
+                id="armamento"
+                [data$]="armamentos$"
+                formControlName="armamento"
+                optionname="serial"
+                />
+            }
+          </div>
+          <div>
+            <button
+              [disabled]="form.invalid"
+              type="button"
+              (click)="pesquisar()"
+              class="btn btn-primary btn-block"
+            >
+              Pesquisar
+            </button>
+          </div>
+        </form>
+
+        @if(data$){
+        <table class="table table-hover table-head-fixed text-wrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Graduação</th>
+              <th>Numeral</th>
+              <th>Nome de Guerra</th>
+              <th>Matrícula</th>
+              <th>Data Emprestimo</th>
+              <th>Data Devolução</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for(row of data$ | async; track row){
+            <tr data-widget="expandable-table" aria-expanded="false">
+              <td>{{ row.id }}</td>
+              <td>{{ row.policial.graduacao.nome }}</td>
+              <td>
+                @if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000'
+                }}}
+              </td>
+              <td>{{ row.policial.nome_guerra }}</td>
+              <td>{{ row.policial.matricula | mask : "000.000-0-A" }}</td>
+              <td>{{ row.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td>{{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}</td>
+            </tr>
+            <tr class="expandable-body d-none">
+              <td colspan="7">
+                <div style="display: none">
+                  <ul>
+                    @for(arm of row.armamentos_emprestimos_itens; track arm){
+                    <li>
+                      <b>Armamento:</b>
+                      {{ arm.armamento.armamento_tipo.nome }}
+                      {{ arm.armamento.modelo.marca.nome }}
+                      {{ arm.armamento.modelo.nome }}
+                      @if(arm.armamento.armamento_calibre){{{arm.armamento.armamento_calibre.nome
+
+                      }}} @if(arm.armamento.armamento_tamanho){{{arm.armamento.armamento_tamanho.nome
+
+                      }}} {{ arm.armamento.serial }},
+
+                      <b>Quantidade:</b> {{ arm.quantidade }},
+                      @if(arm.quantidade_devolucao){<b>Quantidade Devolução:</b>
+                      {{ arm.quantidade_devolucao }}}
+                    </li>
+                    }
+                  </ul>
+                  @if(row.observacoes){
+                  <div [innerHTML]="row.observacoes"></div>
+                  }
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+    </div>
+    <!--FIM CARD -->
+  </section>
+  <!--FIM SECTION content-->
+</div>

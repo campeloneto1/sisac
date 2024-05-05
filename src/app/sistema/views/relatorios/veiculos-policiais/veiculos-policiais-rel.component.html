@@ -87,9 +87,9 @@
                 <td>{{ row.veiculo.placa }}</td>
                 <td>{{ row.veiculo.placa_especial }}</td>
                 <td>{{ row.policial.graduacao.abreviatura }}</td>
-                <td>{{ row.policial.numeral }}</td>
+                <td> @if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
                 <td>{{ row.policial.nome_guerra }}</td>
-                <td>{{ row.policial.matricula }}</td>
+                <td>{{ row.policial.matricula | mask : "000.000-0-A" }}</td>
                 <td>{{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}</td>
                 <td>{{ row.data_final | date : "dd/MM/yyyy HH:mm" }}</td>
                 <td>{{ row.km_inicial }}</td>

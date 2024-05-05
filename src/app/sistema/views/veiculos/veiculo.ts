@@ -15,6 +15,7 @@ export interface Veiculo{
     ano?: number;
     blindado?: boolean;
     organico?: boolean;
+    data_baixa?: Date;
 
     km_inicial: number;
     km_atual:number;

@@ -405,6 +405,54 @@
               class="nav nav-treeview"
               [ngStyle]="{ 'display: block;': menuRelatorio }"
             >
+            @if(user.perfil.armamentos){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelArmamentos']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Armamentos</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.armamentos_emprestimos){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelArmamentosEmprestimos']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Empréstimos de Armamentos</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.patrimonios){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelPatrimonios']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Patrimônios</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.veiculos){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelVeiculos']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Veículos</p>
+                </a>
+              </li>
+            }
               @if(user.perfil.veiculos_policiais){
                 <li class="nav-item">
                   <a

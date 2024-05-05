@@ -71,6 +71,14 @@
                       @if(veiculo.blindado){ Sim }@else{ Não }
                     </a>
                   </li>
+                  @if(veiculo.blindado){ 
+                    <li class="list-group-item">
+                      <b>Data Baixa</b>
+                      <a class="float-right">
+                        {{veiculo.data_baixa | date: 'dd/MM/yyyy'}}
+                      </a>
+                    </li>
+                  }
 
                   <li class="list-group-item">
                     <b>Subunidade</b>
