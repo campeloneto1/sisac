@@ -45,6 +45,12 @@
                       policial.cpf | mask : "000.000.000-00"
                     }}</a>
                   </li>
+                  @if(policial.sexo){
+                    <li class="list-group-item">
+                      <b>Sexo</b>
+                      <a class="float-right">{{ policial.sexo.nome }}</a>
+                    </li>
+                  }
                   <li class="list-group-item">
                     <b>Setor</b>
                     <a class="float-right">{{ policial.setor.nome }}</a>
@@ -92,7 +98,13 @@
                       >Atestados</a
                     >
                   </li>
-                  } @if(user.perfil.policiais_ferias){
+                  } @if(user.perfil.policiais_cursos){
+                    <li class="nav-item">
+                      <a class="nav-link" href="#cursos" data-bs-toggle="tab"
+                        >Cursos</a
+                      >
+                    </li>
+                    } @if(user.perfil.policiais_ferias){
                   <li class="nav-item">
                     <a class="nav-link" href="#ferias" data-bs-toggle="tab"
                       >Férias</a
@@ -343,7 +355,7 @@
                     <!-- INICIO TABLE-->
                     <table
                       [mfData]="policial.policiais_atestados"
-                      #first="mfDataTable"
+                      #atestados="mfDataTable"
                       [mfRowsOnPage]="10"
                       [mfSortBy]="'id'" [mfSortOrder]="'desc'"
                       class="table table-hover table-head-fixed text-nowrap"
@@ -369,7 +381,7 @@
                       </thead>
 
                       <tbody>
-                        @for(row of first.data; track row){
+                        @for(row of atestados.data; track row){
                         <tr class="optionshover">
                           <td>{{ row.id }}</td>
                           <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
@@ -400,7 +412,75 @@
                     <!-- FIM TABLE-->
                   </div>
                   <!--FIM TAB ATESTADOS-->
-                  } @if(user.perfil.policiais_ferias){
+                  } @if(user.perfil.policiais_cursos){
+                    <!--INICIO TAB CURSOS-->
+                    <div class="tab-pane" id="cursos">
+                      <!-- INICIO TABLE-->
+                      <table
+                        [mfData]="policial.policiais_cursos"
+                        #cursos="mfDataTable"
+                        [mfRowsOnPage]="10"
+                        [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                        class="table table-hover table-head-fixed text-nowrap"
+                      >
+                        <thead>
+                          <tr>
+                            <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                            <th>
+                              <mfDefaultSorter by="curso.nome"
+                                >Curso</mfDefaultSorter
+                              >
+                            </th>
+                            <th>
+                              <mfDefaultSorter by="data_inicial"
+                                >Data Inicial</mfDefaultSorter
+                              >
+                            </th>
+                            
+                            <th>
+                              <mfDefaultSorter by="dataFinal(data_inicial, dias)"
+                                >Data Final</mfDefaultSorter
+                              >
+                            </th>
+                            <th><mfDefaultSorter by="carga_horaria">Carga Horária</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="boletim">Boletim</mfDefaultSorter></th>
+                          </tr>
+                        </thead>
+  
+                        <tbody>
+                          @for(row of cursos.data; track row){
+                          <tr class="optionshover">
+                            <td>{{ row.id }}</td>
+                            <td>{{ row.curso.nome }}</td>
+                            <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
+                            <td>{{ row.data_final | date : "dd/MM/yyyy" }}</td>
+                            <td>{{ row.carga_horaria }}h</td>
+                            <td>{{ row.boletim }}</td>
+                          </tr>
+                          }
+                        </tbody>
+  
+                        <tfoot>
+                          <tr>
+                            <td colspan="100%">
+                              <div
+                                style="
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                "
+                              >
+                                <mfBootstrapPaginator
+                                ></mfBootstrapPaginator>
+                              </div>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                      <!-- FIM TABLE-->
+                    </div>
+                    <!--FIM TAB CURSOS-->
+                    } @if(user.perfil.policiais_ferias){
                   <!--INICIO TAB FERIAS-->
                   <div class="tab-pane" id="ferias">
                     <!-- INICIO TABLE-->

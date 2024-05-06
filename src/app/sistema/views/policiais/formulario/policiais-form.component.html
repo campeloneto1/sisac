@@ -47,6 +47,13 @@
         id="data_nascimento"
         tipo="date"
       />
+      <input-select
+      class="col-sm-2"
+      label="Sexo"
+      id="sexo"
+      [data$]="sexos$"
+      formControlName="sexo"
+      />
     </div>
 
     <div class="row">

@@ -1,0 +1,154 @@
+<div class="content-wrapper">
+    <app-title titulo="Logs" />
+  
+    <!--INICIO SECTION content-->
+    <section class="content">
+      <!-- INICIO CARD-->
+      <div class="card">
+        <!-- INICIO CARD HEADER-->
+        <div class="card-header border-0">
+          <h3 class="card-title">
+            
+          </h3>
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 250px">
+              <select style="width: 50px"  class="form-control float-right" [(ngModel)]="quant">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+             
+              <input
+              style="width: 200px"
+                type="text"
+                name="table_search"
+                class="form-control float-right"
+                placeholder="Pesquisar..."
+                [(ngModel)]="pesquisa"
+                (ngModelChange)="pesquisar()"
+              />
+             
+            </div>
+          </div>
+        </div>
+        <!-- FIM CARD HEADER-->
+        <!-- INICIO CARD BODY-->
+        <div class="card-body table-responsive p-1">
+          <!-- INICIO TABLE-->
+          <table
+            [mfData]="data$"
+            #mf="mfDataTable"
+            [mfRowsOnPage]="quant"
+            [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+            class="table table-hover table-head-fixed text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="mensagem">Mensagem</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="table">Tabela</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="fk">FK</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="user.nome">Usuário</mfDefaultSorter></th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+            @if(data$){
+            <tbody>
+              @for(row of mf.data; track row){
+              <tr class="optionshover">
+                <td>{{ row.id }}</td>
+                <td>{{ row.mensagem }}</td>
+                <td>{{ row.table }}</td>
+                <td>{{ row.fk }}</td>
+                <td>{{ row.user.nome }}</td>
+                <td>
+                  
+                  <a
+                    class="options point"
+                    title="Excluir"
+                    (click)="delete(row)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modaldel"
+                  >
+                    <i
+                      class="fa fa-trash text-danger ml-1"
+                      aria-hidden="true"
+                    ></i>
+                  </a>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="100%">Sem informação</td>
+              </tr>
+              }
+            </tbody>
+            }
+            <tfoot>
+              <tr>
+                <td colspan="100%">
+                  <div style="display: flex; align-items: center; justify-content: center;">
+                    <mfBootstrapPaginator
+                    [rowsOnPageSet]="[5, 10, 25]"
+                  ></mfBootstrapPaginator>
+                  </div>
+                 
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+          <!-- FIM TABLE-->
+        </div>
+        <!-- FIM CARD BODY-->
+      </div>
+      <!--FIM CARD-->
+    </section>
+    <!--FIM SECTION content-->
+  
+    
+  
+    <!-- INICIO MODAL exclusao-->
+    <div
+      class="modal fade"
+      id="modaldel"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Excluir</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            @if(excluir){ Tem certeza que deseja excluir:
+            <b>{{ excluir.mensagem }}</b>
+            <div class="d-flex justify-content-end">
+              <a data-bs-dismiss="modal" class="btn btn-link text-primary"
+                >Cancelar</a
+              >
+              <button
+                type="button"
+                (click)="confirm()"
+                data-bs-dismiss="modal"
+                class="btn btn-danger"
+              >
+                Excluir
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL exclusao-->
+  </div>
+  

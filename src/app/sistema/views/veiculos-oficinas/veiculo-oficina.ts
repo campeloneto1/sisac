@@ -11,7 +11,7 @@ export interface VeiculoOficina{
     manutencao_tipo: ManutencaoTipo;
     data_inicial: Date;
     data_final: Date;
-    km_inicial?:number;
+    km_inicial:number;
     km_final?: number;
     observacoes: string;
 

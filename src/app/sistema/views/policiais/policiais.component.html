@@ -62,6 +62,7 @@
               <th><mfDefaultSorter by="nome_guerra">Nome Guerra</mfDefaultSorter></th>
               <th><mfDefaultSorter by="matricula">Matrícula</mfDefaultSorter></th>
               <th><mfDefaultSorter by="telefone1">Telefone 1</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="boletim_transferencia">BCG Transferência</mfDefaultSorter></th>
               <th>Opções</th>
             </tr>
           </thead>
@@ -77,6 +78,7 @@
               <td>{{row.nome_guerra}}</td>
               <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
               <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
+              <td>{{row.boletim_transferencia}}</td>
               <td>
                 @if(user.perfil.gestor && !row.user){
                   <a

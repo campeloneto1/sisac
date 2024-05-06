@@ -125,6 +125,9 @@ export class PoliciaisFormComponent implements OnInit{
             'pais': [null],
             'estado': [null],
             'cidade': [null],
+            'sexo': [null, Validators.compose([
+                Validators.required,
+            ])],
             'unidade': [null, Validators.compose([
                 Validators.required,
             ])],

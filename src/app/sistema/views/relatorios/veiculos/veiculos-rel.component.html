@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-  <app-title titulo="Relatório de Armamentos" />
+  <app-title titulo="Relatório de Veículos" />
 
   <!--INICIO SECTION content-->
   <section class="content">
@@ -7,7 +7,7 @@
     <div class="card">
       <div class="card-header border-0">
         <h3 class="card-title noprint">Filtro</h3>
-        <h3 class="card-title print">Relatório de Armamentos</h3>
+        <h3 class="card-title print">Relatório de Veículos</h3>
       </div>
       <div class="card-body table-responsive">
         <form [formGroup]="form" class="noprint">
@@ -40,6 +40,12 @@
                 formControlName="veiculo_tipo"
                 />
             }
+            <div class="col-sm-2">
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked="" id="blindado" formControlName="blindado">
+                  <label class="form-check-label" for="blindado">Blindado</label>
+              </div>
+          </div>
             <div class="col-sm-2">
               <div class="form-check">
                   <input class="form-check-input" type="checkbox" checked="" id="organico" formControlName="organico">

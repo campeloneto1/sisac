@@ -49,7 +49,18 @@
             <p>Armamentos</p>
           </a>
         </li>
-        } @if(user.perfil.armamentos_emprestimos){
+        } @if(user.perfil.policiais_cursos){
+          <li class="nav-item">
+            <a
+              [routerLink]="['PoliciaisCursos']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-book"></i>
+              <p>Cursos</p>
+            </a>
+          </li>
+          }@if(user.perfil.armamentos_emprestimos){
         <li class="nav-item">
           <a
             [routerLink]="['ArmamentosEmprestimos']"
@@ -215,6 +226,16 @@
             </li>
             <li class="nav-item">
               <a
+                [routerLink]="['Cursos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Cursos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
                 [routerLink]="['Estados']"
                 routerLinkActive="active"
                 class="nav-link"
@@ -231,6 +252,16 @@
               >
                 <i class="fa fa-circle nav-icon"></i>
                 <p>Graduações</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['Logs']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Logs</p>
               </a>
             </li>
             <li class="nav-item">
@@ -438,6 +469,18 @@
                 >
                   <i class="fa fa-circle nav-icon"></i>
                   <p>Patrimônios</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.policiais){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelPoliciais']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Policiais</p>
                 </a>
               </li>
             }

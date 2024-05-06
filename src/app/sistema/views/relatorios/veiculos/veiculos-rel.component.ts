@@ -60,6 +60,7 @@ export class VeiculosRelComponent implements OnInit, OnDestroy{
             'modelo': [null],
             'veiculo_tipo': [null],
             'organico': [null],
+            'blindado': [null],
             'locado': [null],
             'data_baixa': [null],
         });

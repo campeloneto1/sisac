@@ -33,6 +33,11 @@ export interface Perfil{
     policiais_atestados_edt?: boolean;
     policiais_atestados_del?: boolean;
 
+    policiais_cursos?: boolean;
+    policiais_cursos_cad?: boolean;
+    policiais_cursos_edt?: boolean;
+    policiais_cursos_del?: boolean;
+
     policiais_ferias?: boolean;
     policiais_ferias_cad?: boolean;
     policiais_ferias_edt?: boolean;

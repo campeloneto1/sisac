@@ -48,6 +48,7 @@ export class VeiculosOficinasFormReceberComponent implements OnInit{
 
         this.form.get('observacoes')?.patchValue(this.veiculooficina.observacoes);
         this.form.get('id')?.patchValue(this.veiculooficina.id);
+        
     }
 
     cadastrar(){

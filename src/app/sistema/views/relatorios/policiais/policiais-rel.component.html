@@ -1,0 +1,92 @@
+<div class="content-wrapper">
+  <app-title titulo="Relatório de Policiais" />
+
+  <!--INICIO SECTION content-->
+  <section class="content">
+    <!--INICIO CARD -->
+    <div class="card">
+      <div class="card-header border-0">
+        <h3 class="card-title noprint">Filtro</h3>
+        <h3 class="card-title print">Relatório de Policiais</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <form [formGroup]="form" class="noprint">
+          <div class="row">
+            <input-select
+              class="col-sm-2"
+              label="Setor"
+              id="setor"
+              [data$]="setores$"
+              formControlName="setor"
+            />
+            <input-select
+            class="col-sm-2"
+            label="Graduação"
+            id="graduacao"
+            [data$]="graduacoes$"
+            formControlName="graduacao"
+            />
+            <input-select
+            class="col-sm-2"
+            label="Sexo"
+            id="sexo"
+            [data$]="sexos$"
+            formControlName="sexo"
+            />
+            <div class="col-sm-2">
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked="" id="transferido" formControlName="transferido">
+                  <label class="form-check-label" for="transferido">Transferido</label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button
+              [disabled]="form.invalid"
+              type="button"
+              (click)="pesquisar()"
+              class="btn btn-primary btn-block"
+            >
+              Pesquisar
+            </button>
+          </div>
+        </form>
+
+        @if(data$){
+        <table class="table table-hover table-head-fixed text-wrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Setor</th>
+              <th>Graduação</th>
+              <th>Numeral</th>
+              <th>Nome</th>
+              <th>Nome Guerra</th>
+              <th>Matrícula</th>
+              <th>Relefone 1</th>
+              <th>Transferência</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(row of data$ | async; track row){
+            <tr>
+              <td>{{ row.id }}</td>
+              <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }}</td>
+              <td>{{ row.graduacao.nome }}</td>
+              <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
+              <td>{{ row.nome }}</td>
+              <td>{{row.nome_guerra}}</td>
+              <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
+              <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
+              <td>{{row.boletim_transferencia}}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+    </div>
+    <!--FIM CARD -->
+  </section>
+  <!--FIM SECTION content-->
+</div>
