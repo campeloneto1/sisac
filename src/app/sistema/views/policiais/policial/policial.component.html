@@ -204,7 +204,7 @@
                       #four="mfDataTable"
                       [mfRowsOnPage]="10"
                       [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                      class="table table-hover table-head-fixed text-nowrap"
+                      class="table table-hover table-head-fixed text-wrap"
                     >
                       <thead>
                         <tr>
@@ -249,6 +249,7 @@
                                 </li>
                                 }
                               </ul>
+                              <div [innerHTML]="row.observacoes"></div>
                             </div>
                           </td>
                         </tr>
@@ -283,7 +284,7 @@
                         #five="mfDataTable"
                         [mfRowsOnPage]="10"
                         [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                        class="table table-hover table-head-fixed text-nowrap"
+                        class="table table-hover table-head-fixed text-wrap"
                       >
                         <thead>
                           <tr>
@@ -310,7 +311,7 @@
                         </thead>
                         <tbody>
                           @for(row of five.data; track row){
-                          <tr >
+                          <tr data-widget="expandable-table" aria-expanded="false">
                             <td>{{ row.id }}</td>
                             <td>{{ row.veiculo.veiculo_tipo.nome }}</td>
                             <td>{{ row.veiculo.modelo.marca.nome }}</td>
@@ -326,7 +327,12 @@
                             <td>{{ row.km_inicial }}</td>
                             <td>{{ row.km_final }}</td>
                           </tr>
-                          
+                          <tr class="expandable-body d-none">
+                            <td colspan="10">
+                              <div style="display: none" [innerHTML]="row.observacoes">
+                              </div>
+                            </td>
+                          </tr>
                           }
                         </tbody>
                         <tfoot>

@@ -34,6 +34,7 @@ export class SidebarComponent implements OnInit{
         '/Logs',
         '/ManutencoesTipos',
         '/Marcas',
+        '/MateriasConsumoTipos',
         '/Modelos',
         '/Oficinas',
         '/PatrimoniosTipos',

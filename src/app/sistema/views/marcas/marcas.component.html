@@ -53,7 +53,11 @@
             <tr>
               <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
               <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="abreviatura">abreviatura</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="abreviatura">Abreviatura</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="armamento">Armamentos</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="transporte">Logística</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="logistica">Transporte</mfDefaultSorter></th>
+              
               <th>Opções</th>
             </tr>
           </thead>
@@ -64,6 +68,9 @@
               <td>{{ row.id }}</td>
               <td>{{ row.nome }}</td>
               <td>{{ row.abreviatura }}</td>
+              <td>@if(row.armamento){<i class="fa fa-check" aria-hidden="true"></i>}</td>
+              <td>@if(row.logistica){<i class="fa fa-check" aria-hidden="true"></i>}</td>
+              <td>@if(row.transporte){<i class="fa fa-check" aria-hidden="true"></i>}</td>
               <td>
                 <a
                   class="options point"

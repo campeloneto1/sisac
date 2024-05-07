@@ -104,7 +104,18 @@
               <p>Manutenção de Veículos</p>
             </a>
           </li>
-          }@if(user.perfil.patrimonios){
+          }@if(user.perfil.materiais_consumo){
+            <li class="nav-item">
+              <a
+                [routerLink]="['MateriaisConsumo']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="nav-icon fa fa-coffee"></i>
+                <p>Materiais de Consumo</p>
+              </a>
+            </li>
+            }@if(user.perfil.patrimonios){
             <li class="nav-item">
               <a
                 [routerLink]="['Patrimonios']"
@@ -274,6 +285,7 @@
                 <p>Marcas</p>
               </a>
             </li>
+            
             <li class="nav-item">
               <a
                 [routerLink]="['Modelos']"
@@ -373,6 +385,16 @@
               >
                 <i class="fa fa-circle nav-icon"></i>
                 <p>Tipos de Manutenções</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['MateriaisConsumoTipos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Tipos de Mat. Consumo</p>
               </a>
             </li>
             <li class="nav-item">

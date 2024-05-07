@@ -18,6 +18,16 @@ export interface Perfil{
     armamentos_emprestimos_edt?: boolean;
     armamentos_emprestimos_del?: boolean;
 
+    materiais_consumo?: boolean;
+    materiais_consumo_cad?: boolean;
+    materiais_consumo_edt?: boolean;
+    materiais_consumo_del?: boolean;
+
+    materiais_consumo_saidas?: boolean;
+    materiais_consumo_saidas_cad?: boolean;
+    materiais_consumo_saidas_edt?: boolean;
+    materiais_consumo_saidas_del?: boolean;
+
     patrimonios?: boolean;
     patrimonios_cad?: boolean;
     patrimonios_edt?: boolean;

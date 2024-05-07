@@ -46,6 +46,7 @@ export class ArmamentoComponent implements OnInit, OnDestroy{
 
        this.subscription =  this.armamentosService.find(this.id).subscribe({
             next: (data) => {
+                if(!data){this.sessionService.redirect()}
                 this.armamento = data;
             }
         });

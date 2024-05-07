@@ -46,6 +46,7 @@ export class VeiculoComponent implements OnInit, OnDestroy{
 
        this.subscription =  this.veiculosService.find(this.id).subscribe({
             next: (data) => {
+                if(!data){this.sessionService.redirect()}
                 this.veiculo = data;
             }
         });

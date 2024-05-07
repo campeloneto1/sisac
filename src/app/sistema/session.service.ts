@@ -39,6 +39,10 @@ export class SessionService {
         return this.token ? true : false;
     }
 
+    redirect(){
+        this.router.navigate(['Inicio']);
+    }
+
     checkPermission(data:string){
         if(!this.user.perfil[data]){
             this.router.navigate(['Inicio']);

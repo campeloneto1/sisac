@@ -31,8 +31,12 @@ export class HomeService{
         return this.http.get<number>(`${URL}/${endPoint}/ferias`);
     }
 
-    getPoliciaisSetores(): Observable<number>{
-        return this.http.get<number>(`${URL}/${endPoint}/policiais-setores`);
+    getPoliciaisGraduacoes(): Observable<any>{
+        return this.http.get<any>(`${URL}/${endPoint}/policiais-graduacoes`);
+    }
+
+    getPoliciaisSetores(): Observable<any>{
+        return this.http.get<any>(`${URL}/${endPoint}/policiais-setores`);
     }
 
     getArmamentosVencendo(): Observable<Armamentos>{

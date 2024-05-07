@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantPoliciais!: any;
     protected quantAtestados!: any;
     protected quantFerias!: any;
+    protected policiaisGraduacoes!: any;
     protected policiaisSetores!: any;
     protected armamentosVencendo!: Armamentos;
     protected armamentosEmprestimos!: ArmamentosEmprestimos;
@@ -40,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected subscription7: any;
     protected subscription8: any;
     protected subscription9: any;
+    protected subscription10: any;
 
     constructor(
         private sessionService: SessionService,
@@ -104,6 +106,13 @@ export class HomeComponent implements OnInit, OnDestroy{
              }
          });
         }
+        if(this.user.perfil.policiais){
+            this.subscription7 = this.homeService.getPoliciaisGraduacoes().subscribe({
+                next: (data) => {
+                    this.policiaisGraduacoes = data;
+                }
+            });
+           }
         if(this.user.perfil.veiculos_policiais){
             this.subscription8 = this.homeService.getVeiculosEmprestados().subscribe({
                 next: (data) => {
@@ -140,6 +149,9 @@ export class HomeComponent implements OnInit, OnDestroy{
         }
         if(this.subscription9){
             this.subscription9.unsubscribe();
+        }
+        if(this.subscription10){
+            this.subscription10.unsubscribe();
         }
     }
 }

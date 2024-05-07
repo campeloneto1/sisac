@@ -67,6 +67,7 @@
                 <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="km_inicial">KM Inicial</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="km_final">KM Final</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="cidade.nome">Cidade</mfDefaultSorter></th>
                 <th>Opções</th>
               </tr>
             </thead>
@@ -87,6 +88,11 @@
                 <td>{{ row.data_final | date: 'dd/MM/yyyy HH:mm' }}</td>
                 <td>{{ row.km_inicial }}</td>
                 <td>{{ row.km_final }}</td>
+                <td>
+                  @if(row.cidade){
+                    {{ row.cidade.nome }}
+                  }
+                </td>
                 <td>
                   @if(row.data_final){
                     <a
