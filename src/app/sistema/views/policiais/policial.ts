@@ -1,6 +1,7 @@
 import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
 import { Cidade } from "../cidades/cidade";
 import { Graduacao } from "../graduacoes/graduacao";
+import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
 import { PoliciaisAtestados } from "../policiais-atestados/policial-atestado";
 import { PoliciaisCursos } from "../policiais-cursos/policial-curso";
 import { PoliciaisFerias } from "../policiais-ferias/policial-ferias";
@@ -44,6 +45,7 @@ export interface Policial{
     armamentos_emprestimos: ArmamentosEmprestimos;
     veiculos_policiais: VeiculosPoliciais;
     policiais_cursos: PoliciaisCursos;
+    materiais_policiais: MateriaisPoliciais;
 
     usuario?: User;
 

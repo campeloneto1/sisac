@@ -142,9 +142,54 @@ export const routes: Routes = [
               import('./sistema/views/marcas/marcas.component').then((c) => c.MarcasComponent),
           },
           {
+            path: 'Materiais',
+            loadComponent: () =>
+              import('./sistema/views/materiais/materiais.component').then((c) => c.MateriaisComponent),
+          },
+          {
+            path: 'Material/:id',
+            loadComponent: () =>
+              import('./sistema/views/materiais/material/material.component').then((c) => c.MaterialComponent),
+          },
+          {
+            path: 'MateriaisPoliciais',
+            loadComponent: () =>
+              import('./sistema/views/materiais-policiais/materiais-policiais.component').then((c) => c.MateriaisPoliciaisComponent),
+          },
+          {
+            path: 'MateriaisPoliciais',
+            loadComponent: () =>
+              import('./sistema/views/materiais-policiais/materiais-policiais.component').then((c) => c.MateriaisPoliciaisComponent),
+          },
+          {
+            path: 'MateriaisPoliciaisCautela/:id',
+            loadComponent: () =>
+              import('./sistema/views/materiais-policiais/print-cautela/materiais-policiais-print-cautela.component').then((c) => c.MateriaisPoliciaisPrintCautela),
+          },
+          {
+            path: 'MateriaisPoliciaisJustificativa/:id',
+            loadComponent: () =>
+              import('./sistema/views/materiais-policiais/print-justificativa/materiais-policiais-print-justificativa.component').then((c) => c.MateriaisPoliciaisPrintJustificativa),
+          },
+          {
+            path: 'MateriaisTipos',
+            loadComponent: () =>
+              import('./sistema/views/materiais-tipos/materiais-tipos.component').then((c) => c.MateriaisTiposComponent),
+          },
+          {
             path: 'MateriaisConsumo',
             loadComponent: () =>
               import('./sistema/views/materiais-consumo/materiais-consumo.component').then((c) => c.MateriaisConsumoComponent),
+          },
+          {
+            path: 'MateriaisConsumoEntradas',
+            loadComponent: () =>
+              import('./sistema/views/materiais-consumo-entradas/materiais-consumo-entradas.component').then((c) => c.MateriaisConsumoEntradasComponent),
+          },
+          {
+            path: 'MateriaisConsumoSaidas',
+            loadComponent: () =>
+              import('./sistema/views/materiais-consumo-saidas/materiais-consumo-saidas.component').then((c) => c.MateriaisConsumoSaidasComponent),
           },
           {
             path: 'MateriaisConsumoTipos',

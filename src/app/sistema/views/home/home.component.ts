@@ -10,6 +10,8 @@ import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
 import { Veiculos } from "../veiculos/veiculo";
 import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
 import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
+import { MateriaisConsumo } from "../materiais-consumo/material-consumo";
+import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -31,6 +33,9 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected veiculosManutencao!: VeiculosOficinas;
     protected veiculosTrocaOleo!: Veiculos;
     protected veiculosPoliciais!: VeiculosPoliciais;
+    protected materiaisConsumoVencendo!: MateriaisConsumo;
+    protected materiaisConsumoAlerta!: MateriaisConsumo;
+    protected materiaisPoliciaisEmprestados!: MateriaisPoliciais;
 
     protected subscription: any;
     protected subscription2: any;
@@ -42,6 +47,10 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected subscription8: any;
     protected subscription9: any;
     protected subscription10: any;
+
+    protected subscription11: any;
+    protected subscription12: any;
+    protected subscription13: any;
 
     constructor(
         private sessionService: SessionService,
@@ -117,6 +126,29 @@ export class HomeComponent implements OnInit, OnDestroy{
             this.subscription8 = this.homeService.getVeiculosEmprestados().subscribe({
                 next: (data) => {
                     this.veiculosPoliciais = data;
+                }
+            });
+        }
+
+        if(this.user.perfil.materiais_consumo){
+            this.subscription11 = this.homeService.getMateriaisConsumoAlerta().subscribe({
+                next: (data) => {
+                    this.materiaisConsumoAlerta = data;
+                }
+            });
+        }
+
+        if(this.user.perfil.materiais_consumo){
+            this.subscription11 = this.homeService.getMateriaisConsumoVencendo().subscribe({
+                next: (data) => {
+                    this.materiaisConsumoVencendo = data;
+                }
+            });
+        }
+        if(this.user.perfil.materiais_policiais){
+            this.subscription13 = this.homeService.getMateriaisPoliciaisEmprestados().subscribe({
+                next: (data) => {
+                    this.materiaisPoliciaisEmprestados = data;
                 }
             });
         }

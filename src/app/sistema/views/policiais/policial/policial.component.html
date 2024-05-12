@@ -86,7 +86,13 @@
                       >Emp. Armamentos</a
                     >
                   </li>
-                  }@if(user.perfil.veiculos_policiais){
+                  }@if(user.perfil.materiais_policiais){
+                    <li class="nav-item">
+                      <a class="nav-link" href="#materiais" data-bs-toggle="tab"
+                        >Emp. Materiais<i class="mdi mdi-battery-charging-wireless-10:"></i></a
+                      >
+                    </li>
+                    }@if(user.perfil.veiculos_policiais){
                     <li class="nav-item">
                       <a class="nav-link" href="#veiculos" data-bs-toggle="tab"
                         >Emp. Veículos</a
@@ -275,7 +281,90 @@
                     <!--------------------------------------------------->
                   </div>
                   <!--FIM TAB ARMAMENTOS-->
-                  }@if(user.perfil.veiculos_policiais){
+                  }
+                  
+                  @if(user.perfil.materiais_policiais){
+                    <!--INICIO TAB MATERIAIS-->
+                    <div class="tab-pane" id="materiais">
+                      <!-- -------------------------------------------- -->
+                      <table
+                        [mfData]="policial.materiais_policiais"
+                        #materiais="mfDataTable"
+                        [mfRowsOnPage]="10"
+                        [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                        class="table table-hover table-head-fixed text-wrap"
+                      >
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th><mfDefaultSorter by="data_emprestimo"
+                              >Data Empréstimo</mfDefaultSorter></th>
+                            <th><mfDefaultSorter by="data_devolucao"
+                              >Data Devolução</mfDefaultSorter></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for(row of materiais.data; track row){
+                          <tr data-widget="expandable-table" aria-expanded="false">
+                            <td>{{ row.id }}</td>
+                            <td>
+                              {{ row.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
+                            </td>
+                            <td>
+                              {{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
+                            </td>
+                          </tr>
+                          <tr class="expandable-body d-none">
+                            <td colspan="3">
+                              <div style="display: none">
+                                <ul>
+                                  @for(arm of row.materiais_policiais_itens;
+                                  track arm){
+                                  <li>
+                                    <b>Material:</b>
+                                    {{ arm.material.material_tipo.nome }}
+                                    {{ arm.material.modelo.marca.nome }}
+                                    {{ arm.material.modelo.nome }}
+                                    {{ arm.material.serial }},
+  
+                                    <b>Quantidade:</b> {{ arm.quantidade }},
+                                    @if(arm.quantidade_devolucao){<b
+                                      >Quantidade Devolução:</b
+                                    >
+                                    {{ arm.quantidade_devolucao }}}
+                                  </li>
+                                  }
+                                </ul>
+                                <div [innerHTML]="row.observacoes"></div>
+                              </div>
+                            </td>
+                          </tr>
+                          }
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="100%">
+                              <div
+                                style="
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                "
+                              >
+                                <mfBootstrapPaginator
+                                ></mfBootstrapPaginator>
+                              </div>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                      <!--------------------------------------------------->
+                    </div>
+                    <!--FIM TAB MATERIAIS-->
+                    }
+                  
+                  
+                  @if(user.perfil.veiculos_policiais){
                     <!--INICIO TAB VEICULOS-->
                     <div class="tab-pane" id="veiculos">
                       <!-- -------------------------------------------- -->

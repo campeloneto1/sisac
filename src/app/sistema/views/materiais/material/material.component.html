@@ -1,0 +1,221 @@
+<div class="content-wrapper">
+    <app-title titulo="Material" />
+    @if(material){
+      <!--INICIO SECTION content-->
+      <section class="content" >
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body box-profile">
+                  <!-- <div class="text-center">
+                    <img
+                      class="profile-user-img img-fluid img-circle"
+                      src="assets/casamil.png"
+                      alt="User profile picture"
+                    />
+                  </div> -->
+                  <h3 class="profile-username text-center">{{ material.serial }}</h3>
+                  <p class="text-muted text-center">
+                    {{ material.modelo.marca.nome }} {{ material.modelo.nome }}
+                  </p>
+                  <ul class="list-group list-group-unbordered mb-3">
+                    @if(material.material_tipo){
+                    <li class="list-group-item">
+                      <b>Tipo</b>
+                      <a class="float-right">{{ material.material_tipo.nome }}</a>
+                    </li>
+                    } 
+                    
+                    
+                    @if(material.data_baixa){ 
+                      <li class="list-group-item">
+                        <b>Data Baixa</b>
+                        <a class="float-right">
+                          {{material.data_baixa | date: 'dd/MM/yyyy'}}
+                        </a>
+                      </li>
+                    }
+  
+                    <li class="list-group-item">
+                      <b>Subunidade</b>
+                      <a class="float-right"
+                        >{{ material.subunidade.abreviatura }} -
+                        {{ material.subunidade.unidade.abreviatura }}</a
+                      >
+                    </li>
+                  </ul>
+                  <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+                </div>
+              </div>
+            </div>
+    
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-header p-2">
+                  <ul class="nav nav-pills">
+                    <li class="nav-item">
+                      <a
+                        class="nav-link active"
+                        href="#informacoes"
+                        data-bs-toggle="tab"
+                        >Informações</a
+                      >
+                    </li>
+                    @if(user.perfil.materiais_policiais){
+                    <li class="nav-item">
+                      <a class="nav-link" href="#emprestimos" data-bs-toggle="tab"
+                        >Empréstimos</a
+                      >
+                    </li>
+                    }
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content">
+                    <!--INICIO TAB INFORMACOES-->
+                    <div class="active tab-pane" id="informacoes">
+                      <!--div inicio row-->
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="row">
+                            @if(material.quantidade >= 0){
+                            <dt class="col-sm-2">Quantidade:</dt>
+                            <dd class="col-sm-2">
+                              {{ material.quantidade }}
+                            </dd>
+                            } @if(material.quantidade_disponivel){
+                            <dt class="col-sm-2">Disponível:</dt>
+                            <dd class="col-sm-2">
+                              {{ material.quantidade_disponivel }}
+                            </dd>
+                            } 
+                          </div>
+                        </div>
+                      </div>
+                      @if(material.observacoes){
+                        <h5 class="mt-4">Observações</h5>
+                        <div [innerHTML]="material.observacoes"></div>
+                      }
+                      <!--div fim row-->
+                    </div>
+                    <!--FIM TAB INFORMACOES-->
+                    @if(user.perfil.materiais_policiais){
+                      <!--INICIO TAB EMPRESTIMOS-->
+                      <div class="tab-pane" id="emprestimos">
+                        <!-- -------------------------------------------- -->
+                        <table
+                          [mfData]="material.materiais_policiais_itens"
+                          #four="mfDataTable"
+                          [mfRowsOnPage]="10"
+                          [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                          class="table table-hover table-head-fixed text-wrap"
+                        >
+                          <thead>
+                            <tr>
+                              <th>
+                                <mfDefaultSorter by="id"
+                                  >#</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.policial.graduacao.abreviatura"
+                                  >Graduação</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.policial.numeral"
+                                  >Numeral</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.policial.nome_guerra"
+                                  >Nome Guerra</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.policial.matricula"
+                                  >Matrícula</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.data_emprestimo"
+                                  >Data Empréstimo</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="armamento_emprestimo.data_devolucao"
+                                  >Data Devolução</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="quantidade"
+                                  >Quantidade</mfDefaultSorter
+                                >
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="quantidade_devolucao"
+                                  >Quantidade Devolução</mfDefaultSorter
+                                >
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for(row of four.data; track row){
+                            <tr data-widget="expandable-table" aria-expanded="false">
+                              <td>{{ row.material_policial.id }}</td>
+                              <td>{{ row.material_policial.policial.graduacao.abreviatura }}</td>
+                              <td>{{ row.material_policial.policial.numeral }}</td>
+                              <td>{{ row.material_policial.policial.nome_guerra }}</td>
+                              <td>{{ row.material_policial.policial.matricula }}</td>
+                              <td>
+                                {{ row.material_policial.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
+                              </td>
+                              <td>
+                                {{ row.material_policial.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
+                              </td>
+                              <td>{{ row.quantidade }}</td>
+                              <td>{{ row.quantidade_devolucao }}</td>
+                            </tr>
+                            <tr class="expandable-body d-none">
+                                
+                              <td colspan="9">
+                                @if(row.material_policial.observacoes){<div
+                                  style="display: none"
+                                  [innerHTML]="row.material_policial.observacoes"
+                                ></div>}
+                              </td>
+                            </tr>
+                            }
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="100%">
+                                <div
+                                  style="
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                  "
+                                >
+                                  <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </div>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                        <!--------------------------------------------------->
+                      </div>
+                      <!--FIM TAB ARMAMENTOS-->
+                      } 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--FIM SECTION content-->
+    }
+  </div>
+  

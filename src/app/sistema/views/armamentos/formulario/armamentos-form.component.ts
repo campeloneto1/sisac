@@ -98,6 +98,9 @@ export class ArmamentosFormComponent implements OnInit{
         delete this.form.value.marca;
     
         if(this.form.value.id){
+            if(!this.form.value.data_baixa){
+                this.form.get('data_baixa')?.patchValue(null);
+            }
             this.armamentosService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Edição realizada com sucesso!');

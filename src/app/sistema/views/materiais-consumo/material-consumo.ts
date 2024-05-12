@@ -11,7 +11,6 @@ export interface MaterialConsumo{
     serial?: string;
     data_validade?: Date;
     quantidade: number;
-    quantidade_disponivel: number;
     quantidade_alerta: number;
     
     data_baixa?: Date;

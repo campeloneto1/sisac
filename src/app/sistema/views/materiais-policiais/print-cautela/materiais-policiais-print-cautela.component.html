@@ -1,0 +1,243 @@
+<div
+  class="page-header"
+  style="text-align: center; "
+  *ngIf="data$"
+>
+  <img src="assets/cabecalho.png" class="cabecalho" />
+  <br />
+  <h4>
+    Cautela de Material Nº {{ data$.id }} -
+    {{ data$.subunidade.abreviatura }}/{{
+      data$.subunidade.unidade.abreviatura
+    }}
+  </h4>
+</div>
+
+<div class="page-footer" *ngIf="data$">
+  <div class="row rodape2" *ngIf="user">
+    <div class="col-sm-3 text-center">
+      <!-- <qrcode
+        [qrdata]="qrcod"
+        [allowEmptyString]="true"
+        [cssClass]="'center'"
+        [elementType]="'canvas'"
+        [errorCorrectionLevel]="'M'"
+        [scale]="1"
+        [width]="120"
+      ></qrcode> -->
+    </div>
+    <div class="col-sm-6 text-center">
+      <p>
+        {{ subunidade.nome }} – {{ subunidade.unidade.nome }}<br />
+        {{ subunidade.rua }}, {{ subunidade.numero }} -
+        {{ subunidade.bairro }} | CEP:
+        @if(subunidade.cep){
+        {{ subunidade.cep | mask: "00.000-00" }}
+        }
+        {{ subunidade.cidade?.nome }} /
+        {{ subunidade.cidade?.estado?.abreviatura }} <br />
+        @if(subunidade.telefone){
+            Fones: {{ subunidade.telefone | mask: "(00) 0000-0000" }} 
+        }   |
+        E-mail: {{ subunidade.email }}<br />
+        <b>“Raça de Fortes, Povo de Bravos”</b>
+      </p>
+    </div>
+    <div class="col-sm-3">
+      <p>
+        <b>Usuário:</b> 
+        @if(user.policial){
+          {{ user.policial.graduacao.abreviatura }} {{ user.policial.nome_guerra }}
+        }@else{
+          {{ user.nome }}
+        }
+        <br />
+        <b>Data:</b> {{ datahj | date: "dd/MM/yyyy HH:mm" }}
+      </p>
+    </div>
+  </div>
+  <img src="assets/rodape.png" class="rodape" />
+</div>
+
+<table style="width: 100%; min-width: 100%" *ngIf="data$">
+  <thead class="thead">
+    <tr>
+      <td>
+        <!--place holder for the fixed-position header-->
+        <div class="page-header-space"></div>
+      </td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        <!--*** CONTENT GOES HERE ***
+          <div class="page">PAGE 1</div>
+          <div class="page">PAGE 2</div>-->
+        <div class="page">
+          <div class="noprint text-center">
+            <img src="assets/cabecalho.png" class="cabecalho" />
+            <h4 style="margin-top: 20px">
+              Cautela de Material Nº {{ data$.id }} -
+              {{ data$.subunidade.abreviatura }}/{{
+                data$.subunidade.unidade.abreviatura
+              }}
+            </h4>
+          </div>
+
+          <h5 style="margin-top: 20px">Fortaleza - CE, {{ datahj | date: "dd/MM/yyyy" }}</h5>
+          <!--<div style="margin-top: 30px;" class="row">
+                  <div class="col-sm-3">
+                    <b>Tipo:</b> {{data$.armamento.armamento_tipo.nome}}
+                </div>
+                <div class="col-sm-4">
+                    <b>Marca/Modelo:</b> {{data$.armamento.marca.nome}}/{{data$.armamento.modelo.nome}}
+                </div>
+               
+                <div class="col-sm-3">
+                    <b>Serial:</b> {{data$.armamento.serial}} 
+                </div>
+                <div class="col-sm-2" *ngIf="data$.armamento.quant">
+                    <b>Quantidade:</b> {{data$.armamento.quant}} 
+                </div>
+            </div>-->
+        
+          <div class="row" style="margin-top: 20px">
+            <div class="col-sm-3">
+              <b>Graduação:</b> {{ data$.policial.graduacao.nome }}
+            </div>
+            @if(data$.policial.numeral){
+                <div class="col-sm-2" >
+                <b>Numeral:</b> {{ data$.policial.numeral | mask: "00.000" }}
+                </div>
+            }
+            <div class="col-sm-4"><b>Policial:</b> {{ data$.policial.nome }}</div>
+            <div class="col-sm-3">
+              <b>Matrícula:</b> {{ data$.policial.matricula | mask: "000.000-0-A" }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <b>Data Empréstimo:</b> {{ data$.data_emprestimo | date: "dd/MM/yyyy HH:mm" }}
+            </div>
+          </div>
+          <!--<div class="row">
+            <div class="col-sm-3">
+              <b>Data Devolução:</b> {{ data$.data_dev | date: "dd/MM/yyyy" }}
+            </div>
+            <div class="col-sm-3">
+              <b>Hora Devolução:</b> {{ data$.hora_dev }}
+            </div>
+            <div class="col-sm-3">
+                <span *ngIf="data$.danificado"><b>Danificado:</b> Sim</span>
+                <span *ngIf="data$.extraviado"><b>Extraviado:</b> Sim</span>
+            </div>  
+          </div>-->
+          <div class="row" style="margin-top: 20px">
+            <div class="col-sm-12">
+              <table class="table table-hover table-head-fixed text-nowrap">
+                <thead>
+                  <tr>
+                    <th>TIPO</th>
+                    <th>MARCA</th>
+                    <th>MODELO</th>
+                    <th>SERIAL</th>
+                    <th>QUANTIDADE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @for(arm of data$.materiais_policiais_itens; track arm){
+                        <tr
+                            class="hovers"
+                        >
+                            <td>{{ arm.material.material_tipo.nome }}</td>
+                            <td>{{ arm.material.modelo.marca.nome }}</td>
+                            <td>{{ arm.material.modelo.nome }}</td>
+                            <td>@if(arm.material.serial){{{ arm.material.serial }}}</td>
+                            <td>{{ arm.quantidade }}</td>
+                        </tr>
+                    }
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="margin-top: 30px" [innerHTML]="data$.observacoes"></div>
+          <!-- <div style="margin-top: 30px" class="text-center">
+            <b>{{ data$.policial.nome }}</b> - {{ data$.policial.graduacao.abreviatura
+            }}<br />
+            Mat.: {{ data$.policial.matricula | mask: "000.000-0-A" }} -
+            RECEBEDOR<br />
+          </div> -->
+
+          <div class="row" style="margin-top: 80px">
+            <div class="col-sm-6 text-center">
+              <b>{{ data$.policial.nome }}</b> - {{ data$.policial.graduacao.abreviatura
+              }}<br />
+              RECEBEDOR<br />
+              Mat.: {{ data$.policial.matricula | mask: "000.000-0-A" }}
+            </div>
+            <div class="col-sm-6 text-center">
+              <!-- <p>AUTORIZO<br />
+                EM: ___/___/{{ datahj | date: "yyyy" }}</p> -->
+                @if(subunidade.comandante){
+              <p >
+                <b
+                  >{{ subunidade.comandante.nome }} </b
+                  >-
+                  {{ subunidade.comandante.graduacao.abreviatura }}<br />
+                Comandante da {{ subunidade.abreviatura }} - {{ subunidade.unidade.abreviatura }}<br />
+                Mat.:
+                @if(subunidade.comandante.matricula){
+                  {{ subunidade.comandante.matricula | mask: "000.000-0-A" }}
+                }
+              </p>
+            }
+            </div>
+            <!-- <div class="col-sm-6">
+              <p>
+                RESERVA DE ARMAMENTO DA {{ subunidade.abreviatura }}/{{
+                  subunidade.unidade.abreviatura
+                }}<br />
+              ATENDO EM: {{ datahj | date: "dd/MM/yyyy" }}</p>
+              <p style="margin-top: 30px">
+                <b
+                  >{{ user.nome }} 
+                  </b
+                ><br />
+                Armeiro - {{ subunidade.nome }}<br />
+                CPF: {{ user.cpf | mask: "000.000.000-00" }}
+              </p>
+            </div> -->
+          </div>
+
+          <div class="row" style="margin-top: 80px">
+            <div class="col-sm-12">
+              <p>
+                LOGÍSTICA DA {{ subunidade.abreviatura | uppercase  }}/{{ subunidade.unidade.abreviatura | uppercase  }}<br />
+                RECEBI EM: ___/___/______, o material descrito, o qual a partir desta data, baixa das responsabilidades 
+                do signatário descrito acima.
+              </p>
+              <p style="margin-top: 80px" class="text-center">
+                Policial - {{ subunidade.nome }}<br />
+                Mat.: 
+              </p>
+            </div>            
+          </div>
+
+        </div>
+        <!-- FIM PAGE-->
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot class="tfoot">
+    <tr>
+      <td>
+        <!--place holder for the fixed-position footer-->
+        <div class="page-footer-space"></div>
+      </td>
+    </tr>
+  </tfoot>
+</table>

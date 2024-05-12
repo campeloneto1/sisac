@@ -35,5 +35,9 @@ export class MateriaisConsumoService{
     remove(id:number){
         return this.http.delete(`${URL}/${endPoint}/${id}`);
     }
+
+    disponiveis(): Observable<MateriaisConsumo>{
+        return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}/disponiveis`);
+    }
    
 }

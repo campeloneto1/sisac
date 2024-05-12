@@ -15,6 +15,8 @@ import { Modelos } from "../../modelos/modelo";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
 import { MateriaisConsumoTipos } from "../../materiais-consumo-tipos/material-consumo-tipo";
 import { MateriaisConsumoTiposService } from "../../materiais-consumo-tipos/materiais-consumo-tipos.service";
+import { SessionService } from "../../../session.service";
+import { User } from "../../users/user";
 
 
 @Component({
@@ -32,7 +34,7 @@ import { MateriaisConsumoTiposService } from "../../materiais-consumo-tipos/mate
     ]
 })
 export class MateriaisConsumoFormComponent implements OnInit{
-    
+    protected user!: User;
     protected form!: FormGroup;
     protected marcas$!: Observable<Marcas>;
     protected modelos$!: Observable<Modelos>;
@@ -46,10 +48,12 @@ export class MateriaisConsumoFormComponent implements OnInit{
         private materiaisConsumoTiposService:MateriaisConsumoTiposService,
         private marcasService:MarcasService,
         private modelosService:ModelosService,
+        private sessionService: SessionService,
         private toastr: ToastrService,
     ){}
 
     ngOnInit() {
+        this.user = this.sessionService.getUser();
         this.form = this.formBuilder.group({
             'id': [null],
             'serial': [null, Validators.compose([
@@ -85,9 +89,13 @@ export class MateriaisConsumoFormComponent implements OnInit{
     cadastrar(){
       
         //delete this.form.value.unidade;
-        delete this.form.value.marca;
+        
     
         if(this.form.value.id){
+            if(!this.form.value.data_baixa){
+                this.form.get('data_baixa')?.patchValue(null);
+            }
+            delete this.form.value.marca;
             this.materiaisConsumoService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Edição realizada com sucesso!');
@@ -99,6 +107,7 @@ export class MateriaisConsumoFormComponent implements OnInit{
                 }
             });
         }else{
+            delete this.form.value.marca;
             this.materiaisConsumoService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');

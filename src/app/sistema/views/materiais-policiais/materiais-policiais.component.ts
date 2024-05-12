@@ -1,0 +1,172 @@
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { TitleComponent } from '../../components/title/title.component';
+import { ToastrService } from 'ngx-toastr';
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
+import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { SessionService } from '../../session.service';
+import { User } from '../users/user';
+import { InputTextareaComponent } from '../../components/input-textarea/input-textarea.component';
+import { RouterModule } from '@angular/router';
+import { MateriaisPoliciaisFormComponent } from './formulario/materiais-policiais-form.component';
+import { MateriaisPoliciaisFormReceberComponent } from './formulario-receber/materiais-policiais-form-receber.component';
+import { MateriaisPoliciaisItensFormComponent } from '../materiais-policiais-itens/formulario/materiais-policiais-itens-form.component';
+import { MateriaisPoliciais, MaterialPolicial } from './material-policial';
+import { MateriaisPoliciaisService } from './materiais-policiais.service';
+import { MateriaisPoliciaisItensService } from '../materiais-policiais-itens/materiais-policiais-itens.service';
+@Component({
+  selector: 'app-materiais-policiais',
+  templateUrl: './materiais-policiais.component.html',
+  styleUrl: './materiais-policiais.component.css',
+  standalone: true,
+  imports: [
+    CommonModule, 
+    TitleComponent, 
+    MateriaisPoliciaisFormComponent,
+    MateriaisPoliciaisFormReceberComponent,
+    MateriaisPoliciaisItensFormComponent,
+    DataTableModule,
+    FormsModule,
+    NgxMaskDirective, 
+    NgxMaskPipe,
+    InputTextareaComponent,
+    RouterModule
+  ],
+  providers: [
+    provideNgxMask(),
+  ]
+})
+export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
+  protected data$!: MateriaisPoliciais;
+  protected excluir!: MaterialPolicial;
+  protected pesquisa!: string;
+  protected temp!: MateriaisPoliciais;
+  protected quant: number = 10;
+  protected subscription: any;
+  protected materialPolicial!: MaterialPolicial;
+
+  protected caditem:boolean = false;
+
+  protected user!: User;
+
+  @ViewChild(MateriaisPoliciaisFormComponent) child!: MateriaisPoliciaisFormComponent;
+  @ViewChild(MateriaisPoliciaisFormReceberComponent) childreceber!: MateriaisPoliciaisFormReceberComponent;
+  @ViewChild(MateriaisPoliciaisItensFormComponent) childarmamento!: MateriaisPoliciaisItensFormComponent;
+
+  constructor(
+    private materiaisPoliciaisService: MateriaisPoliciaisService,
+    private materiaisPoliciaisItensService: MateriaisPoliciaisItensService,
+    private toastr: ToastrService,
+    private sessionService: SessionService,
+    
+  ) {}
+ 
+
+  ngOnInit(): void {
+    this.user = this.sessionService.getUser();
+    this.sessionService.checkPermission('materiais_policiais');
+    this.subscription = this.materiaisPoliciaisService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+        this.temp = data;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+    }
+  }
+
+  refresh() {
+    this.materiaisPoliciaisService.index().subscribe({
+      next: (data) => {
+        this.data$ = data;
+      }
+    });
+  }
+
+  editar(data: MaterialPolicial) {
+    this.child.editar(data);
+
+  }
+
+  delete(data: MaterialPolicial) {
+    this.excluir = data;
+  }
+
+  confirm() {
+    this.materiaisPoliciaisService.remove(this.excluir.id || 0).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Exclusão realizada com sucesso!');
+        this.refresh();
+      },
+      error: (error: any) => {
+        this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
+      },
+    });
+  }
+
+  pesquisar(){
+    this.data$ = this.temp;
+    if(this.pesquisa.length > 0){
+      var pesq = this.pesquisa.toLocaleLowerCase();
+      this.data$ = this.data$.filter((data) => {
+        return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1         
+        || !pesq
+      });
+    }
+  }
+
+  showItens(data: MaterialPolicial){
+    this.caditem = false;
+    this.materiaisPoliciaisService.find(data.id || 0).subscribe({
+      next: (data) => {
+        this.materialPolicial = data;
+      }
+    })
+    
+  }
+
+  refreshItens(){
+    this.caditem = false;
+    this.materiaisPoliciaisService.find(this.materialPolicial.id || 0).subscribe({
+      next: (data) => {
+        this.materialPolicial = data;
+      }
+    });
+  }
+
+  rmvItem(id: number){
+    if(window.confirm("Tem certeza que deseja excluir o item?")){
+      this.materiaisPoliciaisItensService.remove(id).subscribe({
+        next: (data) => {
+          this.materiaisPoliciaisService.find(this.materialPolicial.id || 0).subscribe({
+            next: (data) => {
+              this.materialPolicial = data;
+            }
+          });
+        }
+      });
+    }
+   
+  }
+
+  cancelItem(){
+    this.caditem = false;
+  }
+
+  devolver(data:MaterialPolicial){
+    this.materiaisPoliciaisService.find(data.id || 0).subscribe({
+      next: (data) => {
+        this.materialPolicial = data;
+      }
+    })
+  }
+
+}

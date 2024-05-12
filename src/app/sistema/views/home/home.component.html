@@ -185,6 +185,117 @@
       }
       <!--FIM CAR ARMAMENTOS VENCIMENTO-->
 
+      <!-- INICIO CARD materiais EMPRESTIMOS-->
+      @if(user.perfil.materiais_policiais){
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Materiais Emprestados</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-hover table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Policial</th>
+                    <th>Dt. Empréstimo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(armemp of materiaisPoliciaisEmprestados; track armemp){
+                    <tr>
+                      <td>{{armemp.id}}</td>
+                      <td>
+                        {{armemp.policial.graduacao.abreviatura}} 
+                        {{armemp.policial.numeral}}
+                        {{armemp.policial.nome_guerra}}</td>
+                      <td>{{armemp.data_emprestimo | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+      <!--FIM CARD materiais EMPRESTIMOS-->
+
+      <!--INICIO CAR MATERIAIS CONSUMO ALERTA-->
+      @if(user.perfil.materiais_consumo){
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Mat Consumo próx. de Acabar</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-hover table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tipo</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Serial</th>
+                    <th>Quantidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(mat of materiaisConsumoAlerta; track mat){
+                    <tr>
+                      <td>{{mat.id}}</td>
+                      <td>{{mat.material_consumo_tipo.nome}}</td>
+                      <td>{{mat.modelo.marca.nome}}</td>
+                      <td>{{mat.modelo.nome}}</td>
+                      <td>{{mat.serial}}</td>
+                      <td>{{mat.quantidade }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+        <!--FIM CAR MATERIAIS CONSUMO ALERTA-->
+
+         <!--INICIO CAR MATERIAIS CONSUMO VENCIMENTO-->
+      @if(user.perfil.materiais_consumo){
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Mat Consumo próx. do Vencimento</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-hover table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tipo</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Serial</th>
+                    <th>Dt. Vencimento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(mat of materiaisConsumoVencendo; track mat){
+                    <tr>
+                      <td>{{mat.id}}</td>
+                      <td>{{mat.material_consumo_tipo.nome}}</td>
+                      <td>{{mat.modelo.marca.nome}}</td>
+                      <td>{{mat.modelo.nome}}</td>
+                      <td>{{mat.serial}}</td>
+                      <td>{{mat.data_validade | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+        <!--FIM CAR MATERIAIS CONSUMO VENCIMENTO-->
+
       <!-- INICIO CARD VEICULOS POLICIAIS-->
       @if(user.perfil.veiculos_policiais){
         <div class="col-sm-4">

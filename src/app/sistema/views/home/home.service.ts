@@ -7,6 +7,8 @@ import { VeiculosOficinas } from "../veiculos-oficinas/veiculo-oficina";
 import { Veiculos } from "../veiculos/veiculo";
 import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
 import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
+import { MateriaisConsumo } from "../materiais-consumo/material-consumo";
+import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
 
 const URL = environment.url;
 const endPoint = 'home';
@@ -18,6 +20,27 @@ export class HomeService{
     constructor(
         private http: HttpClient,
     ){}
+
+    getArmamentosVencendo(): Observable<Armamentos>{
+        return this.http.get<Armamentos>(`${URL}/${endPoint}/armamentos-vencendo`);
+    }
+
+    getArmamentosEmprestados(): Observable<ArmamentosEmprestimos>{
+        return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}/armamentos-emprestados`);
+    }
+
+    getMateriaisConsumoVencendo(): Observable<MateriaisConsumo>{
+        return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}/materiais-consumo-vencendo`);
+    }
+
+    getMateriaisConsumoAlerta(): Observable<MateriaisConsumo>{
+        return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}/materiais-consumo-alerta`);
+    }
+
+    getMateriaisPoliciaisEmprestados(): Observable<MateriaisPoliciais>{
+        return this.http.get<MateriaisPoliciais>(`${URL}/${endPoint}/materiais-policiais-emprestados`);
+    }
+
 
     getPoliciais(): Observable<number>{
         return this.http.get<number>(`${URL}/${endPoint}/policiais`);
@@ -37,14 +60,6 @@ export class HomeService{
 
     getPoliciaisSetores(): Observable<any>{
         return this.http.get<any>(`${URL}/${endPoint}/policiais-setores`);
-    }
-
-    getArmamentosVencendo(): Observable<Armamentos>{
-        return this.http.get<Armamentos>(`${URL}/${endPoint}/armamentos-vencendo`);
-    }
-
-    getArmamentosEmprestados(): Observable<ArmamentosEmprestimos>{
-        return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}/armamentos-emprestados`);
     }
 
     getVeiculosManutencao(): Observable<VeiculosOficinas>{

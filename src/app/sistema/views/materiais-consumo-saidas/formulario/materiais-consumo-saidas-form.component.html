@@ -1,0 +1,67 @@
+<form  [formGroup]="form" >
+    <div class="row">
+        <input-select
+            class="col-sm-6"
+            label="Usuário"
+            id="user"
+            [data$]="users$"
+            formControlName="user"
+        />
+    </div>  
+    @if(!editando){
+    <div class="row">
+        <input-select
+            class="col-sm-6"
+            label="Material de Consumo"
+            id="material_consumo"
+            [data$]="materiaisconsumo$"
+            formControlName="material_consumo"
+            optionname="serial"
+            (ngModelChange)="select()"
+        />
+        <input-text [max]="maxamon" [min]="1" class="col-sm-2" formControlName="quantidade" label="Quantidade" id="quantidade" tipo="number" />
+        <div class="col-sm-2" style="padding-top: 30px;">
+            <button (click)="addMaterial()" [disabled]="!form.value.material_consumo || !form.value.quantidade" class="btn btn-primary "><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+    }
+    @if(materiaisselected && !editando){
+        <div class="row" >
+            <table class="table table-hover table-head-fixed text-nowrap">
+                <thead>
+                    <tr>
+                        
+                        <th>Serial</th>
+                        <th>Quant.</th>
+                        <th>Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(row of materiaisselected; track row;; let index = $index){
+                        <tr>
+                            
+                            <td>{{row.armamento.serial}}</td>
+                            <td>{{row.quantidade}}</td>
+                            <td>
+                                <i
+                                class="fa fa-trash text-danger point"
+                                aria-hidden="true"
+                                (click)="removeMaterial(index)"
+                              ></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    
+    <div class="row" style="height: 350px;">
+        <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>
+        <button [disabled]="form.invalid" type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-primary">Cadastrar</button>
+    </div>
+</form>

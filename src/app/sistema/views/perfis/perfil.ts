@@ -18,10 +18,25 @@ export interface Perfil{
     armamentos_emprestimos_edt?: boolean;
     armamentos_emprestimos_del?: boolean;
 
+    materiais?: boolean;
+    materiais_cad?: boolean;
+    materiais_edt?: boolean;
+    materiais_del?: boolean;
+
+    materiais_policiais?: boolean;
+    materiais_policiais_cad?: boolean;
+    materiais_policiais_edt?: boolean;
+    materiais_policiais_del?: boolean;
+
     materiais_consumo?: boolean;
     materiais_consumo_cad?: boolean;
     materiais_consumo_edt?: boolean;
     materiais_consumo_del?: boolean;
+
+    materiais_consumo_entradas?: boolean;
+    materiais_consumo_entradas_cad?: boolean;
+    materiais_consumo_entradas_edt?: boolean;
+    materiais_consumo_entradas_del?: boolean;
 
     materiais_consumo_saidas?: boolean;
     materiais_consumo_saidas_cad?: boolean;

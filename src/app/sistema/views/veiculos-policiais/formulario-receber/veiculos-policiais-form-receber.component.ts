@@ -43,14 +43,14 @@ export class VeiculosPoliciaisFormReceberComponent implements OnInit{
             'km_final': [null, Validators.compose([
                 Validators.required,
             ])],
-            'observacoes': [null],
+            'observacoes': [this.veiculopolicial.observacoes],
         });
 
-        this.form.get('observacoes')?.patchValue(this.veiculopolicial.observacoes);
-        this.form.get('id')?.patchValue(this.veiculopolicial.id);
+      
     }
 
     cadastrar(){
+        this.form.get('id')?.patchValue(this.veiculopolicial.id);
         this.veiculosPoliciaisService.receber(this.form.value).subscribe({
             next: (data:any) => {
                 this.toastr.success('Edição realizada com sucesso!');

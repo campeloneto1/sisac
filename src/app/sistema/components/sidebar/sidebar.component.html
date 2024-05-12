@@ -71,7 +71,18 @@
             <p>Emp. de Armamentos</p>
           </a>
         </li>
-        } @if(user.perfil.veiculos_policiais){
+        } @if(user.perfil.materiais_policiais){
+          <li class="nav-item">
+            <a
+              [routerLink]="['MateriaisPoliciais']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-shopping-basket"></i>
+              <p>Emp. de Materiais</p>
+            </a>
+          </li>
+          }@if(user.perfil.veiculos_policiais){
           <li class="nav-item">
             <a
               [routerLink]="['VeiculosEmprestimos']"
@@ -122,7 +133,7 @@
                 routerLinkActive="active"
                 class="nav-link"
               >
-                <i class="nav-icon fa fa-laptop"></i>
+                <i class="nav-icon fa fa-desktop"></i>
                 <p>Patrimônios</p>
               </a>
             </li>
@@ -148,7 +159,56 @@
             <p>Publicações</p>
           </a>
         </li>
-        } @if(user.perfil.veiculos){
+        } 
+        @if(user.perfil.materiais){
+          <li class="nav-item">
+            <a
+              [routerLink]="['Materiais']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-fax"></i>
+              <p>Materiais</p>
+            </a>
+          </li>
+          }
+        @if(user.perfil.materiais_consumo_entradas){
+          <li class="nav-item">
+            <a
+              [routerLink]="['MateriaisConsumoEntradas']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-download"></i>
+              <p>Entrada de Mat. de Consumo</p>
+            </a>
+          </li>
+          }
+        @if(user.perfil.materiais_consumo_saidas){
+          <li class="nav-item">
+            <a
+              [routerLink]="['MateriaisConsumoSaidas']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-upload"></i>
+              <p>Saída de Mat. de Consumo</p>
+            </a>
+          </li>
+          }
+          @if(user.perfil.usuarios){
+            <li class="nav-item">
+              <a
+                [routerLink]="['Usuarios']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="nav-icon fa fa-user"></i>
+                <p>Usuários</p>
+              </a>
+            </li>
+            }
+        @if(user.perfil.veiculos){
           <li class="nav-item">
             <a
               [routerLink]="['Veiculos']"
@@ -176,16 +236,7 @@
             class="nav nav-treeview"
             [ngStyle]="{ 'display: block;': menuGestor }"
           >
-            <li class="nav-item">
-              <a
-                [routerLink]="['Usuarios']"
-                routerLinkActive="active"
-                class="nav-link"
-              >
-                <i class="fa fa-circle nav-icon"></i>
-                <p>Usuários</p>
-              </a>
-            </li>
+            
           </ul>
         </li>
         } @if(user.perfil.administrador){
@@ -385,6 +436,16 @@
               >
                 <i class="fa fa-circle nav-icon"></i>
                 <p>Tipos de Manutenções</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['MateriaisTipos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Tipos de Materiais</p>
               </a>
             </li>
             <li class="nav-item">

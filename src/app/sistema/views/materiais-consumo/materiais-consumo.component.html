@@ -60,7 +60,6 @@
                 <th><mfDefaultSorter by="modelo.nome">Modelo</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="serial">Serial</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="quantidade">Quantidade</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="quantidade_disponivel">Quantidade Disponível</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="quantidade_alerta">Quantidade Alerta</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="data_validade">Dt. Validade</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="data_baixa">Dt. Baixa</mfDefaultSorter></th>
@@ -78,7 +77,6 @@
                 <td>{{ row.modelo.nome }}</td>
                 <td>{{ row.serial }}</td>
                 <td>{{ row.quantidade }}</td>
-                <td>{{ row.quantidade_disponivel }}</td>
                 <td>{{ row.quantidade_alerta }}</td>
                 <td>{{ row.data_validade | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row.data_baixa | date: 'dd/MM/yyyy' }}</td>
