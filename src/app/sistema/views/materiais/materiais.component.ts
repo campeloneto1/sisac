@@ -34,6 +34,8 @@ export class MateriaisComponent implements OnInit, OnDestroy {
 
   protected user!: User;
 
+  protected cadastrando:boolean = false;
+
   @ViewChild(MateriaisFormComponent) child!: MateriaisFormComponent;
 
   constructor(
@@ -68,8 +70,18 @@ export class MateriaisComponent implements OnInit, OnDestroy {
     });
   }
 
+  cadastrar(){
+    this.cadastrando = true;
+    setTimeout(() => {
+      this.child.resetForm();
+    }, 100);
+  }
+
   editar(data: Material) {
-    this.child.editar(data);
+    this.cadastrando = true;
+    setTimeout(() => {
+      this.child.editar(data);
+    }, 100);
   }
 
   delete(data: Material) {
@@ -86,6 +98,11 @@ export class MateriaisComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
+  }
+
+  resetForm(){
+    this.child.resetForm();
+    this.cadastrando = false;
   }
 
   pesquisar(){

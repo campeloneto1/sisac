@@ -9,6 +9,7 @@ import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
 import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
 import { MateriaisConsumo } from "../materiais-consumo/material-consumo";
 import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
+import { Materiais } from "../materiais/material";
 
 const URL = environment.url;
 const endPoint = 'home';
@@ -41,6 +42,9 @@ export class HomeService{
         return this.http.get<MateriaisPoliciais>(`${URL}/${endPoint}/materiais-policiais-emprestados`);
     }
 
+    getMateriaisVencendo(): Observable<Materiais>{
+        return this.http.get<Materiais>(`${URL}/${endPoint}/materiais-vencendo`);
+    }
 
     getPoliciais(): Observable<number>{
         return this.http.get<number>(`${URL}/${endPoint}/policiais`);
@@ -68,6 +72,10 @@ export class HomeService{
 
     getVeiculosTrocaOleo(): Observable<Veiculos>{
         return this.http.get<Veiculos>(`${URL}/${endPoint}/veiculos-troca-oleo`);
+    }
+
+    getVeiculosRevisao(): Observable<Veiculos>{
+        return this.http.get<Veiculos>(`${URL}/${endPoint}/veiculos-revisao`);
     }
 
     getVeiculosEmprestados(): Observable<VeiculosPoliciais>{

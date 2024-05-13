@@ -66,6 +66,8 @@
                 <th><mfDefaultSorter by="km_inicial">KM Inicial</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="km_atual">KM Atual</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="km_troca_oleo">KM Troca O.</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="km_revisao">KM Revisão</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="data_revisao">Data Revisão</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="data_baixa">Data Baixa</mfDefaultSorter></th>
                 <th>Opções</th>
               </tr>
@@ -92,6 +94,8 @@
                 <td>{{ row.km_inicial }}</td>
                 <td>{{ row.km_atual }}</td>
                 <td>{{ row.km_troca_oleo }}</td>
+                <td>{{ row.km_revisao }}</td>
+                <td>{{ row.data_revisao | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row.data_baixa | date: 'dd/MM/yyyy' }}</td>
                 <td>
                   @if(user.perfil.veiculos_edt && !row.data_baixa){

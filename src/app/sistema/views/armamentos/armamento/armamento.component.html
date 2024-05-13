@@ -94,7 +94,7 @@
                             <dd class="col-sm-2">
                               {{ armamento.quantidade }}
                             </dd>
-                            } @if(armamento.quantidade_disponivel){
+                            } @if(armamento.quantidade_disponivel >= 0){
                             <dt class="col-sm-2">Disponível:</dt>
                             <dd class="col-sm-2">
                               {{ armamento.quantidade_disponivel }}

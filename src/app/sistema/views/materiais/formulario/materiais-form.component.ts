@@ -40,7 +40,10 @@ export class MateriaisFormComponent implements OnInit{
     protected selectedtipo: any;
     protected materiaistipos!: MateriaisTipos;
 
+    protected editando: boolean = false;
+
     @Output('refresh') refresh: EventEmitter<Material> = new EventEmitter();
+    @Output('cancel') cancel: EventEmitter<any> = new EventEmitter();
     
     constructor(
         private formBuilder: FormBuilder,
@@ -82,23 +85,30 @@ export class MateriaisFormComponent implements OnInit{
     }
 
     cadastrar(){
-        delete this.form.value.marca;
+        
         if(this.form.value.id){
             
             if(!this.form.value.data_baixa){
                 this.form.get('data_baixa')?.patchValue(null);
             }
+            if(!this.form.value.data_validade){
+                this.form.get('data_validade')?.patchValue(null);
+            }
+            
+            delete this.form.value.marca;
             this.materiaisService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Edição realizada com sucesso!');
                     this.form.reset();
                     this.refresh.emit();
+                    this.editando = false;
                 },
                 error: (error:any) => {
                     this.toastr.error('Erro ao cadastrar, tente novamente mais tarde!');
                 }
             });
         }else{
+            delete this.form.value.marca;
             this.materiaisService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');
@@ -114,6 +124,7 @@ export class MateriaisFormComponent implements OnInit{
     }
 
     editar(data: Material){
+        this.editando = true;
         this.form.patchValue(data);
         if(data.modelo){
             this.form.get('marca')?.patchValue(data.modelo.marca.id);
@@ -123,6 +134,17 @@ export class MateriaisFormComponent implements OnInit{
         if(data.material_tipo){
             this.form.get('material_tipo')?.patchValue(data.material_tipo.id);
         }
+    }
+
+    cancelar(){
+        this.editando = false;
+        this.cancel.emit()
+        this.form.reset();
+    }
+
+    resetForm(){
+        this.editando = false;
+        this.form.reset();
     }
 
     // getSubunidades(){

@@ -12,6 +12,7 @@ import { VeiculosPoliciais } from "../veiculos-policiais/veiculo-policial";
 import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
 import { MateriaisConsumo } from "../materiais-consumo/material-consumo";
 import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
+import { Materiais } from "../materiais/material";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -26,31 +27,23 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantPoliciais!: any;
     protected quantAtestados!: any;
     protected quantFerias!: any;
-    protected policiaisGraduacoes!: any;
-    protected policiaisSetores!: any;
-    protected armamentosVencendo!: Armamentos;
-    protected armamentosEmprestimos!: ArmamentosEmprestimos;
-    protected veiculosManutencao!: VeiculosOficinas;
-    protected veiculosTrocaOleo!: Veiculos;
-    protected veiculosPoliciais!: VeiculosPoliciais;
-    protected materiaisConsumoVencendo!: MateriaisConsumo;
-    protected materiaisConsumoAlerta!: MateriaisConsumo;
-    protected materiaisPoliciaisEmprestados!: MateriaisPoliciais;
+    protected policiaisGraduacoes$!: Observable<any>;
+    protected policiaisSetores$!: Observable<any>;
+    protected armamentosVencendo$!: Observable<Armamentos>;
+    protected armamentosEmprestimos$!: Observable<ArmamentosEmprestimos>;
+    protected veiculosManutencao$!: Observable<VeiculosOficinas>;
+    protected veiculosTrocaOleo$!: Observable<Veiculos>;
+    protected veiculosRevisao$!: Observable<Veiculos>;
+    protected veiculosPoliciais$!: Observable<VeiculosPoliciais>;
+    protected materiaisVencendo$!: Observable<Materiais>;
+    protected materiaisConsumoVencendo$!: Observable<MateriaisConsumo>;
+    protected materiaisConsumoAlerta$!: Observable<MateriaisConsumo>;
+    protected materiaisPoliciaisEmprestados$!: Observable<MateriaisPoliciais>;
 
     protected subscription: any;
     protected subscription2: any;
     protected subscription3: any;
-    protected subscription4: any;
-    protected subscription5: any;
-    protected subscription6: any;
-    protected subscription7: any;
-    protected subscription8: any;
-    protected subscription9: any;
-    protected subscription10: any;
-
-    protected subscription11: any;
-    protected subscription12: any;
-    protected subscription13: any;
+    
 
     constructor(
         private sessionService: SessionService,
@@ -81,76 +74,43 @@ export class HomeComponent implements OnInit, OnDestroy{
             });
         }
         if(this.user.perfil.armamentos){
-            this.subscription4 = this.homeService.getArmamentosVencendo().subscribe({
-                next: (data) => {
-                    this.armamentosVencendo = data;
-                }
-            });
+            this.armamentosVencendo$ = this.homeService.getArmamentosVencendo();
         }
         if(this.user.perfil.armamentos_emprestimos){
-            this.subscription9 = this.homeService.getArmamentosEmprestados().subscribe({
-                next: (data) => {
-                    this.armamentosEmprestimos = data;
-                }
-            });
+            this.armamentosEmprestimos$ = this.homeService.getArmamentosEmprestados();
         }
         if(this.user.perfil.veiculos_oficinas){
-            this.subscription5 = this.homeService.getVeiculosManutencao().subscribe({
-                next: (data) => {
-                    this.veiculosManutencao = data;
-                }
-            });
+            this.veiculosManutencao$ = this.homeService.getVeiculosManutencao();
         }
         if(this.user.perfil.veiculos){
-            this.subscription6 = this.homeService.getVeiculosTrocaOleo().subscribe({
-                next: (data) => {
-                    this.veiculosTrocaOleo = data;
-                }
-            });
+            this.veiculosTrocaOleo$ = this.homeService.getVeiculosTrocaOleo();
+        }
+        if(this.user.perfil.veiculos){
+            this.veiculosRevisao$ = this.homeService.getVeiculosRevisao();
         }
         if(this.user.perfil.policiais){
-         this.subscription7 = this.homeService.getPoliciaisSetores().subscribe({
-             next: (data) => {
-                 this.policiaisSetores = data;
-             }
-         });
+            this.policiaisSetores$ = this.homeService.getPoliciaisSetores();
         }
         if(this.user.perfil.policiais){
-            this.subscription7 = this.homeService.getPoliciaisGraduacoes().subscribe({
-                next: (data) => {
-                    this.policiaisGraduacoes = data;
-                }
-            });
+            this.policiaisGraduacoes$ = this.homeService.getPoliciaisGraduacoes();
            }
         if(this.user.perfil.veiculos_policiais){
-            this.subscription8 = this.homeService.getVeiculosEmprestados().subscribe({
-                next: (data) => {
-                    this.veiculosPoliciais = data;
-                }
-            });
+            this.veiculosPoliciais$ = this.homeService.getVeiculosEmprestados();
         }
 
         if(this.user.perfil.materiais_consumo){
-            this.subscription11 = this.homeService.getMateriaisConsumoAlerta().subscribe({
-                next: (data) => {
-                    this.materiaisConsumoAlerta = data;
-                }
-            });
+            this.materiaisConsumoAlerta$ = this.homeService.getMateriaisConsumoAlerta();
         }
 
         if(this.user.perfil.materiais_consumo){
-            this.subscription11 = this.homeService.getMateriaisConsumoVencendo().subscribe({
-                next: (data) => {
-                    this.materiaisConsumoVencendo = data;
-                }
-            });
+            this.materiaisConsumoVencendo$ = this.homeService.getMateriaisConsumoVencendo();
         }
         if(this.user.perfil.materiais_policiais){
-            this.subscription13 = this.homeService.getMateriaisPoliciaisEmprestados().subscribe({
-                next: (data) => {
-                    this.materiaisPoliciaisEmprestados = data;
-                }
-            });
+            this.materiaisPoliciaisEmprestados$ = this.homeService.getMateriaisPoliciaisEmprestados();
+        }
+
+        if(this.user.perfil.materiais){
+            this.materiaisVencendo$ = this.homeService.getMateriaisVencendo();
         }
     }
 
@@ -164,26 +124,6 @@ export class HomeComponent implements OnInit, OnDestroy{
         if(this.subscription3){
             this.subscription3.unsubscribe();
         }
-        if(this.subscription4){
-            this.subscription4.unsubscribe();
-        }
-        if(this.subscription5){
-            this.subscription5.unsubscribe();
-        }
-        if(this.subscription6){
-            this.subscription6.unsubscribe();
-        }
-        if(this.subscription7){
-            this.subscription7.unsubscribe();
-        }
-        if(this.subscription8){
-            this.subscription8.unsubscribe();
-        }
-        if(this.subscription9){
-            this.subscription9.unsubscribe();
-        }
-        if(this.subscription10){
-            this.subscription10.unsubscribe();
-        }
+        
     }
 }

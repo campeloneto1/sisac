@@ -15,6 +15,7 @@ import { InputTextareaComponent } from '../../components/input-textarea/input-te
 import { RouterModule } from '@angular/router';
 import { MateriaisConsumoSaidasItensFormComponent } from '../materiais-consumo-saidas-itens/formulario/materiais-consumo-saidas-itens-form.component';
 import { MateriaisConsumoSaidasItensService } from '../materiais-consumo-saidas-itens/materiais-consumo-saidas-itens.service';
+import { format } from 'date-fns';
 @Component({
   selector: 'app-materiais-consumo-saidas',
   templateUrl: './materiais-consumo-saidas.component.html',
@@ -44,6 +45,8 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
   protected materialConsumoSaida!: MaterialConsumoSaida;
+
+  protected cadastrando:boolean = false;
 
   protected cadmaterial:boolean = false;
 
@@ -87,8 +90,25 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
   }
 
   editar(data: MaterialConsumoSaida) {
-    this.child.editar(data);
+    this.cadastrando = false;
+    setTimeout(() => {
+      this.cadastrando = true;
+    }, 100);
+    setTimeout(() => {
+      this.child.editar(data);
+    }, 200);
+    
 
+  }
+
+  cadastrar(){
+    this.cadastrando = false;
+    setTimeout(() => {
+      this.cadastrando = true;
+    }, 100);
+    setTimeout(() => {
+      this.child.reset();
+    }, 200);
   }
 
   delete(data: MaterialConsumoSaida) {
@@ -171,5 +191,14 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
     this.cadmaterial = false;
   }
 
+  checkDate(data: MaterialConsumoSaida){
+    var datahj = new Date();
+    if(format(data.data_saida, 'yyyy-MM-dd') == format(datahj, 'yyyy-MM-dd')){
+      return true
+    }else{
+      return false
+    }
+    
+  }
   
 }

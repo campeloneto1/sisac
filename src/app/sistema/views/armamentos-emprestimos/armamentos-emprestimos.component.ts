@@ -46,6 +46,8 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   protected subscription: any;
   protected armamentoEmprestimo!: ArmamentoEmprestimo;
 
+  protected cadastrando: boolean = false;
+
   protected cadarmamento:boolean = false;
 
   protected user!: User;
@@ -89,8 +91,25 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   }
 
   editar(data: ArmamentoEmprestimo) {
-    this.child.editar(data);
+    this.cadastrando = false;
+    setTimeout(() => {
+      this.cadastrando = true;
+    }, 100);
+    setTimeout(() => {
+      this.child.editar(data);
+    }, 200);
+    
 
+  }
+
+  cadastrar(){
+    this.cadastrando = false;
+    setTimeout(() => {
+      this.cadastrando = true;
+    }, 100);
+    setTimeout(() => {
+      this.child.reset();
+    }, 200);
   }
 
   delete(data: ArmamentoEmprestimo) {

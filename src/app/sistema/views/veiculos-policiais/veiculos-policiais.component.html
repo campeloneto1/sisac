@@ -14,6 +14,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#modalcad"
                 title="Cadastrar"
+                (click)="cadastrar()"
               >
                 <i class="fa fa-plus"></i>
               </button>
@@ -64,10 +65,10 @@
                 <th><mfDefaultSorter by="policial.nome_guerra">Nome Guerra</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="policial.matricula">Matrícula</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="km_inicial">KM Inicial</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="km_final">KM Final</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="cidade.nome">Cidade</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="km_final">KM Final</mfDefaultSorter></th>
                 <th>Opções</th>
               </tr>
             </thead>
@@ -85,14 +86,16 @@
                 <td>{{ row.policial.nome_guerra }}</td>
                 <td>{{ row.policial.matricula }}</td>
                 <td>{{ row.data_inicial | date: 'dd/MM/yyyy HH:mm' }}</td>
-                <td>{{ row.data_final | date: 'dd/MM/yyyy HH:mm' }}</td>
                 <td>{{ row.km_inicial }}</td>
-                <td>{{ row.km_final }}</td>
                 <td>
                   @if(row.cidade){
                     {{ row.cidade.nome }}
                   }
                 </td>
+                <td>{{ row.data_final | date: 'dd/MM/yyyy HH:mm' }}</td>
+                
+                <td>{{ row.km_final }}</td>
+                
                 <td>
                   @if(row.data_final){
                     <a
@@ -195,7 +198,9 @@
             </button>
           </div>
           <div class="modal-body">
-            <app-veiculos-policiais-form (refresh)="refresh()" />
+            @if(cadastrando){
+              <app-veiculos-policiais-form (refresh)="refresh()" />
+            }
           </div>
         </div>
       </div>

@@ -46,7 +46,10 @@ export class ArmamentosFormComponent implements OnInit{
     protected selectedtipo: any;
     protected armamentostipos!: ArmamentosTipos;
 
+    protected editando:boolean = false;
+
     @Output('refresh') refresh: EventEmitter<Armamento> = new EventEmitter();
+    @Output('cancel') cancel: EventEmitter<any> = new EventEmitter();
     
     constructor(
         private formBuilder: FormBuilder,
@@ -101,11 +104,17 @@ export class ArmamentosFormComponent implements OnInit{
             if(!this.form.value.data_baixa){
                 this.form.get('data_baixa')?.patchValue(null);
             }
+            if(!this.form.value.data_validade){
+                this.form.get('data_validade')?.patchValue(null);
+            }
+            delete this.form.value.marca;
+          
             this.armamentosService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Edição realizada com sucesso!');
                     this.form.reset();
                     this.refresh.emit();
+                    this.editando = false;
                 },
                 error: (error:any) => {
                     this.toastr.error('Erro ao cadastrar, tente novamente mais tarde!');
@@ -127,6 +136,7 @@ export class ArmamentosFormComponent implements OnInit{
     }
 
     editar(data: Armamento){
+        this.editando = true;
         this.form.patchValue(data);
         if(data.modelo){
             this.form.get('marca')?.patchValue(data.modelo.marca.id);
@@ -142,6 +152,16 @@ export class ArmamentosFormComponent implements OnInit{
         if(data.armamento_calibre){
             this.form.get('armamento_calibre')?.patchValue(data.armamento_calibre.id);
         }
+    }
+
+    cancelar(){
+        this.form.reset();
+        this.cancel.emit();
+    }
+
+    resetForm(){
+        this.form.reset();
+        this.editando = false;
     }
 
     // getSubunidades(){

@@ -33,6 +33,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+  protected cadastrando:boolean = false;
 
   @ViewChild(ArmamentosFormComponent) child!: ArmamentosFormComponent;
 
@@ -61,6 +62,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
+    this.cadastrando = false;
     this.armamentosService.index().subscribe({
       next: (data) => {
         this.data$ = data;
@@ -68,8 +70,23 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
     });
   }
 
+  cadastrar(){
+    this.cadastrando = true;
+    setTimeout(() => {
+      this.child.resetForm();
+    }, 100);
+  }
+
+  cancel(){
+    this.cadastrando = false;
+  }
+
   editar(data: Armamento) {
-    this.child.editar(data);
+    this.cadastrando = true;
+    setTimeout(() => {
+      this.child.editar(data);
+    }, 100);
+   
   }
 
   delete(data: Armamento) {

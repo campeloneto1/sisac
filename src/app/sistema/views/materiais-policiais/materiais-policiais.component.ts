@@ -46,6 +46,8 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
   protected subscription: any;
   protected materialPolicial!: MaterialPolicial;
 
+  protected cadastrando: boolean = false;
+
   protected caditem:boolean = false;
 
   protected user!: User;
@@ -88,9 +90,27 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
     });
   }
 
-  editar(data: MaterialPolicial) {
-    this.child.editar(data);
 
+  editar(data: MaterialPolicial) {
+    this.cadastrando = false;
+    setTimeout(() => {
+      this.cadastrando = true;
+    }, 100);
+    setTimeout(() => {
+      this.child.editar(data);
+    }, 200);
+    
+
+  }
+
+  cadastrar(){
+    this.cadastrando = false;
+    setTimeout(() => {
+      this.cadastrando = true;
+    }, 100);
+    setTimeout(() => {
+      this.child.reset();
+    }, 200);
   }
 
   delete(data: MaterialPolicial) {

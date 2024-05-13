@@ -17,9 +17,9 @@
                   />
                 </div> -->
                 <h3 class="profile-username text-center">{{ veiculo.placa }}</h3>
-                <p class="text-muted text-center">
+                <!-- <p class="text-muted text-center">
                   {{ veiculo.modelo.marca.nome }} {{ veiculo.modelo.nome }}
-                </p>
+                </p> -->
                 <ul class="list-group list-group-unbordered mb-3">
                   @if(veiculo.veiculo_tipo){
                   <li class="list-group-item">
@@ -27,6 +27,14 @@
                     <a class="float-right">{{ veiculo.veiculo_tipo.nome }}</a>
                   </li>
                   } 
+                  <li class="list-group-item">
+                    <b>Marca</b>
+                    <a class="float-right">{{ veiculo.modelo.marca.nome }}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Modelo</b>
+                    <a class="float-right">{{ veiculo.modelo.nome }}</a>
+                  </li>
                   <li class="list-group-item">
                     <b>Placa Especial</b>
                     <a class="float-right">
@@ -144,6 +152,18 @@
                             {{ veiculo.km_troca_oleo }}
                           </dd>
                           }
+                          @if(veiculo.km_revisao){
+                            <dt class="col-sm-2">KM Revisão:</dt>
+                            <dd class="col-sm-2">
+                              {{ veiculo.km_revisao }}
+                            </dd>
+                            }
+                            @if(veiculo.data_revisao){
+                              <dt class="col-sm-2">Data Revisão:</dt>
+                              <dd class="col-sm-2">
+                                {{ veiculo.data_revisao | date: 'dd/MM/yyyy' }}
+                              </dd>
+                              }
                         </div>
                       </div>
                     </div>

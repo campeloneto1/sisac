@@ -36,14 +36,15 @@
   
       </div>
       <div class="row">
-     
-        <input-text
-        class="col-sm-2"
-        formControlName="quantidade"
-        label="Quantidade"
-        id="quantidade"
-        tipo="number"
-        />
+        @if(!editando){
+          <input-text
+          class="col-sm-2"
+          formControlName="quantidade"
+          label="Quantidade"
+          id="quantidade"
+          tipo="number"
+          />
+        }
         <input-text
         class="col-sm-2"
         formControlName="quantidade_alerta"

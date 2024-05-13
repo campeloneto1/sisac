@@ -40,7 +40,10 @@ export class MateriaisConsumoFormComponent implements OnInit{
     protected modelos$!: Observable<Modelos>;
     protected materiaisconsumotipos$!: Observable<MateriaisConsumoTipos>;
 
+    protected editando: boolean = false;
+
     @Output('refresh') refresh: EventEmitter<MaterialConsumo> = new EventEmitter();
+    @Output('cancel') cancel: EventEmitter<any> = new EventEmitter();
     
     constructor(
         private formBuilder: FormBuilder,
@@ -95,12 +98,16 @@ export class MateriaisConsumoFormComponent implements OnInit{
             if(!this.form.value.data_baixa){
                 this.form.get('data_baixa')?.patchValue(null);
             }
+            if(!this.form.value.data_validade){
+                this.form.get('data_validade')?.patchValue(null);
+            }
             delete this.form.value.marca;
             this.materiaisConsumoService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Edição realizada com sucesso!');
                     this.form.reset();
                     this.refresh.emit();
+                    this.editando = false;
                 },
                 error: (error:any) => {
                     this.toastr.error('Erro ao cadastrar, tente novamente mais tarde!');
@@ -123,6 +130,7 @@ export class MateriaisConsumoFormComponent implements OnInit{
     }
 
     editar(data: MaterialConsumo){
+        this.editando = true;
         this.form.patchValue(data);
         if(data.modelo){
             this.form.get('marca')?.patchValue(data.modelo.marca.id);
@@ -133,6 +141,17 @@ export class MateriaisConsumoFormComponent implements OnInit{
             this.form.get('material_consumo_tipo')?.patchValue(data.material_consumo_tipo.id);
         }
        
+    }
+
+    cancelar(){
+        this.form.reset();
+        this.editando = false;
+        this.cancel.emit();
+    }
+
+    resetForm(){
+        this.editando = false;
+        this.form.reset();
     }
 
     getModelos(){

@@ -92,7 +92,10 @@ export class VeiculosFormComponent implements OnInit{
             'km_troca_oleo': [null, Validators.compose([
                 Validators.min(0),
             ])],
-
+            'km_revisao': [null, Validators.compose([
+                Validators.min(0),
+            ])],
+            'data_revisao': [null],
             'marca': [null, Validators.compose([
                 Validators.required,
             ])],
@@ -120,6 +123,9 @@ export class VeiculosFormComponent implements OnInit{
 
         if(!this.form.value.data_baixa){
             this.form.get('data_baixa')?.patchValue(null);
+        }
+        if(!this.form.value.data_revisao){
+            this.form.get('data_revisao')?.patchValue(null);
         }
 
         this.form.value.placa = this.form.value.placa.toUpperCase();

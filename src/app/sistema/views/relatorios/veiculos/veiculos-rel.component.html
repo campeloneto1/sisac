@@ -11,9 +11,7 @@
       </div>
       <div class="card-body table-responsive">
         <form [formGroup]="form" class="noprint">
-          
           <div class="row">
-            @if(marcas$){
             <input-select
               class="col-sm-2"
               label="Marca"
@@ -22,50 +20,76 @@
               formControlName="marca"
               (ngModelChange)="getModelos()"
             />
-            } @if(modelos$){
-                <input-select
-                class="col-sm-2"
-                label="Modelo"
-                id="modelo"
-                [data$]="modelos$"
-                formControlName="modelo"
-                />
-            }
-            @if(veiculostipos$){
-                <input-select
-                class="col-sm-2"
-                label="Tipo"
-                id="veiculo_tipo"
-                [data$]="veiculostipos$"
-                formControlName="veiculo_tipo"
-                />
-            }
+
+            <input-select
+              class="col-sm-2"
+              label="Modelo"
+              id="modelo"
+              [data$]="modelos$"
+              formControlName="modelo"
+            />
+
+            <input-select
+              class="col-sm-2"
+              label="Tipo"
+              id="veiculo_tipo"
+              [data$]="veiculostipos$"
+              formControlName="veiculo_tipo"
+            />
+          </div>
+          <div class="row">
             <div class="col-sm-2">
               <div class="form-check">
-                  <input class="form-check-input" type="checkbox" checked="" id="blindado" formControlName="blindado">
-                  <label class="form-check-label" for="blindado">Blindado</label>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  checked=""
+                  id="blindado"
+                  formControlName="blindado"
+                />
+                <label class="form-check-label" for="blindado">Blindado</label>
               </div>
-          </div>
+            </div>
             <div class="col-sm-2">
               <div class="form-check">
-                  <input class="form-check-input" type="checkbox" checked="" id="organico" formControlName="organico">
-                  <label class="form-check-label" for="organico">Orgânico</label>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  checked=""
+                  id="organico"
+                  formControlName="organico"
+                />
+                <label class="form-check-label" for="organico">Orgânico</label>
               </div>
-          </div>
-          <div class="col-sm-2">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" checked="" id="locado" formControlName="locado">
+            </div>
+            <div class="col-sm-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  checked=""
+                  id="locado"
+                  formControlName="locado"
+                />
                 <label class="form-check-label" for="locado">Locado</label>
+              </div>
             </div>
-        </div>
             <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" checked="" id="data_baixa" formControlName="data_baixa">
-                    <label class="form-check-label" for="data_baixa">Data baixa</label>
-                </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  checked=""
+                  id="data_baixa"
+                  formControlName="data_baixa"
+                />
+                <label class="form-check-label" for="data_baixa"
+                  >Data baixa</label
+                >
+              </div>
             </div>
           </div>
-          <div>
+          <div class="row mt-2">
             <button
               [disabled]="form.invalid"
               type="button"
@@ -101,29 +125,25 @@
             @for(row of data$ | async; track row){
             <tr data-widget="expandable-table" aria-expanded="false">
               <td>{{ row.id }}</td>
-                <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
-                <td>{{ row.veiculo_tipo.nome }}</td>
-                <td>{{ row.modelo.marca.nome }}</td>
-                <td>{{ row.modelo.nome }}</td>
-                <td>{{ row.cor.nome }}</td>
-                <td>
-                  @if(row.organico){
-                    Orgânico
-                  }@else{
-                    Locado
-                  }
-                </td>
-                <td>{{ row.placa }}</td>
-                <td>{{ row.placa_especial }}</td>
-                <td>{{ row.km_inicial }}</td>
-                <td>{{ row.km_atual }}</td>
-                <td>{{ row.km_troca_oleo }}</td>
-                <td>{{ row.data_baixa | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                {{ row.subunidade.abreviatura }} -
+                {{ row.subunidade.unidade.abreviatura }}
+              </td>
+              <td>{{ row.veiculo_tipo.nome }}</td>
+              <td>{{ row.modelo.marca.nome }}</td>
+              <td>{{ row.modelo.nome }}</td>
+              <td>{{ row.cor.nome }}</td>
+              <td>@if(row.organico){ Orgânico }@else{ Locado }</td>
+              <td>{{ row.placa }}</td>
+              <td>{{ row.placa_especial }}</td>
+              <td>{{ row.km_inicial }}</td>
+              <td>{{ row.km_atual }}</td>
+              <td>{{ row.km_troca_oleo }}</td>
+              <td>{{ row.data_baixa | date : "dd/MM/yyyy" }}</td>
             </tr>
             <tr class="expandable-body d-none">
               <td colspan="7">
                 <div style="display: none">
-                  
                   @if(row.observacoes){
                   <div [innerHTML]="row.observacoes"></div>
                   }

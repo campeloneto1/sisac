@@ -158,6 +158,10 @@ export class VeiculosPoliciaisFormComponent implements OnInit{
        
     }
 
+    reset(){
+        this.form.reset();
+    }
+
     getEstados(){
         this.estados$ = this.estadosService.wherePais(this.form.get('pais')?.value);
     }

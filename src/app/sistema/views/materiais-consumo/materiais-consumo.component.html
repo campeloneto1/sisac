@@ -14,6 +14,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#modalcad"
                 title="Cadastrar"
+                (click)="cadastrar()"
               >
                 <i class="fa fa-plus"></i>
               </button>
@@ -72,7 +73,7 @@
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
                 <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
-                <td>{{ row.material_consumo_tipo.nome }}</td>
+                <td><a [routerLink]="['/MaterialConsumo', row.id]">{{ row.material_consumo_tipo.nome }}</a></td>
                 <td>{{ row.modelo.marca.nome }}</td>
                 <td>{{ row.modelo.nome }}</td>
                 <td>{{ row.serial }}</td>
@@ -156,7 +157,9 @@
             </button>
           </div>
           <div class="modal-body">
-            <app-materiais-consumo-form (refresh)="refresh()" />
+            @if(cadastrando){
+              <app-materiais-consumo-form (refresh)="refresh()" (cancel)="resetForm()" />
+            }
           </div>
         </div>
       </div>

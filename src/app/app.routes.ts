@@ -182,6 +182,11 @@ export const routes: Routes = [
               import('./sistema/views/materiais-consumo/materiais-consumo.component').then((c) => c.MateriaisConsumoComponent),
           },
           {
+            path: 'MaterialConsumo/:id',
+            loadComponent: () =>
+              import('./sistema/views/materiais-consumo/material-consumo/material-consumo.component').then((c) => c.MaterialConsumoComponent),
+          },
+          {
             path: 'MateriaisConsumoEntradas',
             loadComponent: () =>
               import('./sistema/views/materiais-consumo-entradas/materiais-consumo-entradas.component').then((c) => c.MateriaisConsumoEntradasComponent),

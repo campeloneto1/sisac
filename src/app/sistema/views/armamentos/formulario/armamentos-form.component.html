@@ -59,7 +59,7 @@
     </div>
     <div class="row">
 
-    @if(armamentoscalibres$){
+    
     <input-select
       class="col-sm-2"
       label="Calibre"
@@ -67,7 +67,7 @@
       [data$]="armamentoscalibres$"
       formControlName="armamento_calibre"
     />
-    } @if(armamentostamanhos$){
+   
     <input-select
       class="col-sm-2"
       label="Tamanho"
@@ -75,14 +75,17 @@
       [data$]="armamentostamanhos$"
       formControlName="armamento_tamanho"
     />
+    
+    @if(!editando){
+      <input-text
+        class="col-sm-2"
+        formControlName="quantidade"
+        label="Quantidade"
+        id="quantidade"
+        tipo="number"
+      />
     }
-    <input-text
-    class="col-sm-2"
-    formControlName="quantidade"
-    label="Quantidade"
-    id="quantidade"
-    tipo="number"
-  />
+    
   </div>
 
   <div class="row">
@@ -108,7 +111,7 @@
 
   <div class="d-flex justify-content-end">
     <a
-      (click)="form.reset()"
+      (click)="cancelar()"
       data-bs-dismiss="modal"
       class="btn btn-link text-danger"
       >Cancelar</a

@@ -93,7 +93,20 @@
               <p>Emp. de Veículos</p>
             </a>
           </li>
-          }@if(user.perfil.policiais_ferias){
+          }
+          @if(user.perfil.materiais_consumo_entradas){
+            <li class="nav-item">
+              <a
+                [routerLink]="['MateriaisConsumoEntradas']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="nav-icon fa fa-download"></i>
+                <p>Entrada de Mat. de Consumo</p>
+              </a>
+            </li>
+            }
+          @if(user.perfil.policiais_ferias){
         <li class="nav-item">
           <a
             [routerLink]="['Ferias']"
@@ -115,7 +128,18 @@
               <p>Manutenção de Veículos</p>
             </a>
           </li>
-          }@if(user.perfil.materiais_consumo){
+          }@if(user.perfil.materiais){
+            <li class="nav-item">
+              <a
+                [routerLink]="['Materiais']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="nav-icon fa fa-cubes"></i>
+                <p>Materiais</p>
+              </a>
+            </li>
+            }@if(user.perfil.materiais_consumo){
             <li class="nav-item">
               <a
                 [routerLink]="['MateriaisConsumo']"
@@ -160,30 +184,8 @@
           </a>
         </li>
         } 
-        @if(user.perfil.materiais){
-          <li class="nav-item">
-            <a
-              [routerLink]="['Materiais']"
-              routerLinkActive="active"
-              class="nav-link"
-            >
-              <i class="nav-icon fa fa-fax"></i>
-              <p>Materiais</p>
-            </a>
-          </li>
-          }
-        @if(user.perfil.materiais_consumo_entradas){
-          <li class="nav-item">
-            <a
-              [routerLink]="['MateriaisConsumoEntradas']"
-              routerLinkActive="active"
-              class="nav-link"
-            >
-              <i class="nav-icon fa fa-download"></i>
-              <p>Entrada de Mat. de Consumo</p>
-            </a>
-          </li>
-          }
+        
+        
         @if(user.perfil.materiais_consumo_saidas){
           <li class="nav-item">
             <a
@@ -256,6 +258,7 @@
             class="nav nav-treeview"
             [ngStyle]="{ 'display: block;': menuAdmin }"
           >
+          <!-- <nav-item [link]="'ArmamentosCalibres'" [label]="'Calibres de Armamentos'" [icon]="'fa-circle'" /> -->
             <li class="nav-item">
               <a
                 [routerLink]="['ArmamentosCalibres']"

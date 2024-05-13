@@ -14,7 +14,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#modalcad"
                 title="Cadastrar"
-                (click)="child.reset()"
+                (click)="cadastrar()"
               >
                 <i class="fa fa-plus"></i>
               </button>
@@ -124,16 +124,16 @@
                 </td>
                 <td>
                   
-                    <a
+                    <!-- <a
                       class="options point"
                       title="Imprimir Justificativa"
                       target="_blank"
                       [routerLink]="['/ArmamentosEmprestimosJustificativa', row.id]"
                     >
                       <i class="fa fa-print text-primary" aria-hidden="true"></i>
-                    </a>
+                    </a> -->
 
-                      @if(user.perfil.materiais_consumo_saidas_edt){
+                      @if(user.perfil.materiais_consumo_saidas_edt && checkDate(row)){
                       <a
                         class="options point ml-1"
                         title="Editar"
@@ -144,7 +144,8 @@
                         <i class="fa fa-edit text-primary  " aria-hidden="true"></i>
                       </a>
                     }
-                    @if(user.perfil.materiais_consumo_saidas_del){
+                    @if(user.perfil.materiais_consumo_saidas_del && checkDate(row)){
+
                       <a
                         class="options point ml-1"
                         title="Excluir"
@@ -214,7 +215,9 @@
             </button>
           </div>
           <div class="modal-body">
-            <app-materiais-consumo-saidas-form (refresh)="refresh()" />
+            @if(cadastrando){
+              <app-materiais-consumo-saidas-form (refresh)="refresh()" />
+            }
           </div>
         </div>
       </div>
@@ -234,7 +237,7 @@
           <div class="modal-header border-0">
             <h4 class="modal-title">
               Materiais
-              @if(user.perfil.materiais_consumo_saidas_edt){
+              @if(user.perfil.materiais_consumo_saidas_edt && checkDate(materialConsumoSaida)){
                 <button
                   class="btn btn-outline-primary"
                   title="Cadastrar"
@@ -284,7 +287,7 @@
                   <td>{{item.material_consumo.serial}}</td>
                   <td>{{item.quantidade}}</td>
                   <td>
-                    @if(user.perfil.materiais_consumo_saidas_edt){
+                    @if(user.perfil.materiais_consumo_saidas_edt && checkDate(materialConsumoSaida)){
                       <i
                         class="fa fa-trash text-danger point"
                         aria-hidden="true"

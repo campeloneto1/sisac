@@ -33,13 +33,15 @@
       tipo="text"
     />
 
-    <input-text
-      class="col-sm-2"
-      formControlName="quantidade"
-      label="Quantidade"
-      id="quantidade"
-      tipo="number"
-    />
+    @if(!editando){
+      <input-text
+        class="col-sm-2"
+        formControlName="quantidade"
+        label="Quantidade"
+        id="quantidade"
+        tipo="number"
+      />
+    }
   </div>
 
   <div class="row">
@@ -70,7 +72,7 @@
 
   <div class="d-flex justify-content-end">
     <a
-      (click)="form.reset()"
+      (click)="cancelar()"
       data-bs-dismiss="modal"
       class="btn btn-link text-danger"
       >Cancelar</a

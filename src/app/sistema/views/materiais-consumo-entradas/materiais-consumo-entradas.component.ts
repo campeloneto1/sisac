@@ -15,6 +15,7 @@ import { InputTextareaComponent } from '../../components/input-textarea/input-te
 import { RouterModule } from '@angular/router';
 import { MateriaisConsumoEntradasItensFormComponent } from '../materiais-consumo-entradas-itens/formulario/materiais-consumo-entradas-itens-form.component';
 import { MateriaisConsumoEntradasItensService } from '../materiais-consumo-entradas-itens/materiais-consumo-entradas-itens.service';
+import { format } from 'date-fns';
 @Component({
   selector: 'app-materiais-consumo-entradas',
   templateUrl: './materiais-consumo-entradas.component.html',
@@ -165,5 +166,14 @@ export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
     this.cadmaterial = false;
   }
 
+  checkDate(data: MaterialConsumoEntrada){
+    var datahj = new Date();
+    if(format(data.data_entrada, 'yyyy-MM-dd') == format(datahj, 'yyyy-MM-dd')){
+      return true
+    }else{
+      return false
+    }
+    
+  }
   
 }

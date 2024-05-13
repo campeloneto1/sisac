@@ -28,7 +28,7 @@
             />
           </div>
           <div class="row">
-            @if(veiculos$){
+            
             <input-select
               class="col-sm-3"
               label="Veículo"
@@ -36,7 +36,7 @@
               [data$]="veiculos$"
               formControlName="veiculo"
             />
-            } @if(policiais$){
+            
             <input-select
               class="col-sm-3"
               label="Policial"
@@ -44,7 +44,7 @@
               [data$]="policiais$"
               formControlName="policial"
             />
-            } 
+            
           </div>
           <div>
             <button

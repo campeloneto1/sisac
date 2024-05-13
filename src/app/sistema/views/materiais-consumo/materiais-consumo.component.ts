@@ -32,6 +32,8 @@ export class MateriaisConsumoComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
 
+  protected cadastrando: boolean = false;
+
   protected user!: User;
 
   @ViewChild(MateriaisConsumoFormComponent) child!: MateriaisConsumoFormComponent;
@@ -69,7 +71,22 @@ export class MateriaisConsumoComponent implements OnInit, OnDestroy {
   }
 
   editar(data: MaterialConsumo) {
-    this.child.editar(data);
+    this.cadastrando = true;
+    setTimeout(() => {
+      this.child.editar(data);
+    }, 100);
+  }
+
+  cadastrar(){
+    this.cadastrando = true;
+    setTimeout(() => {
+      this.child.resetForm();
+    }, 100);
+  }
+
+  resetForm(){
+    this.child.resetForm();
+    this.cadastrando = false;
   }
 
   delete(data: MaterialConsumo) {

@@ -54,7 +54,7 @@
 
       <!--INICIO CARD POLICIAIS GRADUACOES-->
       @if(user.perfil.policiais){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight" >
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Policiais por Graduação</h3>
@@ -68,7 +68,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for(pol of policiaisGraduacoes; track pol){
+                  @for(pol of policiaisGraduacoes$ | async; track pol){
                     <tr>
                       <td>{{pol.nome}}</td>
                       <td>{{pol.quantidade}}</td>
@@ -84,7 +84,7 @@
 
       <!--INICIO CARD POLICIAIS SETOR-->
       @if(user.perfil.policiais){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight">
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Policiais por Setor</h3>
@@ -98,7 +98,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for(pol of policiaisSetores; track pol){
+                  @for(pol of policiaisSetores$ | async; track pol){
                     <tr>
                       <td>{{pol.nome}}</td>
                       <td>{{pol.quantidade}}</td>
@@ -114,7 +114,7 @@
 
          <!-- INICIO CARD ARMAMENTOS EMPRESTIMOS-->
       @if(user.perfil.armamentos_emprestimos){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight">
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Armamentos Emprestados</h3>
@@ -129,7 +129,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for(armemp of armamentosEmprestimos; track armemp){
+                  @for(armemp of armamentosEmprestimos$ | async; track armemp){
                     <tr>
                       <td>{{armemp.id}}</td>
                       <td>
@@ -149,7 +149,7 @@
 
       <!--INICIO CAR ARMAMENTOS VENCIMENTO-->
       @if(user.perfil.armamentos){
-      <div class="col-sm-4">
+      <div class="col-sm-4 maxheight">
         <div class="card">
           <div class="card-header border-0">
             <h3 class="card-title">Armamentos próx. do Vencimento</h3>
@@ -167,7 +167,7 @@
                 </tr>
               </thead>
               <tbody>
-                @for(arm of armamentosVencendo; track arm){
+                @for(arm of armamentosVencendo$ | async; track arm){
                   <tr>
                     <td>{{arm.id}}</td>
                     <td>{{arm.armamento_tipo.nome}}</td>
@@ -187,7 +187,7 @@
 
       <!-- INICIO CARD materiais EMPRESTIMOS-->
       @if(user.perfil.materiais_policiais){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight">
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Materiais Emprestados</h3>
@@ -202,7 +202,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for(armemp of materiaisPoliciaisEmprestados; track armemp){
+                  @for(armemp of materiaisPoliciaisEmprestados$ | async; track armemp){
                     <tr>
                       <td>{{armemp.id}}</td>
                       <td>
@@ -220,9 +220,45 @@
         }
       <!--FIM CARD materiais EMPRESTIMOS-->
 
+      <!-- INICIO CARD materiais VENCENDO-->
+      @if(user.perfil.materiais){
+        <div class="col-sm-4 maxheight">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Materiais Vencendo</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-hover table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tipo</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Dt. Validade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(armemp of materiaisVencendo$ | async; track armemp){
+                    <tr>
+                      <td>{{armemp.id}}</td>
+                      <td>{{armemp.material_tipo.nome}}</td>
+                      <td>{{armemp.modelo.marca.nome}}</td>
+                      <td>{{armemp.modelo.nome}}</td>
+                      <td>{{armemp.data_validade | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+      <!--FIM CARD materiais VENCENDO-->
+
       <!--INICIO CAR MATERIAIS CONSUMO ALERTA-->
       @if(user.perfil.materiais_consumo){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight">
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Mat Consumo próx. de Acabar</h3>
@@ -240,7 +276,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for(mat of materiaisConsumoAlerta; track mat){
+                  @for(mat of materiaisConsumoAlerta$ | async; track mat){
                     <tr>
                       <td>{{mat.id}}</td>
                       <td>{{mat.material_consumo_tipo.nome}}</td>
@@ -260,7 +296,7 @@
 
          <!--INICIO CAR MATERIAIS CONSUMO VENCIMENTO-->
       @if(user.perfil.materiais_consumo){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight">
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Mat Consumo próx. do Vencimento</h3>
@@ -278,7 +314,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for(mat of materiaisConsumoVencendo; track mat){
+                  @for(mat of materiaisConsumoVencendo$ | async; track mat){
                     <tr>
                       <td>{{mat.id}}</td>
                       <td>{{mat.material_consumo_tipo.nome}}</td>
@@ -298,7 +334,7 @@
 
       <!-- INICIO CARD VEICULOS POLICIAIS-->
       @if(user.perfil.veiculos_policiais){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight">
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Veículos Emprestados</h3>
@@ -314,10 +350,11 @@
                     <th>Placa Esp.</th>
                     <th>Policial</th>
                     <th>Dt. Inicio</th>
+                    <th>Cidade</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @for(vei of veiculosPoliciais; track vei){
+                  @for(vei of veiculosPoliciais$ | async; track vei){
                     <tr>
                       <td>{{vei.id}}</td>
                       <td>{{vei.veiculo.modelo.marca.nome}}</td>
@@ -329,6 +366,7 @@
                         {{vei.policial.numeral}}
                         {{vei.policial.nome_guerra}}</td>
                       <td>{{vei.data_inicial | date: 'dd/MM/yyyy HH:mm'}}</td>
+                      <td>@if(vei.cidade){{{vei.cidade.nome}}}</td>
                     </tr>
                   }
                 </tbody>
@@ -341,7 +379,7 @@
 
       <!-- INICIO CARD VEICULOS MANUTENCAO-->
       @if(user.perfil.veiculos_oficinas){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight">
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Veículos em manutenção</h3>
@@ -361,7 +399,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for(vei of veiculosManutencao; track vei){
+                  @for(vei of veiculosManutencao$ | async; track vei){
                     <tr>
                       <td>{{vei.id}}</td>
                       <td>{{vei.veiculo.modelo.marca.nome}}</td>
@@ -381,9 +419,51 @@
         }
       <!--FIM CARD VEICULOS MANUTENCAO-->
 
+      <!-- INICIO CARD VEICULOS REVISAO-->
+      @if(user.perfil.veiculos){
+        <div class="col-sm-4 maxheight">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="card-title">Veículos próx. da Revisão</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-hover table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Placa</th>
+                    <th>Placa Esp.</th>
+                    <th>KM Atual</th>
+                    <th>KM Revisão</th>
+                    <th>Dt. Revisão</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(vei of veiculosRevisao$ | async; track vei){
+                    <tr>
+                      <td>{{vei.id}}</td>
+                      <td>{{vei.modelo.marca.nome}}</td>
+                      <td>{{vei.modelo.nome}}</td>
+                      <td>{{vei.placa}}</td>
+                      <td>{{vei.placa_especial}}</td>
+                      <td>{{vei.km_atual}}</td>
+                      <td>{{vei.km_revisao}}</td>
+                      <td>{{vei.data_revisao | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+      <!--FIM CARD VEICULOS REVISAO-->
+
         <!-- INICIO CARD VEICULOS TROCA OLEO-->
       @if(user.perfil.veiculos){
-        <div class="col-sm-4">
+        <div class="col-sm-4 maxheight">
           <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title">Veículos próx. da Troca Óleo</h3>
@@ -402,7 +482,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for(vei of veiculosTrocaOleo; track vei){
+                  @for(vei of veiculosTrocaOleo$ | async; track vei){
                     <tr>
                       <td>{{vei.id}}</td>
                       <td>{{vei.modelo.marca.nome}}</td>

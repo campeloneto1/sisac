@@ -14,7 +14,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#modalcad"
                 title="Cadastrar"
-                (click)="child.reset()"
+                (click)="cadastrar()"
               >
                 <i class="fa fa-plus"></i>
               </button>
@@ -234,7 +234,9 @@
             </button>
           </div>
           <div class="modal-body">
-            <app-materiais-policiais-form (refresh)="refresh()" />
+            @if(cadastrando){
+              <app-materiais-policiais-form (refresh)="refresh()" />
+            }
           </div>
         </div>
       </div>

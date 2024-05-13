@@ -34,6 +34,7 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
   protected recebveiculo!: VeiculoPolicial;
+  protected cadastrando:boolean = false;
 
   protected user!: User;
 
@@ -71,8 +72,27 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
     });
   }
 
+
   editar(data: VeiculoPolicial) {
-    this.child.editar(data);
+    this.cadastrando = false;
+    setTimeout(() => {
+      this.cadastrando = true;
+    }, 100);
+    setTimeout(() => {
+      this.child.editar(data);
+    }, 200);
+    
+
+  }
+
+  cadastrar(){
+    this.cadastrando = false;
+    setTimeout(() => {
+      this.cadastrando = true;
+    }, 100);
+    setTimeout(() => {
+      this.child.reset();
+    }, 200);
   }
 
   delete(data: VeiculoPolicial) {
