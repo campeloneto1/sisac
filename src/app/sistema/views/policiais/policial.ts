@@ -1,5 +1,6 @@
 import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
 import { Cidade } from "../cidades/cidade";
+import { Escolaridade } from "../escolaridades/escolaridade";
 import { Graduacao } from "../graduacoes/graduacao";
 import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
 import { PoliciaisAtestados } from "../policiais-atestados/policial-atestado";
@@ -35,9 +36,10 @@ export interface Policial{
     boletim_apresentacao?: string;
     boletim_transferencia?: string;
 
-    sexo?: Sexo;
+    sexo: Sexo;
     graduacao: Graduacao;
     setor: Setor;
+    escolaridade: Escolaridade;
 
     policiais_atestados: PoliciaisAtestados;
     policiais_ferias: PoliciaisFerias;

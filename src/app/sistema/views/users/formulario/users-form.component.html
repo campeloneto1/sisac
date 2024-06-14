@@ -17,36 +17,39 @@
       />
   </div>
   <div class="row">
-    <input-text
-      class="col-sm-4"
-      formControlName="nome"
-      label="Nome"
-      id="nome"
-      tipo="text"
-    />
-    <input-text
-      mascara="000.000.000-00"
-      class="col-sm-2"
-      formControlName="cpf"
-      label="CPF"
-      id="cpf"
-      tipo="text"
-    />
-    <input-text
-      class="col-sm-2"
-      mascara="(00) 00000-0000"
-      formControlName="telefone"
-      label="Telefone"
-      id="telefone"
-      tipo="text"
-    />
-    <input-text
-      class="col-sm-4"
-      formControlName="email"
-      label="E-mail"
-      id="email"
-      tipo="email"
-    />
+    @if(!form.value.policial){
+      <input-text
+        class="col-sm-4"
+        formControlName="nome"
+        label="Nome"
+        id="nome"
+        tipo="text"
+      />
+      <input-text
+        mascara="000.000.000-00"
+        class="col-sm-2"
+        formControlName="cpf"
+        label="CPF"
+        id="cpf"
+        tipo="text"
+      />
+    
+      <input-text
+        class="col-sm-2"
+        mascara="(00) 00000-0000"
+        formControlName="telefone"
+        label="Telefone"
+        id="telefone"
+        tipo="text"
+      />
+      <input-text
+        class="col-sm-4"
+        formControlName="email"
+        label="E-mail"
+        id="email"
+        tipo="email"
+      />
+    }
   </div>
   <div class="row">
     <input-select

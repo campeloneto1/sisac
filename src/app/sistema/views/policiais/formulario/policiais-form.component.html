@@ -57,6 +57,13 @@
     </div>
 
     <div class="row">
+      <input-select
+      class="col-sm-4"
+      label="Escolaridade"
+      id="escolaridade"
+      [data$]="escolaridades$"
+      formControlName="escolaridade"
+      />
         <input-text
         class="col-sm-2"
         mascara="(00) 00000-0000"

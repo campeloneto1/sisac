@@ -73,6 +73,11 @@ export interface Perfil{
     policiais_publicacoes_edt?: boolean;
     policiais_publicacoes_del?: boolean;
 
+    policiais_requeridas?: boolean;
+    policiais_requeridas_cad?: boolean;
+    policiais_requeridas_edt?: boolean;
+    policiais_requeridas_del?: boolean;
+
     usuarios?: boolean;
     usuarios_cad?: boolean;
     usuarios_edt?: boolean;

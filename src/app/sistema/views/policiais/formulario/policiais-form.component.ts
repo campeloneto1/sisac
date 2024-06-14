@@ -24,6 +24,8 @@ import { Subunidades } from "../../subunidades/subunidade";
 import { Setores } from "../../setores/setor";
 import { Graduacoes } from "../../graduacoes/graduacao";
 import { Sexos } from "../../sexos/sexo";
+import { Escolaridades } from "../../escolaridades/escolaridade";
+import { EscolaridadesService } from "../../escolaridades/escolaridades.service";
 
 
 @Component({
@@ -50,6 +52,7 @@ export class PoliciaisFormComponent implements OnInit{
     protected cidades$!: Observable<Cidades>;
     protected graduacoes$!: Observable<Graduacoes>;
     protected sexos$!: Observable<Sexos>;
+    protected escolaridades$!: Observable<Escolaridades>;
 
     @Output('refresh') refresh: EventEmitter<Policial> = new EventEmitter();
     
@@ -64,6 +67,7 @@ export class PoliciaisFormComponent implements OnInit{
         private paisesService:PaisesService,
         private estadosService:EstadosService,
         private cidadesService:CidadesService,
+        private escolaridadesService:EscolaridadesService,
         private toastr: ToastrService,
     ){}
 
@@ -128,6 +132,9 @@ export class PoliciaisFormComponent implements OnInit{
             'sexo': [null, Validators.compose([
                 Validators.required,
             ])],
+            'escolaridade': [null, Validators.compose([
+                Validators.required,
+            ])],
             'unidade': [null, Validators.compose([
                 Validators.required,
             ])],
@@ -151,6 +158,7 @@ export class PoliciaisFormComponent implements OnInit{
         this.paises$ = this.paisesService.index();
         this.graduacoes$ = this.graduacoesService.index();
         this.sexos$ = this.sexosService.index();
+        this.escolaridades$ = this.escolaridadesService.index();
     }
 
     cadastrar(){
@@ -195,6 +203,9 @@ export class PoliciaisFormComponent implements OnInit{
         }
         if(data.sexo){
             this.form.get('sexo')?.patchValue(data.sexo.id);
+        }
+        if(data.escolaridade){
+            this.form.get('escolaridade')?.patchValue(data.escolaridade.id);
         }
         if(data.setor){
             this.form.get('setor')?.patchValue(data.setor.id);

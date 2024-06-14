@@ -108,6 +108,11 @@ export class PerfisFormComponent implements OnInit{
             'policiais_publicacoes_edt': [null],
             'policiais_publicacoes_del': [null],
 
+            'policiais_requeridas': [null],
+            'policiais_requeridas_cad': [null],
+            'policiais_requeridas_edt': [null],
+            'policiais_requeridas_del': [null],
+
             'usuarios': [null],
             'usuarios_cad': [null],
             'usuarios_edt': [null],

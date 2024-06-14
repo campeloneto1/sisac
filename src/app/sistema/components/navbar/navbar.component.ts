@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { SessionService } from "../../session.service";
 import { StorageService } from "../../storage.service";
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { InputTextComponent } from "../input-text/input-text.component";
 import { UsersService } from "../../views/users/users.service";
 import { ToastrService } from "ngx-toastr";
@@ -17,6 +17,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
     imports: [
         CommonModule,
         FormsModule, 
+        RouterModule,
         ReactiveFormsModule, 
         InputTextComponent,
         NgxMaskDirective, 

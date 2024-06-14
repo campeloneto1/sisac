@@ -105,6 +105,10 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
     });
   }
 
+  ajustquant(data: Armamento){
+    console.log(data);
+  }
+
   pesquisar(){
     this.data$ = this.temp;
     if(this.pesquisa.length > 0){

@@ -107,6 +107,11 @@ export const routes: Routes = [
               import('./sistema/views/cursos/cursos.component').then((c) => c.CursosComponent),
           },
           {
+            path: 'Escolaridades',
+            loadComponent: () =>
+              import('./sistema/views/escolaridades/escolaridades.component').then((c) => c.EscolaridadesComponent),
+          },
+          {
             path: 'Estados',
             loadComponent: () =>
               import('./sistema/views/estados/estados.component').then((c) => c.EstadosComponent),
@@ -237,6 +242,11 @@ export const routes: Routes = [
               import('./sistema/views/patrimonios-tipos/patrimonios-tipos.component').then((c) => c.ManutencoesTiposComponent),
           },
           {
+            path: 'Perfil',
+            loadComponent: () =>
+              import('./sistema/views/policiais/perfil/perfil.component').then((c) => c.PerfilComponent),
+          },
+          {
             path: 'Policial/:id',
             loadComponent: () =>
               import('./sistema/views/policiais/policial/policial.component').then((c) => c.PolicialComponent),
@@ -265,6 +275,11 @@ export const routes: Routes = [
             path: 'PublicacoesTipos',
             loadComponent: () =>
               import('./sistema/views/publicacoes-tipos/publicacoes-tipos.component').then((c) => c.PublicacoesTiposComponent),
+          },
+          {
+            path: 'Requeridas',
+            loadComponent: () =>
+              import('./sistema/views/policiais-requeridas/policiais-requeridas.component').then((c) => c.PoliciaisRequeridasComponent),
           },
           {
             path: 'Setores',

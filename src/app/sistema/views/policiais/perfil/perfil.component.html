@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-  <app-title titulo="Policial" />
+  <app-title titulo="Perfil" />
 
   @if(policial){
     <!--INICIO SECTION content-->
@@ -80,49 +80,41 @@
                       >Informações</a
                     >
                   </li>
-                  @if(user.perfil.armamentos_emprestimos){
                   <li class="nav-item">
                     <a class="nav-link" href="#armamentos" data-bs-toggle="tab"
                       >Emp. Armamentos</a
                     >
                   </li>
-                  }@if(user.perfil.materiais_policiais){
                     <li class="nav-item">
                       <a class="nav-link" href="#materiais" data-bs-toggle="tab"
                         >Emp. Materiais<i class="mdi mdi-battery-charging-wireless-10:"></i></a
                       >
                     </li>
-                    }@if(user.perfil.veiculos_policiais){
                     <li class="nav-item">
                       <a class="nav-link" href="#veiculos" data-bs-toggle="tab"
                         >Emp. Veículos</a
                       >
                     </li>
-                    } @if(user.perfil.policiais_atestados){
                   <li class="nav-item">
                     <a class="nav-link" href="#atestados" data-bs-toggle="tab"
                       >Atestados</a
                     >
                   </li>
-                  } @if(user.perfil.policiais_cursos){
                     <li class="nav-item">
                       <a class="nav-link" href="#cursos" data-bs-toggle="tab"
                         >Cursos</a
                       >
                     </li>
-                    } @if(user.perfil.policiais_ferias){
                   <li class="nav-item">
                     <a class="nav-link" href="#ferias" data-bs-toggle="tab"
                       >Férias</a
                     >
                   </li>
-                  } @if(user.perfil.policiais_publicacoes){
                   <li class="nav-item">
                     <a class="nav-link" href="#publicacoes" data-bs-toggle="tab"
                       >Publicações</a
                     >
                   </li>
-                  }
                 </ul>
               </div>
               <div class="card-body">
@@ -153,10 +145,6 @@
                           <dt class="col-sm-4">E-mail:</dt>
                           <dd class="col-sm-8">{{ policial.email }}</dd>
                           }
-                          @if(policial.escolaridade){
-                            <dt class="col-sm-4">Escolaridade:</dt>
-                            <dd class="col-sm-8">{{ policial.escolaridade.nome }}</dd>
-                            }
                           @if(policial.rua){
                             <dt class="col-sm-4">Endereço:</dt>
                             <dd class="col-sm-8">
@@ -205,7 +193,6 @@
                     <!--div fim row-->
                   </div>
                   <!--FIM TAB INFORMACOES-->
-                  @if(user.perfil.armamentos_emprestimos){
                   <!--INICIO TAB ARMAMENTOS-->
                   <div class="tab-pane" id="armamentos">
                     <!-- -------------------------------------------- -->
@@ -285,9 +272,7 @@
                     <!--------------------------------------------------->
                   </div>
                   <!--FIM TAB ARMAMENTOS-->
-                  }
-                  
-                  @if(user.perfil.materiais_policiais){
+                 
                     <!--INICIO TAB MATERIAIS-->
                     <div class="tab-pane" id="materiais">
                       <!-- -------------------------------------------- -->
@@ -365,10 +350,7 @@
                       <!--------------------------------------------------->
                     </div>
                     <!--FIM TAB MATERIAIS-->
-                    }
-                  
-                  
-                  @if(user.perfil.veiculos_policiais){
+                    
                     <!--INICIO TAB VEICULOS-->
                     <div class="tab-pane" id="veiculos">
                       <!-- -------------------------------------------- -->
@@ -448,7 +430,7 @@
                       <!--------------------------------------------------->
                     </div>
                     <!--FIM TAB VEICULOS-->
-                    } @if(user.perfil.policiais_atestados){
+                   
                   <!--INICIO TAB ATESTADOS-->
                   <div class="tab-pane" id="atestados">
                     <!-- INICIO TABLE-->
@@ -511,7 +493,7 @@
                     <!-- FIM TABLE-->
                   </div>
                   <!--FIM TAB ATESTADOS-->
-                  } @if(user.perfil.policiais_cursos){
+                  
                     <!--INICIO TAB CURSOS-->
                     <div class="tab-pane" id="cursos">
                       <!-- INICIO TABLE-->
@@ -579,7 +561,7 @@
                       <!-- FIM TABLE-->
                     </div>
                     <!--FIM TAB CURSOS-->
-                    } @if(user.perfil.policiais_ferias){
+                    
                   <!--INICIO TAB FERIAS-->
                   <div class="tab-pane" id="ferias">
                     <!-- INICIO TABLE-->
@@ -646,7 +628,7 @@
                     <!-- FIM TABLE-->
                   </div>
                   <!--FIM TAB FERIAS-->
-                  } @if(user.perfil.policiais_publicacoes){
+                  
                   <!--INICIO TAB PUBLICACOES-->
                   <div class="tab-pane" id="publicacoes">
                     <!-- INICIO TABLE-->
@@ -708,7 +690,7 @@
                     <!-- FIM TABLE-->
                   </div>
                   <!--FIM TAB PUBLICACOES-->
-                  }
+                  
                 </div>
               </div>
             </div>

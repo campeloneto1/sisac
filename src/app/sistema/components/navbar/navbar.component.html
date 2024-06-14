@@ -71,6 +71,9 @@
           </li>
   
           <li class="user-footer">
+            @if(user.policial){
+              <a  [routerLink]="['Perfil']" class="btn btn-default btn-flat">Perfil</a>
+            }
             <a (click)="logout()" class="btn btn-default btn-flat float-right">Sair</a>
           </li>
         </ul>
