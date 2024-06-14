@@ -61,7 +61,8 @@
                 <th><mfDefaultSorter by="policial.matricula">Matrícula</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="data">Data</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="nup">NUP</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="boletim">Boletim</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="boletim_entrada">Boletim Entrada</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="boletim_publicacao">Boletim Publicação</mfDefaultSorter></th>
                 <th>Opções</th>
               </tr>
             </thead>
@@ -76,7 +77,8 @@
                       <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
                       <td>{{ row.data | date: 'dd/MM/yyyy' }}</td>
                       <td>{{ row.nup }}</td>
-                      <td>{{ row.boletim }}</td>
+                      <td>{{ row.boletim_entrada }}</td>
+                      <td>{{ row.boletim_publicacao }}</td>
                 <td>
                   @if(user.perfil.policiais_requeridas_edt){
                     <a

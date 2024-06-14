@@ -58,6 +58,11 @@ export class HomeService{
         return this.http.get<number>(`${URL}/${endPoint}/ferias`);
     }
 
+    getRequeridas(): Observable<number>{
+        return this.http.get<number>(`${URL}/${endPoint}/requeridas`);
+    }
+
+
     getPoliciaisGraduacoes(): Observable<any>{
         return this.http.get<any>(`${URL}/${endPoint}/policiais-graduacoes`);
     }

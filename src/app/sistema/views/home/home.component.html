@@ -46,6 +46,16 @@
         />
       </div>
       }
+      @if(user.perfil.policiais_requeridas){
+        <div class="col-sm-2">
+          <app-info-box
+            titulo="Requeridas"
+            [subtitulo]="quantRequeridas"
+            icon="fa-trophy"
+            class="bg-info"
+          />
+        </div>
+        }
     </div>
     <!--FIM DIV INFOBOX-->
 

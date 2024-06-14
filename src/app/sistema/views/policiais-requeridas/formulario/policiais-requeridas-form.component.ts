@@ -54,9 +54,12 @@ export class PoliciaisRequeridasFormComponent implements OnInit, OnDestroy{
             'data': [null, Validators.compose([
                 Validators.required,
             ])],
-            'boletim': [null, Validators.compose([
-                Validators.maxLength(30),
-            ])],        
+            'boletim_entrada': [null, Validators.compose([
+                Validators.maxLength(40),
+            ])], 
+            'boletim_publicacao': [null, Validators.compose([
+                Validators.maxLength(40),
+            ])],         
         });
 
         this.subscription = this.policiaisService.disponiveis().subscribe({
@@ -80,6 +83,9 @@ export class PoliciaisRequeridasFormComponent implements OnInit, OnDestroy{
     }
 
     cadastrar(){
+        if(!this.form.value.boletim_publicacao){
+            this.form.get('boletim_publicacao')?.patchValue(null);
+        }
         if(this.form.value.id){
             this.policiaisRequeridasService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {

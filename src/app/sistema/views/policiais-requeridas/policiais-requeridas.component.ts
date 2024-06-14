@@ -102,7 +102,6 @@ export class PoliciaisRequeridasComponent implements OnInit, OnDestroy {
             || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.boletim?.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.nup?.toLocaleLowerCase().indexOf(pesq) !== -1 
             || !pesq
         }else{
@@ -110,7 +109,6 @@ export class PoliciaisRequeridasComponent implements OnInit, OnDestroy {
             || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.boletim?.toLocaleLowerCase().indexOf(pesq) !== -1 
             || !pesq
         }
       });

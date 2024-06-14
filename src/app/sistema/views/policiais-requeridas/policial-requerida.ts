@@ -5,7 +5,8 @@ export interface PolicialRequerida{
     id?: number;
     policial: Policial;
     nup: string;
-    boletim?: string;
+    boletim_entrada?: string;
+    boletim_publicacao?: string;
     data: Date;
 
     created_by?: User;

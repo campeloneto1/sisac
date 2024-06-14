@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantPoliciais!: any;
     protected quantAtestados!: any;
     protected quantFerias!: any;
+    protected quantRequeridas!: any;
     protected policiaisGraduacoes$!: Observable<any>;
     protected policiaisSetores$!: Observable<any>;
     protected armamentosVencendo$!: Observable<Armamentos>;
@@ -70,6 +71,13 @@ export class HomeComponent implements OnInit, OnDestroy{
             this.subscription3 = this.homeService.getFerias().subscribe({
                 next: (data) => {
                     this.quantFerias = data;
+                }
+            });
+        }
+        if(this.user.perfil.policiais_requeridas){
+            this.subscription3 = this.homeService.getRequeridas().subscribe({
+                next: (data) => {
+                    this.quantRequeridas = data;
                 }
             });
         }
