@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
@@ -18,8 +19,13 @@ import { SessionService } from '../../session.service';
     TitleComponent, 
     EmpresasFormComponent,
     DataTableModule,
-    FormsModule
+    FormsModule,
+    NgxMaskDirective,
+        NgxMaskPipe,
   ],
+  providers: [
+    provideNgxMask()
+  ]
 })
 export class EmpresasComponent implements OnInit, OnDestroy {
   protected data$!: Empresas;

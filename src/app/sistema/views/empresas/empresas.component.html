@@ -68,8 +68,8 @@
                 <td>{{ row.subunidade.abreviatura }}</td>
                 <td>{{ row.nome }}</td>
                 <td>{{ row.nome_fantasia }}</td>
-                <td>{{ row.cnpj }}</td>
-                <td>{{ row.telefone1 }}</td>
+                <td>{{ row.cnpj | mask: '00.000.000/0000-00' }}</td>
+                <td>{{ row.telefone1 | mask:'(00) 000000000' }}</td>
                 <td>
                   <a
                     class="options point"

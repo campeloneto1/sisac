@@ -155,5 +155,20 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
 
     editar(data: Contrato){
         this.form.patchValue(data);
+        if(data.empresa){
+            this.form.get('empresa')?.patchValue(data.empresa.id);
+        }
+        if(data.contrato_objeto){
+            this.form.get('contrato_objeto')?.patchValue(data.contrato_objeto.id);
+        }
+        if(data.contrato_tipo){
+            this.form.get('contrato_tipo')?.patchValue(data.contrato_tipo.id);
+        }
+        if(data.gestor){
+            this.form.get('gestor')?.patchValue(data.gestor.id);
+        }
+        if(data.fiscal){
+            this.form.get('fiscal')?.patchValue(data.fiscal.id);
+        }
     }
 }
