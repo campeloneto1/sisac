@@ -71,7 +71,19 @@
             <p>Emp. de Armamentos</p>
           </a>
         </li>
-        } @if(user.perfil.materiais_policiais){
+        }@if(user.perfil.empresas){
+          <li class="nav-item">
+            <a
+              [routerLink]="['Empresas']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-building"></i>
+              <p>Empresas</p>
+            </a>
+          </li>
+          }
+         @if(user.perfil.materiais_policiais){
           <li class="nav-item">
             <a
               [routerLink]="['MateriaisPoliciais']"
@@ -373,6 +385,16 @@
             </li>
             <li class="nav-item">
               <a
+                [routerLink]="['Contratosobjetos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Objetos de Contratos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
                 [routerLink]="['Oficinas']"
                 routerLinkActive="active"
                 class="nav-link"
@@ -450,6 +472,16 @@
               >
                 <i class="fa fa-circle nav-icon"></i>
                 <p>Tipos de Armamentos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['ContratosTipos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Tipos de Contratos</p>
               </a>
             </li>
             <li class="nav-item">

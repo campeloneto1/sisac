@@ -18,6 +18,11 @@ export interface Perfil{
     armamentos_emprestimos_edt?: boolean;
     armamentos_emprestimos_del?: boolean;
 
+    contratos?: boolean;
+    contratos_cad?: boolean;
+    contratos_edt?: boolean;
+    contratos_del?: boolean;
+
     materiais?: boolean;
     materiais_cad?: boolean;
     materiais_edt?: boolean;

@@ -52,6 +52,11 @@ export class PerfisFormComponent implements OnInit{
             'armamentos_emprestimos_edt': [null],
             'armamentos_emprestimos_del': [null],
 
+            'contratos': [null],
+            'contratos_cad': [null],
+            'contratos_edt': [null],
+            'contratos_del': [null],
+
             'materiais': [null],
             'materiais_cad': [null],
             'materiais_edt': [null],

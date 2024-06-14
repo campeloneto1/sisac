@@ -97,6 +97,21 @@ export const routes: Routes = [
               import('./sistema/views/cidades/cidades.component').then((c) => c.CidadesComponent),
           },
           {
+            path: 'Contratos',
+            loadComponent: () =>
+              import('./sistema/views/contratos/contratos.component').then((c) => c.ContratosComponent),
+          },
+          {
+            path: 'ContratosObjetos',
+            loadComponent: () =>
+              import('./sistema/views/contratos-objetos/contratos-objetos.component').then((c) => c.ContratosObjetosComponent),
+          },
+          {
+            path: 'ContratosTipos',
+            loadComponent: () =>
+              import('./sistema/views/contratos-tipos/contratos-tipos.component').then((c) => c.ContratosTiposComponent),
+          },
+          {
             path: 'Cores',
             loadComponent: () =>
               import('./sistema/views/cores/cores.component').then((c) => c.CoresComponent),
@@ -105,6 +120,11 @@ export const routes: Routes = [
             path: 'Cursos',
             loadComponent: () =>
               import('./sistema/views/cursos/cursos.component').then((c) => c.CursosComponent),
+          },
+          {
+            path: 'Empresas',
+            loadComponent: () =>
+              import('./sistema/views/empresas/empresas.component').then((c) => c.EmpresasComponent),
           },
           {
             path: 'Escolaridades',
