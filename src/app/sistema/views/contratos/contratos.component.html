@@ -73,12 +73,12 @@
                 <td>{{ row.subunidade.abreviatura }}</td>
                 <td>{{ row.empresa.nome }}</td>
                 <td>{{ row.empresa.nome_fantasia }}</td>
-                <td>{{ row.empresa.cnpj }}</td>
+                <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td>
                 <td>{{ row.contrato_objeto.nome }}</td>
                 <td>{{ row.contrato_tipo.nome }}</td>
                 <td>{{ row.numero_contrato }}</td>
                 <td>{{ row.numero_sacc }}</td>
-                <td>{{ row.valor_global }}</td>
+                <td>R$ {{ row.valor_global | mask: 'separator.2' }}</td>
                 <td>{{ row.prazo_vigencia | date: 'dd/MM/yyyy' }}</td>
                 <td>
                   <a

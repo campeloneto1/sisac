@@ -57,6 +57,11 @@ export class PerfisFormComponent implements OnInit{
             'contratos_edt': [null],
             'contratos_del': [null],
 
+            'empresas': [null],
+            'empresas_cad': [null],
+            'empresas_edt': [null],
+            'empresas_del': [null],
+
             'materiais': [null],
             'materiais_cad': [null],
             'materiais_edt': [null],

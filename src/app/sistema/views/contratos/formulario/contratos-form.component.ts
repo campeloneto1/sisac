@@ -14,6 +14,8 @@ import { ContratosObjetosService } from "../../contratos-objetos/contratos-objet
 import { Observable, of } from "rxjs";
 import { InputSelectComponent } from "../../../components/input-select/input-select.component";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
+import { EmpresasService } from "../../empresas/empresas.service";
+import { Empresas } from "../../empresas/empresa";
 
 @Component({
     selector: "app-contratos-form",
@@ -35,9 +37,11 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
 
     protected contratostipos$!: Observable<ContratosTipos>;
     protected contratosobjetos$!: Observable<ContratosObjetos>;
+    protected empresas$!: Observable<Empresas>;
     protected policiais$!: Observable<Policiais>;
 
     private subscription:any;
+    private subscription2:any;
 
     @Output('refresh') refresh: EventEmitter<Contrato> = new EventEmitter();
     
@@ -45,6 +49,7 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
         private formBuilder: FormBuilder,
         private contratosService: ContratosService,
         private policiaisService: PoliciaisService,
+        private empresasService: EmpresasService,
         private contratosTiposService: ContratosTiposService,
         private contratosObjetosService: ContratosObjetosService,
         private toastr: ToastrService,
@@ -84,8 +89,21 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
             'fiscal': [null, Validators.compose([
                 Validators.required,
             ])],
+            'observacoes': [null]
         });
 
+        this.subscription2 = this.empresasService.index().subscribe({
+            next: (data) => {
+                data.forEach(element => {
+                    if(element.nome_fantasia){
+                        element.nome = `${element.nome_fantasia}, ${element.cnpj} `;
+                    }else{
+                        element.nome = `${element.nome}, ${element.cnpj}`;
+                    }
+                });
+                this.empresas$ = of(data);
+            }
+        });
         this.contratosobjetos$ = this.contratosObjetosService.index();
         this.contratostipos$ = this.contratosTiposService.index();
         this.subscription = this.policiaisService.disponiveis().subscribe({

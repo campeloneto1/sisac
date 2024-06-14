@@ -67,8 +67,9 @@ export class EmpresasFormComponent implements OnInit, OnDestroy{
                 Validators.maxLength(100)
             ])],
             'cnpj': [null, Validators.compose([
-                Validators.minLength(15),
-                Validators.maxLength(15)
+               
+                Validators.maxLength(15),
+                Validators.required,
             ])],
             'telefone1': [null, Validators.compose([
                 Validators.minLength(11),

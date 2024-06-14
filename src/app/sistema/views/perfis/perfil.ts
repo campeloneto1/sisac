@@ -23,6 +23,11 @@ export interface Perfil{
     contratos_edt?: boolean;
     contratos_del?: boolean;
 
+    empresas?: boolean;
+    empresas_cad?: boolean;
+    empresas_edt?: boolean;
+    empresas_del?: boolean;
+
     materiais?: boolean;
     materiais_cad?: boolean;
     materiais_edt?: boolean;

@@ -1,6 +1,6 @@
 <form [formGroup]="form">
 
-    <div>
+    <div class="row">
         <input-select
             class="col-sm-4"
             label="Empresa"
@@ -25,7 +25,7 @@
         
     </div>
 
-    <div>
+    <div class="row">
         <input-text
             class="col-sm-2"
             formControlName="numero_contrato"
@@ -45,7 +45,7 @@
             formControlName="valor_global"
             label="Valor global"
             id="valor_global"
-            mascara="*.00"
+            mascara="separator.2"
             tipo="text"
         />
         <input-text
@@ -63,7 +63,7 @@
       </div>  
     </div>
 
-    <div>
+    <div class="row">
       <input-select
           class="col-sm-4"
           label="Gestor"
