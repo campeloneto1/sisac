@@ -12,7 +12,9 @@ export interface Contrato{
     numero_contrato: string;
     numero_sacc: string;
     valor_global: number;
-    prazo_vigencia: Date;
+    valor_usado: number;
+    data_inicial: Date;
+    data_final: Date;
     prorrogavel?: boolean;
 
     contrato_tipo: ContratoTipo;

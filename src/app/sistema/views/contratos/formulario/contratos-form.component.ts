@@ -73,7 +73,10 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
             'valor_global': [null, Validators.compose([
                 Validators.required,
             ])],
-            'prazo_vigencia': [null, Validators.compose([
+            'data_inicial': [null, Validators.compose([
+                Validators.required,
+            ])],
+            'data_final': [null, Validators.compose([
                 Validators.required,
             ])],
             'prorrogavel': [null],

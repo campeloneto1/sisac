@@ -97,6 +97,11 @@ export const routes: Routes = [
               import('./sistema/views/cidades/cidades.component').then((c) => c.CidadesComponent),
           },
           {
+            path: 'Contrato/:id',
+            loadComponent: () =>
+              import('./sistema/views/contratos/contrato/contrato.component').then((c) => c.ContratoComponent),
+          },
+          {
             path: 'Contratos',
             loadComponent: () =>
               import('./sistema/views/contratos/contratos.component').then((c) => c.ContratosComponent),

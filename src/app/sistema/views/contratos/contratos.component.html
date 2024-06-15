@@ -54,14 +54,16 @@
                 <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="empresa.nome">Empresa</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="empresa.nome_fantasia">Nome Fantasia</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="empresa.cnpj">CNPJ</mfDefaultSorter></th>
+                <!-- <th><mfDefaultSorter by="empresa.cnpj">CNPJ</mfDefaultSorter></th> -->
                 <th><mfDefaultSorter by="contrato_objeto">Objeto do Contrato</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="contrato_tipo">Tipo do Contrato</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="numero_contrato">Número do Contrato</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="numero_sacc">Número do SACC</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="valor_global">Valor Global</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="prazo_vigencia">Prazo de Vigência</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="lancamentos">Lançamentos</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="uvalor_usado">Utilização</mfDefaultSorter></th>
                 <th>Opções</th>
               </tr>
             </thead>
@@ -72,14 +74,27 @@
                 <td>{{ row.id }}</td>
                 <td>{{ row.subunidade.abreviatura }}</td>
                 <td>{{ row.empresa.nome }}</td>
-                <td>{{ row.empresa.nome_fantasia }}</td>
-                <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td>
+                <!-- <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td> -->
                 <td>{{ row.contrato_objeto.nome }}</td>
                 <td>{{ row.contrato_tipo.nome }}</td>
-                <td>{{ row.numero_contrato }}</td>
+                <td><a [routerLink]="['/Contrato', row.id]">{{ row.numero_contrato }}</a></td>
                 <td>{{ row.numero_sacc }}</td>
                 <td>R$ {{ row.valor_global | mask: 'separator.2' }}</td>
-                <td>{{ row.prazo_vigencia | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                  <button
+                    (click)="showLanc(row)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modallanc"
+                    class="btn btn-xs btn-outline-primary"
+                  >
+                    Lançamentos
+                  </button>
+                </td>
+                <td>
+                  <span class="badge bg-danger">55%</span>
+                </td>
                 <td>
                   <a
                     class="options point"
@@ -201,5 +216,34 @@
       </div>
     </div>
     <!--FIM MODAL exclusao-->
+
+    <!-- INICIO MODAL LANÇAMENTOS-->
+    <div
+      class="modal fade"
+      id="modallanc"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Lançamentos</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL LANÇAMENTOS-->
+
   </div>
   

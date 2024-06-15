@@ -9,6 +9,7 @@ import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-contratos',
   templateUrl: './contratos.component.html',
@@ -20,8 +21,9 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     ContratosFormComponent,
     DataTableModule,
     FormsModule,
+    RouterModule,
     NgxMaskDirective,
-        NgxMaskPipe,
+    NgxMaskPipe,
   ],
   providers: [
     provideNgxMask()
@@ -86,6 +88,10 @@ export class ContratosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
+  }
+
+  showLanc(data: Contrato){
+
   }
 
   pesquisar(){
