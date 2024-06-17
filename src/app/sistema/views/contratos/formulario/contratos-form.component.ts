@@ -127,6 +127,9 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
         if(this.subscription){
             this.subscription.unsubscribe();
         }
+        if(this.subscription2){
+            this.subscription2.unsubscribe();
+        }
     }
 
     cadastrar(){

@@ -1,0 +1,43 @@
+<form [formGroup]="form">
+
+    <div class="row">
+        
+        <input-text
+            class="col-sm-2"
+            formControlName="valor"
+            label="Valor"
+            id="valor"
+            mascara="separator.2"
+            tipo="text"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="mes_referencia"
+            label="Mês de referência"
+            id="mes_referencia"
+            tipo="month"
+        />
+     
+    </div>
+
+    <div class="row" style="height: 350px;">
+        <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+    </div>
+  
+    <div class="d-flex justify-content-end">
+      <a
+        (click)="cancelar()"
+        class="btn btn-link text-danger"
+        >Cancelar</a
+      >
+      <button
+        [disabled]="form.invalid"
+        type="button"
+        (click)="cadastrar()"
+        class="btn btn-primary"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </form>
+  

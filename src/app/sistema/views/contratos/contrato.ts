@@ -1,3 +1,4 @@
+import { ContratosLancamentos } from "../contratos-lancamentos/contrato-lancamento";
 import { ContratoObjeto } from "../contratos-objetos/contrato-objeto";
 import { ContratoTipo } from "../contratos-tipos/contrato-tipo";
 import { Empresa } from "../empresas/empresa";
@@ -24,6 +25,8 @@ export interface Contrato{
     fiscal: Policial;
 
     observacoes?: string;
+
+    contratos_lancamentos: ContratosLancamentos;
 
     created_by: User;
     updated_by: User;

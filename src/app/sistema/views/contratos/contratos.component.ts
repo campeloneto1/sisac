@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { RouterModule } from '@angular/router';
+import { ContratosLancamentosFormComponent } from '../contratos-lancamentos/formulario/contratos-lancamentos-form.component';
+import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-lancamentos.service';
 @Component({
   selector: 'app-contratos',
   templateUrl: './contratos.component.html',
@@ -19,6 +21,7 @@ import { RouterModule } from '@angular/router';
     CommonModule, 
     TitleComponent, 
     ContratosFormComponent,
+    ContratosLancamentosFormComponent,
     DataTableModule,
     FormsModule,
     RouterModule,
@@ -36,11 +39,16 @@ export class ContratosComponent implements OnInit, OnDestroy {
   protected temp!: Contratos;
   protected quant: number = 10;
   protected subscription: any;
+  protected contrato!: Contrato;
+
+  protected cadlancamento: boolean = false;
 
   @ViewChild(ContratosFormComponent) child!: ContratosFormComponent;
+  @ViewChild(ContratosLancamentosFormComponent) childlancamento!: ContratosLancamentosFormComponent;
 
   constructor(
     private contratosService: ContratosService,
+    private contratosLancamentosService: ContratosLancamentosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
   ) {}
@@ -90,10 +98,6 @@ export class ContratosComponent implements OnInit, OnDestroy {
     });
   }
 
-  showLanc(data: Contrato){
-
-  }
-
   pesquisar(){
     this.data$ = this.temp;
     if(this.pesquisa.length > 0){
@@ -106,6 +110,66 @@ export class ContratosComponent implements OnInit, OnDestroy {
         || !pesq
       });
     }    
+  }
+
+  returnPercentUsado(data: Contrato){
+    var percent = (data.valor_usado * 100)/data.valor_global;
+    return percent.toFixed(2);
+  }
+
+  returnCorUsado(data: Contrato){
+    var percent = (data.valor_usado * 100)/data.valor_global;
+    var color = '';
+    if(percent < 50){
+      color = 'bg-success'
+    }else if(percent < 70){
+      color = 'bg-warning'
+    }else{
+      color = 'bg-danger'
+    }
+    return color;
+  }
+
+  showLanc(data: Contrato){
+    this.contratosService.find(data.id || 0).subscribe({
+      next: (data: Contrato) => {
+        this.contrato = data;
+      },
+      error: (error: any) => {
+        this.toastr.error('Erro ao consultar contrato!');
+      },
+    })
+  }
+
+  refreshLancamentos(){
+    this.cadlancamento = false;
+    this.contratosService.find(this.contrato.id || 0).subscribe({
+      next: (data: Contrato) => {
+        this.contrato = data;
+        this.refresh();
+      },
+      error: (error: any) => {
+        this.toastr.error('Erro ao consultar contrato!');
+      },
+    })
+  }
+
+  cancelarCadLancamento(){
+    this.cadlancamento = false;
+  }
+
+  rmvLancamento(id: number){
+    if(window.confirm("Tem certeza que deseja excluir o lançamento?")){
+      this.contratosLancamentosService.remove(id).subscribe({
+        next: (data) => {
+          this.contratosService.find(this.contrato.id || 0).subscribe({
+            next: (data) => {
+              this.contrato = data;
+            }
+          });
+        }
+      });
+    }
   }
 
 }

@@ -59,9 +59,11 @@
                 <th><mfDefaultSorter by="contrato_tipo">Tipo do Contrato</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="numero_contrato">Número do Contrato</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="numero_sacc">Número do SACC</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="valor_global">Valor Global</mfDefaultSorter></th>
+                
                 <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="valor_global">Valor Global</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="valor_usado">Valor Usado</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="lancamentos">Lançamentos</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="uvalor_usado">Utilização</mfDefaultSorter></th>
                 <th>Opções</th>
@@ -79,9 +81,11 @@
                 <td>{{ row.contrato_tipo.nome }}</td>
                 <td><a [routerLink]="['/Contrato', row.id]">{{ row.numero_contrato }}</a></td>
                 <td>{{ row.numero_sacc }}</td>
-                <td>R$ {{ row.valor_global | mask: 'separator.2' }}</td>
+               
                 <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
+                <td>R$ {{ row.valor_global | mask: 'separator.2' }}</td>
+                <td>R$ {{ row.valor_usado | mask: 'separator.2' }}</td>
                 <td>
                   <button
                     (click)="showLanc(row)"
@@ -93,7 +97,7 @@
                   </button>
                 </td>
                 <td>
-                  <span class="badge bg-danger">55%</span>
+                  <span class="badge {{returnCorUsado(row)}}">{{returnPercentUsado(row)}}%</span>
                 </td>
                 <td>
                   <a
@@ -167,7 +171,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <app-contratos-form (refresh)="refresh()" />
+            <app-contratos-form (refresh)="refresh()"  />
           </div>
         </div>
       </div>
@@ -227,7 +231,16 @@
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header border-0">
-            <h4 class="modal-title">Lançamentos</h4>
+            <h4 class="modal-title">
+              Lançamentos
+              <button
+                class="btn btn-outline-primary"
+                title="Cadastrar"
+                (click)="cadlancamento = true;"
+              >
+                <i class="fa fa-plus"></i>
+              </button>
+            </h4>
             <button
               type="button"
               class="close"
@@ -238,7 +251,41 @@
             </button>
           </div>
           <div class="modal-body">
-            
+            @if(cadlancamento){
+              <app-contratos-lancamentos-form [contrato]="contrato.id || 0" (refresh)="refreshLancamentos()" (cancel)="cancelarCadLancamento()" />
+            }
+
+            @if(contrato){
+              <table class="table table-hover table-head-fixed text-nowrap">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Mês Referência</th>
+                    <th>Valor</th>
+                    <th>Opções</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(item of
+                  contrato.contratos_lancamentos; track item){
+                  <tr>
+                    <td>{{item.id}}</td>
+                    <td>{{item.mes_referencia | date: 'MM/yyyy'}}</td>
+                    <td>R$ {{ item.valor | mask: 'separator.2' }}</td>
+                    <td>
+                      
+                        <i
+                          class="fa fa-trash text-danger point"
+                          aria-hidden="true"
+                          (click)="rmvLancamento(item.id || 0)"
+                        ></i>
+                      
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            }
           </div>
         </div>
       </div>

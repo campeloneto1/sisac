@@ -8,6 +8,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { DataTableModule } from "@pascalhonegger/ng-datatable";
 import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
+import { ContratosLancamentosService } from "../../contratos-lancamentos/contratos-lancamentos.service";
 
 @Component({
     selector: 'app-contrato',
@@ -35,6 +36,7 @@ export class ContratoComponent implements OnInit, OnDestroy{
 
     constructor(
         private contratosService: ContratosService,
+        private contratosLancamentosService: ContratosLancamentosService,
         private sessionService: SessionService,
         private activatedRoute: ActivatedRoute
     ){}
@@ -58,9 +60,44 @@ export class ContratoComponent implements OnInit, OnDestroy{
         }
     }
 
-    dataFinal(data: Date, dias:number): Date{
-        let result = new Date(data);
-        result.setDate(result.getDate() + dias);
-        return result;
+    returnPercentUsado(){
+      var percent = (this.contrato.valor_usado * 100)/this.contrato.valor_global;
+      return percent.toFixed(2);
+    }
+  
+    returnCorUsado(){
+      var percent = (this.contrato.valor_usado * 100)/this.contrato.valor_global;
+      var color = '';
+      if(percent < 50){
+        color = 'bg-success'
+      }else if(percent < 70){
+        color = 'bg-warning'
+      }else{
+        color = 'bg-danger'
+      }
+      return color;
+    }
+
+      rmvLancamento(id: number){
+        if(window.confirm("Tem certeza que deseja excluir o lançamento?")){
+          this.contratosLancamentosService.remove(id).subscribe({
+            next: (data) => {
+              this.contratosService.find(this.contrato.id || 0).subscribe({
+                next: (data) => {
+                  this.contrato = data;
+                }
+              });
+            }
+          });
+        }
+      }
+
+      returnSumLancamentos(){
+        var soma: number = 0;
+
+        this.contrato.contratos_lancamentos.forEach(data => {
+            soma = Number(soma) + Number(data.valor);
+        });
+        return soma;
       }
 }
