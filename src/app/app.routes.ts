@@ -102,6 +102,11 @@ export const routes: Routes = [
               import('./sistema/views/contratos/contrato/contrato.component').then((c) => c.ContratoComponent),
           },
           {
+            path: 'Contrato/:id/Imprimir',
+            loadComponent: () =>
+              import('./sistema/views/contratos/print/contrato-print.component').then((c) => c.ContratoPrint),
+          },
+          {
             path: 'Contratos',
             loadComponent: () =>
               import('./sistema/views/contratos/contratos.component').then((c) => c.ContratosComponent),

@@ -98,6 +98,6 @@ export class ContratoComponent implements OnInit, OnDestroy{
         this.contrato.contratos_lancamentos.forEach(data => {
             soma = Number(soma) + Number(data.valor);
         });
-        return soma;
+        return soma.toFixed(2);
       }
 }

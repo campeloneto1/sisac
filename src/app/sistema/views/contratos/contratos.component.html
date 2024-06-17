@@ -102,6 +102,14 @@
                 <td>
                   <a
                     class="options point"
+                    title="Imprimir"
+                    target="_blank"
+                    [routerLink]="['/Contrato', row.id, 'Imprimir']"
+                  >
+                    <i class="fa fa-print text-primary" aria-hidden="true"></i>
+                  </a>
+                  <a
+                    class="options point ml-1"
                     title="Editar"
                     (click)="editar(row)"
                     data-bs-toggle="modal"
@@ -110,14 +118,14 @@
                     <i class="fa fa-edit text-primary" aria-hidden="true"></i>
                   </a>
                   <a
-                    class="options point"
+                    class="options point ml-1"
                     title="Excluir"
                     (click)="delete(row)"
                     data-bs-toggle="modal"
                     data-bs-target="#modaldel"
                   >
                     <i
-                      class="fa fa-trash text-danger ml-1"
+                      class="fa fa-trash text-danger "
                       aria-hidden="true"
                     ></i>
                   </a>

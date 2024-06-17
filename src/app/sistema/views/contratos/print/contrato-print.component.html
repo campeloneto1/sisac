@@ -1,0 +1,172 @@
+<div
+  class="page-header"
+  style="text-align: center; "
+  *ngIf="data$"
+>
+  <img src="assets/cabecalho.png" class="cabecalho" />
+  <br />
+  <h4>
+    Contrato Nº {{ data$.id }} -
+    {{ data$.subunidade.abreviatura }}/{{
+      data$.subunidade.unidade.abreviatura
+    }}
+  </h4>
+</div>
+
+<div class="page-footer" *ngIf="data$">
+  <div class="row rodape2" *ngIf="user">
+    <div class="col-sm-3 text-center">
+      <!-- <qrcode
+        [qrdata]="qrcod"
+        [allowEmptyString]="true"
+        [cssClass]="'center'"
+        [elementType]="'canvas'"
+        [errorCorrectionLevel]="'M'"
+        [scale]="1"
+        [width]="120"
+      ></qrcode> -->
+    </div>
+    <div class="col-sm-6 text-center">
+      <p>
+        {{ subunidade.nome }} – {{ subunidade.unidade.nome }}<br />
+        {{ subunidade.rua }}, {{ subunidade.numero }} -
+        {{ subunidade.bairro }} | CEP:
+        @if(subunidade.cep){
+        {{ subunidade.cep | mask: "00.000-00" }}
+        }
+        {{ subunidade.cidade?.nome }} /
+        {{ subunidade.cidade?.estado?.abreviatura }} <br />
+        @if(subunidade.telefone){
+            Fones: {{ subunidade.telefone | mask: "(00) 0000-0000" }} 
+        }   |
+        E-mail: {{ subunidade.email }}<br />
+        <b>“Raça de Fortes, Povo de Bravos”</b>
+      </p>
+    </div>
+    <div class="col-sm-3">
+      <p>
+        <b>Usuário:</b> 
+        @if(user.policial){
+          {{ user.policial.graduacao.abreviatura }} {{ user.policial.nome_guerra }}
+        }@else{
+          {{ user.nome }}
+        }<br />
+        <b>Data:</b> {{ datahj | date: "dd/MM/yyyy HH:mm" }}
+      </p>
+    </div>
+  </div>
+  <img src="assets/rodape.png" class="rodape" />
+</div>
+
+<table style="width: 100%; min-width: 100%" *ngIf="data$">
+  <thead class="thead">
+    <tr>
+      <td>
+        <!--place holder for the fixed-position header-->
+        <div class="page-header-space"></div>
+      </td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        <!--*** CONTENT GOES HERE ***
+          <div class="page">PAGE 1</div>
+          <div class="page">PAGE 2</div>-->
+        <div class="page">
+          <div class="noprint text-center">
+            <img src="assets/cabecalho.png" class="cabecalho" />
+            <h4 style="margin-top: 20px">
+              Contrato Nº {{ data$.id }} -
+              {{ data$.subunidade.abreviatura }}/{{
+                data$.subunidade.unidade.abreviatura
+              }}
+            </h4>
+          </div>
+
+          <h5 style="margin-top: 20px">Fortaleza - CE, {{ datahj | date: "dd/MM/yyyy" }}</h5>
+
+
+          <div class="row" style="margin-top: 20px">
+            <div class="col-sm-6">
+              <b>Empresa:</b> {{ data$.empresa.nome }}<br />
+              <b>CNPJ:</b> {{ data$.empresa.cnpj | mask: '00.000.000/0000-00' }}<br />
+              @if(data$.empresa.telefone1 ){
+                <b>Telefone 1:</b> {{ data$.empresa.telefone1 | mask: '(00) 00000-0000' }}<br />
+              }
+              @if(data$.empresa.email ){
+                <b>E-mail:</b> {{ data$.empresa.email }}<br />
+              }
+              <br />
+              <b>Gestor:</b> {{ data$.gestor.graduacao.abreviatura }} @if(data$.gestor.numeral){{{ data$.gestor.numeral }}} {{ data$.gestor.nome_guerra }}<br />
+              <b>Fiscal:</b> {{ data$.fiscal.graduacao.abreviatura }} @if(data$.fiscal.numeral){{{ data$.fiscal.numeral }}} {{ data$.fiscal.nome_guerra }}<br />
+            </div>
+            <div class="col-sm-6">
+              <b>Objeto do contrato:</b> {{ data$.contrato_objeto.nome }}<br />
+              <b>Objeto do tipo:</b> {{ data$.contrato_tipo.nome }}<br />
+              <b>Data Inicial: </b> {{ data$.data_inicial | date: 'dd/MM/yyyy' }}<br />
+              <b>Data Final: </b> {{ data$.data_final | date: 'dd/MM/yyyy' }}<br />
+              <b>Número do contrato: </b> {{ data$.numero_contrato }}<br />
+              <b>Número do SACC: </b> {{ data$.numero_sacc }}
+            </div>
+          </div>
+          
+          <div class="row text-center" style="margin-top: 20px">
+            <h3>R$ {{ data$.valor_global | mask: 'separator.2' }} ({{returnPercentUsado()}}%)</h3>
+          </div>
+
+          <div class="row" style="margin-top: 20px">
+            <div class="col-sm-12">
+              <table class="table table-hover table-head-fixed text-nowrap">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>MÊS REFERÊNCIA</th>
+                    <th>VALOR</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                    @for(cont of data$.contratos_lancamentos; track cont){
+                        <tr
+                            
+                        >
+                            <td>{{ cont.id }}</td>
+                            <td>{{ cont.mes_referencia | date: 'MM/yyyy' }}</td>
+                            <td>R$ {{ cont.valor | mask: 'separator.2' }}</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th>R$ {{returnSumLancamentos() | mask: 'separator.2'}}</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <div style="margin-top: 30px" [innerHTML]="data$.observacoes"></div>
+           <div style="margin-top: 60px" class="text-center">
+            <b>{{ data$.gestor.nome }}</b> - {{ data$.gestor.graduacao.abreviatura
+            }}<br />
+            Mat.: {{ data$.gestor.matricula | mask: "000.000-0-A" }}<br />
+          </div> 
+        </div>
+        <!-- FIM PAGE-->
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot class="tfoot">
+    <tr>
+      <td>
+        <!--place holder for the fixed-position footer-->
+        <div class="page-footer-space"></div>
+      </td>
+    </tr>
+  </tfoot>
+</table>
