@@ -165,11 +165,21 @@ export class ContratosComponent implements OnInit, OnDestroy {
           this.contratosService.find(this.contrato.id || 0).subscribe({
             next: (data) => {
               this.contrato = data;
+              this.refresh();
             }
           });
         }
       });
     }
+  }
+
+  returnSumLancamentos(){
+    var soma: number = 0;
+
+    this.contrato.contratos_lancamentos.forEach(data => {
+        soma = Number(soma) + Number(data.valor);
+    });
+    return soma.toFixed(2);
   }
 
 }

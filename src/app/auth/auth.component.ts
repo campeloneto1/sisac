@@ -71,7 +71,13 @@ export class AuthComponent implements OnInit {
                 this.sessionService.setSession(data.user, data.access_token);
                 this.storageService.setItem('user', JSON.stringify(data.user));
                 this.storageService.setItem('token', data.access_token);
-                this.router.navigate(['Inicio']);
+                
+                if(this.storageService.getItem('url')){
+                    this.router.navigate([this.storageService.getItem('url')]);
+                }else{
+                    this.router.navigate(['Inicio']);
+                }
+                
                 
             },
             error: (error) => {

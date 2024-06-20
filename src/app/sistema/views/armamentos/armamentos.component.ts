@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
 import { RouterModule } from '@angular/router';
+import { ArmamentosFormQuantidadeComponent } from './formulario-quantidade/armamentos-form-quantidade.component';
 @Component({
   selector: 'app-armamentos',
   templateUrl: './armamentos.component.html',
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
     CommonModule, 
     TitleComponent, 
     ArmamentosFormComponent,
+    ArmamentosFormQuantidadeComponent,
     DataTableModule,
     FormsModule,
     RouterModule
@@ -31,11 +33,12 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   protected temp!: Armamentos;
   protected quant: number = 10;
   protected subscription: any;
-
+  protected ajustarm!: Armamento;
   protected user!: User;
   protected cadastrando:boolean = false;
 
   @ViewChild(ArmamentosFormComponent) child!: ArmamentosFormComponent;
+  @ViewChild(ArmamentosFormQuantidadeComponent) childQuant!: ArmamentosFormQuantidadeComponent;
 
   constructor(
     private armamentosService: ArmamentosService,
@@ -106,7 +109,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   }
 
   ajustquant(data: Armamento){
-    console.log(data);
+   this.ajustarm = data;
   }
 
   pesquisar(){

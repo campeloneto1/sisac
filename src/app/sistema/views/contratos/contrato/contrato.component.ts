@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { TitleComponent } from "../../../components/title/title.component";
 import { Contrato } from "../contrato";
 import { ContratosService } from "../contratos.service";
@@ -9,6 +9,9 @@ import { DataTableModule } from "@pascalhonegger/ng-datatable";
 import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
 import { ContratosLancamentosService } from "../../contratos-lancamentos/contratos-lancamentos.service";
+import { ContratosLancamentosFormComponent } from "../../contratos-lancamentos/formulario/contratos-lancamentos-form.component";
+import { ContratoLancamento } from "../../contratos-lancamentos/contrato-lancamento";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: 'app-contrato',
@@ -18,6 +21,7 @@ import { ContratosLancamentosService } from "../../contratos-lancamentos/contrat
     imports: [
         CommonModule,
         TitleComponent,
+        ContratosLancamentosFormComponent,
         NgxMaskDirective, 
         NgxMaskPipe,
         DataTableModule
@@ -30,15 +34,20 @@ export class ContratoComponent implements OnInit, OnDestroy{
 
     protected contrato!: Contrato;
     protected id!:number;
+    protected rmvlancamento!: ContratoLancamento;
     private subscription:any;
+    private subscription2:any;
 
     protected user!: User;
+
+    @ViewChild(ContratosLancamentosFormComponent) childlancamento!: ContratosLancamentosFormComponent;
 
     constructor(
         private contratosService: ContratosService,
         private contratosLancamentosService: ContratosLancamentosService,
         private sessionService: SessionService,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private toastr: ToastrService,
     ){}
 
     ngOnInit(): void {
@@ -58,6 +67,25 @@ export class ContratoComponent implements OnInit, OnDestroy{
         if(this.subscription){
             this.subscription.unsubscribe();
         }
+        if(this.subscription2){
+          this.subscription2.unsubscribe();
+      }
+    }
+
+    refresh(){
+      //@ts-ignore
+      document.getElementById("closeModalButton").click();
+      this.subscription2 =  this.contratosService.find(this.id).subscribe({
+          next: (data) => {
+              if(!data){this.sessionService.redirect()}
+              this.contrato = data;
+          }
+      });
+    }
+
+    closeModal(){
+      //@ts-ignore
+      document.getElementById("closeModalButton").click();
     }
 
     returnPercentUsado(){
@@ -78,18 +106,21 @@ export class ContratoComponent implements OnInit, OnDestroy{
       return color;
     }
 
-      rmvLancamento(id: number){
-        if(window.confirm("Tem certeza que deseja excluir o lançamento?")){
+    rmvLancamento(data: ContratoLancamento){
+      this.rmvlancamento = data;
+    }
+
+      confirmRmvLancamento(id: number){
           this.contratosLancamentosService.remove(id).subscribe({
             next: (data) => {
               this.contratosService.find(this.contrato.id || 0).subscribe({
                 next: (data) => {
                   this.contrato = data;
+                  this.toastr.success('Exclusão realizada com sucesso!');
                 }
               });
             }
           });
-        }
       }
 
       returnSumLancamentos(){

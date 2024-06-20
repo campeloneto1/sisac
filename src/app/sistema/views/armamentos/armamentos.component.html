@@ -93,7 +93,7 @@
                     title="Ajustar Quantidade"
                     (click)="ajustquant(row)"
                     data-bs-toggle="modal"
-                    data-bs-target="#modalquant"
+                    data-bs-target="#modalajust"
                   >
                     <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
                   </a>
@@ -225,4 +225,34 @@
     </div>
   </div>
   <!--FIM MODAL exclusao-->
+
+  <!-- INICIO MODAL AJUST QUANTIDADE-->
+  <div
+    class="modal fade"
+    id="modalajust"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">Ajustar quantidade</h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          @if(ajustarm){
+            <app-armamentos-form-quantidade [armamento]="ajustarm.id || 0" (refresh)="refresh()" (cancel)="cancel()" />
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL AJUST QUANTIDADE-->
 </div>

@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { InputTextComponent } from "../../../components/input-text/input-text.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { UsersService } from "../users.service";
 import { User } from "../user";
 import { ToastrService } from "ngx-toastr";
 import { InputSelectComponent } from "../../../components/input-select/input-select.component";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 
 import { PerfisService } from "../../perfis/perfis.service";
 import { Perfis } from "../../perfis/perfil";
@@ -14,6 +14,8 @@ import { Unidades } from "../../unidades/unidade";
 import { Subunidades } from "../../subunidades/subunidade";
 import { UnidadesService } from "../../unidades/unidades.service";
 import { SubunidadesService } from "../../subunidades/subunidades.service";
+import { Policiais } from "../../policiais/policial";
+import { PoliciaisService } from "../../policiais/policiais.service";
 
 @Component({
     selector: "app-users-form",
@@ -28,13 +30,16 @@ import { SubunidadesService } from "../../subunidades/subunidades.service";
         InputSelectComponent
     ]
 })
-export class UsersFormComponent implements OnInit{
+export class UsersFormComponent implements OnInit, OnDestroy{
     
     form!: FormGroup;
 
     protected perfis$!: Observable<Perfis>;
     protected unidades$!: Observable<Unidades>;
+    protected policiais$!: Observable<Policiais>;
     protected subunidades$!: Observable<Subunidades>;
+
+    private subscription: any;
 
     @Output('refresh') refresh: EventEmitter<User> = new EventEmitter();
     
@@ -43,9 +48,11 @@ export class UsersFormComponent implements OnInit{
         private usersService: UsersService,
         private perfisService: PerfisService,
         private unidadesService: UnidadesService,
+        private policiaisService: PoliciaisService,
         private subunidadesService: SubunidadesService,
         private toastr: ToastrService,
     ){}
+   
 
     ngOnInit() {
         this.form = this.formBuilder.group({
@@ -80,11 +87,34 @@ export class UsersFormComponent implements OnInit{
                 Validators.required,
                 
             ])],
-            'policial': [null],
+            'policial': [null, Validators.compose([
+                Validators.required,
+                
+            ])],
         });
 
         this.perfis$ = this.perfisService.index();
         this.unidades$ = this.unidadesService.index();
+
+        this.subscription = this.policiaisService.disponiveis().subscribe({
+            next: (data) => {
+                data.forEach(element => {
+                    if(element.numeral){
+                        element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}`;
+                    }else{
+                        element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}`;
+                    }
+                    
+                });
+                this.policiais$ = of(data);
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+       if(this.subscription){
+        this.subscription.unsubscribe();
+       }
     }
 
     cadastrar(){
@@ -118,6 +148,10 @@ export class UsersFormComponent implements OnInit{
     editar(data: User){
         this.form.patchValue(data);
         this.form.get('perfil')?.patchValue(data.perfil.id);
+
+        if(data.policial){
+            this.form.get('policial')?.patchValue(data.policial.id);
+        }
 
         this.form.get('subunidade')?.patchValue(data.subunidade.id);
         this.form.get('unidade')?.patchValue(data.subunidade.unidade.id);

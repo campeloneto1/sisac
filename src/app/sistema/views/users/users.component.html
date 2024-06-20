@@ -59,8 +59,9 @@
               <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
               <th><mfDefaultSorter by="cpf">CPF</mfDefaultSorter></th>
               <th><mfDefaultSorter by="telefone">Telefone</mfDefaultSorter></th>
-             
+              <th><mfDefaultSorter by="policial.id">Policial</mfDefaultSorter></th>
               <th><mfDefaultSorter by="perfil.nome">Perfil</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="users_subunidades">Subunidades</mfDefaultSorter></th>
               <th>Opções</th>
             </tr>
           </thead>
@@ -73,7 +74,22 @@
               <td>{{ row.nome }}</td>
               <td>{{ row.cpf | mask: '000.000.000-00' }}</td>
               <td>@if(row.telefone){{{ row.telefone | mask: '(00) 00000-0000' }}}</td>
+              <td>
+                @if(row.policial){
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                }
+              </td>
               <td>@if(row.perfil){{{ row.perfil.nome }}}</td>
+              <td>
+                <button
+                  (click)="showSubunidades(row)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalsubs"
+                  class="btn btn-xs btn-outline-primary"
+                >
+                  Subunidades
+                </button>
+              </td>
               <td>
                 @if(user.perfil.usuarios_edt){
                   <a
@@ -254,4 +270,75 @@
     </div>
   </div>
   <!--FIM MODAL exclusao-->
+
+  <!-- INICIO MODAL SUBUNIDADES-->
+  <div
+  class="modal fade"
+  id="modalsubs"
+  style="display: none"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h4 class="modal-title">
+          Subunidades
+          <button
+            class="btn btn-outline-primary"
+            title="Cadastrar"
+            (click)="cadsubunidade = true;"
+          >
+            <i class="fa fa-plus"></i>
+          </button>
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        @if(cadsubunidade){
+          <app-users-subunidades-form  [user]="usuario.id || 0" (refresh)="refreshSubunidades()" (cancel)="cancelarCadSubunidade()" />
+        }
+
+        @if(usuario){
+          <table class="table table-hover table-head-fixed text-nowrap mt-1">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Unidade</th>
+                <th>Subunidade</th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(item of
+              usuario.users_subunidades; track item){
+              <tr>
+                <td>{{item.id}}</td>
+                <td>{{item.subunidade.unidade.nome }}</td>
+                <td>{{item.subunidade.nome }} ({{item.subunidade.abreviatura }})</td>
+                <td>
+                  
+                    <i
+                      class="fa fa-trash text-danger point"
+                      aria-hidden="true"
+                      (click)="rmvSubunidade(item.id || 0)"
+                    ></i>
+                  
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+<!--FIM MODAL LANÇAMENTOS-->
 </div>

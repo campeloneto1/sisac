@@ -26,7 +26,14 @@ export class StorageService {
   }
 
   clearStorage(){
+    var url:any = '';
+    if (this.storage) {
+      url = this.storage.getItem('url')
+    }
     this.storage?.clear();
+    if (this.storage) {
+      this.storage.setItem('url', url);
+    }
   }
 
 }

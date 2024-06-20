@@ -68,7 +68,7 @@
               @for(row of mf.data; track row){
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
-                <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }}</td>
+                <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }} - {{ row.setor.subunidade.unidade.abreviatura }}</td>
                 <td>{{ row.patrimonio_tipo.nome }}</td>
                 <td>{{ row.nome }}</td>
                 <td>{{ row.serial }}</td>

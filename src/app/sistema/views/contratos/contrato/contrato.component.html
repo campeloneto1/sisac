@@ -129,14 +129,22 @@
           <div class="col-md-9">
             <div class="card">
               <div class="card-header border-0 p-2">
-                <h3 class="card-title">Lançamentos</h3>
+                <h3 >Lançamentos
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modallancamento"
+                  title="Cadastrar lançamento"
+                >
+                  <i class="fa fa-plus"></i>
+                </button></h3>
               </div>
               <div class="card-body">
                 <table class="table table-hover table-head-fixed text-wrap">
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Mês Referência</th>
+                      <th>Mês de Referência</th>
                       <th>Valor</th>
                       <th>Opções</th>
                     </tr>
@@ -153,7 +161,10 @@
                             <i
                               class="fa fa-trash text-danger point"
                               aria-hidden="true"
-                              (click)="rmvLancamento(item.id || 0)"
+                              (click)="rmvLancamento(item)"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalexcluirlancamento"
+                              title="Excluir lançamento"
                             ></i>
                           
                         </td>
@@ -181,5 +192,81 @@
       </div>
     </section>
     <!--FIM SECTION content-->
+
+     <!-- INICIO MODAL CADASTRO-->
+     <div
+     class="modal fade"
+     id="modallancamento"
+     style="display: none"
+     aria-hidden="true"
+   >
+     <div class="modal-dialog modal-xl">
+       <div class="modal-content">
+         <div class="modal-header border-0">
+           <h4 class="modal-title">Cadastrar lançamento</h4>
+           <button
+             type="button"
+             class="close"
+             data-bs-dismiss="modal"
+             aria-label="Close"
+             id="closeModalButton"
+           >
+             <span aria-hidden="true">×</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <app-contratos-lancamentos-form [contrato]="contrato.id || 0" (refresh)="refresh()" (cancel)="closeModal()" />
+         </div>
+       </div>
+     </div>
+   </div>
+   <!--FIM MODAL CADASTRO-->
+
+   <!-- INICIO EXCLUIR LANCAMENTO-->
+   <div
+   class="modal fade"
+   id="modalexcluirlancamento"
+   style="display: none"
+   aria-hidden="true"
+ >
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header border-0">
+         <h4 class="modal-title">Excluir lançamento</h4>
+         <button
+           type="button"
+           class="close"
+           data-bs-dismiss="modal"
+           aria-label="Close"
+           id="closeModalButton"
+         >
+           <span aria-hidden="true">×</span>
+         </button>
+       </div>
+       <div class="modal-body">
+          @if(rmvlancamento){
+            Tem certeza que deseja excluir o lançamento do mês <b>{{rmvlancamento.mes_referencia | date: 'MM/yyyy'}}</b>?
+          
+            <div class="d-flex justify-content-end mt-1">
+              <a
+                data-bs-dismiss="modal"
+                class="btn btn-link text-primary"
+                >Cancelar</a
+              >
+              <button
+                type="button"
+                (click)="confirmRmvLancamento(rmvlancamento.id || 0)"
+                data-bs-dismiss="modal"
+                class="btn btn-danger"
+              >
+                Excluir
+              </button>
+            </div>
+          }
+       </div>
+     </div>
+   </div>
+ </div>
+ <!--FIM MODAL EXCLUIR LANCAMENTO-->
   }
 </div>

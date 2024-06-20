@@ -43,4 +43,8 @@ export class VeiculosPoliciaisService{
     receber(data: any){
         return this.http.post(`${URL}/${endPoint}/receber`, data);
      }
+
+     veiculoPolicial(): Observable<VeiculoPolicial>{
+        return this.http.get<VeiculoPolicial>(`${URL}/${endPoint}/emprestadopolicial`);
+     }
 }

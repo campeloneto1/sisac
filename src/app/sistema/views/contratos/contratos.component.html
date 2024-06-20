@@ -56,7 +56,7 @@
                 <th><mfDefaultSorter by="empresa.nome">Empresa</mfDefaultSorter></th>
                 <!-- <th><mfDefaultSorter by="empresa.cnpj">CNPJ</mfDefaultSorter></th> -->
                 <th><mfDefaultSorter by="contrato_objeto">Objeto do Contrato</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="contrato_tipo">Tipo do Contrato</mfDefaultSorter></th>
+                <!-- <th><mfDefaultSorter by="contrato_tipo">Tipo do Contrato</mfDefaultSorter></th> -->
                 <th><mfDefaultSorter by="numero_contrato">Número do Contrato</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="numero_sacc">Número do SACC</mfDefaultSorter></th>
                 
@@ -74,11 +74,11 @@
               @for(row of mf.data; track row){
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
-                <td>{{ row.subunidade.abreviatura }}</td>
+                <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
                 <td>{{ row.empresa.nome }}</td>
                 <!-- <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td> -->
                 <td>{{ row.contrato_objeto.nome }}</td>
-                <td>{{ row.contrato_tipo.nome }}</td>
+                <!-- <td>{{ row.contrato_tipo.nome }}</td> -->
                 <td><a [routerLink]="['/Contrato', row.id]">{{ row.numero_contrato }}</a></td>
                 <td>{{ row.numero_sacc }}</td>
                
@@ -96,8 +96,11 @@
                     Lançamentos
                   </button>
                 </td>
-                <td>
+                <td class="text-center">
                   <span class="badge {{returnCorUsado(row)}}">{{returnPercentUsado(row)}}%</span>
+                  <!-- <div class="progress progress-xs">
+                    <div class="progress-bar {{returnCorUsado(row)}}"  style="width: {{returnPercentUsado(row)}}%"></div>
+                  </div> -->
                 </td>
                 <td>
                   <a
@@ -260,15 +263,15 @@
           </div>
           <div class="modal-body">
             @if(cadlancamento){
-              <app-contratos-lancamentos-form [contrato]="contrato.id || 0" (refresh)="refreshLancamentos()" (cancel)="cancelarCadLancamento()" />
+              <app-contratos-lancamentos-form  [contrato]="contrato.id || 0" (refresh)="refreshLancamentos()" (cancel)="cancelarCadLancamento()" />
             }
 
             @if(contrato){
-              <table class="table table-hover table-head-fixed text-nowrap">
+              <table class="table table-hover table-head-fixed text-nowrap mt-1">
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Mês Referência</th>
+                    <th>Mês de Referência</th>
                     <th>Valor</th>
                     <th>Opções</th>
                   </tr>
@@ -292,6 +295,14 @@
                   </tr>
                   }
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th>R$ {{returnSumLancamentos() | mask: 'separator.2'}}</th>
+                    <th></th>
+                  </tr>
+                </tfoot>
               </table>
             }
           </div>

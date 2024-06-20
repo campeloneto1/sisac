@@ -43,6 +43,7 @@ export class VeiculosPoliciaisFormComponent implements OnInit{
     protected paises$!: Observable<Paises>;
     protected estados$!: Observable<Estados>;
     protected cidades$!: Observable<Cidades>;
+   
 
     private subscription: any;
     private subscription2: any;
@@ -114,6 +115,8 @@ export class VeiculosPoliciaisFormComponent implements OnInit{
     }
 
     cadastrar(){
+        delete this.form.value.estado;
+        delete this.form.value.pais;
         if(this.form.value.id){
             this.veiculosPoliciaisService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {

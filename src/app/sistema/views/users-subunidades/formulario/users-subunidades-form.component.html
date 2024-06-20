@@ -1,0 +1,39 @@
+<form [formGroup]="form">
+
+    <div class="row">
+    
+        <input-select
+        class="col-sm-4"
+        label="Unidade"
+        id="unidade"
+        [data$]="unidades$"
+        formControlName="unidade"
+        (ngModelChange)="getSubunidades()"
+      />
+      <input-select
+        class="col-sm-6"
+        label="Subunidade"
+        id="subunidade"
+        [data$]="subunidades$"
+        formControlName="subunidade"
+        />
+     
+    </div>
+  
+    <div class="d-flex justify-content-end">
+      <a
+        (click)="cancelar()"
+        class="btn btn-link text-danger"
+        >Cancelar</a
+      >
+      <button
+        [disabled]="form.invalid"
+        type="button"
+        (click)="cadastrar()"
+        class="btn btn-primary"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </form>
+  

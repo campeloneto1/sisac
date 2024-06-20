@@ -8,6 +8,11 @@ import { InputTextComponent } from "../input-text/input-text.component";
 import { UsersService } from "../../views/users/users.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
+import { User } from "../../views/users/user";
+import { Observable, of } from "rxjs";
+import { Subunidades } from "../../views/subunidades/subunidade";
+import { InputSelectComponent } from "../input-select/input-select.component";
+import { NgxSelectModule } from "ngx-select-ex";
 
 @Component({
     selector: 'app-navbar',
@@ -20,6 +25,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
         RouterModule,
         ReactiveFormsModule, 
         InputTextComponent,
+        InputSelectComponent,
         NgxMaskDirective, 
         NgxMaskPipe,
     ],
@@ -31,8 +37,9 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 
 export class NavbarComponent implements OnInit{
 
-    user!: any;
-
+    protected user!: User;
+    protected subunidades$!: Observable<Subunidades>;
+    protected subunidade!: number;
     protected form!: FormGroup;
 
     constructor(
@@ -50,7 +57,22 @@ export class NavbarComponent implements OnInit{
         if(!this.user){
             this.user = JSON.parse(await this.storageService.getItem('user')!);
         }
-
+        if(this.user){
+            if(this.storageService.getItem('subunidade')){
+                this.subunidade = Number(this.storageService.getItem('subunidade'));
+            }else{
+                 //@ts-ignore
+                this.subunidade = this.user.users_subunidades[0].subunidade.id;
+                this.setSubunidade();
+            }
+           
+            var subunidadesuser:Subunidades = [];
+            this.user.users_subunidades?.forEach((data) =>{
+                subunidadesuser.push(data.subunidade);
+            })
+            
+            this.subunidades$ = of(subunidadesuser);
+        }
         this.form = this.formBuilder.group({
             'id': [null],
             'password': [null, Validators.compose([
@@ -65,6 +87,11 @@ export class NavbarComponent implements OnInit{
             ])],
         });
 
+    }
+
+    setSubunidade(){
+        //@ts-ignore
+        this.storageService.setItem('subunidade', this.subunidade);
     }
 
     logout(){

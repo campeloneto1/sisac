@@ -1,14 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router, Routes, mapToCanActivate } from '@angular/router';
 import { StorageService } from './sistema/storage.service';
-
+import { isPlatformBrowser } from '@angular/common';
 @Injectable({ providedIn: 'root' })
 export class AdminGuard {
+  private storage: Storage | null;
   constructor(
     private storageService: StorageService,
-    private router: Router
-) {}
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+) {
+  this.storage = isPlatformBrowser(this.platformId) ? localStorage : null;
+}
  canActivate() {
+
+    if (this.storage) {
+      this.storage.setItem('url', this.router.url);
+    }
     if (this.storageService.getItem('token')) {
       return true;
     } else {
@@ -25,6 +33,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./auth/auth.component').then((c) => c.AuthComponent),
       },
+      
       {
         path: '',
         loadComponent: () =>
@@ -360,6 +369,11 @@ export const routes: Routes = [
             path: 'VeiculosEmprestimos',
             loadComponent: () =>
               import('./sistema/views/veiculos-policiais/veiculos-policiais.component').then((c) => c.VeiculosPoliciaisComponent),
+          },
+          {
+            path: 'VeiculoEmprestimo',
+            loadComponent: () =>
+              import('./sistema/views/veiculos-policiais/formulario-policial/veiculos-policiais-form-policial.component').then((c) => c.VeiculosPoliciaisFormPolicial),
           },
           {
             path: 'RelVeiculosEmprestimos',

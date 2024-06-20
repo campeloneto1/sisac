@@ -23,6 +23,7 @@
           class="nav-link dropdown-toggle"
           data-bs-toggle="dropdown"
           aria-expanded="false"
+          data-bs-auto-close="outside"
         >
           <img
             src="assets/casamil.png"
@@ -44,6 +45,7 @@
             class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
             style="left: inherit; right: 0px; margin-top: 7px"
         >
+        
           <li class="user-header bg-olive">
             <img
               src="assets/casamil.png"
@@ -59,21 +61,37 @@
           <li class="user-body">
             <div class="row">
               
-              <div class="col-12 text-center">
+              <!-- <div class="col-12 text-center">
                 <a 
                 href="#"
                 data-bs-toggle="modal"
                 data-bs-target="#modalsenha"
                 >Alterar senha</a>
-              </div>
+              </div> -->
+
+              <input-select
+                class="col-sm-12"
+                label="Subunidade"
+                id="subunidade"
+                [data$]="subunidades$"
+                [(ngModel)]="subunidade"
+                (ngModelChange)="setSubunidade()"
+                [allowclear]="false"
+                />
               
             </div>
           </li>
   
-          <li class="user-footer">
-            @if(user.policial){
+          <li class="user-footer ">
+            <!-- @if(user.policial){
               <a  [routerLink]="['Perfil']" class="btn btn-default btn-flat">Perfil</a>
-            }
+            } -->
+            <a 
+            class="btn btn-default btn-flat "
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#modalsenha"
+                >Alterar senha</a>
             <a (click)="logout()" class="btn btn-default btn-flat float-right">Sair</a>
           </li>
         </ul>

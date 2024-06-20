@@ -1,0 +1,204 @@
+<div class="content-wrapper p-2">
+
+  @if(exibir === 1){
+    <div class="card card-primary card-outline card-outline-tabs">
+      <div class="card-header p-0 border-bottom-0">
+        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+          <!-- <li class="nav-item">
+            <a
+              class="nav-link"
+              disabled
+              [ngClass]="{ active: form.value.etapa === 1 }"
+              id="policial-tab"
+              data-bs-toggle="pill"
+              href="#policial"
+              role="tab"
+              aria-controls="policial"
+              >Policial</a
+            >
+          </li> -->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              disabled
+              [ngClass]="{ active: form.value.etapa === 2 }"
+              id="veiculo-tab"
+              data-bs-toggle="pill"
+              href="#veiculo"
+              role="tab"
+              aria-controls="veiculo"
+              >Veículo</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              disabled
+              [ngClass]="{ active: form.value.etapa === 3 }"
+              id="destino-tab"
+              data-bs-toggle="pill"
+              href="#destino"
+              role="tab"
+              aria-controls="destino"
+              >Destino</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              disabled
+              [ngClass]="{ active: form.value.etapa === 4 }"
+              id="observacoes-tab"
+              data-bs-toggle="pill"
+              href="#observacoes"
+              role="tab"
+              aria-controls="observacoes"
+              >Observações</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+          <form [formGroup]="form">
+        <div class="tab-content" id="custom-tabs-four-tabContent">
+          <div
+            class="tab-pane fade"
+            [ngClass]="{ 'active show': form.value.etapa === 1 }"
+            id="policial"
+            role="tabpanel"
+            aria-labelledby="policial-tab"
+          >
+            
+          <div class="row">
+              <input-select
+                class="col-sm-12"
+                label="Policial"
+                id="policial"
+                [data$]="policiais$"
+                formControlName="policial"
+              />
+          </div>
+
+            <div class="d-flex justify-content-end">
+              <button (click)="proximo()" [disabled]="!this.form.value.policial" class="btn btn-primary">Próximo</button>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            [ngClass]="{ 'active show': form.value.etapa === 2 }"
+            id="veiculo"
+            role="tabpanel"
+            aria-labelledby="veiculo-tab"
+          >
+          <div class="row">
+              <input-select
+                class="col-sm-12"
+                label="Veículo"
+                id="veiculo"
+                [data$]="veiculos$"
+                formControlName="veiculo"
+              />
+          </div>
+            <div class="d-flex justify-content-between">
+              <!-- <button (click)="anterior()" class="btn btn-danger">
+                Anterior
+              </button> -->
+              <button (click)="proximo()" [disabled]="!this.form.value.veiculo" class="btn btn-primary">Próximo</button>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            [ngClass]="{ 'active show': form.value.etapa === 3 }"
+            id="destino"
+            role="tabpanel"
+            aria-labelledby="destino-tab"
+          >
+
+          <div class="row">
+              <input-select
+                  class="col-sm-12"
+                  label="País"
+                  id="pais"
+                  [data$]="paises$"
+                  formControlName="pais"
+                  (ngModelChange)="getEstados()"
+              />
+              <input-select
+                  class="col-sm-12"
+                  label="Estado"
+                  id="estado"
+                  [data$]="estados$"
+                  formControlName="estado"
+                  (ngModelChange)="getCidades()"
+              />
+              <input-select
+                  class="col-sm-12"
+                  label="Cidade"
+                  id="cidade"
+                  [data$]="cidades$"
+                  formControlName="cidade"
+              />
+          </div>
+
+            <div class="d-flex justify-content-between">
+              <button (click)="anterior()" class="btn btn-danger">
+                Anterior
+              </button>
+              <button (click)="proximo()" [disabled]="!this.form.value.cidade" class="btn btn-primary">Próximo</button>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            [ngClass]="{ 'active show': form.value.etapa === 4 }"
+            id="observacoes"
+            role="tabpanel"
+            aria-labelledby="observacoes-tab"
+            style="height: 450px;"
+          >
+            
+          <div class="row" style="height: 350px;">
+              <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+          </div>
+
+            <div class="d-flex justify-content-between mt-5">
+              <button (click)="anterior()" class="btn btn-danger">
+                Anterior
+              </button>
+              <button (click)="cadastrar()" [disabled]="form.invalid" class="btn btn-primary">
+                Cadastrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  }
+  @if(exibir === 2){
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Emprestimo realizado com sucesso</h3>
+          </div>
+          <div class="card-body">
+            
+            <div class="row">
+              <div class="col-sm-6">
+                <b>Marca:</b> {{veiculoemprestado.veiculo.modelo.marca.nome}}
+              </div>
+              <div class="col-sm-6">
+                <b>Modelo:</b> {{veiculoemprestado.veiculo.modelo.nome}}
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  @if(exibir === 3){
+
+  }
+</div>

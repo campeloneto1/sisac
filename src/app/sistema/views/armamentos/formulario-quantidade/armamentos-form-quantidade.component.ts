@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { InputTextComponent } from "../../../components/input-text/input-text.component";
 import { InputSelectComponent } from "../../../components/input-select/input-select.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -29,6 +29,8 @@ export class ArmamentosFormQuantidadeComponent implements OnInit{
 
     protected editando:boolean = false;
 
+    @Input() armamento!: number;
+
     @Output('refresh') refresh: EventEmitter<Armamento> = new EventEmitter();
     @Output('cancel') cancel: EventEmitter<any> = new EventEmitter();
     
@@ -45,17 +47,15 @@ export class ArmamentosFormQuantidadeComponent implements OnInit{
                 Validators.required,
                 Validators.min(1),
             ])],
-           
             'tipo': [null, Validators.compose([
                 Validators.required,
-                Validators.min(1),
             ])],
         });
     }
 
     cadastrar(){
-          
-        this.armamentosService.update(this.form.value.id, this.form.value).subscribe({
+          this.form.get('id')?.patchValue(this.armamento);
+        this.armamentosService.ajustarQuantidade(this.form.value.id, this.form.value).subscribe({
             next: (data:any) => {
                 this.toastr.success('Edição realizada com sucesso!');
                 this.form.reset();

@@ -55,6 +55,7 @@
             <thead>
               <tr>
                 <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="policial.setor.subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="policial.graduacao.nome">Graduação</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="policial.numeral">Numeral</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="policial.nome_guerra">Nome Guerra</mfDefaultSorter></th>
@@ -72,19 +73,20 @@
               @for(row of mf.data; track row){
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
-                      <td>{{ row.policial.graduacao.nome }}</td>
-                      <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
-                      <td>{{ row.policial.nome_guerra }}</td>
-                      <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
-                      <td>{{ row.curso.nome }}</td>
-                      <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
-                      <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
-                      <td>
-                        @if(row.carga_horaria ){
-                          {{ row.carga_horaria }}h
-                        }
-                      </td>
-                      <td>{{ row.boletim }}</td>
+                <td>{{ row.policial.setor.subunidade.abreviatura }} - {{ row.policial.setor.subunidade.unidade.abreviatura }}</td>
+                <td>{{ row.policial.graduacao.nome }}</td>
+                <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
+                <td>{{ row.policial.nome_guerra }}</td>
+                <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
+                <td>{{ row.curso.nome }}</td>
+                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                  @if(row.carga_horaria ){
+                    {{ row.carga_horaria }}h
+                  }
+                </td>
+                <td>{{ row.boletim }}</td>
                 <td>
                   @if(user.perfil.policiais_cursos_edt){
                     <a

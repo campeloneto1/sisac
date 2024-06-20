@@ -19,6 +19,11 @@ import { ArmamentoTipo, ArmamentosTipos } from "../../armamentos-tipos/armamento
 import { ArmamentosCalibres } from "../../armamentos-calibres/armamento-calibre";
 import { ArmamentosTamanhos } from "../../armamentos-tamanhos/armamento-tamanho";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
+import { Unidades } from "../../unidades/unidade";
+import { Subunidades } from "../../subunidades/subunidade";
+import { UnidadesService } from "../../unidades/unidades.service";
+import { SubunidadesService } from "../../subunidades/subunidades.service";
+import { StorageService } from "../../../storage.service";
 
 
 @Component({
@@ -57,6 +62,7 @@ export class ArmamentosFormComponent implements OnInit{
         private armamentosTiposService:ArmamentosTiposService,
         private armamanetosTamanhosService:ArmamentosTamanhosService,
         private armamentosCalibresService:ArmamentosCalibresService,
+        private storageService: StorageService,
         private marcasService:MarcasService,
         private modelosService:ModelosService,
         private toastr: ToastrService,
@@ -88,18 +94,20 @@ export class ArmamentosFormComponent implements OnInit{
             ])],
             'armamento_calibre': [null],
             'armamento_tamanho': [null],
+            'subunidade': [null],
         });
         //this.unidades$ = this.unidadesService.index();
         this.marcas$ = this.marcasService.marcasArmamentos();
         this.armamentostipos$ = this.armamentosTiposService.index();
-       
     }
 
     cadastrar(){
       
-        //delete this.form.value.unidade;
+        delete this.form.value.unidade;
         delete this.form.value.marca;
-    
+        if(this.storageService.getItem('subunidade')){
+            this.form.get('subunidade')?.patchValue(this.storageService.getItem('subunidade'));
+        }
         if(this.form.value.id){
             if(!this.form.value.data_baixa){
                 this.form.get('data_baixa')?.patchValue(null);
@@ -138,6 +146,7 @@ export class ArmamentosFormComponent implements OnInit{
     editar(data: Armamento){
         this.editando = true;
         this.form.patchValue(data);
+
         if(data.modelo){
             this.form.get('marca')?.patchValue(data.modelo.marca.id);
             this.form.get('modelo')?.patchValue(data.modelo.id);

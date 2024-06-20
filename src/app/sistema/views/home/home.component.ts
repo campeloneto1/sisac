@@ -53,73 +53,76 @@ export class HomeComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
-        if(this.user.perfil.policiais){
-            this.subscription = this.homeService.getPoliciais().subscribe({
-                next: (data) => {
-                    this.quantPoliciais = data;
-                }
-            });
+        if(this.user){
+            if(this.user.perfil.policiais){
+                this.subscription = this.homeService.getPoliciais().subscribe({
+                    next: (data) => {
+                        this.quantPoliciais = data;
+                    }
+                });
+            }
+            if(this.user.perfil.policiais_atestados){
+                this.subscription2 = this.homeService.getAtestados().subscribe({
+                    next: (data) => {
+                        this.quantAtestados = data;
+                    }
+                });
+            }
+            if(this.user.perfil.policiais_ferias){
+                this.subscription3 = this.homeService.getFerias().subscribe({
+                    next: (data) => {
+                        this.quantFerias = data;
+                    }
+                });
+            }
+            if(this.user.perfil.policiais_requeridas){
+                this.subscription3 = this.homeService.getRequeridas().subscribe({
+                    next: (data) => {
+                        this.quantRequeridas = data;
+                    }
+                });
+            }
+            if(this.user.perfil.armamentos){
+                this.armamentosVencendo$ = this.homeService.getArmamentosVencendo();
+            }
+            if(this.user.perfil.armamentos_emprestimos){
+                this.armamentosEmprestimos$ = this.homeService.getArmamentosEmprestados();
+            }
+            if(this.user.perfil.veiculos_oficinas){
+                this.veiculosManutencao$ = this.homeService.getVeiculosManutencao();
+            }
+            if(this.user.perfil.veiculos){
+                this.veiculosTrocaOleo$ = this.homeService.getVeiculosTrocaOleo();
+            }
+            if(this.user.perfil.veiculos){
+                this.veiculosRevisao$ = this.homeService.getVeiculosRevisao();
+            }
+            if(this.user.perfil.policiais){
+                this.policiaisSetores$ = this.homeService.getPoliciaisSetores();
+            }
+            if(this.user.perfil.policiais){
+                this.policiaisGraduacoes$ = this.homeService.getPoliciaisGraduacoes();
+               }
+            if(this.user.perfil.veiculos_policiais){
+                this.veiculosPoliciais$ = this.homeService.getVeiculosEmprestados();
+            }
+    
+            if(this.user.perfil.materiais_consumo){
+                this.materiaisConsumoAlerta$ = this.homeService.getMateriaisConsumoAlerta();
+            }
+    
+            if(this.user.perfil.materiais_consumo){
+                this.materiaisConsumoVencendo$ = this.homeService.getMateriaisConsumoVencendo();
+            }
+            if(this.user.perfil.materiais_policiais){
+                this.materiaisPoliciaisEmprestados$ = this.homeService.getMateriaisPoliciaisEmprestados();
+            }
+    
+            if(this.user.perfil.materiais){
+                this.materiaisVencendo$ = this.homeService.getMateriaisVencendo();
+            }
         }
-        if(this.user.perfil.policiais_atestados){
-            this.subscription2 = this.homeService.getAtestados().subscribe({
-                next: (data) => {
-                    this.quantAtestados = data;
-                }
-            });
-        }
-        if(this.user.perfil.policiais_ferias){
-            this.subscription3 = this.homeService.getFerias().subscribe({
-                next: (data) => {
-                    this.quantFerias = data;
-                }
-            });
-        }
-        if(this.user.perfil.policiais_requeridas){
-            this.subscription3 = this.homeService.getRequeridas().subscribe({
-                next: (data) => {
-                    this.quantRequeridas = data;
-                }
-            });
-        }
-        if(this.user.perfil.armamentos){
-            this.armamentosVencendo$ = this.homeService.getArmamentosVencendo();
-        }
-        if(this.user.perfil.armamentos_emprestimos){
-            this.armamentosEmprestimos$ = this.homeService.getArmamentosEmprestados();
-        }
-        if(this.user.perfil.veiculos_oficinas){
-            this.veiculosManutencao$ = this.homeService.getVeiculosManutencao();
-        }
-        if(this.user.perfil.veiculos){
-            this.veiculosTrocaOleo$ = this.homeService.getVeiculosTrocaOleo();
-        }
-        if(this.user.perfil.veiculos){
-            this.veiculosRevisao$ = this.homeService.getVeiculosRevisao();
-        }
-        if(this.user.perfil.policiais){
-            this.policiaisSetores$ = this.homeService.getPoliciaisSetores();
-        }
-        if(this.user.perfil.policiais){
-            this.policiaisGraduacoes$ = this.homeService.getPoliciaisGraduacoes();
-           }
-        if(this.user.perfil.veiculos_policiais){
-            this.veiculosPoliciais$ = this.homeService.getVeiculosEmprestados();
-        }
-
-        if(this.user.perfil.materiais_consumo){
-            this.materiaisConsumoAlerta$ = this.homeService.getMateriaisConsumoAlerta();
-        }
-
-        if(this.user.perfil.materiais_consumo){
-            this.materiaisConsumoVencendo$ = this.homeService.getMateriaisConsumoVencendo();
-        }
-        if(this.user.perfil.materiais_policiais){
-            this.materiaisPoliciaisEmprestados$ = this.homeService.getMateriaisPoliciaisEmprestados();
-        }
-
-        if(this.user.perfil.materiais){
-            this.materiaisVencendo$ = this.homeService.getMateriaisVencendo();
-        }
+        
     }
 
     ngOnDestroy(): void {

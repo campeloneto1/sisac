@@ -59,6 +59,7 @@
           <thead>
             <tr>
               <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
               <th>
                 <mfDefaultSorter by="policial.graduacao.nome"
                   >Graduação</mfDefaultSorter
@@ -96,6 +97,7 @@
             @for(row of mf.data; track row){
             <tr class="optionshover">
               <td>{{ row.id }}</td>
+              <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
               <td>{{ row.policial.graduacao.nome }}</td>
               <td>
                 @if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000'

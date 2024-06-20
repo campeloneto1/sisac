@@ -9,6 +9,8 @@ import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SessionService } from '../../session.service';
+import { UsersSubunidadesService } from '../users-subunidades/users-subunidades.service';
+import { UsersSubunidadesFormComponent } from '../users-subunidades/formulario/users-subunidades-form.component';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -18,6 +20,7 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     UsersFormComponent,
+    UsersSubunidadesFormComponent,
     DataTableModule,
     FormsModule,
     NgxMaskDirective, 
@@ -36,12 +39,16 @@ export class UsersComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
 
+  protected cadsubunidade: boolean = false;
+
   protected user!: User;
 
   @ViewChild(UsersFormComponent) child!: UsersFormComponent;
+  @ViewChild(UsersSubunidadesFormComponent) child2!: UsersSubunidadesFormComponent;
 
   constructor(
     private usersService: UsersService,
+    private usersSubunidadesService: UsersSubunidadesService,
     private toastr: ToastrService,
     private sessionService: SessionService,
   ) {}
@@ -106,6 +113,42 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao alterar senha, tente novamente mais tarde!');
       },
     });
+  }
+
+  showSubunidades(data: User){
+    this.usuario = data;
+  }
+
+  refreshSubunidades(){
+    this.cadsubunidade = false;
+    this.usersService.find(this.usuario.id || 0).subscribe({
+      next: (data: User) => {
+        this.usuario = data;
+        this.refresh();
+      },
+      error: (error: any) => {
+        this.toastr.error('Erro ao consultar contrato!');
+      },
+    })
+  }
+
+  cancelarCadSubunidade(){
+    this.cadsubunidade = false;
+  }
+
+  rmvSubunidade(id: number){
+    if(window.confirm("Tem certeza que deseja excluir a subunidade?")){
+      this.usersSubunidadesService.remove(id).subscribe({
+        next: (data) => {
+          this.usersService.find(this.usuario.id || 0).subscribe({
+            next: (data) => {
+              this.usuario = data;
+              this.refresh();
+            }
+          });
+        }
+      });
+    }
   }
 
   pesquisar(){

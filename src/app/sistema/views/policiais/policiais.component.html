@@ -71,7 +71,7 @@
             @for(row of mf.data; track row){
             <tr class="optionshover">
               <td>{{ row.id }}</td>
-              <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }}</td>
+              <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }} - {{ row.setor.subunidade.unidade.abreviatura }}</td>
               <td>{{ row.graduacao.nome }}</td>
               <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
               <td><a [routerLink]="['/Policial', row.id]">{{ row.nome }}</a></td>
