@@ -63,6 +63,7 @@
               <th><mfDefaultSorter by="matricula">Matrícula</mfDefaultSorter></th>
               <th><mfDefaultSorter by="telefone1">Telefone 1</mfDefaultSorter></th>
               <th><mfDefaultSorter by="boletim_transferencia">BCG Transferência</mfDefaultSorter></th>
+              <th>Foto</th>
               <th>Opções</th>
             </tr>
           </thead>
@@ -79,6 +80,22 @@
               <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
               <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
               <td>{{row.boletim_transferencia}}</td>
+              <td>
+                <a
+                    class=" point"
+                    title="Foto"
+                    (click)="showfoto(row)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalfoto"
+                  >
+                    @if(row.foto){
+                      <i class="fa fa-id-badge text-success" aria-hidden="true"></i>
+                    }@else{
+                      <i class="fa fa-id-badge text-danger" aria-hidden="true"></i>
+                    }
+                    
+                  </a>
+              </td>
               <td>
                 @if(user.perfil.gestor && !row.user){
                   <a
@@ -262,4 +279,57 @@
     </div>
   </div>
   <!--FIM MODAL exclusao-->
+
+  <!-- INICIO MODAL FOTO-->
+  <div
+    class="modal fade"
+    id="modalfoto"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">Foto</h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img
+          crossorigin='anonymous'
+            [src]="urlfoto + policial.foto"
+            *ngIf="policial?.foto"
+            alt="user-avatar"
+            height="100px"
+            class="img-circle img-fluid"
+          />
+          <div class="form-group">
+            <label for="exampleInputFile">Escolha o arquivo</label>
+            <div class="input-group">
+              <div class="custom-file">
+                <input 
+                (change)="uploadFoto($event)"
+                type="file" 
+                class="custom-file-input"
+                 accept="image/png, image/gif, image/jpeg" 
+                 id="exampleInputFile">
+                <label class="custom-file-label" for="exampleInputFile">Escolher</label>
+              </div>
+              <!-- <div class="input-group-append">
+                <span class="input-group-text">Upload</span>
+              </div> -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL Foto-->
 </div>

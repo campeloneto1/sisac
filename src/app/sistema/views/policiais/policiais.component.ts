@@ -12,6 +12,8 @@ import { Router, RouterModule } from '@angular/router';
 import { SessionService } from '../../session.service';
 import { User } from '../users/user';
 import { UsersService } from '../users/users.service';
+import { SharedService } from '../../shared/shared.service';
+import { environment } from "../../../../environments/environments";
 @Component({
   selector: 'app-policiais',
   templateUrl: './policiais.component.html',
@@ -39,6 +41,9 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   protected temp!: Policiais;
   protected quant: number = 10;
   protected subscription: any;
+  protected file!:any; 
+
+  protected urlfoto:string = environment.image;
 
   protected user!: User;
 
@@ -48,6 +53,7 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
     private policiaisService: PoliciaisService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService,
     private usersService: UsersService
   ) {}
  
@@ -121,6 +127,36 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao gerar, tente novamente mais tarde!');
       },
     });
+  }
+
+  showfoto(data: Policial){
+    this.policial = data;
+  }
+
+  uploadFoto(event: any){
+    var fileName = "";
+    const formData = new FormData();
+    const file:File = event.target.files[0];
+    if (file) {
+      fileName = file.name;
+      formData.append("file", file);
+      //formData.append("id", this.policial.id+'');
+      this.sharedService.uploadFoto(formData).subscribe({
+        next: (data) => {
+          //console.log(data);
+          //@ts-ignore
+          this.policiaisService.updateFoto(this.policial.id, {
+            //@ts-ignore
+            foto: data.data
+          }).subscribe({
+            next: (data) => {
+              this.toastr.success('Foto atualizada com sucesso!');
+              this.refresh();
+            }
+          })
+        }
+      })
+    }
   }
 
   pesquisar(){

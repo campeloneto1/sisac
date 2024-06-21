@@ -30,6 +30,8 @@ export interface Policial{
     cidade?: Cidade;
     cep?: string;
 
+    foto?: string;
+
     data_inclusao?: Date;
     boletim_inclusao?: string;
     data_apresentacao?: Date;

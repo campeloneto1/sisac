@@ -8,6 +8,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { DataTableModule } from "@pascalhonegger/ng-datatable";
 import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
+import { environment } from "../../../../../environments/environments";
 
 @Component({
     selector: 'app-policial',
@@ -30,6 +31,8 @@ export class PolicialComponent implements OnInit, OnDestroy{
     protected policial!: Policial;
     protected id!:number;
     private subscription:any;
+
+    protected urlfoto:string = environment.image;
 
     protected user!: User;
 

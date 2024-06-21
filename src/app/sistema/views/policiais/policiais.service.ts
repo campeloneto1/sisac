@@ -44,4 +44,7 @@ export class PoliciaisService{
         return this.http.get<Policiais>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
     }
    
+    updateFoto(id:number, data: any){
+        return this.http.put(`${URL}/${endPoint}/${id}/updatefoto`, data);
+    }
 }
