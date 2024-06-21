@@ -82,6 +82,7 @@ export class MateriaisConsumoFormComponent implements OnInit{
             'material_consumo_tipo': [null, Validators.compose([
                 Validators.required,
             ])],
+            'subunidade': [null],
         });
         //this.unidades$ = this.unidadesService.index();
         this.marcas$ = this.marcasService.marcasLogistica();
@@ -115,6 +116,11 @@ export class MateriaisConsumoFormComponent implements OnInit{
             });
         }else{
             delete this.form.value.marca;
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.materiaisConsumoService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');

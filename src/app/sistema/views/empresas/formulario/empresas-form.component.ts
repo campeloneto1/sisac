@@ -18,6 +18,7 @@ import { Cidades } from "../../cidades/cidade";
 import { Unidades } from "../../unidades/unidade";
 import { PoliciaisService } from "../../policiais/policiais.service";
 import { Policiais } from "../../policiais/policial";
+import { SessionService } from "../../../session.service";
 
 
 @Component({
@@ -51,6 +52,7 @@ export class EmpresasFormComponent implements OnInit, OnDestroy{
         private cidadesService:CidadesService,
         private empresasService: EmpresasService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
     
 
@@ -131,6 +133,11 @@ export class EmpresasFormComponent implements OnInit, OnDestroy{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.empresasService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');

@@ -92,6 +92,7 @@ export class NavbarComponent implements OnInit{
     setSubunidade(){
         //@ts-ignore
         this.storageService.setItem('subunidade', this.subunidade);
+        window.location.reload();
     }
 
     logout(){

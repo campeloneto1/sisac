@@ -16,6 +16,7 @@ import { InputSelectComponent } from "../../../components/input-select/input-sel
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
 import { EmpresasService } from "../../empresas/empresas.service";
 import { Empresas } from "../../empresas/empresa";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: "app-contratos-form",
@@ -53,6 +54,7 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
         private contratosTiposService: ContratosTiposService,
         private contratosObjetosService: ContratosObjetosService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit() {
@@ -92,7 +94,7 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
             'fiscal': [null, Validators.compose([
                 Validators.required,
             ])],
-            'observacoes': [null]
+            'observacoes': [null],
         });
 
         this.subscription2 = this.empresasService.index().subscribe({
@@ -145,6 +147,11 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.contratosService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');

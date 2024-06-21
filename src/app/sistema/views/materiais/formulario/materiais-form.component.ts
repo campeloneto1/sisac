@@ -15,6 +15,7 @@ import { Marcas } from "../../marcas/marca";
 import { Modelos } from "../../modelos/modelo";
 import { MateriaisTipos, MaterialTipo } from "../../materiais-tipos/material-tipo";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
+import { SessionService } from "../../../session.service";
 
 
 @Component({
@@ -28,7 +29,7 @@ import { InputTextareaComponent } from "../../../components/input-textarea/input
         ReactiveFormsModule, 
         InputTextComponent,
         InputSelectComponent,
-        InputTextareaComponent
+        InputTextareaComponent,
     ]
 })
 export class MateriaisFormComponent implements OnInit{
@@ -52,6 +53,7 @@ export class MateriaisFormComponent implements OnInit{
         private marcasService:MarcasService,
         private modelosService:ModelosService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit() {
@@ -77,6 +79,7 @@ export class MateriaisFormComponent implements OnInit{
             'material_tipo': [null, Validators.compose([
                 Validators.required,
             ])],
+            'subunidade': [null],
         });
         //this.unidades$ = this.unidadesService.index();
         this.marcas$ = this.marcasService.marcasLogistica();
@@ -108,6 +111,11 @@ export class MateriaisFormComponent implements OnInit{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             delete this.form.value.marca;
             this.materiaisService.create(this.form.value).subscribe({
                 next: (data:any) => {

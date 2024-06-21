@@ -45,7 +45,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
  
 
   ngOnInit(): void {
-    this.sessionService.checkPermission('administrador');
+    this.sessionService.checkPermission('empresas');
     this.subscription = this.empresasService.index().subscribe({
       next: (data) => {
         this.data$ = data;

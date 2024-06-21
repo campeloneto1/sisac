@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 export class SessionService {
     private token!: any;
     private user!: any;
+    private subunidade!: any;
 
     constructor(
         private storageService: StorageService,
@@ -19,6 +20,10 @@ export class SessionService {
 
         if(!this.token){
             this.token = this.storageService.getItem('token')!;
+        }
+
+        if(!this.subunidade){
+            this.subunidade = this.storageService.getItem('subunidade')!;
         }
     } 
 
@@ -33,6 +38,10 @@ export class SessionService {
 
     getToken(){
         return this.token;
+    }
+
+    getSubunidade(){
+        return this.subunidade;
     }
 
     check(){
@@ -51,6 +60,7 @@ export class SessionService {
 
     logout(){
         this.token = '';
+        this.subunidade = '';
         this.user = {};
         this.storageService.clearStorage();
     }

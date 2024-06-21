@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Oficina, Oficinas } from "./oficina";
 import { Observable } from "rxjs";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'oficinas';
@@ -14,10 +15,12 @@ export class OficinasService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService,
     ){}
 
     index(): Observable<Oficinas>{
-        return this.http.get<Oficinas>(`${URL}/${endPoint}`);
+        //return this.http.get<Oficinas>(`${URL}/${endPoint}`);
+        return this.http.get<Oficinas>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<Oficina>{

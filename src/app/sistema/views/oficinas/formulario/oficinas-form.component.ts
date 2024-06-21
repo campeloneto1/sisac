@@ -14,6 +14,7 @@ import { CidadesService } from "../../cidades/cidades.service";
 import { Paises } from "../../paises/pais";
 import { Estados } from "../../estados/estado";
 import { Cidades } from "../../cidades/cidade";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: "app-oficinas-form",
@@ -47,6 +48,7 @@ export class OficinasFormComponent implements OnInit, OnDestroy{
         private estadosService:EstadosService,
         private cidadesService:CidadesService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
    
 
@@ -118,6 +120,11 @@ export class OficinasFormComponent implements OnInit, OnDestroy{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.oficinasService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');

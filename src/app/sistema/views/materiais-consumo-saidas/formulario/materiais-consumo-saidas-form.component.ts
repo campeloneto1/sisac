@@ -12,6 +12,7 @@ import { Users } from "../../users/user";
 import { MateriaisConsumo } from "../../materiais-consumo/material-consumo";
 import { UsersService } from "../../users/users.service";
 import { MateriaisConsumoService } from "../../materiais-consumo/materiais-consumo.service";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: "app-materiais-consumo-saidas-form",
@@ -47,6 +48,7 @@ export class MateriaisConsumoSaidasFormComponent implements OnInit, OnDestroy{
         private usersService: UsersService,
         private materiaisConsumoService: MateriaisConsumoService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
     
 
@@ -61,7 +63,8 @@ export class MateriaisConsumoSaidasFormComponent implements OnInit, OnDestroy{
                 Validators.min(1),
             ])],
             'observacoes': [null], 
-            'materiais': [null],                  
+            'materiais': [null],       
+            'subunidade': [null],           
         });
 
         this.subscription = this.usersService.index().subscribe({
@@ -130,6 +133,11 @@ export class MateriaisConsumoSaidasFormComponent implements OnInit, OnDestroy{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.form.get('materiais')?.patchValue(this.materiaisselected);
             this.materiaisConsumoSaidasService.create(this.form.value).subscribe({
                 next: (data:any) => {

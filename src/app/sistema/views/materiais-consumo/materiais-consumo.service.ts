@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { MateriaisConsumo, MaterialConsumo } from "./material-consumo";
 import { Observable } from "rxjs";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'materiais-consumo';
@@ -14,10 +15,12 @@ export class MateriaisConsumoService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService,
     ){}
 
     index(): Observable<MateriaisConsumo>{
-        return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}`);
+        //return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}`);
+        return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<MaterialConsumo>{
@@ -37,7 +40,8 @@ export class MateriaisConsumoService{
     }
 
     disponiveis(): Observable<MateriaisConsumo>{
-        return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}/disponiveis`);
+        //return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}/disponiveis`);
+        return this.http.get<MateriaisConsumo>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
     }
    
 }

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Setor, Setores } from "./setor";
 import { Observable } from "rxjs";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'setores';
@@ -14,10 +15,12 @@ export class SetoresService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService,
     ){}
 
     index(): Observable<Setores>{
-        return this.http.get<Setores>(`${URL}/${endPoint}`);
+        //return this.http.get<Setores>(`${URL}/${endPoint}`);
+        return this.http.get<Setores>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<Setor>{

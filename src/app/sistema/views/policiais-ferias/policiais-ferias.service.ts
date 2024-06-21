@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { PolicialFerias, PoliciaisFerias } from "./policial-ferias";
 import { Observable } from "rxjs";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'policiais-ferias';
@@ -14,10 +15,12 @@ export class PoliciaisFeriasService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService,
     ){}
 
     index(): Observable<PoliciaisFerias>{
-        return this.http.get<PoliciaisFerias>(`${URL}/${endPoint}`);
+        //return this.http.get<PoliciaisFerias>(`${URL}/${endPoint}`);
+        return this.http.get<PoliciaisFerias>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<PolicialFerias>{

@@ -21,6 +21,7 @@ import { Cores } from "../../cores/cor";
 import { VeiculosTipos } from "../../veiculos-tipos/veiculo-tipo";
 import { VeiculosTiposService } from "../../veiculos-tipos/veiculos-tipos.service";
 import { CoresService } from "../../cores/cores.service";
+import { SessionService } from "../../../session.service";
 
 
 @Component({
@@ -60,6 +61,7 @@ export class VeiculosFormComponent implements OnInit{
         private marcasService:MarcasService,
         private modelosService:ModelosService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit() {
@@ -110,6 +112,7 @@ export class VeiculosFormComponent implements OnInit{
             ])],
             'observacoes': [null],
             'data_baixa': [null],
+            'subunidade': [null],
         });
         //this.unidades$ = this.unidadesService.index();
         this.marcas$ = this.marcasService.marcasTransporte();
@@ -145,6 +148,11 @@ export class VeiculosFormComponent implements OnInit{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.veiculosService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');

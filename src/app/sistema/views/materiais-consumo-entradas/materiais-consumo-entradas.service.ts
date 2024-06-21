@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { MateriaisConsumoEntradas, MaterialConsumoEntrada } from "./material-consumo-entrada";
 import { Observable } from "rxjs";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'materiais-consumo-entradas';
@@ -14,10 +15,12 @@ export class MateriaisConsumoEntradasService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService,
     ){}
 
     index(): Observable<MateriaisConsumoEntradas>{
-        return this.http.get<MateriaisConsumoEntradas>(`${URL}/${endPoint}`);
+        //return this.http.get<MateriaisConsumoEntradas>(`${URL}/${endPoint}`);
+        return this.http.get<MateriaisConsumoEntradas>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<MaterialConsumoEntrada>{

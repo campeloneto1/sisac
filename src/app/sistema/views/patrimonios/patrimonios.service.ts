@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Patrimonio, Patrimonios } from "./patrimonio";
 import { Observable } from "rxjs";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'patrimonios';
@@ -14,10 +15,12 @@ export class PatrimoniosService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService,
     ){}
 
     index(): Observable<Patrimonios>{
-        return this.http.get<Patrimonios>(`${URL}/${endPoint}`);
+        //return this.http.get<Patrimonios>(`${URL}/${endPoint}`);
+        return this.http.get<Patrimonios>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<Patrimonio>{
@@ -37,7 +40,9 @@ export class PatrimoniosService{
     }
 
     disponiveis(): Observable<Patrimonios>{
-        return this.http.get<Patrimonios>(`${URL}/${endPoint}/disponiveis`);
+        //return this.http.get<Patrimonios>(`${URL}/${endPoint}/disponiveis`);
+        return this.http.get<Patrimonios>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
+        
     }
 
    

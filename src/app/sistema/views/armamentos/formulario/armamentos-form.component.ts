@@ -24,6 +24,7 @@ import { Subunidades } from "../../subunidades/subunidade";
 import { UnidadesService } from "../../unidades/unidades.service";
 import { SubunidadesService } from "../../subunidades/subunidades.service";
 import { StorageService } from "../../../storage.service";
+import { SessionService } from "../../../session.service";
 
 
 @Component({
@@ -62,7 +63,7 @@ export class ArmamentosFormComponent implements OnInit{
         private armamentosTiposService:ArmamentosTiposService,
         private armamanetosTamanhosService:ArmamentosTamanhosService,
         private armamentosCalibresService:ArmamentosCalibresService,
-        private storageService: StorageService,
+        private sessionService: SessionService,
         private marcasService:MarcasService,
         private modelosService:ModelosService,
         private toastr: ToastrService,
@@ -105,9 +106,7 @@ export class ArmamentosFormComponent implements OnInit{
       
         delete this.form.value.unidade;
         delete this.form.value.marca;
-        if(this.storageService.getItem('subunidade')){
-            this.form.get('subunidade')?.patchValue(this.storageService.getItem('subunidade'));
-        }
+        
         if(this.form.value.id){
             if(!this.form.value.data_baixa){
                 this.form.get('data_baixa')?.patchValue(null);
@@ -129,6 +128,11 @@ export class ArmamentosFormComponent implements OnInit{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.armamentosService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');

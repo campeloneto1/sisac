@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { VeiculoOficina, VeiculosOficinas } from "./veiculo-oficina";
 import { Observable } from "rxjs";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'veiculos-oficinas';
@@ -14,10 +15,12 @@ export class VeiculosOficinasService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService,
     ){}
 
     index(): Observable<VeiculosOficinas>{
-        return this.http.get<VeiculosOficinas>(`${URL}/${endPoint}`);
+        //return this.http.get<VeiculosOficinas>(`${URL}/${endPoint}`);
+        return this.http.get<VeiculosOficinas>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<VeiculoOficina>{
@@ -37,7 +40,8 @@ export class VeiculosOficinasService{
     }
 
     emmanutencao(): Observable<VeiculosOficinas>{
-        return this.http.get<VeiculosOficinas>(`${URL}/${endPoint}/emmanutencao`);
+       // return this.http.get<VeiculosOficinas>(`${URL}/${endPoint}/emmanutencao`);
+        return this.http.get<VeiculosOficinas>(`${URL}/${endPoint}/emmanutencao?subunidade=${this.sessionService.getSubunidade()}`);
     }
    
     receber(data: any){

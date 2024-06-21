@@ -21,6 +21,7 @@ import { PatrimoniosTiposService } from "../../patrimonios-tipos/patrimonios-tip
 import { UnidadesService } from "../../unidades/unidades.service";
 import { SubunidadesService } from "../../subunidades/subunidades.service";
 import { SetoresService } from "../../setores/setores.service";
+import { SessionService } from "../../../session.service";
 
 
 @Component({

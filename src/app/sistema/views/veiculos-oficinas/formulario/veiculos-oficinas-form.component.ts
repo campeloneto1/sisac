@@ -15,6 +15,7 @@ import { ManutencoesTipos } from "../../manutencoes-tipos/manutencao-tipo";
 import { VeiculosService } from "../../veiculos/veiculos.service";
 import { ManutencoesTiposService } from "../../manutencoes-tipos/manutencoes-tipos.service";
 import { OficinasService } from "../../oficinas/oficinas.service";
+import { SessionService } from "../../../session.service";
 
 
 @Component({
@@ -49,6 +50,7 @@ export class VeiculosOficinasFormComponent implements OnInit, OnDestroy{
         private oficinasService:OficinasService,
         private manutencoesTiposService:ManutencoesTiposService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
     
     ngOnInit() {
@@ -69,6 +71,7 @@ export class VeiculosOficinasFormComponent implements OnInit, OnDestroy{
             'km_inicial': [null],
             'km_final': [null],
             'observacoes': [null],
+            'subunidade': [null],
         });
         // this.veiculos$ = this.veiculosService.index();
         this.oficinas$ = this.oficinasService.index();
@@ -112,6 +115,11 @@ export class VeiculosOficinasFormComponent implements OnInit, OnDestroy{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.veiculosOficinasService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');

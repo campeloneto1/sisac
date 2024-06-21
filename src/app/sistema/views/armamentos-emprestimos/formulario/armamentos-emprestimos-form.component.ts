@@ -12,6 +12,8 @@ import { PoliciaisService } from "../../policiais/policiais.service";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
 import { Armamento, Armamentos } from "../../armamentos/armamento";
 import { ArmamentosService } from "../../armamentos/armamentos.service";
+import { StorageService } from "../../../storage.service";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: "app-armamentos-emprestimos-form",
@@ -47,6 +49,7 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
         private policiaisService: PoliciaisService,
         private armamentosService: ArmamentosService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
     
 
@@ -62,7 +65,8 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
             ])],
             'observacoes': [null], 
             'cautela': [null],  
-            'armamentos': [null],                  
+            'armamentos': [null],  
+            'subunidade': [null],                
         });
 
         this.subscription = this.policiaisService.disponiveis().subscribe({
@@ -115,6 +119,7 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
             this.form.get('cautela')?.patchValue(null);
         }
         
+        
         if(this.form.value.id){
             delete this.form.value.armamentos;
             delete this.form.value.armamento;
@@ -131,6 +136,12 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
+
             this.form.get('armamentos')?.patchValue(this.armamentosselected);
             this.armamentosEmprestimosService.create(this.form.value).subscribe({
                 next: (data:any) => {

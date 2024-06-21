@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Contrato, Contratos } from "./contrato";
 import { Observable } from "rxjs";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'contratos';
@@ -14,10 +15,16 @@ export class ContratosService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService,
     ){}
 
     index(): Observable<Contratos>{
-        return this.http.get<Contratos>(`${URL}/${endPoint}`);
+       // return this.http.get<Contratos>(`${URL}/${endPoint}`);
+        if(this.sessionService.getSubunidade()){
+            return this.http.get<Contratos>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        }else{
+            return this.http.get<Contratos>(`${URL}/${endPoint}`);
+        }
     }
 
     find(id: number): Observable<Contrato>{

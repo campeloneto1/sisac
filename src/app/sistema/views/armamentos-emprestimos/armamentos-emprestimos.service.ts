@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { ArmamentoEmprestimo, ArmamentosEmprestimos } from "./armamento-emprestimo";
 import { Observable } from "rxjs";
+import { StorageService } from "../../storage.service";
+import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'armamentos-emprestimos';
@@ -14,10 +16,13 @@ export class ArmamentosEmprestimosService{
 
     constructor(
         private http: HttpClient,
+        private sessionService: SessionService
     ){}
 
     index(): Observable<ArmamentosEmprestimos>{
-        return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}`);
+        //return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}`);
+       return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        
     }
 
     find(id: number): Observable<ArmamentoEmprestimo>{

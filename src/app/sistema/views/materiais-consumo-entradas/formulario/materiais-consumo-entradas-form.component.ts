@@ -10,6 +10,7 @@ import { Observable, of } from "rxjs";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
 import { MateriaisConsumo } from "../../materiais-consumo/material-consumo";
 import { MateriaisConsumoService } from "../../materiais-consumo/materiais-consumo.service";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: "app-materiais-consumo-entradas-form",
@@ -42,6 +43,7 @@ export class MateriaisConsumoEntradasFormComponent implements OnInit, OnDestroy{
         private materiaisConsumoEntradasService: MateriaisConsumoEntradasService,
         private materiaisConsumoService: MateriaisConsumoService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
     
 
@@ -54,7 +56,8 @@ export class MateriaisConsumoEntradasFormComponent implements OnInit, OnDestroy{
                 Validators.min(1),
             ])],
             'observacoes': [null], 
-            'materiais': [null],                  
+            'materiais': [null],     
+            'subunidade': [null],             
         });
 
         // this.subscription = this.usersService.index().subscribe({
@@ -123,6 +126,11 @@ export class MateriaisConsumoEntradasFormComponent implements OnInit, OnDestroy{
                 }
             });
         }else{
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.form.get('materiais')?.patchValue(this.materiaisselected);
             this.materiaisConsumoEntradasService.create(this.form.value).subscribe({
                 next: (data:any) => {

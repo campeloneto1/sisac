@@ -12,6 +12,7 @@ import { Materiais } from "../../materiais/material";
 import { MaterialPolicial } from "../material-policial";
 import { MateriaisPoliciaisService } from "../materiais-policiais.service";
 import { MateriaisService } from "../../materiais/materiais.service";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: "app-materiais-policiais-form",
@@ -47,6 +48,7 @@ export class MateriaisPoliciaisFormComponent implements OnInit, OnDestroy{
         private policiaisService: PoliciaisService,
         private materiaisService: MateriaisService,
         private toastr: ToastrService,
+        private sessionService: SessionService,
     ){}
     
 
@@ -62,7 +64,8 @@ export class MateriaisPoliciaisFormComponent implements OnInit, OnDestroy{
             ])],
             'observacoes': [null], 
             'cautela': [null],  
-            'materiais': [null],                  
+            'materiais': [null],   
+            'subunidade': [null],               
         });
 
         this.subscription = this.policiaisService.disponiveis().subscribe({
@@ -130,6 +133,11 @@ export class MateriaisPoliciaisFormComponent implements OnInit, OnDestroy{
             });
         }else{
             this.form.get('materiais')?.patchValue(this.materiaisselected);
+            if(this.sessionService.getSubunidade()){
+                this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+            }else{
+                this.toastr.error('Selecione uma subunidade!');
+            }
             this.materiaisPoliciaisService.create(this.form.value).subscribe({
                 next: (data:any) => {
                     this.toastr.success('Cadastro realizado com sucesso!');
