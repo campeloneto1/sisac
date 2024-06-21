@@ -321,6 +321,16 @@ export const routes: Routes = [
               import('./sistema/views/policiais-requeridas/policiais-requeridas.component').then((c) => c.PoliciaisRequeridasComponent),
           },
           {
+            path: 'Servicos',
+            loadComponent: () =>
+              import('./sistema/views/servicos/servicos.component').then((c) => c.ServicosComponent),
+          },
+          {
+            path: 'ServicosTipos',
+            loadComponent: () =>
+              import('./sistema/views/servicos-tipos/servicos-tipos.component').then((c) => c.ServicosTiposComponent),
+          },
+          {
             path: 'Setores',
             loadComponent: () =>
               import('./sistema/views/setores/setores.component').then((c) => c.SetoresComponent),

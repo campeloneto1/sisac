@@ -1,36 +1,34 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
-import { Contrato, Contratos } from "./contrato";
+import { ServicoTipo, ServicosTipos } from "./servico-tipo";
 import { Observable } from "rxjs";
 
 const URL = environment.url;
-const endPoint = 'contratos';
+const endPoint = 'servicos-tipos';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ContratosService{
+export class ServicosTiposService{
 
     constructor(
         private http: HttpClient,
-        //private sessionService: SessionService,
     ){}
 
-    index(): Observable<Contratos>{
-        return this.http.get<Contratos>(`${URL}/${endPoint}`);
-        //return this.http.get<Contratos>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+    index(): Observable<ServicosTipos>{
+        return this.http.get<ServicosTipos>(`${URL}/${endPoint}`);
     }
 
-    find(id: number): Observable<Contrato>{
-        return this.http.get<Contrato>(`${URL}/${endPoint}/${id}`);
+    find(id: number): Observable<ServicoTipo>{
+        return this.http.get<ServicoTipo>(`${URL}/${endPoint}/${id}`);
     }
 
-    create(data: Contrato){
+    create(data: ServicoTipo){
        return this.http.post(`${URL}/${endPoint}`, data);
     }
 
-    update(id:number, data: Contrato){
+    update(id:number, data: ServicoTipo){
         return this.http.put(`${URL}/${endPoint}/${id}`, data);
     }
 

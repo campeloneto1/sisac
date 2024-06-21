@@ -112,6 +112,12 @@
                               {{ materialconsumo.quantidade_alerta }}
                             </dd>
                             } 
+                            @if(materialconsumo.data_validade){
+                              <dt class="col-sm-2">Data Validade:</dt>
+                              <dd class="col-sm-2">
+                                {{ materialconsumo.data_validade | date: 'dd/MM/yyyy' }}
+                              </dd>
+                              } 
                           </div>
                         </div>
                       </div>

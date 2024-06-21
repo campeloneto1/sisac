@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Materiais, Material } from "./material";
 import { Observable } from "rxjs";
-import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'materiais';
@@ -15,12 +14,12 @@ export class MateriaisService{
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService,
+        //private sessionService: SessionService,
     ){}
 
     index(): Observable<Materiais>{
-        //return this.http.get<Materiais>(`${URL}/${endPoint}`);
-        return this.http.get<Materiais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<Materiais>(`${URL}/${endPoint}`);
+        //return this.http.get<Materiais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<Material>{
@@ -40,8 +39,8 @@ export class MateriaisService{
     }
 
     disponiveis(): Observable<Materiais>{
-        //return this.http.get<Materiais>(`${URL}/${endPoint}/disponiveis`);
-        return this.http.get<Materiais>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<Materiais>(`${URL}/${endPoint}/disponiveis`);
+        //return this.http.get<Materiais>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
     }
    
 }

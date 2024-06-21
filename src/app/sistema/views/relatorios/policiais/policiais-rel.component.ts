@@ -14,6 +14,7 @@ import { Sexos } from "../../sexos/sexo";
 import { GraduacoesService } from "../../graduacoes/graduacoes.service";
 import { SexosService } from "../../sexos/sexos.service";
 import { SetoresService } from "../../setores/setores.service";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: 'app-policiais-rel',
@@ -52,14 +53,17 @@ export class PoliciaisRelComponent implements OnInit, OnDestroy{
         private graduacoesService: GraduacoesService,
         private sexosService: SexosService,
         private setoresService: SetoresService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit(): void {
+        this.sessionService.checkPermission('relatorios');
         this.form = this.formBuilder.group({
             'graduacao': [null],
             'setor': [null],
             'sexo': [null],
             'transferido': [null],
+            'subunidade': [null],
            
         });
 
@@ -82,6 +86,9 @@ export class PoliciaisRelComponent implements OnInit, OnDestroy{
    
 
     pesquisar(){
+        if(this.sessionService.getSubunidade()){
+            this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+        }
        this.data$ = this.policiaisRelService.relatorio(this.form.value);
     }
 }

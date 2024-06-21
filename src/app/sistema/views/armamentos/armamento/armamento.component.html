@@ -100,6 +100,12 @@
                               {{ armamento.quantidade_disponivel }}
                             </dd>
                             } 
+                            @if(armamento.data_validade){
+                              <dt class="col-sm-2">Data Validade:</dt>
+                              <dd class="col-sm-2">
+                                {{ armamento.data_validade | date: 'dd/MM/yyyy' }}
+                              </dd>
+                              } 
                           </div>
                         </div>
                       </div>

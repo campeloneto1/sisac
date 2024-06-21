@@ -1,0 +1,63 @@
+<form [formGroup]="form">
+
+    <div class="row">
+        <input-select
+            class="col-sm-4"
+            label="Empresa"
+            id="empresa"
+            [data$]="empresas$"
+            formControlName="empresa"
+        />
+      
+      <input-select
+          class="col-sm-4"
+          label="Serviço do tipo"
+          id="servico_tipo"
+          [data$]="servicostipos$"
+          formControlName="servico_tipo"
+      />
+        
+    </div>
+
+    <div class="row">
+        
+        <input-text
+            class="col-sm-2"
+            formControlName="data_inicial"
+            label="Data inicial"
+            id="data_inicial"
+            tipo="date"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="data_final"
+            label="Data final"
+            id="data_final"
+            tipo="date"
+        />
+       
+    </div>
+
+    <div class="row" style="height: 350px;">
+        <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+    </div>
+  
+    <div class="d-flex justify-content-end">
+      <a
+        (click)="form.reset()"
+        data-bs-dismiss="modal"
+        class="btn btn-link text-danger"
+        >Cancelar</a
+      >
+      <button
+        [disabled]="form.invalid"
+        type="button"
+        (click)="cadastrar()"
+        data-bs-dismiss="modal"
+        class="btn btn-primary"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </form>
+  

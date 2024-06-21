@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { VeiculoPolicial, VeiculosPoliciais } from "./veiculo-policial";
 import { Observable } from "rxjs";
-import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'veiculos-policiais';
@@ -15,12 +14,12 @@ export class VeiculosPoliciaisService{
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService,
+        //private sessionService: SessionService,
     ){}
 
     index(): Observable<VeiculosPoliciais>{
-        //return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}`);
-        return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}`);
+        // return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<VeiculoPolicial>{
@@ -40,8 +39,8 @@ export class VeiculosPoliciaisService{
     }
 
     emprestados(): Observable<VeiculosPoliciais>{
-        //return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}/emprestados`);
-        return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}/emprestados?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}/emprestados`);
+        // return this.http.get<VeiculosPoliciais>(`${URL}/${endPoint}/emprestados?subunidade=${this.sessionService.getSubunidade()}`);
     }
    
     receber(data: any){
@@ -49,7 +48,7 @@ export class VeiculosPoliciaisService{
      }
 
      veiculoPolicial(): Observable<VeiculoPolicial>{
-        //return this.http.get<VeiculoPolicial>(`${URL}/${endPoint}/emprestadopolicial`);
-        return this.http.get<VeiculoPolicial>(`${URL}/${endPoint}/emprestadopolicial?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<VeiculoPolicial>(`${URL}/${endPoint}/emprestadopolicial`);
+        // return this.http.get<VeiculoPolicial>(`${URL}/${endPoint}/emprestadopolicial?subunidade=${this.sessionService.getSubunidade()}`);
      }
 }

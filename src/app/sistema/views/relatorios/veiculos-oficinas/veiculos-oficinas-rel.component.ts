@@ -17,6 +17,7 @@ import { ManutencoesTipos } from "../../manutencoes-tipos/manutencao-tipo";
 import { ManutencoesTiposService } from "../../manutencoes-tipos/manutencoes-tipos.service";
 import { VeiculosOficinasRelService } from "./veiculos-oficinas-rel.service";
 import { VeiculosOficinas } from "../../veiculos-oficinas/veiculo-oficina";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: 'app-veiculos-oficinas-rel',
@@ -52,10 +53,12 @@ export class VeiculosOficinasRel implements OnInit, OnDestroy{
         private marcasService: MarcasService,
         private modelosService: ModelosService,
         private manutencoesTiposService: ManutencoesTiposService,
-        private veiculosOficinasRelService: VeiculosOficinasRelService
+        private veiculosOficinasRelService: VeiculosOficinasRelService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit(): void {
+        this.sessionService.checkPermission('relatorios');
         this.form = this.formBuilder.group({
             'oficina': [null],
             'veiculo': [null],
@@ -68,6 +71,7 @@ export class VeiculosOficinasRel implements OnInit, OnDestroy{
             'manutencao_tipo': [null],
             'marca': [null],
             'modelo': [null],
+            'subunidade': [null],
         });
 
         this.oficinas$ = this.oficinasService.index();
@@ -101,6 +105,9 @@ export class VeiculosOficinasRel implements OnInit, OnDestroy{
     }
 
     pesquisar(){
+        if(this.sessionService.getSubunidade()){
+            this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+        }
        this.data$ = this.veiculosOficinasRelService.relatorio(this.form.value);
     }
 }

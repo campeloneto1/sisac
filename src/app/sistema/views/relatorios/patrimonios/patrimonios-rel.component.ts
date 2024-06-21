@@ -11,6 +11,7 @@ import { PatrimoniosTipos } from "../../patrimonios-tipos/patrimonio-tipo";
 import { SetoresService } from "../../setores/setores.service";
 import { PatrimoniosTiposService } from "../../patrimonios-tipos/patrimonios-tipos.service";
 import { Patrimonios } from "../../patrimonios/patrimonio";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: 'app-patrimonios-rel',
@@ -40,14 +41,17 @@ export class PatrimoniosRel implements OnInit, OnDestroy{
         private formBuilder: FormBuilder,
         private setoresService: SetoresService,
         private patrimoniosTiposService: PatrimoniosTiposService,
-        private patrimoniosRelService: PatrimoniosRelService
+        private patrimoniosRelService: PatrimoniosRelService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit(): void {
+        this.sessionService.checkPermission('relatorios');
         this.form = this.formBuilder.group({
             'setor': [null],
             'patrimonio_tipo': [null],
             'data_baixa': [null],
+            'subunidade': [null],
             
         });
 
@@ -65,6 +69,9 @@ export class PatrimoniosRel implements OnInit, OnDestroy{
    
 
     pesquisar(){
+        if(this.sessionService.getSubunidade()){
+            this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+        }
        this.data$ = this.patrimoniosRelService.relatorio(this.form.value);
     }
 }

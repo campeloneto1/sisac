@@ -14,6 +14,7 @@ import { ModelosService } from "../../modelos/modelos.service";
 import { Veiculos } from "../../veiculos/veiculo";
 import { VeiculosTipos } from "../../veiculos-tipos/veiculo-tipo";
 import { VeiculosTiposService } from "../../veiculos-tipos/veiculos-tipos.service";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: 'app-veiculos-rel',
@@ -52,9 +53,11 @@ export class VeiculosRelComponent implements OnInit, OnDestroy{
         private marcasService: MarcasService,
         private modelosService: ModelosService,
         private veiculosTiposService: VeiculosTiposService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit(): void {
+        this.sessionService.checkPermission('relatorios');
         this.form = this.formBuilder.group({
             'marca': [null],
             'modelo': [null],
@@ -63,6 +66,7 @@ export class VeiculosRelComponent implements OnInit, OnDestroy{
             'blindado': [null],
             'locado': [null],
             'data_baixa': [null],
+            'subunidade': [null],
         });
 
         this.marcas$ = this.marcasService.marcasTransporte();
@@ -83,6 +87,9 @@ export class VeiculosRelComponent implements OnInit, OnDestroy{
    
 
     pesquisar(){
+        if(this.sessionService.getSubunidade()){
+            this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+        }
        this.data$ = this.veiculosRelService.relatorio(this.form.value);
     }
 

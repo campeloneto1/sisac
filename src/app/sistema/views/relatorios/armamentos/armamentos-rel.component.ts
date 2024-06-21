@@ -18,6 +18,7 @@ import { ModelosService } from "../../modelos/modelos.service";
 import { ArmamentosTiposService } from "../../armamentos-tipos/armamentos-tipos.service";
 import { ArmamentosCalibresService } from "../../armamentos-calibres/armamentos-calibres.service";
 import { ArmamentosTamanhosService } from "../../armamentos-tamanhos/armamentos-tamanhos.service";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: 'app-armamentos-rel',
@@ -60,9 +61,11 @@ export class ArmamentosRelComponent implements OnInit, OnDestroy{
         private armamentosTiposService: ArmamentosTiposService,
         private armamentosCalibresService: ArmamentosCalibresService,
         private armamentosTamanhosService: ArmamentosTamanhosService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit(): void {
+        this.sessionService.checkPermission('relatorios');
         this.form = this.formBuilder.group({
             'marca': [null],
             'modelo': [null],
@@ -70,6 +73,7 @@ export class ArmamentosRelComponent implements OnInit, OnDestroy{
             'armamento_calibre': [null],
             'armamento_tamanho': [null],
             'data_baixa': [null],
+            'subunidade': [null],
         });
 
         this.marcas$ = this.marcasService.marcasArmamentos();
@@ -92,6 +96,9 @@ export class ArmamentosRelComponent implements OnInit, OnDestroy{
    
 
     pesquisar(){
+        if(this.sessionService.getSubunidade()){
+            this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+        }
        this.data$ = this.armamentosRelService.relatorio(this.form.value);
     }
 

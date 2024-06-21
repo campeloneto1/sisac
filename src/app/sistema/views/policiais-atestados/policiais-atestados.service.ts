@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { PolicialAtestado, PoliciaisAtestados } from "./policial-atestado";
 import { Observable } from "rxjs";
-import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'policiais-atestados';
@@ -15,12 +14,12 @@ export class PoliciaisAtestadosService{
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService,
+       // private sessionService: SessionService,
     ){}
 
     index(): Observable<PoliciaisAtestados>{
-        //return this.http.get<PoliciaisAtestados>(`${URL}/${endPoint}`);
-        return this.http.get<PoliciaisAtestados>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<PoliciaisAtestados>(`${URL}/${endPoint}`);
+        //return this.http.get<PoliciaisAtestados>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<PolicialAtestado>{

@@ -12,6 +12,7 @@ import { Armamentos } from "../../armamentos/armamento";
 import { PoliciaisService } from "../../policiais/policiais.service";
 import { ArmamentosService } from "../../armamentos/armamentos.service";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: 'app-armamentos-emprestimos-rel',
@@ -48,9 +49,11 @@ export class ArmamentosEmprestimosRel implements OnInit, OnDestroy{
         private armamentosEmprestimosRelService: ArmamentosEmprestimosRelService,
         private policiaisService: PoliciaisService,
         private armamentosService: ArmamentosService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit(): void {
+        this.sessionService.checkPermission('relatorios');
         this.form = this.formBuilder.group({
             'armamento': [null],
             'policial': [null],
@@ -60,7 +63,7 @@ export class ArmamentosEmprestimosRel implements OnInit, OnDestroy{
             'data_final': [null, Validators.compose([
                 Validators.required
             ])],
-            
+            'subunidade': [null],
         });
 
         this.subscription = this.policiaisService.index().subscribe({
@@ -106,6 +109,9 @@ export class ArmamentosEmprestimosRel implements OnInit, OnDestroy{
    
 
     pesquisar(){
+        if(this.sessionService.getSubunidade()){
+            this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+        }
        this.data$ = this.armamentosEmprestimosRelService.relatorio(this.form.value);
     }
 }

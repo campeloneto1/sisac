@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Policial, Policiais } from "./policial";
 import { Observable } from "rxjs";
-import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'policiais';
@@ -15,12 +14,12 @@ export class PoliciaisService{
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService,
+        //private sessionService: SessionService,
     ){}
 
     index(): Observable<Policiais>{
-        //return this.http.get<Policiais>(`${URL}/${endPoint}`);
-        return this.http.get<Policiais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<Policiais>(`${URL}/${endPoint}`);
+        //return this.http.get<Policiais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<Policial>{
@@ -40,8 +39,8 @@ export class PoliciaisService{
     }
 
     disponiveis(): Observable<Policiais>{
-        //return this.http.get<Policiais>(`${URL}/${endPoint}/disponiveis`);
-        return this.http.get<Policiais>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<Policiais>(`${URL}/${endPoint}/disponiveis`);
+        //return this.http.get<Policiais>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
     }
    
     updateFoto(id:number, data: any){

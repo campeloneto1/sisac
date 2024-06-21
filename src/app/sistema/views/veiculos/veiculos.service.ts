@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { Veiculo, Veiculos } from "./veiculo";
 import { Observable } from "rxjs";
-import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'veiculos';
@@ -15,12 +14,12 @@ export class VeiculosService{
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService,
+        //private sessionService: SessionService,
     ){}
 
     index(): Observable<Veiculos>{
-        //return this.http.get<Veiculos>(`${URL}/${endPoint}`);
-        return this.http.get<Veiculos>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<Veiculos>(`${URL}/${endPoint}`);
+        //return this.http.get<Veiculos>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<Veiculo>{
@@ -40,8 +39,8 @@ export class VeiculosService{
     }
 
     disponiveis(): Observable<Veiculos>{
-        //return this.http.get<Veiculos>(`${URL}/${endPoint}/disponiveis`);
-        return this.http.get<Veiculos>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<Veiculos>(`${URL}/${endPoint}/disponiveis`);
+        //return this.http.get<Veiculos>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
     }
    
 }

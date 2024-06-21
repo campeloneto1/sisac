@@ -10,12 +10,28 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const setorageService = inject(StorageService);
   
   const authToken = setorageService.getItem('token');
+  const subunidade = setorageService.getItem('subunidade');
+  var authReq;
   // Clone the request and add the authorization header
-  const authReq = req.clone({
-    setHeaders: {
-      Authorization: `Bearer ${authToken}`
-    }
-  });
+  if(req.method == "GET"){
+     authReq = req.clone({
+      setParams: {
+        //@ts-ignore
+        subunidade: subunidade
+      },
+      setHeaders: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
+  }else{
+     authReq = req.clone({
+   
+      setHeaders: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
+  }
+ 
 
   // Pass the cloned request with the updated header to the next handler
   return next(authReq).pipe(
@@ -24,16 +40,16 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
         // Handle HTTP errors
         if (err.status === 401) {
           // Specific handling for unauthorized errors         
-          console.error('Unauthorized request:', err);
+          //console.error('Unauthorized request:', err);
           router.navigate(['auth']);
           // You might trigger a re-authentication flow or redirect the user here
         } else {
           // Handle other HTTP error codes
-          console.error('HTTP error:', err);
+          //console.error('HTTP error:', err);
         }
       } else {
         // Handle non-HTTP errors
-        console.error('An error occurred:', err);
+        //console.error('An error occurred:', err);
       }
 
       // Re-throw the error to propagate it further

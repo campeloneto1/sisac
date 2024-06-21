@@ -12,6 +12,7 @@ import { VeiculosPoliciais } from "../../veiculos-policiais/veiculo-policial";
 import { Policiais } from "../../policiais/policial";
 import { PoliciaisService } from "../../policiais/policiais.service";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
+import { SessionService } from "../../../session.service";
 
 @Component({
     selector: 'app-veiculos-policiais-rel',
@@ -47,10 +48,12 @@ export class VeiculosPoliciaisRel implements OnInit, OnDestroy{
         private formBuilder: FormBuilder,
         private policiaisService: PoliciaisService,
         private veiculosService: VeiculosService,
-        private veiculosPoliciaisRelService:VeiculosPoliciaisRelService
+        private veiculosPoliciaisRelService:VeiculosPoliciaisRelService,
+        private sessionService: SessionService,
     ){}
 
     ngOnInit(): void {
+        this.sessionService.checkPermission('relatorios');
         this.form = this.formBuilder.group({
             'policial': [null],
             'veiculo': [null],
@@ -60,6 +63,7 @@ export class VeiculosPoliciaisRel implements OnInit, OnDestroy{
             'data_final': [null, Validators.compose([
                 Validators.required
             ])],
+            'subunidade': [null],
         });
 
         this.subscription = this.veiculosService.disponiveis().subscribe({
@@ -102,6 +106,9 @@ export class VeiculosPoliciaisRel implements OnInit, OnDestroy{
     }
 
     pesquisar(){
+        if(this.sessionService.getSubunidade()){
+            this.form.get('subunidade')?.patchValue(this.sessionService.getSubunidade());
+        }
        this.data$ = this.veiculosPoliciaisRelService.relatorio(this.form.value);
     }
 }

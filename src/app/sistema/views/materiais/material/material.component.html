@@ -105,6 +105,12 @@
                               {{ material.quantidade_disponivel }}
                             </dd>
                             } 
+                            @if(material.data_validade){
+                              <dt class="col-sm-2">Data Validade:</dt>
+                              <dd class="col-sm-2">
+                                {{ material.data_validade | date: 'dd/MM/yyyy' }}
+                              </dd>
+                              } 
                           </div>
                         </div>
                       </div>

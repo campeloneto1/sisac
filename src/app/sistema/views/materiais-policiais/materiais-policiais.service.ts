@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environments";
 import { MaterialPolicial, MateriaisPoliciais } from "./material-policial";
 import { Observable } from "rxjs";
-import { SessionService } from "../../session.service";
 
 const URL = environment.url;
 const endPoint = 'materiais-policiais';
@@ -15,12 +14,12 @@ export class MateriaisPoliciaisService{
 
     constructor(
         private http: HttpClient,
-        private sessionService: SessionService,
+        //private sessionService: SessionService,
     ){}
 
     index(): Observable<MateriaisPoliciais>{
-        //return this.http.get<MateriaisPoliciais>(`${URL}/${endPoint}`);
-        return this.http.get<MateriaisPoliciais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<MateriaisPoliciais>(`${URL}/${endPoint}`);
+        //return this.http.get<MateriaisPoliciais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<MaterialPolicial>{
