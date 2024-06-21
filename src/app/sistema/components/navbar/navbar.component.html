@@ -17,6 +17,9 @@
     </ul>
   
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item d-none d-sm-inline-block">
+        <a  class="nav-link">{{selectsub.nome}}</a>
+      </li>
       <li class="nav-item dropdown user-menu">
         <a
           href="#"
@@ -32,6 +35,7 @@
           />
           @if(user){
             <span class="d-none d-md-inline">
+              
               @if(user.policial){
                 {{user.policial.graduacao.abreviatura}}  {{user.policial.nome_guerra}}
               }@else{
@@ -39,6 +43,7 @@
               }
               
             </span>
+            
           }
         </a>
         <ul

@@ -55,7 +55,7 @@
           <thead>
             <tr>
               <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
+              <!-- <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th> -->
               <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
               <th><mfDefaultSorter by="cpf">CPF</mfDefaultSorter></th>
               <th><mfDefaultSorter by="telefone">Telefone</mfDefaultSorter></th>
@@ -70,7 +70,7 @@
             @for(row of mf.data; track row){
             <tr class="optionshover">
               <td>{{ row.id }}</td>
-              <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
+              <!-- <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td> -->
               <td>{{ row.nome }}</td>
               <td>{{ row.cpf | mask: '000.000.000-00' }}</td>
               <td>@if(row.telefone){{{ row.telefone | mask: '(00) 00000-0000' }}}</td>

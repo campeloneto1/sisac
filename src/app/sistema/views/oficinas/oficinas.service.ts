@@ -20,7 +20,7 @@ export class OficinasService{
 
     index(): Observable<Oficinas>{
         //return this.http.get<Oficinas>(`${URL}/${endPoint}`);
-        return this.http.get<Oficinas>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<Oficinas>(`${URL}/${endPoint}`);
     }
 
     find(id: number): Observable<Oficina>{

@@ -10,7 +10,7 @@ import { ToastrService } from "ngx-toastr";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { User } from "../../views/users/user";
 import { Observable, of } from "rxjs";
-import { Subunidades } from "../../views/subunidades/subunidade";
+import { Subunidade, Subunidades } from "../../views/subunidades/subunidade";
 import { InputSelectComponent } from "../input-select/input-select.component";
 import { NgxSelectModule } from "ngx-select-ex";
 
@@ -40,6 +40,7 @@ export class NavbarComponent implements OnInit{
     protected user!: User;
     protected subunidades$!: Observable<Subunidades>;
     protected subunidade!: number;
+    protected selectsub!: Subunidade;
     protected form!: FormGroup;
 
     constructor(
@@ -68,6 +69,10 @@ export class NavbarComponent implements OnInit{
            
             var subunidadesuser:Subunidades = [];
             this.user.users_subunidades?.forEach((data) =>{
+                if(this.subunidade == data.subunidade.id){
+                    this.selectsub = data.subunidade;
+                }
+                data.subunidade.nome = `${data.subunidade.abreviatura} - ${data.subunidade.unidade.abreviatura}`
                 subunidadesuser.push(data.subunidade);
             })
             
@@ -92,6 +97,11 @@ export class NavbarComponent implements OnInit{
     setSubunidade(){
         //@ts-ignore
         this.storageService.setItem('subunidade', this.subunidade);
+        this.user.users_subunidades?.forEach((data) =>{
+            if(this.subunidade == data.subunidade.id){
+                this.selectsub = data.subunidade;
+            }
+        })
         window.location.reload();
     }
 
