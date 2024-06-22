@@ -104,12 +104,14 @@ export class VeiculosOficinasComponent implements OnInit, OnDestroy {
             || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.oficina.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.manutencao_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1
             || !pesq
         }else{
             return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.oficina.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.manutencao_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1
             || !pesq
         }
         

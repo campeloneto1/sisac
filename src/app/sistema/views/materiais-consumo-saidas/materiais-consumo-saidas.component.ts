@@ -133,14 +133,24 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
       var pesq = this.pesquisa.toLocaleLowerCase();
       this.data$ = this.data$.filter((data) => {
         if(data.user.policial){
+          if(data.user.policial.numeral){
             return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.user.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.user.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.materiais_consumo.material_consumo_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.materiais_consumo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1   
-        || data.materiais_consumo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1         
-        || !pesq
+            || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.user.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || !pesq
+          }else{
+            return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.user.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || !pesq
+          }
         }else{
             return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
         || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 

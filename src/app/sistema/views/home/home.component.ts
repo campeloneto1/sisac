@@ -13,12 +13,22 @@ import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-empre
 import { MateriaisConsumo } from "../materiais-consumo/material-consumo";
 import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
 import { Materiais } from "../materiais/material";
+import { Contrato, Contratos } from "../contratos/contrato";
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrl: './home.component.css',
     standalone: true,
-    imports: [CommonModule, InfoBox]
+    imports: [
+        CommonModule, 
+        InfoBox,
+        NgxMaskDirective,
+        NgxMaskPipe,
+    ],
+    providers: [
+        provideNgxMask()
+      ]
 })
 
 export class HomeComponent implements OnInit, OnDestroy{
@@ -28,18 +38,19 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantAtestados!: any;
     protected quantFerias!: any;
     protected quantRequeridas!: any;
-    protected policiaisGraduacoes$!: Observable<any>;
-    protected policiaisSetores$!: Observable<any>;
     protected armamentosVencendo$!: Observable<Armamentos>;
     protected armamentosEmprestimos$!: Observable<ArmamentosEmprestimos>;
-    protected veiculosManutencao$!: Observable<VeiculosOficinas>;
-    protected veiculosTrocaOleo$!: Observable<Veiculos>;
-    protected veiculosRevisao$!: Observable<Veiculos>;
-    protected veiculosPoliciais$!: Observable<VeiculosPoliciais>;
+    protected contratosAcabando$!: Observable<Contratos>;
     protected materiaisVencendo$!: Observable<Materiais>;
     protected materiaisConsumoVencendo$!: Observable<MateriaisConsumo>;
     protected materiaisConsumoAlerta$!: Observable<MateriaisConsumo>;
     protected materiaisPoliciaisEmprestados$!: Observable<MateriaisPoliciais>;
+    protected policiaisGraduacoes$!: Observable<any>;
+    protected policiaisSetores$!: Observable<any>;
+    protected veiculosManutencao$!: Observable<VeiculosOficinas>;
+    protected veiculosTrocaOleo$!: Observable<Veiculos>;
+    protected veiculosRevisao$!: Observable<Veiculos>;
+    protected veiculosPoliciais$!: Observable<VeiculosPoliciais>;
 
     protected subscription: any;
     protected subscription2: any;
@@ -121,6 +132,10 @@ export class HomeComponent implements OnInit, OnDestroy{
             if(this.user.perfil.materiais){
                 this.materiaisVencendo$ = this.homeService.getMateriaisVencendo();
             }
+
+            if(this.user.perfil.contratos){
+                this.contratosAcabando$ = this.homeService.getContratosAcabando();
+            }
         }
         
     }
@@ -137,4 +152,22 @@ export class HomeComponent implements OnInit, OnDestroy{
         }
         
     }
+
+    returnPercentUsado(data: Contrato){
+        var percent = (data.valor_usado * 100)/data.valor_global;
+        return percent.toFixed(2);
+      }
+    
+      returnCorUsado(data: Contrato){
+        var percent = (data.valor_usado * 100)/data.valor_global;
+        var color = '';
+        if(percent < 50){
+          color = 'bg-success'
+        }else if(percent < 70){
+          color = 'bg-warning'
+        }else{
+          color = 'bg-danger'
+        }
+        return color;
+      }
 }

@@ -120,13 +120,47 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
     if(this.pesquisa.length > 0){
       var pesq = this.pesquisa.toLocaleLowerCase();
       this.data$ = this.data$.filter((data:any) => {
-         return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
+         if(data.veiculo.placa_especial && data.policial.numeral){
+          return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo.placa_especial.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || !pesq
+         }else if(data.veiculo.placa_especial){
+          return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo.placa_especial.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1
             || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
             || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1
             || !pesq
+         }else if(data.policial.numeral){
+          return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || !pesq
+         }else{
+            return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || !pesq
+         }
       });
     }
   }

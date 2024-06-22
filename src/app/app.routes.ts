@@ -141,6 +141,11 @@ export const routes: Routes = [
               import('./sistema/views/cursos/cursos.component').then((c) => c.CursosComponent),
           },
           {
+            path: 'Empresa/:id',
+            loadComponent: () =>
+              import('./sistema/views/empresas/empresa/empresa.component').then((c) => c.EmpresaComponent),
+          },
+          {
             path: 'Empresas',
             loadComponent: () =>
               import('./sistema/views/empresas/empresas.component').then((c) => c.EmpresasComponent),

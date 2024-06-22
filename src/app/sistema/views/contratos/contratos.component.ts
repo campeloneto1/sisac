@@ -107,6 +107,8 @@ export class ContratosComponent implements OnInit, OnDestroy {
         || data.empresa.cnpj.toLocaleLowerCase().indexOf(pesq) !== -1 
         || data.numero_contrato.toLocaleLowerCase().indexOf(pesq) !== -1 
         || data.numero_sacc.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.contrato_objeto.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+        || data.contrato_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
         || !pesq
       });
     }    

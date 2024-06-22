@@ -167,7 +167,7 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
         if(data.numeral){
           return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
           || data.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.numeral.toLocaleLowerCase().indexOf(pesq) !== -1 
           || data.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
           || data.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
           || data.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 

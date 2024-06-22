@@ -99,13 +99,15 @@ export class VeiculosComponent implements OnInit, OnDestroy {
             || data.placa_especial.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.veiculo_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.cor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || !pesq
         }else{
             return data.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.veiculo_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.cor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || !pesq
         }
        

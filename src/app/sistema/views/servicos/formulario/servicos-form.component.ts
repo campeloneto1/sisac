@@ -129,5 +129,8 @@ export class ServicosFormComponent implements OnInit, OnDestroy{
         if(data.empresa){
             this.form.get('empresa')?.patchValue(data.empresa.id);
         }
+        if(data.servico_tipo){
+            this.form.get('servico_tipo')?.patchValue(data.servico_tipo.id);
+        }
     }
 }

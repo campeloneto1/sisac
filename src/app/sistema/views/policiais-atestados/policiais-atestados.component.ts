@@ -99,12 +99,23 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
     if(this.pesquisa.length > 0){
       var pesq = this.pesquisa.toLocaleLowerCase();
       this.data$ = this.data$.filter((data) => {
-        return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.cid?.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
+        if(data.policial.numeral){
+          return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || !pesq
+        }else{
+          return  data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.policial.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || !pesq
+        }
+        
       });
     }
   }

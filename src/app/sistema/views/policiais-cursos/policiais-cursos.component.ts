@@ -101,16 +101,16 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
             return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
+            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.curso.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.boletim?.toLocaleLowerCase().indexOf(pesq) !== -1 
             || !pesq
         }else{
             return  data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
+            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
             || data.curso.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.boletim?.toLocaleLowerCase().indexOf(pesq) !== -1 
             || !pesq
         }
         

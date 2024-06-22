@@ -1,0 +1,247 @@
+<div class="content-wrapper">
+    <app-title titulo="Empresa" />
+    @if(empresa){
+      <!--INICIO SECTION content-->
+      <section class="content" >
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body box-profile">
+                  <!-- <div class="text-center">
+                    <img
+                      class="profile-user-img img-fluid img-circle"
+                      src="assets/casamil.png"
+                      alt="User profile picture"
+                    />
+                  </div> -->
+                  <h3 class="profile-username text-center">{{ empresa.nome }}</h3>
+                  <!-- <p class="text-muted text-center">
+                    {{ armamento.modelo.marca.nome }} {{ armamento.modelo.nome }}
+                  </p> -->
+                  <ul class="list-group list-group-unbordered mb-3">
+                    @if(empresa.nome_fantasia){
+                        <li class="list-group-item">
+                        <b>Nome Fantasia</b>
+                        <a class="float-right">{{ empresa.nome_fantasia }}</a>
+                        </li>
+                    }
+                    <li class="list-group-item">
+                      <b>CNPJ</b>
+                      <a class="float-right">{{ empresa.cnpj | mask: '00.000.000/0000-00' }}</a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>Subunidade</b>
+                      <a class="float-right"
+                        >{{ empresa.subunidade.abreviatura }} -
+                        {{ empresa.subunidade.unidade.abreviatura }}</a
+                      >
+                    </li>
+                  </ul>
+                  <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+                </div>
+              </div>
+            </div>
+    
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-header p-2">
+                  <ul class="nav nav-pills">
+                    <li class="nav-item">
+                      <a
+                        class="nav-link active"
+                        href="#informacoes"
+                        data-bs-toggle="tab"
+                        >Informações</a
+                      >
+                    </li>
+                    @if(user.perfil.contratos){
+                        <li class="nav-item">
+                        <a class="nav-link" href="#contratos" data-bs-toggle="tab"
+                            >Contratos</a
+                        >
+                        </li>
+                    }
+                    @if(user.perfil.servicos){
+                        <li class="nav-item">
+                          <a class="nav-link" href="#servicos" data-bs-toggle="tab"
+                            >Serviços</a
+                          >
+                        </li>
+                        }
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content">
+                    <!--INICIO TAB INFORMACOES-->
+                    <div class="active tab-pane" id="informacoes">
+                      <!--div inicio row-->
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="row">
+                            @if(empresa.telefone1){
+                                <dt class="col-sm-2">Telefone 1:</dt>
+                                <dd class="col-sm-2">
+                                {{ empresa.telefone1 | mask: '(00) 00000-0000' }}
+                                </dd>
+                            } 
+                            @if(empresa.telefone2){
+                                <dt class="col-sm-2">Telefone 2:</dt>
+                                <dd class="col-sm-2">
+                                {{ empresa.telefone2 | mask: '(00) 00000-0000' }}
+                                </dd>
+                            } 
+                            @if(empresa.email){
+                                <dt class="col-sm-2">E-mail:</dt>
+                                <dd class="col-sm-2">
+                                {{ empresa.email }}
+                                </dd>
+                            } 
+                           
+                          </div>
+                        </div>
+                      </div>
+                      <!-- @if(empresa.observacoes){
+                        <h5 class="mt-4">Observações</h5>
+                        <div [innerHTML]="empresa.observacoes"></div>
+                      } -->
+                      <!--div fim row-->
+                    </div>
+                    <!--FIM TAB INFORMACOES-->
+                    @if(user.perfil.contratos){
+                      <!--INICIO TAB CONTRATOS-->
+                      <div class="tab-pane" id="contratos">
+                        <!-- -------------------------------------------- -->
+                        <table
+                          [mfData]="empresa.contratos"
+                          #four="mfDataTable"
+                          [mfRowsOnPage]="10"
+                          [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                          class="table table-hover table-head-fixed text-wrap"
+                        >
+                          <thead>
+                            <tr>
+                                <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="contrato_objeto.nome">Objeto do Contrato</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="numero_contrato">Número do Contrato</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="numero_sacc">Número do SACC</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="valor_global">Valor Global</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="valor_usado">Valor Usado</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="utilizacao">Utilização</mfDefaultSorter></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for(row of four.data; track row){
+                            <tr data-widget="expandable-table" aria-expanded="false">
+                                <td>{{ row.id }}</td>
+                                <td>{{ row.contrato_objeto.nome }}</td>
+                                <td>{{ row.numero_contrato }}</td>
+                                <td>{{ row.numero_sacc }}</td>
+                                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                                <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
+                                <td>R$ {{ row.valor_global | mask: 'separator.2' }}</td>
+                                <td>R$ {{ row.valor_usado | mask: 'separator.2' }}</td>
+                                <td class="text-center">
+                                    <span class="badge {{returnCorUsado(row)}}">{{returnPercentUsado(row)}}%</span>
+                                </td>
+                            </tr>
+                            <tr class="expandable-body d-none">
+                              <td colspan="9">
+                                <div
+                                  style="display: none"
+                                  [innerHTML]="row.observacoes"
+                                ></div>
+                              </td>
+                            </tr>
+                            }
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="100%">
+                                <div
+                                  style="
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                  "
+                                >
+                                  <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </div>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                        <!--------------------------------------------------->
+                      </div>
+                      <!--FIM TAB CONTRATOS-->
+                      } 
+                      @if(user.perfil.servicos){
+                        <!--INICIO TAB SERVIÇOS-->
+                        <div class="tab-pane" id="servicos">
+                          <!-- -------------------------------------------- -->
+                          <table
+                            [mfData]="empresa.servicos"
+                            #five="mfDataTable"
+                            [mfRowsOnPage]="10"
+                            [mfSortBy]="'id'" [mfSortOrder]="'desc'"
+                            class="table table-hover table-head-fixed text-wrap"
+                          >
+                            <thead>
+                              <tr>
+                                <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="servico_tipo.nome">Tipo do Serviço</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @for(row of five.data; track row){
+                              <tr data-widget="expandable-table" aria-expanded="false">
+                                  <td>{{ row.id }}</td>
+                                  <td>{{ row.servico_tipo.nome }}</td> 
+                                  <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                                  <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
+                              </tr>
+                              <tr class="expandable-body d-none">
+                                <td colspan="9">
+                                  <div
+                                    style="display: none"
+                                    [innerHTML]="row.observacoes"
+                                  ></div>
+                                </td>
+                              </tr>
+                              }
+                            </tbody>
+                            <tfoot>
+                              <tr>
+                                <td colspan="100%">
+                                  <div
+                                    style="
+                                      display: flex;
+                                      align-items: center;
+                                      justify-content: center;
+                                    "
+                                  >
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                          <!--------------------------------------------------->
+                        </div>
+                        <!--FIM TAB SERVIÇOS-->
+                        } 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--FIM SECTION content-->
+    }
+  </div>
+  

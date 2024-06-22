@@ -11,6 +11,7 @@ import { MateriaisConsumo } from "../materiais-consumo/material-consumo";
 import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
 import { Materiais } from "../materiais/material";
 import { SessionService } from "../../session.service";
+import { Contratos } from "../contratos/contrato";
 
 const URL = environment.url;
 const endPoint = 'home';
@@ -31,6 +32,11 @@ export class HomeService{
 
     getArmamentosEmprestados(): Observable<ArmamentosEmprestimos>{
         return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}/armamentos-emprestados`);
+        // return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}/armamentos-emprestados?subunidade=${this.sessionService.getSubunidade()}`);
+    }
+
+    getContratosAcabando(): Observable<Contratos>{
+        return this.http.get<Contratos>(`${URL}/${endPoint}/contratos-acabando`);
         // return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}/armamentos-emprestados?subunidade=${this.sessionService.getSubunidade()}`);
     }
 

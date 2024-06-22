@@ -9,6 +9,7 @@ import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
@@ -20,6 +21,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     EmpresasFormComponent,
     DataTableModule,
     FormsModule,
+    RouterModule,
     NgxMaskDirective,
         NgxMaskPipe,
   ],
@@ -93,9 +95,16 @@ export class EmpresasComponent implements OnInit, OnDestroy {
     if(this.pesquisa.length > 0){
       var pesq = this.pesquisa.toLocaleLowerCase();
       this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.cnpj.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
+        if(data.nome_fantasia){
+          return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.cnpj.toLocaleLowerCase().indexOf(pesq) !== -1
+          || data.nome_fantasia.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || !pesq
+        }else{
+          return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.cnpj.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || !pesq
+        }
       });
     }    
   }
