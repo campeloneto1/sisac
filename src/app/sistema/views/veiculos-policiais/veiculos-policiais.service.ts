@@ -48,7 +48,7 @@ export class VeiculosPoliciaisService{
      }
 
      veiculoPolicial(): Observable<VeiculoPolicial>{
-        return this.http.get<VeiculoPolicial>(`${URL}/${endPoint}/emppolicial`);
+        return this.http.get<VeiculoPolicial>(`${URL}/${endPoint}/emprestado`);
         // return this.http.get<VeiculoPolicial>(`${URL}/${endPoint}/emprestadopolicial?subunidade=${this.sessionService.getSubunidade()}`);
      }
 }

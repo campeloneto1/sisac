@@ -4,12 +4,14 @@
       <span *ngIf="control?.errors?.['required']" class="text-danger">*</span>
     </label>
   
+    <div style="background-color: #fff;">
     <angular-editor 
+    
     [config]="editorConfig"
     (ngModelChange)="onChange($event)"
     [(ngModel)]="inputvalor"
       ></angular-editor>
-    
+    </div>
     <div *ngIf="control.invalid && (control.dirty || control.touched)">
       <span *ngIf="control?.errors?.['required']" class="text-danger"
         >{{ label }} é obrigatório</span

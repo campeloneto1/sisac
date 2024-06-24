@@ -12,6 +12,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { RouterModule } from '@angular/router';
 import { ContratosLancamentosFormComponent } from '../contratos-lancamentos/formulario/contratos-lancamentos-form.component';
 import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-lancamentos.service';
+import { ContratosFormAditivarComponent } from './formulario-aditivar/contratos-form-aditivar.component';
 @Component({
   selector: 'app-contratos',
   templateUrl: './contratos.component.html',
@@ -21,6 +22,7 @@ import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-
     CommonModule, 
     TitleComponent, 
     ContratosFormComponent,
+    ContratosFormAditivarComponent,
     ContratosLancamentosFormComponent,
     DataTableModule,
     FormsModule,
@@ -40,10 +42,12 @@ export class ContratosComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
   protected contrato!: Contrato;
+  protected contratoadt!: Contrato;
 
   protected cadlancamento: boolean = false;
 
   @ViewChild(ContratosFormComponent) child!: ContratosFormComponent;
+  @ViewChild(ContratosFormAditivarComponent) childaditivar!: ContratosFormAditivarComponent;
   @ViewChild(ContratosLancamentosFormComponent) childlancamento!: ContratosLancamentosFormComponent;
 
   constructor(
@@ -182,6 +186,10 @@ export class ContratosComponent implements OnInit, OnDestroy {
         soma = Number(soma) + Number(data.valor);
     });
     return soma.toFixed(2);
+  }
+
+  aditivar(data:Contrato){
+    this.contratoadt = data;
   }
 
 }

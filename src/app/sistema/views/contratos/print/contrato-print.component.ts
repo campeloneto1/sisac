@@ -74,6 +74,19 @@ export class ContratoPrint implements OnInit, OnDestroy{
         return percent.toFixed(2);
       }
 
+      returnCorUsado(){
+        var percent = (this.data$.valor_usado * 100)/this.data$.valor_global;
+        var color = '';
+        if(percent < 50){
+          color = 'bg-success'
+        }else if(percent < 70){
+          color = 'bg-warning'
+        }else{
+          color = 'bg-danger'
+        }
+        return color;
+      }
+
     returnSumLancamentos(){
         var soma: number = 0;
 
@@ -83,4 +96,11 @@ export class ContratoPrint implements OnInit, OnDestroy{
         return soma.toFixed(2);
       }
 
+      quantidadeDiariasUtilizadas(){
+        var result = 0;
+        if(this.data$.quantidade_diarias){
+         result = (this.data$.quantidade_diarias * this.data$.valor_usado) / this.data$.valor_global;
+        }
+        return result.toFixed(2);
+      }
 }

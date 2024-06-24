@@ -15,6 +15,7 @@ import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
 import { Materiais } from "../materiais/material";
 import { Contrato, Contratos } from "../contratos/contrato";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
+import { RouterModule } from "@angular/router";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -23,6 +24,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
     imports: [
         CommonModule, 
         InfoBox,
+        RouterModule,
         NgxMaskDirective,
         NgxMaskPipe,
     ],

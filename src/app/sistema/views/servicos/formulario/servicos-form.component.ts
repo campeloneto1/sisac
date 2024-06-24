@@ -69,11 +69,9 @@ export class ServicosFormComponent implements OnInit, OnDestroy{
         this.subscription2 = this.empresasService.index().subscribe({
             next: (data) => {
                 data.forEach(element => {
-                    if(element.nome_fantasia){
-                        element.nome = `${element.nome_fantasia}, ${element.cnpj} `;
-                    }else{
-                        element.nome = `${element.nome}, ${element.cnpj}`;
-                    }
+                
+                    element.nome = `${element.nome}, ${element.cnpj}`;
+                    
                 });
                 this.empresas$ = of(data);
             }

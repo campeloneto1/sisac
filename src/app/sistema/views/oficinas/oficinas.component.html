@@ -54,6 +54,7 @@
                 <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="subunidade.nome">Subunidade</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="cnpj">CNPJ</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="gerente">Gerente</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="telefone1">Telefone 1</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="telefone2">Telefone 2</mfDefaultSorter></th>
@@ -67,6 +68,7 @@
                 <td>{{ row.id }}</td>
                 <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
                 <td>{{ row.nome }}</td>
+                <td>{{ row.cnpj | mask: '00.000.000/0000-00' }}</td>
                 <td>{{ row.gerente }}</td>
                 <td>{{ row.telefone1 | mask: '(00) 00000-0000'}}</td>
                 <td>{{ row.telefone2 | mask: '(00) 00000-0000'}}</td>

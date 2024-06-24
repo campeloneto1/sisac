@@ -68,7 +68,7 @@
                 <td>{{ row.id }}</td>
                 <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
                 <td>{{ row.empresa.nome }}</td>
-                <!-- <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td> -->
+                <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td>
                 <td>{{ row.servico_tipo.nome }}</td> 
                 <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>

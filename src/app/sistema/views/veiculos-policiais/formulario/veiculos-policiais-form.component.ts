@@ -78,9 +78,15 @@ export class VeiculosPoliciaisFormComponent implements OnInit{
             'km_inicial': [null],
             'km_final': [null],
             'observacoes': [null],
-            'pais': [null],
-            'estado': [null],
-            'cidade': [null],
+            'pais': [null, Validators.compose([
+                Validators.required,
+            ])],
+            'estado': [null, Validators.compose([
+                Validators.required,
+            ])],
+            'cidade': [null, Validators.compose([
+                Validators.required,
+            ])],
             'subunidade': [null],
         });
         

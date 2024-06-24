@@ -6,6 +6,7 @@ export interface Perfil{
     
     administrador?: boolean;
     gestor?: boolean;
+    usuario?: boolean;
     relatorios?: boolean;
 
     armamentos?: boolean;

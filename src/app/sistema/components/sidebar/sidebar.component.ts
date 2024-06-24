@@ -23,25 +23,29 @@ export class SidebarComponent implements OnInit{
     protected user!: User;
 
     private routesMenuAdm = [
-        '/ArmamentosTipos',
         '/ArmamentosCalibres',
         '/ArmamentosTamanhos',
-        '/Graduacoes',
+        '/ArmamentosTipos',
         '/Cidades',
+        '/ContratosObjetos',
+        '/ContratosTipos',
         '/Cores',
         '/Cursos',
+        '/Escolaridades',
         '/Estados',
+        '/Graduacoes',
         '/Logs',
         '/ManutencoesTipos',
         '/Marcas',
         '/MateriasConsumoTipos',
         '/MateriasTipos',
         '/Modelos',
-        '/Oficinas',
+        
         '/PatrimoniosTipos',
         '/Paises',
         '/Perfis',
         '/PublicacoesTipos',
+        '/ServicosTipos',
         '/Sexos',
         '/Subunidades',
         '/Setores',
@@ -51,7 +55,7 @@ export class SidebarComponent implements OnInit{
     protected menuAdmin:boolean = false;
 
     private routesMenuGestor = [
-        '/Usuarios'
+        '/Oficinas'
     ]
     protected menuGestor:boolean = false;
 

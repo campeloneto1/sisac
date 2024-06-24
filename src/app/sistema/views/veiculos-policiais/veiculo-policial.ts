@@ -13,7 +13,7 @@ export interface VeiculoPolicial{
     data_inicial: Date;
     data_final?: Date;
     observacoes?: string;
-    cidade?: Cidade;
+    cidade: Cidade;
     subunidade: Subunidade;
 
     created_by: User;

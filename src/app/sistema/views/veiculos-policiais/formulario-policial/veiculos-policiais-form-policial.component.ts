@@ -38,6 +38,7 @@ import { VeiculoPolicial } from "../veiculo-policial";
 export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
 
     protected form!: FormGroup;
+    protected formdev!: FormGroup;
 
     protected policiais$!: Observable<Policiais>;
     protected veiculos$!: Observable<Veiculos>;
@@ -68,18 +69,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
     ){}
 
     ngOnInit(): void {
-        this.subscription3 = this.veiculosPoliciaisService.veiculoPolicial().subscribe({
-            next: (data) => {
-                console.log(data)
-                if(data){
-                    this.exibir = 2;
-                    this.veiculoemprestado = data;
-                }else{
-                    this.exibir = 1;
-                }
-               
-            }
-        });
+        
 
         this.form = this.formBuilder.group({
             'id': [null],
@@ -102,6 +92,26 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
             'cidade': [null, Validators.compose([
                 Validators.required,
             ])],
+        });
+
+        this.formdev = this.formBuilder.group({
+            'id': [null],
+            'km_final': [null, Validators.compose([
+                Validators.required,
+            ])],
+            'observacoes': [null],
+        });
+
+        this.subscription3 = this.veiculosPoliciaisService.veiculoPolicial().subscribe({
+            next: (data) => {
+                if(data){
+                    this.exibir = 2;
+                    this.veiculoemprestado = data;
+                }else{
+                    this.exibir = 1;
+                }
+               
+            }
         });
         
         this.user = this.sessionService.getUser();
@@ -190,5 +200,35 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
 
     getCidades(){
         this.cidades$ = this.cidadesService.whereEstado(this.form.get('estado')?.value);
+    }
+
+    devolver(){
+        this.formdev.get('id')?.patchValue(this.veiculoemprestado.id);
+        this.formdev.get('observacoes')?.patchValue(this.veiculoemprestado.observacoes);
+        this.exibir = 3;
+
+    }
+
+    confirmardev(){
+        this.veiculosPoliciaisService.receber(this.formdev.value).subscribe({
+            next: (data:any) => {
+                this.toastr.success('Edição realizada com sucesso!');
+                this.formdev.reset();
+                this.exibir = 2;
+                this.veiculosPoliciaisService.find(this.veiculoemprestado.id || 0).subscribe({
+                    next: (data) => {
+                        this.veiculoemprestado = data;
+                    }
+                })
+            },
+            error: (error:any) => {
+                this.toastr.error('Erro ao cadastrar, tente novamente mais tarde!');
+            }
+        });
+    }
+
+    canceldev(){
+        this.formdev.reset()
+        this.exibir = 2;
     }
 }

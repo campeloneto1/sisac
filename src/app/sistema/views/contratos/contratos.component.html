@@ -64,8 +64,9 @@
                 <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="valor_global">Valor Global</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="valor_usado">Valor Usado</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="lancamentos">Lançamentos</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="uvalor_usado">Utilização</mfDefaultSorter></th>
+                <th>Lançamentos</th>
+                <th><mfDefaultSorter by="porcentagem_aditivado">Aditivado</mfDefaultSorter></th>
+                <th>Utilização</th>
                 <th>Opções</th>
               </tr>
             </thead>
@@ -96,6 +97,11 @@
                     Lançamentos
                   </button>
                 </td>
+                <td>
+                  @if(row.porcentagem_aditivado){
+                    {{row.porcentagem_aditivado}} %
+                  }
+                </td>
                 <td class="text-center">
                   <span class="badge {{returnCorUsado(row)}}">{{returnPercentUsado(row)}}%</span>
                   <!-- <div class="progress progress-xs">
@@ -111,6 +117,17 @@
                   >
                     <i class="fa fa-print text-primary" aria-hidden="true"></i>
                   </a>
+                  @if(!row.porcentagem_aditivado){
+                      <a
+                      class="options point ml-1"
+                      title="Aditivar"
+                      (click)="aditivar(row)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modaladitivar"
+                    >
+                      <i class="fa fa-plus text-primary" aria-hidden="true"></i>
+                    </a>
+                  }
                   <a
                     class="options point ml-1"
                     title="Editar"
@@ -310,6 +327,36 @@
       </div>
     </div>
     <!--FIM MODAL LANÇAMENTOS-->
+
+    <!-- INICIO MODAL ADITIVAR-->
+    <div
+      class="modal fade"
+      id="modaladitivar"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Aditivar</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            @if(contratoadt){
+              <app-contratos-form-aditivar [contrato]="contratoadt"  (refresh)="refresh()"  />
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL ADITIVAR-->
 
   </div>
   

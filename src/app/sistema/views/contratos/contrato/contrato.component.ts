@@ -131,4 +131,12 @@ export class ContratoComponent implements OnInit, OnDestroy{
         });
         return soma.toFixed(2);
       }
+
+      quantidadeDiariasUtilizadas(){
+        var result = 0;
+        if(this.contrato.quantidade_diarias){
+         result = (this.contrato.quantidade_diarias * this.contrato.valor_usado) / this.contrato.valor_global;
+        }
+        return result.toFixed(2);
+      }
 }

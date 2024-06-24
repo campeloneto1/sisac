@@ -4,7 +4,7 @@ import { User } from "../users/user";
 export interface PolicialRequerida{
     id?: number;
     policial: Policial;
-    nup: string;
+    nup?: string;
     boletim_entrada?: string;
     boletim_publicacao?: string;
     data: Date;

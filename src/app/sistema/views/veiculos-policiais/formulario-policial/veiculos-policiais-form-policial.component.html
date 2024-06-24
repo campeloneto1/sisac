@@ -179,26 +179,137 @@
       <div class="col-sm-12">
         <div class="card card-success">
           <div class="card-header">
-            <h3 class="card-title">Emprestimo realizado com sucesso</h3>
+            <h3 class="card-title">
+              @if(!veiculoemprestado.data_final){
+                Emprestimo realizado com sucesso
+              }@else{
+                Devolução realizado com sucesso
+              }
+              
+            </h3>
           </div>
           <div class="card-body">
             
             <div class="row">
-              <div class="col-sm-6">
+              
+              <div class="col-sm-3">
                 <b>Marca:</b> {{veiculoemprestado.veiculo.modelo.marca.nome}}
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-3">
                 <b>Modelo:</b> {{veiculoemprestado.veiculo.modelo.nome}}
+              </div>
+              <div class="col-sm-3">
+                <b>Proprietário:</b> 
+                @if(veiculoemprestado.veiculo.organico){
+                  Orgânico
+                }@else{
+                  Locado
+                }
+              </div>
+              <div class="col-sm-3">
+                <b>Cor:</b> {{veiculoemprestado.veiculo.cor.nome}}
               </div>
             </div>
 
-
+            <div class="row">
+              <div class="col-sm-3">
+                <b>Placa:</b> {{veiculoemprestado.veiculo.placa}}
+              </div>
+              @if(veiculoemprestado.veiculo.placa_especial){
+                <div class="col-sm-3">
+                  <b>Placa Especial:</b> {{veiculoemprestado.veiculo.placa_especial}}
+                </div>
+              }
+              <div class="col-sm-3">
+                <b>KM Inicial:</b> {{veiculoemprestado.km_inicial}}
+              </div>
+              @if(veiculoemprestado.km_final){
+                <div class="col-sm-3">
+                  <b>KM Final:</b> {{veiculoemprestado.km_final}}
+                </div>
+              }
+              
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <b>Cidade:</b> {{veiculoemprestado.cidade.nome}}, {{veiculoemprestado.cidade.estado.nome}}
+              </div>
+              <div class="col-sm-4">
+                <b>Data Inicial:</b> {{veiculoemprestado.data_inicial | date: 'dd/MM/yyyy HH:mm'}}
+              </div>
+              @if(veiculoemprestado.data_final){
+                <div class="col-sm-4">
+                  <b>Data Final:</b> {{veiculoemprestado.data_final | date: 'dd/MM/yyyy HH:mm'}}
+                </div>
+              }
+            </div>
+            <div class="row mt-4">
+              <div class="col-sm-12 text-justify">
+                <b>Observações:</b> 
+                <div [innerHtml]="veiculoemprestado.observacoes"></div>
+              </div>
+            </div>
+            @if(!veiculoemprestado.data_final){
+              <div class="row">
+                <button (click)="devolver()" class="btn btn-primary btn-block">Devolver</button>
+              </div>
+            }
           </div>
         </div>
       </div>
     </div>
   }
   @if(exibir === 3){
-
+    <div class="row">
+      <div class="col-sm-4">
+        <b>Marca:</b> {{veiculoemprestado.veiculo.modelo.marca.nome}}
+      </div>
+      <div class="col-sm-4">
+        <b>Modelo:</b> {{veiculoemprestado.veiculo.modelo.nome}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <b>Placa:</b> {{veiculoemprestado.veiculo.placa}}
+      </div>
+      @if(veiculoemprestado.veiculo.placa_especial){
+        <div class="col-sm-4">
+          <b>Placa Especial:</b> {{veiculoemprestado.veiculo.placa_especial}}
+        </div>
+      }
+      <div class="col-sm-4">
+        <b>KM Inicial:</b> {{veiculoemprestado.km_inicial}}
+      </div>
+    </div>
+    <form [formGroup]="formdev" class="mt-3">
+      <div class="row">
+        <input-text
+          class="col-sm-2"
+          formControlName="km_final"
+          label="KM Final"
+          id="km_final"
+          tipo="number"
+          [min]="veiculoemprestado.km_inicial"
+        />
+      </div>
+      <div class="row" style="height: 350px;" >
+        <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+      </div>
+      <div class="d-flex justify-content-end mt-5">
+        <a
+          (click)="canceldev()"
+          class="btn btn-link text-danger"
+          >Cancelar</a
+        >
+        <button
+          [disabled]="formdev.invalid"
+          type="button"
+          (click)="confirmardev()"
+          class="btn btn-primary"
+        >
+          Cadastrar
+        </button>
+      </div>
+    </form>
   }
 </div>

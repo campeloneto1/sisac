@@ -21,6 +21,7 @@
           id="contrato_tipo"
           [data$]="contratostipos$"
           formControlName="contrato_tipo"
+          (ngModelChange)="getContratoTipo()"
       />
         
     </div>
@@ -86,6 +87,21 @@
           formControlName="fiscal"
       />
     </div>
+
+    @if(contratotipo){
+      <div class="row">
+        @if(contratotipo.diarias){
+          <input-text
+            class="col-sm-2"
+            formControlName="quantidade_diarias"
+            label="Quantidade de diárias"
+            id="quantidade_diarias"
+            tipo="number"
+        />
+        } 
+        
+      </div>
+    }
 
     <div class="row" style="height: 350px;">
         <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />

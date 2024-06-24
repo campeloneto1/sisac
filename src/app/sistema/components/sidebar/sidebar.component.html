@@ -285,7 +285,16 @@
             class="nav nav-treeview"
             [ngStyle]="{ 'display: block;': menuGestor }"
           >
-            
+          <li class="nav-item">
+            <a
+              [routerLink]="['Oficinas']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="fa fa-circle nav-icon"></i>
+              <p>Oficinas</p>
+            </a>
+          </li>
           </ul>
         </li>
         } @if(user.perfil.administrador){
@@ -417,16 +426,7 @@
                 <p>Objetos de Contratos</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a
-                [routerLink]="['Oficinas']"
-                routerLinkActive="active"
-                class="nav-link"
-              >
-                <i class="fa fa-circle nav-icon"></i>
-                <p>Oficinas</p>
-              </a>
-            </li>
+            
             <li class="nav-item">
               <a
                 [routerLink]="['Paises']"

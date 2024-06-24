@@ -45,40 +45,11 @@
                       <a class="float-right">{{ contrato.empresa.nome }}</a>
                     </li>
                   } 
-                  @if(contrato.empresa){
-                    <li class="list-group-item">
-                      <b>Nome Fantasia</b>
-                      <a class="float-right">{{ contrato.empresa.nome_fantasia }}</a>
-                    </li>
-                  } 
+                  
                   @if(contrato.empresa){
                     <li class="list-group-item">
                       <b>CNPJ</b>
                       <a class="float-right">{{ contrato.empresa.cnpj | mask: '00.000.000/0000-00' }}</a>
-                    </li>
-                  } 
-                  @if(contrato.data_inicial){
-                    <li class="list-group-item">
-                      <b>Data Inicial</b>
-                      <a class="float-right">{{ contrato.data_inicial | date: 'dd/MM/yyyy' }}</a>
-                    </li>
-                  } 
-                  @if(contrato.data_final){
-                    <li class="list-group-item">
-                      <b>Data Final</b>
-                      <a class="float-right">{{ contrato.data_final | date: 'dd/MM/yyyy' }}</a>
-                    </li>
-                  } 
-                  @if(contrato.valor_global){
-                    <li class="list-group-item">
-                      <b>Valor Global</b>
-                      <a class="float-right">R$ {{ contrato.valor_global | mask: 'separator.2' }}</a>
-                    </li>
-                  } 
-                  @if(contrato.valor_usado >= 0){
-                    <li class="list-group-item">
-                      <b>Valor Usado</b>
-                      <a class="float-right">R$ {{ contrato.valor_usado | mask: 'separator.2' }}</a>
                     </li>
                   } 
                  
@@ -127,66 +98,167 @@
           </div>
 
           <div class="col-md-9">
+
+
+
             <div class="card">
-              <div class="card-header border-0 p-2">
-                <h3 >Lançamentos
-                <button
-                  class="btn btn-sm btn-outline-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modallancamento"
-                  title="Cadastrar lançamento"
-                >
-                  <i class="fa fa-plus"></i>
-                </button></h3>
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      href="#informacoes"
+                      data-bs-toggle="tab"
+                      >Informações</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#lancamentos" data-bs-toggle="tab"
+                      >Lançamentos</a
+                    >
+                  </li>
+                
+                </ul>
               </div>
               <div class="card-body">
-                <table class="table table-hover table-head-fixed text-wrap">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Mês de Referência</th>
-                      <th>Valor</th>
-                      <th>Opções</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for(item of
-                    contrato.contratos_lancamentos; track item){
-                      <tr data-widget="expandable-table" aria-expanded="false">
-                        <td>{{item.id}}</td>
-                        <td>{{item.mes_referencia | date: 'MM/yyyy'}}</td>
-                        <td>R$ {{ item.valor | mask: 'separator.2' }}</td>
-                        <td>
-                          
-                            <i
-                              class="fa fa-trash text-danger point"
-                              aria-hidden="true"
-                              (click)="rmvLancamento(item)"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalexcluirlancamento"
-                              title="Excluir lançamento"
-                            ></i>
-                          
-                        </td>
-                      </tr>
-                      <tr class="expandable-body d-none">
-                        <td colspan="4">
-                          <div class="text-justify" [innerHTML]="item.observacoes"></div>
-                        </td>
-                      </tr>
+                <div class="tab-content">
+                  <!--INICIO TAB INFORMACOES-->
+                  <div class="active tab-pane" id="informacoes">
+                    <!--div inicio row-->
+                    <div class="row text-center mt-2">
+                      <h3><b>R$ {{ contrato.valor_global | mask: 'separator.2' }}</b></h3>
+                      <h4>Valor Global</h4>
+                      <h4><span class="badge {{returnCorUsado()}}">{{returnPercentUsado()}}%</span></h4>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-sm-3">
+                        <div class="description-block border-right">
+                          <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                          <h5 class="description-header">{{ contrato.data_inicial | date: 'dd/MM/yyyy' }}</h5>
+                          <span class="description-text">Data Inicial</span>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="description-block border-right">
+                          <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                          <h5 class="description-header">{{ contrato.data_final | date: 'dd/MM/yyyy' }}</h5>
+                          <span class="description-text">Data Final</span>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="description-block border-right">
+                          <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                          <h5 class="description-header">R$ {{ contrato.valor_usado | mask: 'separator.2' }}</h5>
+                          <span class="description-text">Valor Usado</span>
+                        </div>
+                      </div>
+                      @if(contrato.porcentagem_aditivado){
+                        <div class="col-sm-3">
+                          <div class="description-block border-right">
+                            <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                            <h5 class="description-header">{{ contrato.porcentagem_aditivado }}%</h5>
+                            <span class="description-text">Porcent. de aditivo</span>
+                          </div>
+                        </div>
+                      }
+
+                    </div>
+                    @if(contrato.contrato_tipo.diarias && contrato.quantidade_diarias){
+                      <div class="row mt-2">
+                        <div class="col-sm-3 offset-sm-3">
+                          <div class="description-block border-right">
+                            <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                            <h5 class="description-header">{{ contrato.quantidade_diarias }}</h5>
+                            <span class="description-text">Quantidade diárias</span>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="description-block border-right">
+                            <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                            <h5 class="description-header">{{ quantidadeDiariasUtilizadas()  }}</h5>
+                            <span class="description-text">Quantidade usadas</span>
+                          </div>
+                        </div>
+                      </div>  
                     }
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th></th>
-                      <th></th>
-                      <th>R$ {{returnSumLancamentos() | mask: 'separator.2'}}</th>
-                      <th></th>
-                    </tr>
-                  </tfoot>
-                </table>
+                    <div class="text-justify">
+                      @if(contrato.observacoes){
+                        <h5>Observações</h5>
+                        <div [innerHTML]="contrato.observacoes"></div>
+                      }
+                      @if(contrato.observacoes_aditivado){
+                        <h5>Observações Aditivo</h5>
+                        <div [innerHTML]="contrato.observacoes_aditivado"></div>
+                      }
+                    </div>
+                    <!--div fim row-->
+                  </div>
+                  <!--FIM TAB INFORMACOES-->
+                  <!--INICIO TAB LANCAMENTOS-->
+                  <div class="tab-pane" id="lancamentos">
+                    <!--Lançamentos -------------------------------------------- -->
+                    <h3 >
+                      <button
+                        class="btn btn-sm btn-outline-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modallancamento"
+                        title="Cadastrar lançamento"
+                      >
+                        <i class="fa fa-plus"></i>
+                      </button></h3>
+                    <table class="table table-hover table-head-fixed text-wrap">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Mês de Referência</th>
+                          <th>Valor</th>
+                          <th>Opções</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for(item of
+                        contrato.contratos_lancamentos; track item){
+                          <tr data-widget="expandable-table" aria-expanded="false">
+                            <td>{{item.id}}</td>
+                            <td>{{item.mes_referencia | date: 'MM/yyyy'}}</td>
+                            <td>R$ {{ item.valor | mask: 'separator.2' }}</td>
+                            <td>
+                              
+                                <i
+                                  class="fa fa-trash text-danger point"
+                                  aria-hidden="true"
+                                  (click)="rmvLancamento(item)"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modalexcluirlancamento"
+                                  title="Excluir lançamento"
+                                ></i>
+                              
+                            </td>
+                          </tr>
+                          <tr class="expandable-body d-none">
+                            <td colspan="4">
+                              <div class="text-justify" [innerHTML]="item.observacoes"></div>
+                            </td>
+                          </tr>
+                        }
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th></th>
+                          <th></th>
+                          <th>R$ {{returnSumLancamentos() | mask: 'separator.2'}}</th>
+                          <th></th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    <!--------------------------------------------------->
+                  </div>
+                  <!--FIM TAB LANCAMENTOS-->
+                </div>
               </div>
             </div>
+            
           </div>
         </div>
       </div>

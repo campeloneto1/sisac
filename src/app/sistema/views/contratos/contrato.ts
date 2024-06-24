@@ -24,6 +24,12 @@ export interface Contrato{
     gestor: Policial;
     fiscal: Policial;
 
+    quantidade_diarias?: number;
+    numero_porrogacao?: number;
+    contrato_prorrogado?: Contrato;
+    porcentagem_aditivado?: number;
+    observacoes_aditivado?: string;
+
     observacoes?: string;
 
     contratos_lancamentos: ContratosLancamentos;

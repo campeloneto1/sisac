@@ -38,4 +38,7 @@ export class ContratosService{
         return this.http.delete(`${URL}/${endPoint}/${id}`);
     }
    
+    aditivar(id:number, data: any){
+        return this.http.put(`${URL}/${endPoint}/${id}/aditivar`, data);
+    }
 }

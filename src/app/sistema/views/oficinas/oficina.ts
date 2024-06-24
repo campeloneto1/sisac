@@ -5,7 +5,7 @@ import { User } from "../users/user";
 export interface Oficina{
     id?: number;
     nome: string;
-
+    cnpj?: string;
     gerente?: string;
     telefone1?: string;
     telefone2?: string;

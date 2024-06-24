@@ -40,6 +40,7 @@ export class PerfisFormComponent implements OnInit{
             ])],
             'administrador': [null],
             'gestor': [null],
+            'usuario': [null],
             'relatorios': [null],
 
             'armamentos': [null],

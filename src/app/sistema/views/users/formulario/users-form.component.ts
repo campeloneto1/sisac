@@ -79,18 +79,9 @@ export class UsersFormComponent implements OnInit, OnDestroy{
                 Validators.required,
                 
             ])],
-            'unidade': [null, Validators.compose([
-                Validators.required,
-                
-            ])],
-            'subunidade': [null, Validators.compose([
-                Validators.required,
-                
-            ])],
-            'policial': [null, Validators.compose([
-                Validators.required,
-                
-            ])],
+            'unidade': [null],
+            'subunidade': [null],
+            'policial': [null],
         });
 
         this.perfis$ = this.perfisService.index();

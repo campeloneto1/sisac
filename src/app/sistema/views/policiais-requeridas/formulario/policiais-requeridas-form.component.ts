@@ -48,7 +48,7 @@ export class PoliciaisRequeridasFormComponent implements OnInit, OnDestroy{
                 Validators.required,
             ])],
             'nup': [null, Validators.compose([
-                Validators.required,
+                
                 Validators.maxLength(50),
             ])],
             'data': [null, Validators.compose([

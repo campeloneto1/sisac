@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ContratosService } from "../contratos.service";
 import { Contrato } from "../contrato";
 import { ToastrService } from "ngx-toastr";
-import { ContratosTipos } from "../../contratos-tipos/contrato-tipo";
+import { ContratoTipo, ContratosTipos } from "../../contratos-tipos/contrato-tipo";
 import { ContratosObjetos } from "../../contratos-objetos/contrato-objeto";
 import { Policiais } from "../../policiais/policial";
 import { PoliciaisService } from "../../policiais/policiais.service";
@@ -38,6 +38,7 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
 
     protected contratostipos$!: Observable<ContratosTipos>;
     protected contratosobjetos$!: Observable<ContratosObjetos>;
+    protected contratotipo!: ContratoTipo;
     protected empresas$!: Observable<Empresas>;
     protected policiais$!: Observable<Policiais>;
 
@@ -94,17 +95,16 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
             'fiscal': [null, Validators.compose([
                 Validators.required,
             ])],
+            'quantidade_diarias': [null],
             'observacoes': [null],
         });
 
         this.subscription2 = this.empresasService.index().subscribe({
             next: (data) => {
                 data.forEach(element => {
-                    if(element.nome_fantasia){
-                        element.nome = `${element.nome_fantasia}, ${element.cnpj} `;
-                    }else{
-                        element.nome = `${element.nome}, ${element.cnpj}`;
-                    }
+                   
+                    element.nome = `${element.nome}, ${element.cnpj}`;
+                
                 });
                 this.empresas$ = of(data);
             }
@@ -183,5 +183,17 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
         if(data.fiscal){
             this.form.get('fiscal')?.patchValue(data.fiscal.id);
         }
+    }
+
+    getContratoTipo(){
+        this.contratostipos$.subscribe({
+            next: (data) => {
+                data.forEach((item) => {
+                    if(item.id === this.form.value.contrato_tipo){
+                        this.contratotipo = item;
+                    }
+                })
+            }
+        })
     }
 }

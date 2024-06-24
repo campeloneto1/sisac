@@ -1,6 +1,14 @@
 <form  [formGroup]="form" >
     <div class="row">
         <input-text class="col-sm-4" formControlName="nome" label="Nome" id="nome" tipo="text" />
+        <input-text
+        class="col-sm-4"
+        formControlName="cnpj"
+        label="Nome CNPJ"
+        id="cnpj"
+        tipo="text"
+        mascara="00.000.000/0000-00"
+      />
         <input-text class="col-sm-4" formControlName="gerente" label="Gerente" id="gerente" tipo="text" />
         
     </div>   
