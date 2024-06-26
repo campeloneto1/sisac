@@ -28,6 +28,7 @@ export interface Contrato{
     numero_porrogacao?: number;
     contrato_prorrogado?: Contrato;
     porcentagem_aditivado?: number;
+    data_aditivado?:Date;
     observacoes_aditivado?: string;
 
     observacoes?: string;

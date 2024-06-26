@@ -88,20 +88,37 @@
       />
     </div>
 
-    @if(contratotipo){
+    
       <div class="row">
-        @if(contratotipo.diarias){
-          <input-text
-            class="col-sm-2"
-            formControlName="quantidade_diarias"
-            label="Quantidade de diárias"
-            id="quantidade_diarias"
-            tipo="number"
-        />
-        } 
-        
+        @if(contratotipo){
+          @if(contratotipo.diarias){
+            <input-text
+                class="col-sm-2"
+                formControlName="quantidade_diarias"
+                label="Quantidade de diárias"
+                id="quantidade_diarias"
+                tipo="number"
+            />
+          } 
+        }
+        @if(form.value.prorrogavel){
+          <input-select
+            class="col-sm-3"
+            label="Prorrogação número"
+            id="numero_porrogacao"
+            [data$]="prorrogacaonumero$"
+            formControlName="numero_porrogacao"
+          />
+          <input-select
+            class="col-sm-4"
+            label="Contrato prorrogado"
+            id="contrato_prorrogado"
+            [data$]="contratos$"
+            formControlName="contrato_prorrogado"
+          />
+        }
       </div>
-    }
+    
 
     <div class="row" style="height: 350px;">
         <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />

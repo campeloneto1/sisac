@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/cor
 import { InputTextComponent } from "../../../components/input-text/input-text.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ContratosService } from "../contratos.service";
-import { Contrato } from "../contrato";
+import { Contrato, Contratos } from "../contrato";
 import { ToastrService } from "ngx-toastr";
 import { ContratoTipo, ContratosTipos } from "../../contratos-tipos/contrato-tipo";
 import { ContratosObjetos } from "../../contratos-objetos/contrato-objeto";
@@ -36,14 +36,21 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
     
     form!: FormGroup;
 
+    protected contratos$!: Observable<Contratos>;
     protected contratostipos$!: Observable<ContratosTipos>;
     protected contratosobjetos$!: Observable<ContratosObjetos>;
     protected contratotipo!: ContratoTipo;
     protected empresas$!: Observable<Empresas>;
     protected policiais$!: Observable<Policiais>;
-
+    protected prorrogacaonumero$: Observable<any> = of([
+        {id:1, nome: '1º prorrogação'},
+        {id:2, nome: '2º prorrogação'},
+        {id:3, nome: '3º prorrogação'},
+        {id:4, nome: '4º prorrogação'},
+    ]);
     private subscription:any;
     private subscription2:any;
+    private subscription3:any;
 
     @Output('refresh') refresh: EventEmitter<Contrato> = new EventEmitter();
     
@@ -96,9 +103,23 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
                 Validators.required,
             ])],
             'quantidade_diarias': [null],
+            'numero_porrogacao': [null],
+            'contrato_prorrogado': [null],
+            'porcentagem_aditivado': [null],
+            'data_aditivado': [null],
+            'observacoes_aditivado': [null],
             'observacoes': [null],
         });
-
+        this.subscription3 = this.contratosService.index().subscribe({
+            next: (data) => {
+                data.forEach(element => {
+                   //@ts-ignore
+                    element.nome = `${element.numero_contrato}, ${element.empresa.nome}`;
+                
+                });
+                this.contratos$ = of(data);
+            }
+        });
         this.subscription2 = this.empresasService.index().subscribe({
             next: (data) => {
                 data.forEach(element => {
@@ -135,6 +156,9 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
     }
 
     cadastrar(){
+        if(!this.contratotipo.diarias){
+            this.form.get('quantidade_diarias')?.patchValue(null);
+        }
         if(this.form.value.id){
             this.contratosService.update(this.form.value.id, this.form.value).subscribe({
                 next: (data:any) => {
@@ -168,6 +192,9 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
 
     editar(data: Contrato){
         this.form.patchValue(data);
+        if(data.contrato_prorrogado){
+            this.form.get('contrato_prorrogado')?.patchValue(data.contrato_prorrogado.id);
+        }
         if(data.empresa){
             this.form.get('empresa')?.patchValue(data.empresa.id);
         }

@@ -88,25 +88,36 @@
                       <!--div inicio row-->
                       <div class="row">
                         <div class="col-sm-12">
-                          <div class="row">
+                          
+                          <div class="row mt-2">
                             @if(armamento.quantidade >= 0){
-                            <dt class="col-sm-2">Quantidade:</dt>
-                            <dd class="col-sm-2">
-                              {{ armamento.quantidade }}
-                            </dd>
-                            } @if(armamento.quantidade_disponivel >= 0){
-                            <dt class="col-sm-2">Disponível:</dt>
-                            <dd class="col-sm-2">
-                              {{ armamento.quantidade_disponivel }}
-                            </dd>
-                            } 
+                              <div class="col-sm-3 ">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                  <h5 class="description-header">{{ armamento.quantidade }}</h5>
+                                  <span class="description-text">Quantidade</span>
+                                </div>
+                              </div>
+                            }
+                            @if(armamento.quantidade_disponivel >= 0){
+                              <div class="col-sm-3">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                  <h5 class="description-header">{{ armamento.quantidade_disponivel  }}</h5>
+                                  <span class="description-text">Quantidade Disponível</span>
+                                </div>
+                              </div>
+                            }
                             @if(armamento.data_validade){
-                              <dt class="col-sm-2">Data Validade:</dt>
-                              <dd class="col-sm-2">
-                                {{ armamento.data_validade | date: 'dd/MM/yyyy' }}
-                              </dd>
-                              } 
-                          </div>
+                              <div class="col-sm-3">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                  <h5 class="description-header">{{ armamento.data_validade | date: 'dd/MM/yyyy'  }}</h5>
+                                  <span class="description-text">Data Validade</span>
+                                </div>
+                              </div>
+                            }
+                          </div> 
                         </div>
                       </div>
                       @if(armamento.observacoes){

@@ -63,7 +63,31 @@
                         }
                       </a>
                     </li>
-                  
+                    <li class="list-group-item">
+                      <b>Número da Prorrogação</b>
+                      <a class="float-right">
+                        @if(contrato.numero_porrogacao == 1){
+                          1º prorrogação
+                        }
+                        @if(contrato.numero_porrogacao == 2){
+                          2º prorrogação
+                        }
+                        @if(contrato.numero_porrogacao == 3){
+                          3º prorrogação
+                        }
+                        @if(contrato.numero_porrogacao == 4){
+                          4º prorrogação
+                        }
+                      </a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>Contrato Prorrogado</b>
+                      <a class="float-right">
+                        @if(contrato.contrato_prorrogado){
+                          {{contrato.contrato_prorrogado.numero_contrato}}, {{contrato.contrato_prorrogado.empresa.nome}}
+                        }
+                      </a>
+                    </li>
                   @if(contrato.gestor){
                     <li class="list-group-item">
                       <b>Gestor</b>
@@ -132,21 +156,21 @@
                     </div>
 
                     <div class="row mt-2">
-                      <div class="col-sm-3">
+                      <div class="col-sm-2 offset-sm-1">
                         <div class="description-block border-right">
                           <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                           <h5 class="description-header">{{ contrato.data_inicial | date: 'dd/MM/yyyy' }}</h5>
                           <span class="description-text">Data Inicial</span>
                         </div>
                       </div>
-                      <div class="col-sm-3">
+                      <div class="col-sm-2">
                         <div class="description-block border-right">
                           <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                           <h5 class="description-header">{{ contrato.data_final | date: 'dd/MM/yyyy' }}</h5>
                           <span class="description-text">Data Final</span>
                         </div>
                       </div>
-                      <div class="col-sm-3">
+                      <div class="col-sm-2">
                         <div class="description-block border-right">
                           <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                           <h5 class="description-header">R$ {{ contrato.valor_usado | mask: 'separator.2' }}</h5>
@@ -154,34 +178,48 @@
                         </div>
                       </div>
                       @if(contrato.porcentagem_aditivado){
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                           <div class="description-block border-right">
                             <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                             <h5 class="description-header">{{ contrato.porcentagem_aditivado }}%</h5>
                             <span class="description-text">Porcent. de aditivo</span>
                           </div>
                         </div>
+                        <div class="col-sm-2">
+                          <div class="description-block border-right">
+                            <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                            <h5 class="description-header">{{ contrato.data_aditivado | date: 'dd/MM/yyyy' }}</h5>
+                            <span class="description-text">Data do aditivo</span>
+                          </div>
+                        </div>
                       }
-
                     </div>
                     @if(contrato.contrato_tipo.diarias && contrato.quantidade_diarias){
-                      <div class="row mt-2">
-                        <div class="col-sm-3 offset-sm-3">
+                      <div class="row mt-2 ">
+                        <div class="col-sm-4">
                           <div class="description-block border-right">
                             <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                             <h5 class="description-header">{{ contrato.quantidade_diarias }}</h5>
                             <span class="description-text">Quantidade diárias</span>
                           </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                           <div class="description-block border-right">
                             <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                             <h5 class="description-header">{{ quantidadeDiariasUtilizadas()  }}</h5>
-                            <span class="description-text">Quantidade usadas</span>
+                            <span class="description-text">Diárias usadas</span>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="description-block border-right">
+                            <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                            <h5 class="description-header">{{ getSaldoDiarias()  }}</h5>
+                            <span class="description-text">Saldo diárias</span>
                           </div>
                         </div>
                       </div>  
                     }
+                    
                     <div class="text-justify">
                       @if(contrato.observacoes){
                         <h5>Observações</h5>

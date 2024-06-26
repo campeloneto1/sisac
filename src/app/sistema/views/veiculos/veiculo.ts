@@ -30,6 +30,8 @@ export interface Veiculo{
 
     observacoes?: string;
 
+    nao_disponivel?: boolean;
+
     veiculos_policiais: VeiculosPoliciais;
     veiculos_oficinas: VeiculosOficinas;
 

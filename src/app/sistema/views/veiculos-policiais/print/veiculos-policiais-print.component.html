@@ -87,52 +87,66 @@
 
           <h5 style="margin-top: 20px">Fortaleza - CE, {{ datahj | date: "dd/MM/yyyy" }}</h5>
          
-          <div class="row" style="margin-top: 20px">
-            <div class="col-sm-3">
-              <b>Graduação:</b> {{ data$.policial.graduacao.nome }}
+            
+
+          <div class="row mt-4">
+            <div class="col-sm-5 offset-sm-1">
+              <h4>Policial</h4>
+              {{ data$.policial.graduacao.abreviatura }}
+              @if(data$.policial.numeral){ {{ data$.policial.numeral | mask: "00.000" }} }
+              {{ data$.policial.nome }}<br />
+              <b>Mat.:</b> {{ data$.policial.matricula | mask: "000.000-0-A" }}
+            
             </div>
-            @if(data$.policial.numeral){
-                <div class="col-sm-2" >
-                <b>Numeral:</b> {{ data$.policial.numeral | mask: "00.000" }}
-                </div>
-            }
-            <div class="col-sm-4"><b>Policial:</b> {{ data$.policial.nome }}</div>
-            <div class="col-sm-3">
-              <b>Matrícula:</b> {{ data$.policial.matricula | mask: "000.000-0-A" }}
-            </div>
-          </div>
-          <div class="row" style="margin-top: 20px">
-            <div class="col-sm-2">
-              <b>Tipo:</b> {{ data$.veiculo.veiculo_tipo.nome }}
-            </div>
-            <div class="col-sm-2"><b>Marca:</b> {{ data$.veiculo.modelo.marca.nome }}</div>
-            <div class="col-sm-2"><b>Modelo:</b> {{ data$.veiculo.modelo.nome }}</div>
-            <div class="col-sm-2"><b>Placa:</b> {{ data$.veiculo.placa }}</div>
-            <div class="col-sm-4"><b>PLaca Esp.:</b> {{ data$.veiculo.placa_especial }}</div>
-          </div>
-         
-            <div class="row">
-              @if(data$.cidade){
-                <div class="col-sm-4">
-                  <b>Destino: </b> {{data$.cidade.nome}}, {{data$.cidade.estado.nome}}
-                </div>
+            <div class="col-sm-5">
+              <h4>Veículo</h4>
+
+              {{ data$.veiculo.veiculo_tipo.nome }}
+              {{ data$.veiculo.modelo.marca.nome }}
+              {{ data$.veiculo.modelo.nome }}<br />
+              
+              
+              <b>Placa:</b> {{ data$.veiculo.placa }}<br />
+              @if(data$.veiculo.placa_especial){
+                <b>Placa Especial:</b> {{ data$.veiculo.placa_especial }}<br />
               }
-         
-              <div class="col-sm-4">
-                <b>KM Inicial:</b> {{ data$.km_inicial }}
-              </div>
-              <div class="col-sm-4">
-                  <b>KM Final:</b> {{ data$.km_final }}
-              </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-5">
-              <b>Data Empréstimo:</b> {{ data$.data_inicial | date: "dd/MM/yyyy HH:mm" }}
             </div>
-            <div class="col-sm-5">
-                <b>Data Devolução:</b> {{ data$.data_final | date: "dd/MM/yyyy HH:mm" }}
-              </div>
           </div>
+          
+          <div class="row mt-3">
+            <div class="col-sm-3 ">
+              <div class="description-block border-right">
+                <h5 class="description-header">{{ data$.data_inicial | date: "dd/MM/yyyy HH:mm" }}</h5>
+                <span class="description-text">Data Empréstimo</span>
+              </div>
+            </div>
+            <div class="col-sm-3 ">
+              <div class="description-block border-right">
+                <h5 class="description-header">{{ data$.km_inicial }}</h5>
+                <span class="description-text">KM Inicial</span>
+              </div>
+            </div>
+            <div class="col-sm-3 ">
+              <div class="description-block border-right">
+                <h5 class="description-header">{{ data$.data_final | date: "dd/MM/yyyy HH:mm" }}</h5>
+                <span class="description-text">Data Devolução</span>
+              </div>
+            </div>
+            <div class="col-sm-3 ">
+              <div class="description-block border-right">
+                <h5 class="description-header">{{ data$.km_final }}</h5>
+                <span class="description-text">KM Final</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            @if(data$.cidade){
+              <div class="col-sm-4">
+                <b>Destino: </b> {{data$.cidade.nome}}, {{data$.cidade.estado.nome}}
+              </div>
+            }
+        </div>
           
 
           <div style="margin-top: 30px" [innerHTML]="data$.observacoes"></div>

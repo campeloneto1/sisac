@@ -139,4 +139,14 @@ export class ContratoComponent implements OnInit, OnDestroy{
         }
         return result.toFixed(2);
       }
+
+      getSaldoDiarias(){
+        if(this.contrato.quantidade_diarias){
+          var result = this.contrato.quantidade_diarias - ((this.contrato.valor_usado*this.contrato.quantidade_diarias)/this.contrato.valor_global);
+          return result.toFixed(2)
+        }else{
+          return null
+        }
+        
+      }
 }

@@ -135,36 +135,57 @@
                     <!--div inicio row-->
                     <div class="row">
                       <div class="col-sm-12">
-                        <div class="row">
+
+
+                        <div class="row mt-2">
                           @if(veiculo.km_inicial >= 0){
-                          <dt class="col-sm-2">KM Inicial:</dt>
-                          <dd class="col-sm-2">
-                            {{ veiculo.km_inicial }}
-                          </dd>
-                          } @if(veiculo.km_atual){
-                          <dt class="col-sm-2">KM Atual:</dt>
-                          <dd class="col-sm-2">
-                            {{ veiculo.km_atual }}
-                          </dd>
-                          } @if(veiculo.km_troca_oleo){
-                          <dt class="col-sm-2">KM Troca de Óleo:</dt>
-                          <dd class="col-sm-2">
-                            {{ veiculo.km_troca_oleo }}
-                          </dd>
+                            <div class="col-sm-3 offset-sm-3">
+                              <div class="description-block border-right">
+                                <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                <h5 class="description-header">{{ veiculo.km_inicial }}</h5>
+                                <span class="description-text">KM Inicial</span>
+                              </div>
+                            </div>
                           }
-                          @if(veiculo.km_revisao){
-                            <dt class="col-sm-2">KM Revisão:</dt>
-                            <dd class="col-sm-2">
-                              {{ veiculo.km_revisao }}
-                            </dd>
-                            }
-                            @if(veiculo.data_revisao){
-                              <dt class="col-sm-2">Data Revisão:</dt>
-                              <dd class="col-sm-2">
-                                {{ veiculo.data_revisao | date: 'dd/MM/yyyy' }}
-                              </dd>
-                              }
-                        </div>
+                          @if(veiculo.km_atual >= 0){
+                            <div class="col-sm-2">
+                              <div class="description-block border-right">
+                                <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                <h5 class="description-header">{{ veiculo.km_atual }}</h5>
+                                <span class="description-text">KM Atual</span>
+                              </div>
+                            </div>
+                          }
+                        </div> 
+                        <div class="row">
+                          @if(veiculo.km_troca_oleo ){
+                            <div class="col-sm-2 offset-sm-3">
+                              <div class="description-block border-right">
+                                <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                <h5 class="description-header">{{ veiculo.km_troca_oleo }}</h5>
+                                <span class="description-text">KM Troca Óleo</span>
+                              </div>
+                            </div>
+                          }
+                          @if(veiculo.km_revisao ){
+                            <div class="col-sm-2">
+                              <div class="description-block border-right">
+                                <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                <h5 class="description-header">{{ veiculo.km_revisao  }}</h5>
+                                <span class="description-text">KM Revisão</span>
+                              </div>
+                            </div>
+                          }
+                          @if(veiculo.data_revisao){
+                            <div class="col-sm-2">
+                              <div class="description-block border-right">
+                                <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                <h5 class="description-header">{{ veiculo.data_revisao  | date: 'dd/MM/yyyy' }}</h5>
+                                <span class="description-text">Data Revisão</span>
+                              </div>
+                            </div>
+                          }
+                        </div> 
                       </div>
                     </div>
                     @if(veiculo.observacoes){

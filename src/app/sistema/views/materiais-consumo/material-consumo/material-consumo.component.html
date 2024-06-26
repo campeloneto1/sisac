@@ -100,25 +100,36 @@
                       <!--div inicio row-->
                       <div class="row">
                         <div class="col-sm-12">
-                          <div class="row">
+
+                          <div class="row mt-2">
                             @if(materialconsumo.quantidade >= 0){
-                            <dt class="col-sm-2">Quantidade:</dt>
-                            <dd class="col-sm-2">
-                              {{ materialconsumo.quantidade }}
-                            </dd>
-                            } @if(materialconsumo.quantidade_alerta >= 0){
-                            <dt class="col-sm-2">Alerta:</dt>
-                            <dd class="col-sm-2">
-                              {{ materialconsumo.quantidade_alerta }}
-                            </dd>
-                            } 
+                              <div class="col-sm-3 ">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                  <h5 class="description-header">{{ materialconsumo.quantidade }}</h5>
+                                  <span class="description-text">Quantidade</span>
+                                </div>
+                              </div>
+                            }
+                            @if(materialconsumo.quantidade_alerta >= 0){
+                              <div class="col-sm-3">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                  <h5 class="description-header">{{ materialconsumo.quantidade_alerta  }}</h5>
+                                  <span class="description-text">Quantidade alerta</span>
+                                </div>
+                              </div>
+                            }
                             @if(materialconsumo.data_validade){
-                              <dt class="col-sm-2">Data Validade:</dt>
-                              <dd class="col-sm-2">
-                                {{ materialconsumo.data_validade | date: 'dd/MM/yyyy' }}
-                              </dd>
-                              } 
-                          </div>
+                              <div class="col-sm-3">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                                  <h5 class="description-header">{{ materialconsumo.data_validade | date: 'dd/MM/yyyy'  }}</h5>
+                                  <span class="description-text">Data Validade</span>
+                                </div>
+                              </div>
+                            }
+                          </div> 
                         </div>
                       </div>
                       @if(materialconsumo.observacoes){

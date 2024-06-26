@@ -16,6 +16,7 @@ import { Materiais } from "../materiais/material";
 import { Contrato, Contratos } from "../contratos/contrato";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { RouterModule } from "@angular/router";
+import { VeiculosPoliciaisService } from "../veiculos-policiais/veiculos-policiais.service";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -53,6 +54,9 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected veiculosTrocaOleo$!: Observable<Veiculos>;
     protected veiculosRevisao$!: Observable<Veiculos>;
     protected veiculosPoliciais$!: Observable<VeiculosPoliciais>;
+    protected temEmprestimo: boolean = false;
+
+    protected subunidade!: any;
 
     protected subscription: any;
     protected subscription2: any;
@@ -61,11 +65,13 @@ export class HomeComponent implements OnInit, OnDestroy{
 
     constructor(
         private sessionService: SessionService,
-        private homeService: HomeService
+        private homeService: HomeService,
+        private veiculosPoliciaisService: VeiculosPoliciaisService
     ){}
 
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
+        this.subunidade = this.sessionService.getSubunidade();
         if(this.user){
             if(this.user.perfil.policiais){
                 this.subscription = this.homeService.getPoliciais().subscribe({
@@ -138,6 +144,14 @@ export class HomeComponent implements OnInit, OnDestroy{
             if(this.user.perfil.contratos){
                 this.contratosAcabando$ = this.homeService.getContratosAcabando();
             }
+
+            this.veiculosPoliciaisService.veiculoPolicial().subscribe({
+                next: (data) => {
+                    if(data){
+                        this.temEmprestimo = true;
+                    }
+                }
+            });
         }
         
     }

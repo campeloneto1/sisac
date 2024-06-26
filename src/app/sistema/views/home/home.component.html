@@ -18,11 +18,23 @@
   <section class="content">
     <!--INICIO DIV INFOBOX-->
     <div class="row">
-      @if(user.perfil.usuario){
-        <div class="col-sm-2 mb-3">
-          <a [routerLink]="['/VeiculoEmprestimo']" class="btn btn-primary btn-block pt-4 pb-4"><i class="fa fa-car"></i>  <b> Assumir veículo</b></a>
-        </div>
+      @if(user.policial){
+        @if(user.perfil.usuario && user.policial.setor.subunidade.id == subunidade){
+          <div class="col-sm-2 mb-3">
+            <a [routerLink]="['/VeiculoEmprestimo']" class="btn btn-info btn-block pt-4 pb-4">
+              <i class="fa fa-car"></i>  
+              <b>
+                @if(temEmprestimo){
+                  Devolver Veículo
+                }@else{
+                  Assumir veículo
+                }
+              </b>
+            </a>
+          </div>
+        }
       }
+     
       @if(user.perfil.policiais){
       <div class="col-sm-2">
         <app-info-box

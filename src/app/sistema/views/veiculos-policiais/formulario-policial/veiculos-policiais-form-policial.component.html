@@ -231,26 +231,28 @@
               
             </div>
             <div class="row">
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <b>Cidade:</b> {{veiculoemprestado.cidade.nome}}, {{veiculoemprestado.cidade.estado.nome}}
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <b>Data Inicial:</b> {{veiculoemprestado.data_inicial | date: 'dd/MM/yyyy HH:mm'}}
               </div>
               @if(veiculoemprestado.data_final){
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <b>Data Final:</b> {{veiculoemprestado.data_final | date: 'dd/MM/yyyy HH:mm'}}
                 </div>
               }
             </div>
-            <div class="row mt-4">
-              <div class="col-sm-12 text-justify">
-                <b>Observações:</b> 
-                <div [innerHtml]="veiculoemprestado.observacoes"></div>
+            @if(veiculoemprestado.observacoes){
+              <div class="row mt-3">
+                <div class="col-sm-12 text-justify">
+                  <b>Observações:</b> 
+                  <div [innerHtml]="veiculoemprestado.observacoes"></div>
+                </div>
               </div>
-            </div>
+            }
             @if(!veiculoemprestado.data_final){
-              <div class="row">
+              <div class="row mt-3">
                 <button (click)="devolver()" class="btn btn-primary btn-block">Devolver</button>
               </div>
             }

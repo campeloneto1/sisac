@@ -85,7 +85,9 @@ export class VeiculosFormComponent implements OnInit{
                 Validators.required
             ])],
             'blindado': [null],
-            'organico': [null],
+            'organico': ['0', Validators.compose([
+                Validators.required,
+            ])],
             'km_inicial': [null, Validators.compose([
                 Validators.required,
                 Validators.min(0),
@@ -113,6 +115,7 @@ export class VeiculosFormComponent implements OnInit{
             'observacoes': [null],
             'data_baixa': [null],
             'subunidade': [null],
+            'nao_disponivel': [null]
         });
         //this.unidades$ = this.unidadesService.index();
         this.marcas$ = this.marcasService.marcasTransporte();
@@ -122,8 +125,15 @@ export class VeiculosFormComponent implements OnInit{
     }
 
     cadastrar(){
+        if(this.form.value.organico == '1'){
+            this.form.get('organico')?.patchValue(true);
+        }else{
+            this.form.get('organico')?.patchValue(false);
+        }
         
-
+        if(!this.form.value.nao_disponivel){
+            this.form.get('nao_disponivel')?.patchValue(null);
+        }
         if(!this.form.value.data_baixa){
             this.form.get('data_baixa')?.patchValue(null);
         }
@@ -169,6 +179,12 @@ export class VeiculosFormComponent implements OnInit{
 
     editar(data: Veiculo){
         this.form.patchValue(data);
+
+        if(data.organico){
+            this.form.get('organico')?.patchValue('1');
+        }else{
+            this.form.get('organico')?.patchValue('0');
+        }
         if(data.modelo){
             this.form.get('marca')?.patchValue(data.modelo.marca.id);
             this.form.get('modelo')?.patchValue(data.modelo.id);
