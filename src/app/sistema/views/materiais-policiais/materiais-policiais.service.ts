@@ -42,4 +42,7 @@ export class MateriaisPoliciaisService{
         return this.http.post(`${URL}/${endPoint}/receber`, data);
     }
    
+    wherePol(id: number): Observable<MateriaisPoliciais>{
+        return this.http.get<MateriaisPoliciais>(`${URL}/${endPoint}/${id}/wherepol`);
+    }
 }

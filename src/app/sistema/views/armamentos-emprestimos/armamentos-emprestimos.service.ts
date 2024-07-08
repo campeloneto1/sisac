@@ -42,5 +42,9 @@ export class ArmamentosEmprestimosService{
     receber(data:any){
         return this.http.post(`${URL}/${endPoint}/receber`, data);
     }
+
+    wherePol(id: number): Observable<ArmamentosEmprestimos>{
+        return this.http.get<ArmamentosEmprestimos>(`${URL}/${endPoint}/${id}/wherepol`);
+    }
    
 }

@@ -37,5 +37,9 @@ export class PoliciaisCursosService{
     remove(id:number){
         return this.http.delete(`${URL}/${endPoint}/${id}`);
     }
+
+    wherePol(id: number): Observable<PoliciaisCursos>{
+        return this.http.get<PoliciaisCursos>(`${URL}/${endPoint}/${id}/wherepol`);
+    }
    
 }

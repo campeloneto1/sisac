@@ -103,4 +103,14 @@ export class ContratoPrint implements OnInit, OnDestroy{
         }
         return result.toFixed(2);
       }
+
+      getSaldoDiarias(){
+        if(this.data$.quantidade_diarias){
+          var result = this.data$.quantidade_diarias - ((this.data$.valor_usado*this.data$.quantidade_diarias)/this.data$.valor_global);
+          return result.toFixed(2)
+        }else{
+          return null
+        }
+        
+      }
 }

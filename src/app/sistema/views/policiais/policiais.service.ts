@@ -26,6 +26,10 @@ export class PoliciaisService{
         return this.http.get<Policial>(`${URL}/${endPoint}/${id}`);
     }
 
+    find2(id: number): Observable<Policial>{
+        return this.http.get<Policial>(`${URL}/${endPoint}/${id}`);
+    }
+
     create(data: Policial){
        return this.http.post(`${URL}/${endPoint}`, data);
     }

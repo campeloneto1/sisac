@@ -37,5 +37,9 @@ export class PoliciaisFeriasService{
     remove(id:number){
         return this.http.delete(`${URL}/${endPoint}/${id}`);
     }
+
+    wherePol(id: number): Observable<PoliciaisFerias>{
+        return this.http.get<PoliciaisFerias>(`${URL}/${endPoint}/${id}/wherepol`);
+    }
    
 }

@@ -3,7 +3,7 @@
   style="text-align: center; "
   *ngIf="data$"
 >
-  <img src="assets/cabecalho.png" class="cabecalho" />
+  <img src="assets/cabecalho2.png" class="cabecalho" />
   <br />
   <h4>
     Contrato Nº {{ data$.id }} -
@@ -76,7 +76,7 @@
           <div class="page">PAGE 2</div>-->
         <div class="page">
           <div class="noprint text-center">
-            <img src="assets/cabecalho.png" class="cabecalho" />
+            <img src="assets/cabecalho2.png" class="cabecalho" />
             <h4 style="margin-top: 20px">
               Contrato Nº {{ data$.id }} -
               {{ data$.subunidade.abreviatura }}/{{
@@ -110,23 +110,6 @@
              
             </div>
           </div>
-          
-          <!-- <div class="row text-center" style="margin-top: 20px">
-            <h3><b>Valor Global</b><br /> R$ {{ data$.valor_global | mask: 'separator.2' }} ({{returnPercentUsado()}}%)</h3>
-          </div>
-          <div class="row text-center mt-2">
-            <div class="col-sm-3">
-              <h4><b>Data Inicial</b><br />  {{ data$.data_inicial | date: 'dd/MM/yyyy' }}</h4>
-            </div>
-            <div class="col-sm-3">
-              <h4><b>Data Final</b><br />  {{ data$.data_final | date: 'dd/MM/yyyy' }}</h4>
-            </div>
-            @if(data$.porcentagem_aditivado){
-              <div class="col-sm-3">
-                <h4><b>Porcent. de aditivo</b><br /> {{ data$.porcentagem_aditivado }}%</h4>
-              </div>
-            }
-          </div> -->
 
           <div class="row text-center mt-2">
             <h3><b>R$ {{ data$.valor_global | mask: 'separator.2' }}</b></h3>
@@ -135,21 +118,21 @@
           </div>
 
           <div class="row mt-2">
-            <div class="col-sm-3">
+            <div class="col-sm-2 offset-sm-1">
               <div class="description-block border-right">
                 <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                 <h5 class="description-header">{{ data$.data_inicial | date: 'dd/MM/yyyy' }}</h5>
                 <span class="description-text">Data Inicial</span>
               </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <div class="description-block border-right">
                 <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                 <h5 class="description-header">{{ data$.data_final | date: 'dd/MM/yyyy' }}</h5>
                 <span class="description-text">Data Final</span>
               </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <div class="description-block border-right">
                 <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                 <h5 class="description-header">R$ {{ data$.valor_usado | mask: 'separator.2' }}</h5>
@@ -157,30 +140,43 @@
               </div>
             </div>
             @if(data$.porcentagem_aditivado){
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 <div class="description-block border-right">
                   <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                   <h5 class="description-header">{{ data$.porcentagem_aditivado }}%</h5>
                   <span class="description-text">Porcent. de aditivo</span>
                 </div>
               </div>
+              <div class="col-sm-2">
+                <div class="description-block border-right">
+                  <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                  <h5 class="description-header">{{ data$.data_aditivado | date: 'dd/MM/yyyy' }}</h5>
+                  <span class="description-text">Data do aditivo</span>
+                </div>
+              </div>
             }
-
           </div>
           @if(data$.contrato_tipo.diarias && data$.quantidade_diarias){
-            <div class="row mt-2">
-              <div class="col-sm-3 offset-sm-3">
+            <div class="row mt-2 ">
+              <div class="col-sm-4">
                 <div class="description-block border-right">
                   <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                   <h5 class="description-header">{{ data$.quantidade_diarias }}</h5>
                   <span class="description-text">Quantidade diárias</span>
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-4">
                 <div class="description-block border-right">
                   <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
                   <h5 class="description-header">{{ quantidadeDiariasUtilizadas()  }}</h5>
-                  <span class="description-text">Quantidade usadas</span>
+                  <span class="description-text">Diárias usadas</span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="description-block border-right">
+                  <!-- <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span> -->
+                  <h5 class="description-header">{{ getSaldoDiarias()  }}</h5>
+                  <span class="description-text">Saldo diárias</span>
                 </div>
               </div>
             </div>  
