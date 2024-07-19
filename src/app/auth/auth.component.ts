@@ -57,7 +57,9 @@ export class AuthComponent implements OnInit {
             'lembrarme': ['']
         });
 
-        
+        if(localStorage.getItem('usuario')){
+            this.form.get('cpf')?.patchValue('usuario');
+        }
     }
 
     async entrar(){

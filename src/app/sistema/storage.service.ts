@@ -1,5 +1,6 @@
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { SharedService } from './shared/shared.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,17 +8,27 @@ import { isPlatformBrowser } from '@angular/common';
 export class StorageService {
   private storage: Storage | null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private sharedService: SharedService
+  ) {
     this.storage = isPlatformBrowser(this.platformId) ? localStorage : null;
   }
 
-  getItem(key: string): string | null {
-    return this.storage ? this.storage.getItem(key) : null;
+  getItem(key: string): any {
+    try{
+      if(this.storage && this.storage.getItem(key)){
+        return this.sharedService.decodeId(this.storage.getItem(key));
+      }
+    }catch(e:any){
+      return null;
+    }
+    
   }
 
   setItem(key: string, value: string): void {
     if (this.storage) {
-      this.storage.setItem(key, value);
+      this.storage.setItem(key, this.sharedService.encodeId(value));
     }
   }
 

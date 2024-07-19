@@ -126,7 +126,7 @@
                     class="options point"
                     title="Imprimir Cautela"
                     target="_blank"
-                    [routerLink]="['/ArmamentosEmprestimosCautela', row.id]"
+                    [routerLink]="['/ArmamentosEmprestimosCautela', encodeId(row.id)]"
                   >
                     <i class="fa fa-print text-primary" aria-hidden="true"></i>
                   </a>
@@ -175,7 +175,7 @@
                     class="options point"
                     title="Imprimir Justificativa"
                     target="_blank"
-                    [routerLink]="['/ArmamentosEmprestimosJustificativa', row.id]"
+                    [routerLink]="['/ArmamentosEmprestimosJustificativa', encodeId(row.id)]"
                   >
                     <i class="fa fa-print text-primary" aria-hidden="true"></i>
                   </a>

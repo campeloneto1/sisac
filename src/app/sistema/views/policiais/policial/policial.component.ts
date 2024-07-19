@@ -76,14 +76,20 @@ export class PolicialComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
         this.sessionService.checkPermission('policiais');
-        this.id = this.activatedRoute.snapshot.params['id'];
+        try {
+            this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
 
-       this.subscription =  this.policiaisService.find(this.id).subscribe({
-            next: (data) => {
-                if(!data){this.sessionService.redirect()}
-                this.policial = data;
-            }
-        });
+            this.subscription =  this.policiaisService.find(this.id).subscribe({
+                next: (data) => {
+                    if(!data){this.sessionService.redirect()}
+                    this.policial = data;
+                }
+            });
+        }
+        catch(e:any){
+            this.sessionService.redirect()
+        }
+        
     }
 
     ngOnDestroy(): void {

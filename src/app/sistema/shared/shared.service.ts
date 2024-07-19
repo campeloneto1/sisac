@@ -29,4 +29,31 @@ export class SharedService{
       uploadFoto(data: any){
         return this.http.post(`${URL}/utilities/upload`, data);
     }
+
+    encodeId(id: any){
+      var encoded = window.btoa(id);
+      return encoded;
+    }
+
+    decodeId(id: any){
+      try{
+        var decoded = window.atob(id);
+        return decoded;
+      }catch(e:any){
+        return null;
+      }
+      
+    }
+
+    generateSalt(length:number){
+      let result = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const charactersLength = characters.length;
+      let counter = 0;
+      while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+      }
+      return result;
+  }
 }   

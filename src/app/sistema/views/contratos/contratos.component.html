@@ -82,7 +82,7 @@
                 <!-- <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td> -->
                 <td>{{ row.contrato_objeto.nome }}</td>
                 <!-- <td>{{ row.contrato_tipo.nome }}</td> -->
-                <td><a [routerLink]="['/Contrato', row.id]">{{ row.numero_contrato }}</a></td>
+                <td><a [routerLink]="['/Contrato',  encodeId(row.id)]">{{ row.numero_contrato }}</a></td>
                 <!-- <td>{{ row.numero_sacc }}</td> -->
                
                 <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
@@ -131,7 +131,7 @@
                     class="options point"
                     title="Imprimir"
                     target="_blank"
-                    [routerLink]="['/Contrato', row.id, 'Imprimir']"
+                    [routerLink]="['/Contrato',  encodeId(row.id), 'Imprimir']"
                   >
                     <i class="fa fa-print text-primary" aria-hidden="true"></i>
                   </a>

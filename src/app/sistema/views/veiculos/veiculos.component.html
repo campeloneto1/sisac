@@ -90,7 +90,7 @@
                     Locado
                   }
                 </td>
-                <td><a [routerLink]="['/Veiculo', row.id]">{{ row.placa }}</a></td>
+                <td><a [routerLink]="['/Veiculo', encodeId(row.id)]">{{ row.placa }}</a></td>
                 <td>{{ row.placa_especial }}</td>
                 <td>{{ row.km_inicial }}</td>
                 <td>{{ row.km_atual }}</td>
@@ -99,7 +99,7 @@
                 <td>{{ row.data_revisao | date: 'dd/MM/yyyy' }}</td>
                 <td>
                   @if(row.nao_disponivel){
-                    <i class="fa fa-ban text-danger" aria-hidden="true"></i>
+                    <i class="fa fa-ban text-danger" title="Não disponível" aria-hidden="true"></i>
                   }
                 </td>
                 <td>{{ row.data_baixa | date: 'dd/MM/yyyy' }}</td>

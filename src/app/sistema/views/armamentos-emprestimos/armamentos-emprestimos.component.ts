@@ -15,6 +15,7 @@ import { User } from '../users/user';
 import { InputTextareaComponent } from '../../components/input-textarea/input-textarea.component';
 import { ArmamentosEmprestimosFormReceberComponent } from './formulario-receber/armamentos-emprestimos-form-receber.component';
 import { RouterModule } from '@angular/router';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-armamentos-emprestimos',
   templateUrl: './armamentos-emprestimos.component.html',
@@ -61,6 +62,7 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
     private armamentosEmprestimosItensService: ArmamentosEmprestimosItensService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
     
   ) {}
  
@@ -195,6 +197,11 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
         this.armamentoEmprestimo = data;
       }
     })
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
 }

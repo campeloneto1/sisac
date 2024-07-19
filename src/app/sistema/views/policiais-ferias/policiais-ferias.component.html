@@ -88,7 +88,7 @@
                 class="options point"
                 title="Editar"
                 target="_blank"
-                [routerLink]="['/FeriasGuia', row.id]"
+                [routerLink]="['/FeriasGuia', encodeId(row.id)]"
               >
                 <i class="fa fa-print text-primary" aria-hidden="true"></i>
               </a>

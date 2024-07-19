@@ -42,14 +42,22 @@ export class ArmamentoComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
         this.sessionService.checkPermission('armamentos');
-        this.id = this.activatedRoute.snapshot.params['id'];
 
-       this.subscription =  this.armamentosService.find(this.id).subscribe({
-            next: (data) => {
-                if(!data){this.sessionService.redirect()}
-                this.armamento = data;
-            }
-        });
+        try {
+            this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
+
+            this.subscription =  this.armamentosService.find(this.id).subscribe({
+                next: (data) => {
+                    if(!data){this.sessionService.redirect()}
+                    this.armamento = data;
+                }
+            });
+        }
+        catch(e:any){
+            this.sessionService.redirect()
+        }
+
+        
     }
 
     ngOnDestroy(): void {

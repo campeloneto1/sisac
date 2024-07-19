@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { RouterModule } from '@angular/router';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
@@ -43,6 +44,7 @@ export class EmpresasComponent implements OnInit, OnDestroy {
     private empresasService: EmpresasService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
   ) {}
  
 
@@ -109,4 +111,8 @@ export class EmpresasComponent implements OnInit, OnDestroy {
     }    
   }
 
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
+  }
 }

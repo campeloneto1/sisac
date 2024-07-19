@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { MateriaisConsumoEntradasItensFormComponent } from '../materiais-consumo-entradas-itens/formulario/materiais-consumo-entradas-itens-form.component';
 import { MateriaisConsumoEntradasItensService } from '../materiais-consumo-entradas-itens/materiais-consumo-entradas-itens.service';
 import { format } from 'date-fns';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-materiais-consumo-entradas',
   templateUrl: './materiais-consumo-entradas.component.html',
@@ -58,7 +59,7 @@ export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
     private materiaisConsumoEntradasItensService: MateriaisConsumoEntradasItensService,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    
+    private sharedService: SharedService
   ) {}
  
 
@@ -139,6 +140,11 @@ export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
   showMat(data: MaterialConsumoEntrada){

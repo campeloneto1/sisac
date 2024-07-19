@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { StorageService } from "./storage.service";
 import { Router } from "@angular/router";
+import { SharedService } from "./shared/shared.service";
 
 @Injectable({
     providedIn: 'root'
@@ -12,17 +13,22 @@ export class SessionService {
 
     constructor(
         private storageService: StorageService,
+        private sharedService: SharedService,
         private router: Router,
     ){
-        if(!this.user){
-            this.user = JSON.parse(this.storageService.getItem('user')!);
+        if(!this.user && this.storageService.getItem('user')){
+            try{
+                this.user = JSON.parse(this.storageService.getItem('user')!);
+            }catch(e:any){
+                this.user = {};
+            }
         }
 
-        if(!this.token){
+        if(!this.token && this.storageService.getItem('token')){
             this.token = this.storageService.getItem('token')!;
         }
 
-        if(!this.subunidade){
+        if(!this.subunidade && this.storageService.getItem('subunidade')){
             this.subunidade = this.storageService.getItem('subunidade')!;
         }
     } 

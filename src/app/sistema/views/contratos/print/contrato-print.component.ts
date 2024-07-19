@@ -45,9 +45,12 @@ export class ContratoPrint implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.datahj = new Date;
         this.user = this.sessionService.getUser();
-        this.id = this.activatedRoute.snapshot.params['id'];
+        this.sessionService.checkPermission('contratos');
 
-       this.subscription =  this.contratosService.find(this.id).subscribe({
+        try {
+          this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
+
+          this.subscription =  this.contratosService.find(this.id).subscribe({
             next: (data) => {
                 this.data$ = data;
             }
@@ -58,6 +61,11 @@ export class ContratoPrint implements OnInit, OnDestroy{
                 this.subunidade = data;
             }
         })
+      }
+      catch(e:any){
+          this.sessionService.redirect()
+      }
+
     }
     ngOnDestroy(): void {
         if(this.subscription){

@@ -45,19 +45,27 @@ export class PoliciaisFeriasPrintComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.datahj = new Date;
         this.user = this.sessionService.getUser();
-        this.id = this.activatedRoute.snapshot.params['id'];
+        this.sessionService.checkPermission('policiais_atestados');
+        try {
+            this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
 
-       this.subscription =  this.policiaisFeriasService.find(this.id).subscribe({
-            next: (data) => {
-                this.data$ = data;
-            }
-        });
+            this.subscription =  this.policiaisFeriasService.find(this.id).subscribe({
+                next: (data) => {
+                    this.data$ = data;
+                }
+            });
+    
+            this.subscription2 =  this.subunidadesService.find(this.user.subunidade.id || 0).subscribe({
+                next: (data) => {
+                    this.subunidade = data;
+                }
+            })
+        }
+        catch(e:any){
+            this.sessionService.redirect()
+        }
 
-        this.subscription2 =  this.subunidadesService.find(this.user.subunidade.id || 0).subscribe({
-            next: (data) => {
-                this.subunidade = data;
-            }
-        })
+     
     }
     ngOnDestroy(): void {
         if(this.subscription){

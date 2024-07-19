@@ -11,6 +11,7 @@ import { User } from '../users/user';
 import { SessionService } from '../../session.service';
 import { RouterModule } from '@angular/router';
 import { ArmamentosFormQuantidadeComponent } from './formulario-quantidade/armamentos-form-quantidade.component';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-armamentos',
   templateUrl: './armamentos.component.html',
@@ -44,6 +45,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
     private armamentosService: ArmamentosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
   ) {}
  
 
@@ -124,6 +126,11 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
         || !pesq
       });
     }
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
 }

@@ -75,7 +75,7 @@
               <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }} - {{ row.setor.subunidade.unidade.abreviatura }}</td>
               <td>{{ row.graduacao.nome }}</td>
               <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
-              <td><a [routerLink]="['/Policial', row.id]">{{ row.nome }}</a></td>
+              <td><a [routerLink]="['/Policial', encodeId(row.id)]">{{ row.nome }}</a></td>
               <td>{{row.nome_guerra}}</td>
               <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
               <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>

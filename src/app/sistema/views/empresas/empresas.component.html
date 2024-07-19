@@ -65,7 +65,7 @@
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
                 <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
-                <td><a [routerLink]="['/Empresa', row.id]">{{ row.nome }}</a></td>
+                <td><a [routerLink]="['/Empresa', encodeId(row.id)]">{{ row.nome }}</a></td>
                 <td>{{ row.cnpj | mask: '00.000.000/0000-00' }}</td>
                 <td>{{ row.telefone1 | mask:'(00) 00000-0000' }}</td>
                 <td>

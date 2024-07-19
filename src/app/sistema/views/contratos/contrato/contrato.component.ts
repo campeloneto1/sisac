@@ -53,14 +53,20 @@ export class ContratoComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
         this.sessionService.checkPermission('contratos');
-        this.id = this.activatedRoute.snapshot.params['id'];
 
-       this.subscription =  this.contratosService.find(this.id).subscribe({
+        try {
+          this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
+
+          this.subscription =  this.contratosService.find(this.id).subscribe({
             next: (data) => {
-                if(!data){this.sessionService.redirect()}
-                this.contrato = data;
-            }
-        });
+                  if(!data){this.sessionService.redirect()}
+                  this.contrato = data;
+              }
+          });
+          }
+          catch(e:any){
+              this.sessionService.redirect()
+          }
     }
 
     ngOnDestroy(): void {

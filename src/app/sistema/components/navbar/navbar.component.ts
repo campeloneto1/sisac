@@ -57,27 +57,33 @@ export class NavbarComponent implements OnInit{
         
         if(!this.user){
             this.user = JSON.parse(await this.storageService.getItem('user')!);
-        }
-        if(this.user){
-            if(this.storageService.getItem('subunidade')){
-                this.subunidade = Number(this.storageService.getItem('subunidade'));
-            }else{
-                 //@ts-ignore
-                this.subunidade = this.user.users_subunidades[0].subunidade.id;
-                this.setSubunidade();
-            }
-           
-            var subunidadesuser:Subunidades = [];
-            this.user.users_subunidades?.forEach((data) =>{
-                if(this.subunidade == data.subunidade.id){
-                    this.selectsub = data.subunidade;
-                }
-                data.subunidade.nome = `${data.subunidade.abreviatura} - ${data.subunidade.unidade.abreviatura}`
-                subunidadesuser.push(data.subunidade);
-            })
             
-            this.subunidades$ = of(subunidadesuser);
         }
+        console.log(this.storageService.getItem('subunidade'))
+       
+            
+            if(this.user){
+                if(this.storageService.getItem('subunidade') && this.storageService.getItem('subunidade') != 'ée'){
+                    this.subunidade = Number(this.storageService.getItem('subunidade'));
+                }else{
+                     //@ts-ignore
+                    this.subunidade = this.user.users_subunidades[0].subunidade.id;
+                    this.setSubunidade();
+                }
+               
+                var subunidadesuser:Subunidades = [];
+                this.user.users_subunidades?.forEach((data) =>{
+                    if(this.subunidade == data.subunidade.id){
+                        this.selectsub = data.subunidade;
+                    }
+                    data.subunidade.nome = `${data.subunidade.abreviatura} - ${data.subunidade.unidade.abreviatura}`
+                    subunidadesuser.push(data.subunidade);
+                })
+                
+                this.subunidades$ = of(subunidadesuser);
+            }    
+        
+        
         this.form = this.formBuilder.group({
             'id': [null],
             'password': [null, Validators.compose([

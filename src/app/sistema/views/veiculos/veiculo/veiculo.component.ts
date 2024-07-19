@@ -42,14 +42,20 @@ export class VeiculoComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
         this.sessionService.checkPermission('veiculos');
-        this.id = this.activatedRoute.snapshot.params['id'];
+        try {
+            this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
 
-       this.subscription =  this.veiculosService.find(this.id).subscribe({
-            next: (data) => {
-                if(!data){this.sessionService.redirect()}
-                this.veiculo = data;
-            }
-        });
+            this.subscription =  this.veiculosService.find(this.id).subscribe({
+                 next: (data) => {
+                     if(!data){this.sessionService.redirect()}
+                     this.veiculo = data;
+                 }
+             });
+        }
+        catch(e:any){
+            this.sessionService.redirect()
+        }
+       
     }
 
     ngOnDestroy(): void {

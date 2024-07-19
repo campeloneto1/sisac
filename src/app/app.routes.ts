@@ -2,13 +2,15 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router, Routes, mapToCanActivate } from '@angular/router';
 import { StorageService } from './sistema/storage.service';
 import { isPlatformBrowser } from '@angular/common';
+import { SharedService } from './sistema/shared/shared.service';
 @Injectable({ providedIn: 'root' })
 export class AdminGuard {
   private storage: Storage | null;
   constructor(
     private storageService: StorageService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private sharedService: SharedService
 ) {
   this.storage = isPlatformBrowser(this.platformId) ? localStorage : null;
 }
@@ -33,7 +35,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./auth/auth.component').then((c) => c.AuthComponent),
       },
-      
       {
         path: '',
         loadComponent: () =>

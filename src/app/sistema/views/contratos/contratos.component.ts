@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { ContratosLancamentosFormComponent } from '../contratos-lancamentos/formulario/contratos-lancamentos-form.component';
 import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-lancamentos.service';
 import { ContratosFormAditivarComponent } from './formulario-aditivar/contratos-form-aditivar.component';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-contratos',
   templateUrl: './contratos.component.html',
@@ -55,6 +56,7 @@ export class ContratosComponent implements OnInit, OnDestroy {
     private contratosLancamentosService: ContratosLancamentosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
   ) {}
  
 
@@ -200,6 +202,11 @@ export class ContratosComponent implements OnInit, OnDestroy {
       return null
     }
     
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
 }

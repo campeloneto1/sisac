@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
 import { RouterModule } from '@angular/router';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-veiculos',
   templateUrl: './veiculos.component.html',
@@ -40,6 +41,7 @@ export class VeiculosComponent implements OnInit, OnDestroy {
     private veiculosService: VeiculosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService,
 
   ) {}
  
@@ -113,6 +115,11 @@ export class VeiculosComponent implements OnInit, OnDestroy {
        
       });
     }
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
 }

@@ -11,6 +11,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SessionService } from '../../session.service';
 import { User } from '../users/user';
 import { RouterModule } from '@angular/router';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-policiais-ferias',
   templateUrl: './policiais-ferias.component.html',
@@ -46,6 +47,7 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
     private policiaisFeriasService: PoliciaisFeriasService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
   ) {}
  
 
@@ -120,6 +122,11 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
       });
     }
     
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
 }

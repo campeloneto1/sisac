@@ -42,14 +42,21 @@ export class MaterialComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
         this.sessionService.checkPermission('materiais');
-        this.id = this.activatedRoute.snapshot.params['id'];
+        try {
+            this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
 
-       this.subscription =  this.materiaisService.find(this.id).subscribe({
-            next: (data) => {
-                if(!data){this.sessionService.redirect()}
-                this.material = data;
-            }
-        });
+            this.subscription =  this.materiaisService.find(this.id).subscribe({
+                next: (data) => {
+                    if(!data){this.sessionService.redirect()}
+                    this.material = data;
+                }
+            });
+        }
+        catch(e:any){
+            this.sessionService.redirect()
+        }
+
+      
     }
 
     ngOnDestroy(): void {

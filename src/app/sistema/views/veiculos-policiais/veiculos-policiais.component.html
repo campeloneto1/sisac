@@ -104,7 +104,7 @@
                       class="options point"
                       title="Imprimir Empréstimo"
                       target="_blank"
-                      [routerLink]="['/VeiculosEmprestimosImprimir', row.id]"
+                      [routerLink]="['/VeiculosEmprestimosImprimir', encodeId(row.id)]"
                     >
                       <i class="fa fa-print text-primary" aria-hidden="true"></i>
                     </a>

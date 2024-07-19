@@ -11,6 +11,7 @@ import { SessionService } from '../../session.service';
 import { VeiculosPoliciaisFormReceberComponent  } from './formulario-receber/veiculos-policiais-form-receber.component';
 import { User } from '../users/user';
 import { RouterModule } from '@angular/router';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-veiculos-policiais',
   templateUrl: './veiculos-policiais.component.html',
@@ -44,6 +45,7 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
     private veiculosPoliciaisService: VeiculosPoliciaisService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
   ) {}
  
 
@@ -163,6 +165,11 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
          }
       });
     }
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
 }

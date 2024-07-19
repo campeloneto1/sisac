@@ -15,6 +15,7 @@ import { MateriaisPoliciaisItensFormComponent } from '../materiais-policiais-ite
 import { MateriaisPoliciais, MaterialPolicial } from './material-policial';
 import { MateriaisPoliciaisService } from './materiais-policiais.service';
 import { MateriaisPoliciaisItensService } from '../materiais-policiais-itens/materiais-policiais-itens.service';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-materiais-policiais',
   templateUrl: './materiais-policiais.component.html',
@@ -61,7 +62,7 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
     private materiaisPoliciaisItensService: MateriaisPoliciaisItensService,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    
+    private sharedService: SharedService
   ) {}
  
 
@@ -150,6 +151,11 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
   showItens(data: MaterialPolicial){

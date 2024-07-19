@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
 import { RouterModule } from '@angular/router';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-materiais',
   templateUrl: './materiais.component.html',
@@ -42,6 +43,7 @@ export class MateriaisComponent implements OnInit, OnDestroy {
     private materiaisService: MateriaisService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
   ) {}
  
 
@@ -124,6 +126,11 @@ export class MateriaisComponent implements OnInit, OnDestroy {
        }
       });
     }
+  }
+
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
   }
 
 }
