@@ -621,6 +621,30 @@
                 </a>
               </li>
             }
+            @if(user.perfil.policiais_atestados){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelPoliciaisAtestados']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Atestados de Policiais</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.contratos){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelContratos']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Contratos</p>
+                </a>
+              </li>
+            }
             @if(user.perfil.armamentos_emprestimos){
               <li class="nav-item">
                 <a
@@ -630,6 +654,42 @@
                 >
                   <i class="fa fa-circle nav-icon"></i>
                   <p>Empréstimos de Armamentos</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.veiculos_policiais){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelVeiculosEmprestimos']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Empréstimos de Veículos</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.policiais_ferias){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelPoliciaisFerias']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Férias de Policiais</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.veiculos_oficinas){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelVeiculosOficinas']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Manutenção de Veículos</p>
                 </a>
               </li>
             }
@@ -657,6 +717,19 @@
                 </a>
               </li>
             }
+            @if(user.perfil.servicos){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelServicos']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Serviços</p>
+                </a>
+              </li>
+            }
+           
             @if(user.perfil.veiculos){
               <li class="nav-item">
                 <a
@@ -669,30 +742,8 @@
                 </a>
               </li>
             }
-              @if(user.perfil.veiculos_policiais){
-                <li class="nav-item">
-                  <a
-                    [routerLink]="['RelVeiculosEmprestimos']"
-                    routerLinkActive="active"
-                    class="nav-link"
-                  >
-                    <i class="fa fa-circle nav-icon"></i>
-                    <p>Empréstimos de Veículos</p>
-                  </a>
-                </li>
-              }
-              @if(user.perfil.veiculos_oficinas){
-                <li class="nav-item">
-                  <a
-                    [routerLink]="['RelVeiculosOficinas']"
-                    routerLinkActive="active"
-                    class="nav-link"
-                  >
-                    <i class="fa fa-circle nav-icon"></i>
-                    <p>Manutenção de Veículos</p>
-                  </a>
-                </li>
-              }
+             
+              
             </ul>
           </li>
           }

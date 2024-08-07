@@ -136,7 +136,7 @@
                             @for(row of four.data; track row){
                             <tr data-widget="expandable-table" aria-expanded="false">
                                 <td>{{ row.id }}</td>
-                                <td>{{ row.contrato_objeto.nome }}</td>
+                                <td>{{ row.objeto }}</td>
                                 <td>{{ row.numero_contrato }}</td>
                                 <td>{{ row.numero_sacc }}</td>
                                 <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>

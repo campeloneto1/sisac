@@ -122,6 +122,11 @@ export const routes: Routes = [
               import('./sistema/views/contratos/contratos.component').then((c) => c.ContratosComponent),
           },
           {
+            path: 'RelContratos',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/contratos/contratos-rel.component').then((c) => c.ContratosRelComponent),
+          },
+          {
             path: 'ContratosObjetos',
             loadComponent: () =>
               import('./sistema/views/contratos-objetos/contratos-objetos.component').then((c) => c.ContratosObjetosComponent),
@@ -307,6 +312,16 @@ export const routes: Routes = [
               import('./sistema/views/relatorios/policiais/policiais-rel.component').then((c) => c.PoliciaisRelComponent),
           },
           {
+            path: 'RelPoliciaisAtestados',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/policiais-atestados/policiais-atestados-rel.component').then((c) => c.PoliciaisAtestadosRelComponent),
+          },
+          {
+            path: 'RelPoliciaisFerias',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/policiais-ferias/policiais-ferias-rel.component').then((c) => c.PoliciaisFeriasRelComponent),
+          },
+          {
             path: 'Publicacoes',
             loadComponent: () =>
               import('./sistema/views/policiais-publicacoes/policiais-publicacoes.component').then((c) => c.PoliciaisPublicacoesComponent),
@@ -335,6 +350,11 @@ export const routes: Routes = [
             path: 'Servicos',
             loadComponent: () =>
               import('./sistema/views/servicos/servicos.component').then((c) => c.ServicosComponent),
+          },
+          {
+            path: 'RelServicos',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/servicos/servicos-rel.component').then((c) => c.ServicosRelComponent),
           },
           {
             path: 'ServicosTipos',

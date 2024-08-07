@@ -62,8 +62,12 @@ export class SidebarComponent implements OnInit{
     private routesMenuRelatorio = [
         '/RelArmamentos',
         '/RelArmamentosEmprestimos',
+        '/RelContratos',
         '/RelPatrimonios',
         '/RelPoliciais',
+        '/RelPoliciaisAtestados',
+        '/RelPoliciaisFerias',
+        '/RelServicos',
         '/RelVeiculos',
         '/RelVeiculosEmprestimos',
         '/RelVeiculosOficinas',

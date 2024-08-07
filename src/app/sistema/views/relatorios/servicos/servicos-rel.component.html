@@ -1,0 +1,125 @@
+<div class="content-wrapper">
+  <app-title titulo="Relatório de Serviços" />
+
+  <!--INICIO SECTION content-->
+  <section class="content">
+    <!--INICIO CARD -->
+    <div class="card">
+      <div class="card-header border-0 ">
+        <h3 class="card-title noprint">Filtro</h3>
+        <h3 class="card-title print">Relatório de Serviços</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <form [formGroup]="form" class="noprint">
+          <!-- <div class="row">
+            <input-text
+              class="col-sm-2"
+              formControlName="data_inicial"
+              label="Data Inical maior ou igual a"
+              id="data_inicial"
+              tipo="date"
+            />
+            <input-text
+              class="col-sm-2"
+              formControlName="data_final"
+              label="Data Inicial menor ou igual a"
+              id="data_final"
+              tipo="date"
+            />
+          </div> -->
+          <div class="row">
+            
+            <!-- <input-select
+              class="col-sm-3"
+              label="Setor"
+              id="setor"
+              [data$]="setores$"
+              formControlName="setor"
+            /> -->
+            
+            <input-select
+              class="col-sm-3"
+              label="Empresa"
+              id="empresa"
+              [data$]="empresas$"
+              formControlName="empresa"
+            />
+
+            <input-select
+              class="col-sm-3"
+              label="Tipo de serviço"
+              id="servico_tipo"
+              [data$]="servicoestipos$"
+              formControlName="servico_tipo"
+            />
+            
+            <div class="col-sm-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  checked=""
+                  id="vigente"
+                  formControlName="vigente"
+                />
+                <label class="form-check-label" for="vigente"
+                  >Vigente</label
+                >
+              </div>
+            </div>
+          </div>
+          <div>
+            <button
+              [disabled]="form.invalid"
+              type="button"
+              (click)="pesquisar()"
+              class="btn btn-primary btn-block"
+            >
+              Pesquisar
+            </button>
+          </div>
+        </form>
+
+        @if(data$){
+        <table class="table table-hover table-head-fixed text-wrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Subunidade</th>
+              <th>Empresa</th>
+              <th>CNPJ</th>
+              <th>Tipo de Serviço</th>
+              <th>Data Inicial</th>
+              <th>Data Final</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for(row of data$ | async; track row){
+              <tr data-widget="expandable-table" aria-expanded="false">
+                <td>{{ row.id }}</td>
+                <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
+                <td>{{ row.empresa.nome }}</td>
+                <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td>
+                <td>{{ row.servico_tipo.nome }}</td> 
+                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
+              </tr>
+              <tr class="expandable-body d-none">
+                <td colspan="14">
+                  <div
+                    style="display: none"
+                    [innerHTML]="row.observacoes"
+                  ></div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+    </div>
+    <!--FIM CARD -->
+  </section>
+  <!--FIM SECTION content-->
+</div>

@@ -40,6 +40,7 @@
         <app-info-box
           titulo="Policiais"
           [subtitulo]="quantPoliciais"
+          route="/Policiais"
           icon="fa-users"
           class="bg-info"
         />
@@ -49,6 +50,7 @@
         <app-info-box
           titulo="Férias"
           [subtitulo]="quantFerias"
+          route="/Ferias"
           icon="fa-plane"
           class="bg-success"
         />
@@ -58,6 +60,7 @@
         <app-info-box
           titulo="Atestados"
           [subtitulo]="quantAtestados"
+          route="/Atestados"
           icon="fa-ambulance"
           class="bg-danger"
         />
@@ -68,6 +71,7 @@
           <app-info-box
             titulo="Requeridas"
             [subtitulo]="quantRequeridas"
+            route="/Requeridas"
             icon="fa-trophy"
             class="bg-warning"
           />
@@ -553,7 +557,7 @@
                     <tr>
                       <td>{{cont.id}}</td>
                       <td>{{cont.empresa.nome}}</td>
-                      <td>{{cont.contrato_objeto.nome}}</td>
+                      <td>{{cont.objeto}}</td>
                       <td>R$ {{cont.valor_global | mask: 'separator.2'}}</td>
                       <td>R$ {{cont.valor_usado | mask: 'separator.2'}}</td>
                       <td>{{cont.data_final | date: 'dd/MM/yyyy'}}</td>

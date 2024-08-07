@@ -1,18 +1,20 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
+import { RouterModule } from "@angular/router";
 
 @Component({
     selector: 'app-info-box',
     templateUrl: './info-box.component.html',
     styleUrl: './info-box.component.css',
     standalone: true,
-    imports: [CommonModule]
+    imports: [CommonModule, RouterModule,]
 })
 export class InfoBox{
     @Input() titulo!:string;
     @Input() subtitulo!:string;
     @Input() icon!:string;
     @Input() class!:string;
+    @Input() route!:string;
 
     constructor(){}
 }
