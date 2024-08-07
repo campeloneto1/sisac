@@ -14,12 +14,14 @@ export class PoliciaisService{
 
     constructor(
         private http: HttpClient,
-        //private sessionService: SessionService,
     ){}
 
     index(): Observable<Policiais>{
         return this.http.get<Policiais>(`${URL}/${endPoint}`);
-        //return this.http.get<Policiais>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+    }
+
+    getAll(): Observable<Policiais>{
+        return this.http.get<Policiais>(`${URL}/${endPoint}/all`);
     }
 
     find(id: number): Observable<Policial>{
@@ -44,7 +46,6 @@ export class PoliciaisService{
 
     disponiveis(): Observable<Policiais>{
         return this.http.get<Policiais>(`${URL}/${endPoint}/disponiveis`);
-        //return this.http.get<Policiais>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
     }
    
     updateFoto(id:number, data: any){

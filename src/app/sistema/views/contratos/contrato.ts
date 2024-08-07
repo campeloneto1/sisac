@@ -17,7 +17,7 @@ export interface Contrato{
     data_inicial: Date;
     data_final: Date;
     prorrogavel?: boolean;
-
+    objeto: string;
     contrato_tipo: ContratoTipo;
     contrato_objeto: ContratoObjeto;
 

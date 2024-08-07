@@ -10,7 +10,6 @@ import { ContratosObjetos } from "../../contratos-objetos/contrato-objeto";
 import { Policiais } from "../../policiais/policial";
 import { PoliciaisService } from "../../policiais/policiais.service";
 import { ContratosTiposService } from "../../contratos-tipos/contratos-tipos.service";
-import { ContratosObjetosService } from "../../contratos-objetos/contratos-objetos.service";
 import { Observable, of } from "rxjs";
 import { InputSelectComponent } from "../../../components/input-select/input-select.component";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
@@ -60,7 +59,7 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
         private policiaisService: PoliciaisService,
         private empresasService: EmpresasService,
         private contratosTiposService: ContratosTiposService,
-        private contratosObjetosService: ContratosObjetosService,
+        //private contratosObjetosService: ContratosObjetosService,
         private toastr: ToastrService,
         private sessionService: SessionService,
     ){}
@@ -93,7 +92,8 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
             'contrato_tipo': [null, Validators.compose([
                 Validators.required,
             ])],
-            'contrato_objeto': [null, Validators.compose([
+            'contrato_objeto': [null],
+            'objeto': [null, Validators.compose([
                 Validators.required,
             ])],
             'gestor': [null, Validators.compose([
@@ -130,15 +130,15 @@ export class ContratosFormComponent implements OnInit, OnDestroy{
                 this.empresas$ = of(data);
             }
         });
-        this.contratosobjetos$ = this.contratosObjetosService.index();
+        //this.contratosobjetos$ = this.contratosObjetosService.index();
         this.contratostipos$ = this.contratosTiposService.index();
-        this.subscription = this.policiaisService.disponiveis().subscribe({
+        this.subscription = this.policiaisService.getAll().subscribe({
             next: (data) => {
                 data.forEach(element => {
                     if(element.numeral){
-                        element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}`;
+                        element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}, ${element.setor.subunidade.abreviatura} - ${element.setor.subunidade.unidade.abreviatura}`;
                     }else{
-                        element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}`;
+                        element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}, ${element.setor.subunidade.abreviatura} - ${element.setor.subunidade.unidade.abreviatura}`;
                     }
                 });
                 this.policiais$ = of(data);

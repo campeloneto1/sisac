@@ -8,14 +8,16 @@
         <!-- INICIO CARD HEADER-->
         <div class="card-header border-0">
           <h3 class="card-title">
-            <button
-              class="btn btn-outline-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#modalcad"
-              title="Cadastrar"
-            >
-              <i class="fa fa-plus"></i>
-            </button>
+            @if(user.perfil.contratos_cad){
+              <button
+                class="btn btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#modalcad"
+                title="Cadastrar"
+              >
+                <i class="fa fa-plus"></i>
+              </button>
+            }
           </h3>
           <div class="card-tools">
             <div class="input-group input-group-sm" style="width: 250px">
@@ -80,7 +82,7 @@
                 <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
                 <td>{{ row.empresa.nome }}</td>
                 <!-- <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td> -->
-                <td>{{ row.contrato_objeto.nome }}</td>
+                <td>{{ row.objeto }}</td>
                 <!-- <td>{{ row.contrato_tipo.nome }}</td> -->
                 <td><a [routerLink]="['/Contrato',  encodeId(row.id)]">{{ row.numero_contrato }}</a></td>
                 <!-- <td>{{ row.numero_sacc }}</td> -->
@@ -146,27 +148,31 @@
                       <i class="fa fa-plus text-primary" aria-hidden="true"></i>
                     </a>
                   }
-                  <a
-                    class="options point ml-1"
-                    title="Editar"
-                    (click)="editar(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalcad"
-                  >
-                    <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                  </a>
-                  <a
-                    class="options point ml-1"
-                    title="Excluir"
-                    (click)="delete(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modaldel"
-                  >
-                    <i
-                      class="fa fa-trash text-danger "
-                      aria-hidden="true"
-                    ></i>
-                  </a>
+                  @if(user.perfil.contratos_edt){
+                    <a
+                      class="options point ml-1"
+                      title="Editar"
+                      (click)="editar(row)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalcad"
+                    >
+                      <i class="fa fa-edit text-primary" aria-hidden="true"></i>
+                    </a>
+                  }
+                  @if(user.perfil.contratos_del){
+                    <a
+                      class="options point ml-1"
+                      title="Excluir"
+                      (click)="delete(row)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modaldel"
+                    >
+                      <i
+                        class="fa fa-trash text-danger "
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  }
                 </td>
               </tr>
               } @empty {

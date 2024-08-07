@@ -1,0 +1,42 @@
+<!-- content-wrapper p-2 content -->
+<div class="content-wrapper p-2 content">
+  @if(policial){
+    <table class="table table-bordered ">
+      <thead class="">
+        <tr>
+          <th colspan="3" class="text-center">
+              <h5>Ficha de Alteração</h5>
+              <h5>
+                  {{policial.graduacao.abreviatura}} 
+                  @if(policial.numeral){{{policial.numeral | mask: '00.000'}}} 
+                  {{policial.nome}}, 
+                  Mat.: {{policial.matricula | mask: '000.000-0-A'}}
+              </h5>
+          </th>
+        </tr>
+        <tr class="text-center">
+          <th>ESPÉCIE</th>
+          <th>TRANSCRIÇÃO</th>
+          <th>BOLETIM</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(row of data$; track row){
+        <tr id="{{row.id}}" >
+          <td class="text-center align-middle">{{row.publicacao_tipo.nome}}</td>
+          <td [innerHtml]="row.texto"></td>
+          <td class="text-center align-middle">{{row.boletim}}</td>
+        </tr>
+          {{ getPosition(row.id)}}
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  }
+</div>

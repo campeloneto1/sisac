@@ -20,7 +20,7 @@ export class SetoresService{
 
     index(): Observable<Setores>{
         //return this.http.get<Setores>(`${URL}/${endPoint}`);
-        return this.http.get<Setores>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
+        return this.http.get<Setores>(`${URL}/${endPoint}`);
     }
 
     find(id: number): Observable<Setor>{

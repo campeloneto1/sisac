@@ -14,6 +14,7 @@ import { ContratosLancamentosFormComponent } from '../contratos-lancamentos/form
 import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-lancamentos.service';
 import { ContratosFormAditivarComponent } from './formulario-aditivar/contratos-form-aditivar.component';
 import { SharedService } from '../../shared/shared.service';
+import { User } from '../users/user';
 @Component({
   selector: 'app-contratos',
   templateUrl: './contratos.component.html',
@@ -45,6 +46,8 @@ export class ContratosComponent implements OnInit, OnDestroy {
   protected contrato!: Contrato;
   protected contratoadt!: Contrato;
 
+  protected user!: User;
+
   protected cadlancamento: boolean = false;
 
   @ViewChild(ContratosFormComponent) child!: ContratosFormComponent;
@@ -61,6 +64,7 @@ export class ContratosComponent implements OnInit, OnDestroy {
  
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('contratos');
     this.subscription = this.contratosService.index().subscribe({
       next: (data) => {

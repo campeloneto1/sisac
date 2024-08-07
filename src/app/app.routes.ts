@@ -312,6 +312,11 @@ export const routes: Routes = [
               import('./sistema/views/policiais-publicacoes/policiais-publicacoes.component').then((c) => c.PoliciaisPublicacoesComponent),
           },
           {
+            path: 'PublicacoesImprimir/:id',
+            loadComponent: () =>
+              import('./sistema/views/policiais-publicacoes/print/policiais-publicacoes-print.component').then((c) => c.PoliciaisPublicacoesPrintComponent),
+          },
+          {
             path: 'PoliciaisCursos',
             loadComponent: () =>
               import('./sistema/views/policiais-cursos/policiais-cursos.component').then((c) => c.PoliciaisCursosComponent),

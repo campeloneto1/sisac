@@ -677,6 +677,16 @@
                   } @if(user.perfil.policiais_publicacoes){
                   <!--INICIO TAB PUBLICACOES-->
                   <div class="tab-pane" id="publicacoes">
+                    <div>
+                      <a
+                          class=""
+                          title="Imprimir"
+                          target="_blank"
+                          [routerLink]="['/PublicacoesImprimir', encodeId(policial.id)]"
+                        >
+                          <i class="fa fa-print text-primary" aria-hidden="true"></i>
+                        </a>
+                    </div>
                     <!-- INICIO TABLE-->
                     @if(policiaispublicacoes$ | async; as policiaispublicacoes){
                         <table

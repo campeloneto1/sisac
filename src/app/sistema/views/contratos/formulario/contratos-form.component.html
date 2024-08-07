@@ -8,13 +8,20 @@
             [data$]="empresas$"
             formControlName="empresa"
         />
-        <input-select
+        <input-text
+          class="col-sm-4"
+          formControlName="objeto"
+          label="Objeto"
+          id="objeto"
+          tipo="text"
+      />
+        <!-- <input-select
           class="col-sm-4"
           label="Objeto do contrato"
           id="contrato_objeto"
           [data$]="contratosobjetos$"
           formControlName="contrato_objeto"
-      />
+      /> -->
       <input-select
           class="col-sm-4"
           label="Objeto do tipo"

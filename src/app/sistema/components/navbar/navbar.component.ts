@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit{
             this.user = JSON.parse(await this.storageService.getItem('user')!);
             
         }
-        console.log(this.storageService.getItem('subunidade'))
+        //console.log(this.storageService.getItem('subunidade'))
        
             
             if(this.user){

@@ -24,6 +24,8 @@ import { PoliciaisAtestadosService } from "../../policiais-atestados/policiais-a
 import { PoliciaisCursosService } from "../../policiais-cursos/policiais-cursos.service";
 import { PoliciaisFeriasService } from "../../policiais-ferias/policiais-ferias.service";
 import { PoliciaisPublicacoesService } from "../../policiais-publicacoes/policiais-publicacoes.service";
+import { SharedService } from "../../../shared/shared.service";
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-policial',
@@ -35,7 +37,8 @@ import { PoliciaisPublicacoesService } from "../../policiais-publicacoes/policia
         TitleComponent,
         NgxMaskDirective, 
         NgxMaskPipe,
-        DataTableModule
+        DataTableModule,
+        RouterModule
     ],
     providers: [
         provideNgxMask(),
@@ -62,6 +65,7 @@ export class PolicialComponent implements OnInit, OnDestroy{
     constructor(
         private policiaisService: PoliciaisService,
         private sessionService: SessionService,
+        private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
         private armamentosEmprestimosService: ArmamentosEmprestimosService,
         private materiaisPoliciaisService: MateriaisPoliciaisService,
@@ -145,4 +149,9 @@ export class PolicialComponent implements OnInit, OnDestroy{
             this.policiaispublicacoes$ = this.policiaisPublicacoesService.wherePol(this.policial.id||0);
         }
     }
+
+    encodeId(id: any){
+        var encoded = this.sharedService.encodeId(id);
+        return encoded;
+      }
 }
