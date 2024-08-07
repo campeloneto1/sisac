@@ -33,6 +33,7 @@ export class SidebarComponent implements OnInit{
         '/Cursos',
         '/Escolaridades',
         '/Estados',
+        '/Funcoes',
         '/Graduacoes',
         '/Logs',
         '/ManutencoesTipos',

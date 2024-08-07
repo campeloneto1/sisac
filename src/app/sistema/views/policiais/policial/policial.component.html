@@ -51,6 +51,14 @@
                       policial.matricula | mask : "000.000-0-A"
                     }}</a>
                   </li>
+                  @if(policial.matricula_cc){
+                    <li class="list-group-item">
+                      <b>Matrícula CC</b>
+                      <a class="float-right">{{
+                        policial.matricula_cc | mask : "000.000-0-A"
+                      }}</a>
+                    </li>
+                  }
                   <li class="list-group-item">
                     <b>CPF</b>
                     <a class="float-right">{{
@@ -61,6 +69,12 @@
                     <li class="list-group-item">
                       <b>Sexo</b>
                       <a class="float-right">{{ policial.sexo.nome }}</a>
+                    </li>
+                  }
+                  @if(policial.funcao){
+                    <li class="list-group-item">
+                      <b>Função</b>
+                      <a class="float-right">{{ policial.funcao.nome }}</a>
                     </li>
                   }
                   <li class="list-group-item">

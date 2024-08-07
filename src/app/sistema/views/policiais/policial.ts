@@ -1,6 +1,7 @@
 import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
 import { Cidade } from "../cidades/cidade";
 import { Escolaridade } from "../escolaridades/escolaridade";
+import { Funcao } from "../funcoes/funcao";
 import { Graduacao } from "../graduacoes/graduacao";
 import { MateriaisPoliciais } from "../materiais-policiais/material-policial";
 import { PoliciaisAtestados } from "../policiais-atestados/policial-atestado";
@@ -18,6 +19,7 @@ export interface Policial{
     numeral?: string;
     nome_guerra: string;
     matricula: string;
+    matricula_cc: string;
     cpf: string;
     email?: string;
     telefone1?: string;
@@ -42,7 +44,7 @@ export interface Policial{
     graduacao: Graduacao;
     setor: Setor;
     escolaridade: Escolaridade;
-
+    funcao: Funcao;
     policiais_atestados: PoliciaisAtestados;
     policiais_ferias: PoliciaisFerias;
     policiais_publicacoes: PoliciaisPublicacoes;

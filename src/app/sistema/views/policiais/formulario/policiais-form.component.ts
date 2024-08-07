@@ -26,6 +26,8 @@ import { Graduacoes } from "../../graduacoes/graduacao";
 import { Sexos } from "../../sexos/sexo";
 import { Escolaridades } from "../../escolaridades/escolaridade";
 import { EscolaridadesService } from "../../escolaridades/escolaridades.service";
+import { Funcoes } from "../../funcoes/funcao";
+import { FuncoesService } from "../../funcoes/funcoes.service";
 
 
 @Component({
@@ -53,6 +55,7 @@ export class PoliciaisFormComponent implements OnInit{
     protected graduacoes$!: Observable<Graduacoes>;
     protected sexos$!: Observable<Sexos>;
     protected escolaridades$!: Observable<Escolaridades>;
+    protected funcoes$!: Observable<Funcoes>;
 
     @Output('refresh') refresh: EventEmitter<Policial> = new EventEmitter();
     
@@ -68,6 +71,7 @@ export class PoliciaisFormComponent implements OnInit{
         private estadosService:EstadosService,
         private cidadesService:CidadesService,
         private escolaridadesService:EscolaridadesService,
+        private funcoesService:FuncoesService,
         private toastr: ToastrService,
     ){}
 
@@ -93,6 +97,10 @@ export class PoliciaisFormComponent implements OnInit{
             ])],
             'matricula': [null, Validators.compose([
                 Validators.required,
+                Validators.minLength(8),
+                Validators.maxLength(8)
+            ])],
+            'matricula_cc': [null, Validators.compose([
                 Validators.minLength(8),
                 Validators.maxLength(8)
             ])],
@@ -135,6 +143,9 @@ export class PoliciaisFormComponent implements OnInit{
             'escolaridade': [null, Validators.compose([
                 Validators.required,
             ])],
+            'funcao': [null, Validators.compose([
+                Validators.required,
+            ])],
             'unidade': [null, Validators.compose([
                 Validators.required,
             ])],
@@ -159,6 +170,7 @@ export class PoliciaisFormComponent implements OnInit{
         this.graduacoes$ = this.graduacoesService.index();
         this.sexos$ = this.sexosService.index();
         this.escolaridades$ = this.escolaridadesService.index();
+        this.funcoes$ = this.funcoesService.index();
     }
 
     cadastrar(){
@@ -203,6 +215,9 @@ export class PoliciaisFormComponent implements OnInit{
         }
         if(data.sexo){
             this.form.get('sexo')?.patchValue(data.sexo.id);
+        }
+        if(data.funcao){
+            this.form.get('funcao')?.patchValue(data.funcao.id);
         }
         if(data.escolaridade){
             this.form.get('escolaridade')?.patchValue(data.escolaridade.id);

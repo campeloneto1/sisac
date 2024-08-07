@@ -56,6 +56,7 @@
             <tr>
               <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
               <th><mfDefaultSorter by="setor.nome">Setor</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="funcao.nome">Função</mfDefaultSorter></th>
               <th><mfDefaultSorter by="graduacao.nome">Graduação</mfDefaultSorter></th>
               <th><mfDefaultSorter by="numeral">Numeral</mfDefaultSorter></th>
               <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
@@ -73,6 +74,7 @@
             <tr class="optionshover">
               <td>{{ row.id }}</td>
               <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }} - {{ row.setor.subunidade.unidade.abreviatura }}</td>
+              <td>@if(row.funcao){{{ row.funcao.nome }}}</td>
               <td>{{ row.graduacao.nome }}</td>
               <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
               <td><a [routerLink]="['/Policial', encodeId(row.id)]">{{ row.nome }}</a></td>

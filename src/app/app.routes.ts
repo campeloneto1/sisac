@@ -177,6 +177,11 @@ export const routes: Routes = [
               import('./sistema/views/policiais-ferias/print/policiais-ferias-print.component').then((c) => c.PoliciaisFeriasPrintComponent),
           },
           {
+            path: 'Funcoes',
+            loadComponent: () =>
+              import('./sistema/views/funcoes/funcoes.component').then((c) => c.FuncoesComponent),
+          },
+          {
             path: 'Graduacoes',
             loadComponent: () =>
               import('./sistema/views/graduacoes/graduacoes.component').then((c) => c.GraduacoesComponent),

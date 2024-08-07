@@ -1,7 +1,7 @@
 <form [formGroup]="form">
     <div class="row">
       <input-select
-        class="col-sm-4"
+        class="col-sm-2"
         label="Unidade"
         id="unidade"
         [data$]="unidades$"
@@ -22,6 +22,13 @@
         id="setor"
         [data$]="setores$"
         formControlName="setor"
+        />
+        <input-select
+        class="col-sm-4"
+        label="Função"
+        id="funcao"
+        [data$]="funcoes$"
+        formControlName="funcao"
         />
     </div>
     <div class="row">
@@ -121,25 +128,33 @@
             mascara="000.000-0-A"
         />
         <input-text
-            class="col-sm-2"
-            formControlName="data_apresentacao"
-            label="Data Apresentação"
-            id="data_apresentacao"
-            tipo="date"
-        />
-        
-        <input-text
-            class="col-sm-2"
-            formControlName="boletim_apresentacao"
-            label="BCG Apresentação"
-            id="boletim_apresentacao"
-            tipo="text"
-        />
+        class="col-sm-2"
+        formControlName="matricula_cc"
+        label="Matrícula CC"
+        id="matricula_cc"
+        tipo="text"
+        mascara="000.000-0-A"
+    />
    
 
     </div>
 
     <div class="row">
+      <input-text
+      class="col-sm-2"
+      formControlName="data_apresentacao"
+      label="Data Apresentação"
+      id="data_apresentacao"
+      tipo="date"
+  />
+  
+  <input-text
+      class="col-sm-2"
+      formControlName="boletim_apresentacao"
+      label="BCG Apresentação"
+      id="boletim_apresentacao"
+      tipo="text"
+  />
         <input-text
             class="col-sm-2"
             formControlName="data_inclusao"
