@@ -98,12 +98,19 @@
                 [data$]="veiculos$"
                 formControlName="veiculo"
               />
+              <input-text
+                  class="col-sm-2"
+                  formControlName="km_inicial"
+                  label="KM Inicial"
+                  id="km_inicial"
+                  tipo="number"
+              />
           </div>
             <div class="d-flex justify-content-end">
               <!-- <button (click)="anterior()" class="btn btn-danger">
                 Anterior
               </button> -->
-              <button (click)="proximo()" [disabled]="!this.form.value.veiculo" class="btn btn-primary">Próximo</button>
+              <button (click)="proximo()" [disabled]="!this.form.value.veiculo && !this.form.value.km_inicial" class="btn btn-primary">Próximo</button>
             </div>
           </div>
           <div

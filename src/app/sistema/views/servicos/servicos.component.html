@@ -52,7 +52,7 @@
             <thead>
               <tr>
                 <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
+                <!-- <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th> -->
                 <th><mfDefaultSorter by="empresa.nome">Empresa</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="empresa.cnpj">CNPJ</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="servico_tipo.nome">Tipo do Serviço</mfDefaultSorter></th>
@@ -66,7 +66,7 @@
               @for(row of mf.data; track row){
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
-                <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
+                <!-- <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td> -->
                 <td>{{ row.empresa.nome }}</td>
                 <td>{{ row.empresa.cnpj | mask: '00.000.000/0000-00' }}</td>
                 <td>{{ row.servico_tipo.nome }}</td> 

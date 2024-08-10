@@ -43,4 +43,8 @@ export class ArmamentosService{
     ajustarQuantidade(id:number, data: any){
         return this.http.put(`${URL}/${endPoint}/${id}/ajustarquant`, data);
     }
+
+    ajustarQuantidade2(id:number, data: any){
+        return this.http.put(`${URL}/${endPoint}/${id}/ajustarquant2`, data);
+    }
 }

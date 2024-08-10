@@ -55,7 +55,7 @@
           <thead>
             <tr>
               <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
+              <!-- <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th> -->
               <th><mfDefaultSorter by="armamento_tipo.nome">Tipo</mfDefaultSorter></th>
               <th><mfDefaultSorter by="modelo.marca.nome">Marca</mfDefaultSorter></th>
               <th><mfDefaultSorter by="modelo.nome">Modelo</mfDefaultSorter></th>
@@ -74,7 +74,7 @@
             @for(row of mf.data; track row){
             <tr class="optionshover">
               <td>{{ row.id }}</td>
-              <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
+              <!-- <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td> -->
               <td>{{ row.armamento_tipo.nome }}</td>
               <td>{{ row.modelo.marca.nome }}</td>
               <td>{{ row.modelo.nome }}</td>
@@ -87,15 +87,26 @@
               <td>{{ row.data_validade | date: 'dd/MM/yyyy' }}</td>
               <td>{{ row.data_baixa | date: 'dd/MM/yyyy' }}</td>
               <td>
-                @if(user.perfil.armamentos_edt && user.perfil.gestor){
+                @if(user.perfil.administrador){
                   <a
                     class="options point"
+                    title="Alterar Quantidade"
+                    (click)="altquant(row)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalalterar"
+                  >
+                    <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
+                  </a>
+                }
+                @if(user.perfil.armamentos_edt && user.perfil.gestor){
+                  <a
+                    class="options point ml-1"
                     title="Ajustar Quantidade"
                     (click)="ajustquant(row)"
                     data-bs-toggle="modal"
                     data-bs-target="#modalajust"
                   >
-                    <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
+                    <i class="fa fa-sort text-primary" aria-hidden="true"></i>
                   </a>
                 }
                 @if(user.perfil.armamentos_edt){
@@ -233,7 +244,7 @@
     style="display: none"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header border-0">
           <h4 class="modal-title">Ajustar quantidade</h4>
@@ -255,4 +266,34 @@
     </div>
   </div>
   <!--FIM MODAL AJUST QUANTIDADE-->
+
+  <!-- INICIO MODAL ALT QUANTIDADE-->
+  <div
+    class="modal fade"
+    id="modalalterar"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">Alterar quantidade</h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          @if(altarm){
+            <app-armamentos-form-ajuste [armamento]="altarm" (refresh)="refresh()" (cancel)="cancel()" />
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL ALT QUANTIDADE-->
 </div>

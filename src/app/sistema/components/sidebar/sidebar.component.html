@@ -285,16 +285,26 @@
             class="nav nav-treeview"
             [ngStyle]="{ 'display: block;': menuGestor }"
           >
-          <li class="nav-item">
-            <a
-              [routerLink]="['Oficinas']"
-              routerLinkActive="active"
-              class="nav-link"
-            >
-              <i class="fa fa-circle nav-icon"></i>
-              <p>Oficinas</p>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['Oficinas']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Oficinas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['Funcoes']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Funções</p>
+              </a>
+            </li>
           </ul>
         </li>
         } @if(user.perfil.administrador){
@@ -375,16 +385,7 @@
                 <p>Estados</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a
-                [routerLink]="['Funcoes']"
-                routerLinkActive="active"
-                class="nav-link"
-              >
-                <i class="fa fa-circle nav-icon"></i>
-                <p>Funções</p>
-              </a>
-            </li>
+           
             <li class="nav-item">
               <a
                 [routerLink]="['Graduacoes']"

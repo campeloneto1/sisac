@@ -80,7 +80,9 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
             'etapa': [2],
             'data_inicial': [null],
             'data_final': [null],
-            'km_inicial': [null],
+            'km_inicial': [null, Validators.compose([
+                Validators.required,
+            ])],
             'km_final': [null],
             'observacoes': [null],
             'pais': [null, Validators.compose([
@@ -120,10 +122,10 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
                 data.forEach(element => {
                     if(element.placa_especial){
                         //@ts-ignore
-                        element.nome = `${element.modelo.marca.nome} ${element.modelo.nome}, Placa: ${element.placa}, Placa Esp. ${element.placa_especial}`;
+                        element.nome = `${element.modelo.marca.nome} ${element.modelo.nome}, Placa: ${element.placa}, Placa Esp. ${element.placa_especial}, KM Atual: ${element.km_atual}`;
                     }else{
                         //@ts-ignore
-                        element.nome = `${element.modelo.marca.nome} ${element.modelo.nome}, Placa: ${element.placa}`;
+                        element.nome = `${element.modelo.marca.nome} ${element.modelo.nome}, Placa: ${element.placa}, KM Atual: ${element.km_atual}`;
                     }
                     
                 });

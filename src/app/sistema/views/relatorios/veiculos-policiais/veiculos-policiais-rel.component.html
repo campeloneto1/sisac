@@ -71,6 +71,7 @@
               <th>Numeral</th>
               <th>Nome de Guerra</th>
               <th>Matrícula</th>
+              <th>Setor</th>
               <th>Data Inicial</th>
               <th>Data Final</th>
               <th>KM Inicial</th>
@@ -90,6 +91,7 @@
                 <td> @if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
                 <td>{{ row.policial.nome_guerra }}</td>
                 <td>{{ row.policial.matricula | mask : "000.000-0-A" }}</td>
+                <td>{{ row.policial.setor.nome }}</td>
                 <td>{{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}</td>
                 <td>{{ row.data_final | date : "dd/MM/yyyy HH:mm" }}</td>
                 <td>{{ row.km_inicial }}</td>

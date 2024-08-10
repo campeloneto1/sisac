@@ -33,7 +33,7 @@ export class SidebarComponent implements OnInit{
         '/Cursos',
         '/Escolaridades',
         '/Estados',
-        '/Funcoes',
+        
         '/Graduacoes',
         '/Logs',
         '/ManutencoesTipos',
@@ -56,6 +56,7 @@ export class SidebarComponent implements OnInit{
     protected menuAdmin:boolean = false;
 
     private routesMenuGestor = [
+        '/Funcoes',
         '/Oficinas'
     ]
     protected menuGestor:boolean = false;

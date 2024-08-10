@@ -11,6 +11,7 @@ import { User } from '../users/user';
 import { SessionService } from '../../session.service';
 import { RouterModule } from '@angular/router';
 import { ArmamentosFormQuantidadeComponent } from './formulario-quantidade/armamentos-form-quantidade.component';
+import { ArmamentosFormAjusteComponent } from './formulario-ajuste/armamentos-form-ajuste.component';
 import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-armamentos',
@@ -22,6 +23,7 @@ import { SharedService } from '../../shared/shared.service';
     TitleComponent, 
     ArmamentosFormComponent,
     ArmamentosFormQuantidadeComponent,
+    ArmamentosFormAjusteComponent,
     DataTableModule,
     FormsModule,
     RouterModule
@@ -35,11 +37,13 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   protected quant: number = 10;
   protected subscription: any;
   protected ajustarm!: Armamento;
+  protected altarm!: Armamento;
   protected user!: User;
   protected cadastrando:boolean = false;
 
   @ViewChild(ArmamentosFormComponent) child!: ArmamentosFormComponent;
   @ViewChild(ArmamentosFormQuantidadeComponent) childQuant!: ArmamentosFormQuantidadeComponent;
+  @ViewChild(ArmamentosFormAjusteComponent) childAjuste!: ArmamentosFormAjusteComponent;
 
   constructor(
     private armamentosService: ArmamentosService,
@@ -111,8 +115,14 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   }
 
   ajustquant(data: Armamento){
+    
    this.ajustarm = data;
   }
+
+  altquant(data: Armamento){
+    
+    this.altarm = data;
+   }
 
   pesquisar(){
     this.data$ = this.temp;

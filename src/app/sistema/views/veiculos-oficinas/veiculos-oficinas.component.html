@@ -56,7 +56,7 @@
             <thead>
               <tr>
                 <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
+                <!-- <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th> -->
                 <th><mfDefaultSorter by="veiculo.modelo.marca.nome">Marca</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="veiculo.modelo.nome">Modelo</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="veiculo.placa">Placa</mfDefaultSorter></th>
@@ -75,7 +75,7 @@
               @for(row of mf.data; track row){
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
-                <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td>
+                <!-- <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td> -->
                 <td>{{ row.veiculo.modelo.marca.nome }}</td>
                 <td>{{ row.veiculo.modelo.nome }}</td>
                 <td>{{ row.veiculo.placa }}</td>

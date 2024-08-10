@@ -55,11 +55,12 @@
             <thead>
               <tr>
                 <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.setor.subunidade.abreviatura">Subunidade</mfDefaultSorter></th>
+                <!-- <th><mfDefaultSorter by="policial.setor.subunidade.abreviatura">Subunidade</mfDefaultSorter></th> -->
                 <th><mfDefaultSorter by="policial.graduacao.nome">Graduação</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="policial.numeral">Numeral</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="policial.nome_guerra">Nome Guerra</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="policial.matricula">Matrícula</mfDefaultSorter></th>
+                <th><mfDefaultSorter by="policial.setor">Setor</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="data">Data</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="nup">NUP</mfDefaultSorter></th>
                 <th><mfDefaultSorter by="boletim_entrada">Boletim Entrada</mfDefaultSorter></th>
@@ -72,11 +73,12 @@
               @for(row of mf.data; track row){
               <tr class="optionshover">
                 <td>{{ row.id }}</td>
-                <td>{{ row.policial.setor.subunidade.abreviatura }} - {{ row.policial.setor.subunidade.unidade.abreviatura }}</td>
+                <!-- <td>{{ row.policial.setor.subunidade.abreviatura }} - {{ row.policial.setor.subunidade.unidade.abreviatura }}</td> -->
                 <td>{{ row.policial.graduacao.nome }}</td>
                 <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
                 <td>{{ row.policial.nome_guerra }}</td>
                 <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
+                <td>{{ row.policial.setor.nome }}</td>
                 <td>{{ row.data | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row.nup }}</td>
                 <td>{{ row.boletim_entrada }}</td>

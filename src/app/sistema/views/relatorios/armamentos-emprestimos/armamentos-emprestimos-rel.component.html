@@ -68,6 +68,7 @@
               <th>Numeral</th>
               <th>Nome de Guerra</th>
               <th>Matrícula</th>
+              <th>Setor</th>
               <th>Data Emprestimo</th>
               <th>Data Devolução</th>
             </tr>
@@ -84,6 +85,7 @@
               </td>
               <td>{{ row.policial.nome_guerra }}</td>
               <td>{{ row.policial.matricula | mask : "000.000-0-A" }}</td>
+              <td>{{ row.policial.setor.nome }}</td>
               <td>{{ row.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}</td>
               <td>{{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}</td>
             </tr>

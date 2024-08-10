@@ -85,7 +85,7 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>Subunidade</th>
+              <!-- <th>Subunidade</th> -->
               <th>Tipo</th>
               <th>Marca</th>
               <th>Modelo</th>
@@ -102,10 +102,10 @@
             @for(row of data$ | async; track row){
             <tr data-widget="expandable-table" aria-expanded="false">
               <td>{{ row.id }}</td>
-              <td>
+              <!-- <td>
                 {{ row.subunidade.abreviatura }} -
                 {{ row.subunidade.unidade.abreviatura }}
-              </td>
+              </td> -->
               <td>{{ row.armamento_tipo.nome }}</td>
               <td>{{ row.modelo.marca.nome }}</td>
               <td>{{ row.modelo.nome }}</td>
