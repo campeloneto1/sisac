@@ -120,7 +120,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   }
 
   altquant(data: Armamento){
-    
+   
     this.altarm = data;
    }
 

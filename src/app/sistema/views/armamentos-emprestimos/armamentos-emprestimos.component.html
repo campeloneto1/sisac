@@ -122,7 +122,10 @@
                   data-bs-target="#modalarm"
                   class="btn btn-xs btn-outline-primary"
                 >
-                  Armamentos
+                <i
+                class="fa fa-eye "
+                aria-hidden="true"
+              ></i> Ver Armamentos
                 </button>
               </td>
               <td>{{ row.data_devolucao | date : "dd/MM/yyyy HH:mm" }}</td>
@@ -272,7 +275,7 @@
                 title="Cadastrar"
                 (click)="cadarmamento = true;"
               >
-                <i class="fa fa-plus"></i>
+                <i class="fa fa-plus"></i> Cadastrar armamento
               </button>
             }
           </h4>

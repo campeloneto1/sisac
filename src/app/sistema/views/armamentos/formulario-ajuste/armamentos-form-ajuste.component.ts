@@ -41,7 +41,6 @@ export class ArmamentosFormAjusteComponent implements OnInit{
     ){}
 
     ngOnInit() {
-        console.log(this.armamento)
         this.form = this.formBuilder.group({
             'id': [null],
             'quantidade': [null, Validators.compose([

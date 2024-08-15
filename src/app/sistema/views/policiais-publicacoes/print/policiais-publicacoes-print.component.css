@@ -1,26 +1,41 @@
 @media print {
-    .content {
-        position: relative;
-        height: 100vh;
-        overflow: hidden;
-        page-break-after: always;
-    }
-    
-    .content::after {
-        content: "";
-        display: block;
-        page-break-before: always;
-        height: 50%;
-    }
-    
-    body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-    }
-    
     @page {
-        margin: 0;
+        size: A4;
+        margin: 1cm;
+    }
+
+    .paged-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed; /* Garante que a tabela ocupe a largura total da página */
+        page-break-inside: auto; /* Permite quebra de página dentro da tabela */
+    }
+
+    .paged-table th, .paged-table td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left; /* Alinha o texto à esquerda para melhorar a visualização */
+    }
+
+    .paged-table thead {
+        display: table-header-group; /* Garante que o cabeçalho seja repetido em cada página */
+    }
+
+    .paged-table tbody {
+        display: table-row-group;
+    }
+
+    .paged-table tr {
+        page-break-inside: auto; /* Permite quebra de página dentro de uma linha */
+    }
+
+    /* Forçar quebra de página após um número específico de linhas */
+    .paged-table tr:nth-child(10n) { /* Ajuste o número de linhas conforme necessário */
+        page-break-before: always;
+    }
+
+    /* Garantir que a tabela ocupe 100% da largura da página */
+    .paged-table th, .paged-table td {
+        width: auto; /* Ajuste a largura das células automaticamente */
     }
 }

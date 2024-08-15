@@ -27,7 +27,7 @@
         />
         <input-text [max]="maxamon" [min]="1" class="col-sm-2" formControlName="quantidade" label="Quantidade" id="quantidade" tipo="number" />
         <div class="col-sm-2" style="padding-top: 30px;">
-            <button (click)="addMaterial()" [disabled]="!form.value.material || !form.value.quantidade" class="btn btn-primary "><i class="fa fa-plus"></i></button>
+            <button (click)="addMaterial()" [disabled]="!form.value.material || !form.value.quantidade" class="btn btn-primary "><i class="fa fa-plus"></i> Adicionar material</button>
         </div>
     </div>
     }
