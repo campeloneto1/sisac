@@ -64,6 +64,7 @@ export class ArmamentosEmprestimosRel implements OnInit, OnDestroy{
                 Validators.required
             ])],
             'subunidade': [null],
+            'cautela': [null],
         });
 
         this.subscription = this.policiaisService.index().subscribe({

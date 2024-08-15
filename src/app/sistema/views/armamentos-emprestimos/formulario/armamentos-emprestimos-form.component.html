@@ -68,6 +68,11 @@
     
     <div class="d-flex justify-content-end">
         <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>
-        <button [disabled]="form.invalid" type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-primary">Cadastrar</button>
+        @if(editando){
+            <button [disabled]="form.invalid" type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-primary">Cadastrar</button>
+        }@else{
+            <button [disabled]="form.invalid || armamentosselected.length < 1" type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-primary">Cadastrar</button>
+        }
+        
     </div>
 </form>
