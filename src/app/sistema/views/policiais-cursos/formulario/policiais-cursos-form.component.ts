@@ -59,9 +59,7 @@ export class PoliciaisCursosFormComponent implements OnInit, OnDestroy{
             'data_inicial': [null, Validators.compose([
                 Validators.required,
             ])],
-            'data_final': [null, Validators.compose([
-                Validators.required,
-            ])],
+            'data_final': [null],
             'boletim': [null],
             'carga_horaria': [null],
         });

@@ -9,7 +9,7 @@ export interface PolicialCurso{
     carga_horaria?: number;
     boletim?: string;
     data_inicial: Date;
-    data_final: Date;
+    data_final?: Date;
 
     created_by: User;
     updated_by: User;

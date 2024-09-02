@@ -41,6 +41,8 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
     private subscription!:any;
     private subscription2!:any;
 
+    protected solicitarsenha: boolean = false;
+
     @Output('refresh') refresh: EventEmitter<ArmamentoEmprestimo> = new EventEmitter();
     
     constructor(

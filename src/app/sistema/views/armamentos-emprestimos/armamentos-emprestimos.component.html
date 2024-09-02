@@ -85,6 +85,11 @@
                 >
               </th>
               <th>
+                <mfDefaultSorter by="cautela"
+                  >Cautela</mfDefaultSorter
+                >
+              </th>
+              <th>
                 <mfDefaultSorter by="data_emprestimo"
                   >Data Emprestimo</mfDefaultSorter
                 >
@@ -114,6 +119,9 @@
               <td>{{ row.policial.nome_guerra }}</td>
               <td>{{ row.policial.matricula | mask : "000.000-0-A" }}</td>
               <td>{{ row.policial.setor.nome }} </td>
+              <td class="">
+                @if(row.cautela){<i class="fa fa-check" aria-hidden="true"></i>}
+              </td>
               <td>{{ row.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}</td>
               <td>
                 <button
