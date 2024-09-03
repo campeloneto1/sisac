@@ -38,7 +38,13 @@
               <div class="small-box bg-info" style="height: 80px;">
                 <div class="inner">
                   <!-- <h3>Assumir veículo</h3> -->
-                  <b>Assumir veículo</b>
+                  <b>
+                    @if(temEmprestimo){
+                      Devolver Veículo
+                    }@else{
+                      Assumir veículo
+                    }
+                  </b>
                 </div>
                 <div class="icon" style="position: relative; top: -60px;">
                   <i class="fa fa-car"></i>

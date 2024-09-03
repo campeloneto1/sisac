@@ -46,4 +46,8 @@ export class UsersService{
      change(data: any){
         return this.http.post(`${URL}/${endPoint}/change`, data);
      }
+
+     verificarSenha(data: any){
+        return this.http.post(`${URL}/${endPoint}/verificarsenha`, data);
+     }
 }

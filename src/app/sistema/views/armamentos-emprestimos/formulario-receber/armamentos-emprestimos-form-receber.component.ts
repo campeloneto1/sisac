@@ -5,6 +5,8 @@ import { ArmamentosEmprestimosService } from "../armamentos-emprestimos.service"
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
 import { ToastrService } from "ngx-toastr";
+import { UsersService } from "../../users/users.service";
+import { InputTextComponent } from "../../../components/input-text/input-text.component";
 
 @Component({
     selector: 'app-armamentos-emprestimos-form-receber',
@@ -15,13 +17,19 @@ import { ToastrService } from "ngx-toastr";
         CommonModule,
         FormsModule, 
         ReactiveFormsModule, 
+        InputTextComponent,
         InputTextareaComponent
     ]
 })
 export class ArmamentosEmprestimosFormReceberComponent implements OnInit{
 
 
-    protected form!: FormGroup;
+    protected formdev!: FormGroup;
+
+    protected solicitarsenha: boolean = false;
+    protected senhaverificada: number = 1;
+
+    protected arms:any = [];
 
     @Input() armamentoEmprestimo!: ArmamentoEmprestimo;
 
@@ -31,23 +39,43 @@ export class ArmamentosEmprestimosFormReceberComponent implements OnInit{
         private formBuilder: FormBuilder,
         private armamentosEmprestimosService: ArmamentosEmprestimosService,
         private toastr: ToastrService,
+        private usersService: UsersService
     ){}
     
     ngOnInit(): void {
         
-        this.form = this.formBuilder.group({
+        this.formdev = this.formBuilder.group({
             'id': [null],
             'observacoes': [this.armamentoEmprestimo.observacoes],  
-            'armamentos': [null],                  
+            'armamentos': [null],   
+            'password': [null],    
+            'policial': [null]       
         });
     }
 
     cadastrar(){
-        var arms:any = [];
+        //var arms:any = [];
+        
+        this.formdev.get('armamentos')?.patchValue(this.arms)
+        this.formdev.get('id')?.patchValue(this.armamentoEmprestimo.id)
+
+        this.armamentosEmprestimosService.receber(this.formdev.value).subscribe({
+            next: (data) => {
+                this.toastr.success('Edição realizada com sucesso!');
+                this.formdev.reset();
+                this.refresh.emit();
+            },
+            error: (error:any) => {
+                this.toastr.error('Erro ao cadastrar, tente novamente mais tarde!');
+            }
+        })
+    }
+
+    solsenha(){
         const formElements = document.querySelectorAll('#formdev input')
         Array.from(formElements).forEach((element) => {
             if(element.id){
-                arms.push(
+                this.arms.push(
                     {
                         id: element.id,
                         //@ts-ignore
@@ -57,17 +85,27 @@ export class ArmamentosEmprestimosFormReceberComponent implements OnInit{
             }
 
         });
-        this.form.get('armamentos')?.patchValue(arms)
-        this.form.get('id')?.patchValue(this.armamentoEmprestimo.id)
+        this.solicitarsenha = true;
+    }
 
-        this.armamentosEmprestimosService.receber(this.form.value).subscribe({
+    verificarsenha(){
+        let obj = {
+            id: this.armamentoEmprestimo.policial.id,
+            password:  this.formdev.value.password,
+        }
+
+        this.usersService.verificarSenha(obj).subscribe({
             next: (data) => {
-                this.toastr.success('Edição realizada com sucesso!');
-                this.form.reset();
-                this.refresh.emit();
+                if(data){
+                    this.senhaverificada = 2;
+                    this.toastr.success('Senha verificada');
+                }else{
+                    this.toastr.error('Senha incorreta');
+                    this.senhaverificada = 3;
+                }
             },
-            error: (error:any) => {
-                this.toastr.error('Erro ao cadastrar, tente novamente mais tarde!');
+            error: (error) => {
+                console.error(error);
             }
         })
     }

@@ -14,6 +14,7 @@ import { Armamento, Armamentos } from "../../armamentos/armamento";
 import { ArmamentosService } from "../../armamentos/armamentos.service";
 import { StorageService } from "../../../storage.service";
 import { SessionService } from "../../../session.service";
+import { UsersService } from "../../users/users.service";
 
 @Component({
     selector: "app-armamentos-emprestimos-form",
@@ -42,6 +43,7 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
     private subscription2!:any;
 
     protected solicitarsenha: boolean = false;
+    protected senhaverificada: number = 1;
 
     @Output('refresh') refresh: EventEmitter<ArmamentoEmprestimo> = new EventEmitter();
     
@@ -52,6 +54,7 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
         private armamentosService: ArmamentosService,
         private toastr: ToastrService,
         private sessionService: SessionService,
+        private usersService: UsersService
     ){}
     
 
@@ -68,7 +71,9 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
             'observacoes': [null], 
             'cautela': [null],  
             'armamentos': [null],  
-            'subunidade': [null],                
+            'subunidade': [null],  
+            'password': [null], 
+            'assinatura_emprestimo': [null]              
         });
 
         this.subscription = this.policiaisService.disponiveis().subscribe({
@@ -216,4 +221,29 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
         this.armamentosselected.splice(index, 1);
     }
    
+    solsenha(){
+        this.solicitarsenha = true;
+    }
+
+    verificarsenha(){
+        let obj = {
+            id: this.form.value.policial,
+            password:  this.form.value.password,
+        }
+
+        this.usersService.verificarSenha(obj).subscribe({
+            next: (data) => {
+                if(data){
+                    this.senhaverificada = 2;
+                    this.toastr.success('Senha verificada');
+                }else{
+                    this.toastr.error('Senha incorreta');
+                    this.senhaverificada = 3;
+                }
+            },
+            error: (error) => {
+                console.error(error);
+            }
+        })
+    }
 }
