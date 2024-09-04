@@ -58,7 +58,7 @@ export class InputTextareaComponent implements ControlValueAccessor {
         placeholder: 'Insira o texto aqui...',
         defaultParagraphSeparator: '',
         defaultFontName: '',
-        defaultFontSize: '',
+        defaultFontSize: '4px',
         fonts: [
           {class: 'arial', name: 'Arial'},
           {class: 'times-new-roman', name: 'Times New Roman'},

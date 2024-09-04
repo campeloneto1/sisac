@@ -46,6 +46,7 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   protected urlfoto:string = environment.image;
 
   protected user!: User;
+  protected foto!: any;
 
   @ViewChild(PoliciaisFormComponent) child!: PoliciaisFormComponent;
 
@@ -131,6 +132,10 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
 
   showfoto(data: Policial){
     this.policial = data;
+    if(this.policial.foto){
+      this.getfile(data);
+    }
+    
   }
 
   uploadFoto(event: any){
@@ -190,5 +195,17 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   encodeId(id: any){
     var encoded = this.sharedService.encodeId(id);
     return encoded;
+  }
+
+  getfile(data: Policial){
+    var obj = {
+      file: data.foto
+    }
+    this.sharedService.getFile(obj).subscribe({
+      next: (data) => {
+        const url = window.URL.createObjectURL(data);
+        this.foto = url;
+      }
+    })
   }
 }

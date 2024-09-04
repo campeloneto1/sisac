@@ -14,7 +14,7 @@
                     <img
                     crossorigin='anonymous'
                       class="profile-user-img img-fluid img-circle point"
-                      [src]="urlfoto + policial.foto"
+                      [src]="foto"
                       alt="Foto policial"
                       data-bs-toggle="modal"
                     data-bs-target="#modalfoto"
@@ -796,7 +796,7 @@
             @if(policial.foto){
               <img
               crossorigin='anonymous'
-                [src]="urlfoto + policial.foto"
+                [src]="foto"
                 
                 alt="user-avatar"
                 height="100px"

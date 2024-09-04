@@ -54,6 +54,8 @@ export class PolicialComponent implements OnInit, OnDestroy{
 
     protected user!: User;
 
+    protected foto: any;
+
     protected armamentosemprestimos$!: Observable<ArmamentosEmprestimos>;
     protected materiaispoliciais$!: Observable<MateriaisPoliciais>;
     protected veiculospoliciais$!: Observable<VeiculosPoliciais>;
@@ -87,6 +89,7 @@ export class PolicialComponent implements OnInit, OnDestroy{
                 next: (data) => {
                     if(!data){this.sessionService.redirect()}
                     this.policial = data;
+                    this.getfile();
                 }
             });
         }
@@ -153,5 +156,17 @@ export class PolicialComponent implements OnInit, OnDestroy{
     encodeId(id: any){
         var encoded = this.sharedService.encodeId(id);
         return encoded;
-      }
+    }
+
+    getfile(){
+        var obj = {
+            file: this.policial.foto
+        }
+        this.sharedService.getFile(obj).subscribe({
+            next: (data) => {
+            const url = window.URL.createObjectURL(data);
+            this.foto = url;
+            }
+        })
+    }
 }

@@ -99,6 +99,14 @@
                   </a>
               </td>
               <td>
+                <a
+                class="options point"
+                title="Get file"
+                (click)="getfile(row)"
+              
+              >
+                <i class="fa fa-user text-success" aria-hidden="true"></i>
+              </a>
                 @if(user.perfil.gestor && !row.user){
                   <a
                     class="options point"
@@ -304,8 +312,8 @@
         </div>
         <div class="modal-body">
           <img
-          crossorigin='anonymous'
-            [src]="urlfoto + policial.foto"
+            crossorigin='anonymous'
+            [src]="foto"
             *ngIf="policial?.foto"
             alt="user-avatar"
             height="100px"

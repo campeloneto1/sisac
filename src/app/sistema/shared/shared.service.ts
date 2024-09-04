@@ -56,4 +56,8 @@ export class SharedService{
       }
       return result;
   }
+
+  getFile(file: any){
+    return this.http.post(`${URL}/utilities/getfile`, file, {responseType: 'blob'});
+}
 }   

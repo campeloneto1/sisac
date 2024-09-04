@@ -51,4 +51,6 @@ export class PoliciaisService{
     updateFoto(id:number, data: any){
         return this.http.put(`${URL}/${endPoint}/${id}/updatefoto`, data);
     }
+
+   
 }
