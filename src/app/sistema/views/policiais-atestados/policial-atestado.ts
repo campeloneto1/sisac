@@ -1,3 +1,4 @@
+import { AfastamentoTipo } from "../afastamentos-tipos/afastamento-tipo";
 import { Policial } from "../policiais/policial";
 import { User } from "../users/user";
 
@@ -10,6 +11,7 @@ export interface PolicialAtestado{
     cid?: string;
     hospital?: string;
     crm?: string;
+    afastamento_tipo: AfastamentoTipo;
 
     created_by?: User;
     updated_by?: User;

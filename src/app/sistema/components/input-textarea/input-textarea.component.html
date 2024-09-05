@@ -5,12 +5,22 @@
     </label>
   
     <div style="background-color: #fff;">
-    <angular-editor 
+      @if(isIPhone()){
+        <textarea
+        (ngModelChange)="onChange($event)"
+        [(ngModel)]="inputvalor"
+        style="width: 100%;"
+        rows="6"
+        ></textarea>
+      }@else{
+        <angular-editor 
     
-    [config]="editorConfig"
-    (ngModelChange)="onChange($event)"
-    [(ngModel)]="inputvalor"
-      ></angular-editor>
+        [config]="editorConfig"
+        (ngModelChange)="onChange($event)"
+        [(ngModel)]="inputvalor"
+          ></angular-editor>
+      }
+    
     </div>
     <div *ngIf="control.invalid && (control.dirty || control.touched)">
       <span *ngIf="control?.errors?.['required']" class="text-danger"

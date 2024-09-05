@@ -15,6 +15,8 @@ import { SetoresService } from "../../setores/setores.service";
 import { SessionService } from "../../../session.service";
 import { PoliciaisAtestados } from "../../policiais-atestados/policial-atestado";
 import { PoliciaisService } from "../../policiais/policiais.service";
+import { AfastamentosTipos } from "../../afastamentos-tipos/afastamento-tipo";
+import { AfastamentosTiposService } from "../../afastamentos-tipos/afastamentos-tipos.service";
 
 @Component({
     selector: 'app-policiais-atestados-rel',
@@ -43,6 +45,7 @@ export class PoliciaisAtestadosRelComponent implements OnInit, OnDestroy{
     protected graduacoes$!: Observable<Graduacoes>;
     protected setores$!: Observable<Setores>;
     protected policiais$!: Observable<Policiais>;
+    protected afastamentosTipos$!: Observable<AfastamentosTipos>;
 
     private subscription: any;
     private subscription2: any;
@@ -53,6 +56,7 @@ export class PoliciaisAtestadosRelComponent implements OnInit, OnDestroy{
         private graduacoesService: GraduacoesService,
         private policiaisService: PoliciaisService,
         private setoresService: SetoresService,
+        private afastamentosTiposService: AfastamentosTiposService,
         private sessionService: SessionService,
     ){}
 
@@ -65,6 +69,7 @@ export class PoliciaisAtestadosRelComponent implements OnInit, OnDestroy{
             'setor': [null],
             'ano': [null],
             'vigente': [null],
+            'afastamento_tipo': [null],
             'transferido': [null],
             'subunidade': [null],
            
@@ -72,6 +77,7 @@ export class PoliciaisAtestadosRelComponent implements OnInit, OnDestroy{
 
         this.graduacoes$ = this.graduacoesService.index();
         this.setores$ = this.setoresService.index();
+        this.afastamentosTipos$ = this.afastamentosTiposService.index();
 
         this.subscription = this.policiaisService.index().subscribe({
             next: (data) => {

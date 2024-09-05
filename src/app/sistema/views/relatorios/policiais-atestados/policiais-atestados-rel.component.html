@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-  <app-title titulo="Relatório de Atestados de Policiais" />
+  <app-title titulo="Relatório de Afastamentos de Policiais" />
 
   <!--INICIO SECTION content-->
   <section class="content">
@@ -7,7 +7,7 @@
     <div class="card">
       <div class="card-header border-0">
         <h3 class="card-title noprint">Filtro</h3>
-        <h3 class="card-title print">Relatório de Atestados de Policiais</h3>
+        <h3 class="card-title print">Relatório de Afastamentos de Policiais</h3>
       </div>
       <div class="card-body table-responsive">
         <form [formGroup]="form" class="noprint">
@@ -32,6 +32,13 @@
             id="graduacao"
             [data$]="graduacoes$"
             formControlName="graduacao"
+            />
+            <input-select
+              class="col-sm-2"
+              label="Tipo"
+              id="afastamento_tipo"
+              [data$]="afastamentosTipos$"
+              formControlName="afastamento_tipo"
             />
             <input-text
             class="col-sm-2"

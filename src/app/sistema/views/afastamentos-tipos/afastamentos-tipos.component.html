@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-  <app-title titulo="Afastamentos" />
+  <app-title titulo="Tipos de Afastamentos" />
 
   <!--INICIO SECTION content-->
   <section class="content">
@@ -8,16 +8,14 @@
       <!-- INICIO CARD HEADER-->
       <div class="card-header border-0">
         <h3 class="card-title">
-          @if(user.perfil.policiais_atestados_cad){
-            <button
-              class="btn btn-outline-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#modalcad"
-              title="Cadastrar"
-            >
-              <i class="fa fa-plus"></i> Cadastrar
-            </button>
-          }
+          <button
+            class="btn btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalcad"
+            title="Cadastrar"
+          >
+            <i class="fa fa-plus"></i> Cadastrar
+          </button>
         </h3>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 250px">
@@ -49,23 +47,12 @@
           [mfData]="data$"
           #mf="mfDataTable"
           [mfRowsOnPage]="quant"
-          [mfSortBy]="'id'" [mfSortOrder]="'desc'"
           class="table table-hover table-head-fixed text-nowrap"
         >
           <thead>
             <tr>
               <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-              <!-- <th><mfDefaultSorter by="policial.setor.subunidade.abreviatura">Subunidade</mfDefaultSorter></th> -->
-              <th><mfDefaultSorter by="afastamento_tipo.nome">Afastamento</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="policial.graduacao.nome">Graduação</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="policial.numeral">Numeral</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="policial.nome_guerra">Nome Guerra</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="policial.matricula">Matrícula</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="policial.setor.nome">Setor</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="dias">Dias</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="dataFinal(data_inicial, dias)">Data Final</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="cid">CID</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
               <th>Opções</th>
             </tr>
           </thead>
@@ -74,43 +61,29 @@
             @for(row of mf.data; track row){
             <tr class="optionshover">
               <td>{{ row.id }}</td>
-              <!-- <td>{{ row.policial.setor.subunidade.abreviatura }} - {{ row.policial.setor.subunidade.unidade.abreviatura }}</td> -->
-              <td>{{ row.afastamento_tipo.nome }}</td>
-              <td>{{ row.policial.graduacao.nome }}</td>
-              <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
-              <td>{{ row.policial.nome_guerra }}</td>
-              <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
-              <td>{{ row.policial.setor.nome }}</td>
-              <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
-              <td>{{ row.dias }}</td>
-              <td>{{ row.data_final | date: 'dd/MM/yyyy'}}</td>
-              <td>{{ row.cid }}</td>
+              <td>{{ row.nome }}</td>
               <td>
-                @if(user.perfil.policiais_atestados_edt){
-                  <a
-                    class="options point"
-                    title="Editar"
-                    (click)="editar(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalcad"
-                  >
-                    <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                  </a>
-                }
-                @if(user.perfil.policiais_atestados_del){
-                  <a
-                    class="options point"
-                    title="Excluir"
-                    (click)="delete(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modaldel"
-                  >
-                    <i
-                      class="fa fa-trash text-danger ml-1"
-                      aria-hidden="true"
-                    ></i>
-                  </a>
-                }
+                <a
+                  class="options point"
+                  title="Editar"
+                  (click)="editar(row)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalcad"
+                >
+                  <i class="fa fa-edit text-primary" aria-hidden="true"></i>
+                </a>
+                <a
+                  class="options point"
+                  title="Excluir"
+                  (click)="delete(row)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modaldel"
+                >
+                  <i
+                    class="fa fa-trash text-danger ml-1"
+                    aria-hidden="true"
+                  ></i>
+                </a>
               </td>
             </tr>
             } @empty {
@@ -125,6 +98,7 @@
               <td colspan="100%">
                 <div style="display: flex; align-items: center; justify-content: center;">
                   <mfBootstrapPaginator
+                  [rowsOnPageSet]="[5, 10, 25]"
                 ></mfBootstrapPaginator>
                 </div>
                
@@ -161,7 +135,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <app-policiais-atestados-form (refresh)="refresh()" />
+          <app-afastamentos-tipos-form (refresh)="refresh()" />
         </div>
       </div>
     </div>
@@ -190,7 +164,7 @@
         </div>
         <div class="modal-body">
           @if(excluir){ Tem certeza que deseja excluir:
-          <b>{{ excluir.policial.nome }}</b>
+          <b>{{ excluir.nome }}</b>
           <div class="d-flex justify-content-end">
             <a data-bs-dismiss="modal" class="btn btn-link text-primary"
               >Cancelar</a

@@ -42,6 +42,11 @@ export const routes: Routes = [
         canActivate: mapToCanActivate([AdminGuard]),
         children: [
           {
+            path: 'AfastamentosTipos',
+            loadComponent: () =>
+              import('./sistema/views/afastamentos-tipos/afastamentos-tipos.component').then((c) => c.AfastamentosTiposComponent),
+          },
+          {
             path: 'Inicio',
             loadComponent: () =>
               import('./sistema/views/home/home.component').then((c) => c.HomeComponent),
@@ -97,7 +102,7 @@ export const routes: Routes = [
               import('./sistema/views/armamentos-calibres/armamentos-calibres.component').then((c) => c.ArmamentosCalibresComponent),
           },
           {
-            path: 'Atestados',
+            path: 'Afastamentos',
             loadComponent: () =>
               import('./sistema/views/policiais-atestados/policiais-atestados.component').then((c) => c.PoliciaisAtestadosComponent),
           },
@@ -317,7 +322,7 @@ export const routes: Routes = [
               import('./sistema/views/relatorios/policiais/policiais-rel.component').then((c) => c.PoliciaisRelComponent),
           },
           {
-            path: 'RelPoliciaisAtestados',
+            path: 'RelPoliciaisAfastamentos',
             loadComponent: () =>
               import('./sistema/views/relatorios/policiais-atestados/policiais-atestados-rel.component').then((c) => c.PoliciaisAtestadosRelComponent),
           },

@@ -10,6 +10,8 @@ import { Observable, of } from "rxjs";
 import { Policiais } from "../../policiais/policial";
 import { PoliciaisService } from "../../policiais/policiais.service";
 import { format } from "date-fns";
+import { AfastamentosTipos } from "../../afastamentos-tipos/afastamento-tipo";
+import { AfastamentosTiposService } from "../../afastamentos-tipos/afastamentos-tipos.service";
 
 @Component({
     selector: "app-policiais-atestados-form",
@@ -31,6 +33,10 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
     protected policiais$!: Observable<Policiais>;
 
     private subscription!:any;
+    private subscription2!:any;
+
+    protected afastamentoTipos$!: Observable<AfastamentosTipos>;
+    protected isAtestado: boolean = false;
 
     @Output('refresh') refresh: EventEmitter<PolicialAtestado> = new EventEmitter();
     
@@ -38,6 +44,7 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
         private formBuilder: FormBuilder,
         private policiaisAtestadosService: PoliciaisAtestadosService,
         private policiaisService: PoliciaisService,
+        private afastamentosTiposService: AfastamentosTiposService,
         private toastr: ToastrService,
     ){}
     
@@ -45,6 +52,9 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
     ngOnInit() {
         this.form = this.formBuilder.group({
             'id': [null],
+            'afastamento_tipo': [null, Validators.compose([
+                Validators.required,
+            ])],
             'policial': [null, Validators.compose([
                 Validators.required,
             ])],
@@ -80,12 +90,18 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
                 this.policiais$ = of(data);
             }
         });
+
+        this.afastamentoTipos$ = this.afastamentosTiposService.index();
     }
 
     ngOnDestroy(): void {
         
         if(this.subscription){
             this.subscription.unsubscribe();
+        }
+
+        if(this.subscription2){
+            this.subscription2.unsubscribe();
         }
     }
 
@@ -128,5 +144,15 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
         return format(result, 'yyyy-MM-dd');
       }
    
-   
+   tipoSelected(){
+    this.subscription2 = this.afastamentoTipos$.subscribe({
+        next: (data) => {
+            data.forEach(value => {
+                if(this.form.value.afastamento_tipo == value.id ){
+                   this.isAtestado = value.atestado ? true : false;
+                }
+            })
+        }
+    })
+   }
 }

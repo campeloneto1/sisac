@@ -169,4 +169,10 @@ export class InputTextareaComponent implements ControlValueAccessor {
       this.control = control;
       //console.log(control)
     }
+
+    isIPhone(): boolean {
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      // Verifica se o userAgent contém "iPhone"
+      return /iPhone/.test(userAgent) && !/iPad/.test(userAgent);
+    }
 }

@@ -30,12 +30,12 @@
         <li class="nav-item">
           
           <a
-            [routerLink]="['Atestados']"
+            [routerLink]="['Afastamentos']"
             routerLinkActive="active"
             class="nav-link"
           >
             <i class="nav-icon fa fa-ambulance"></i>
-            <p>Atestados</p>
+            <p>Afastamentos</p>
           </a>
         </li>
         } @if(user.perfil.armamentos){
@@ -491,6 +491,16 @@
             </li>
             <li class="nav-item">
               <a
+                [routerLink]="['AfastamentosTipos']"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="fa fa-circle nav-icon"></i>
+                <p>Tamanhos de Afastamentos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
                 [routerLink]="['ArmamentosTamanhos']"
                 routerLinkActive="active"
                 class="nav-link"
@@ -635,12 +645,12 @@
             @if(user.perfil.policiais_atestados){
               <li class="nav-item">
                 <a
-                  [routerLink]="['RelPoliciaisAtestados']"
+                  [routerLink]="['RelPoliciaisAfastamentos']"
                   routerLinkActive="active"
                   class="nav-link"
                 >
                   <i class="fa fa-circle nav-icon"></i>
-                  <p>Atestados de Policiais</p>
+                  <p>Afastamentos de Policiais</p>
                 </a>
               </li>
             }

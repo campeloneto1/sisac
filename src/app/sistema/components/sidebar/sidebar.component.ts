@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit{
     protected user!: User;
 
     private routesMenuAdm = [
+        '/AfastamentosTipos',
         '/ArmamentosCalibres',
         '/ArmamentosTamanhos',
         '/ArmamentosTipos',
@@ -67,7 +68,7 @@ export class SidebarComponent implements OnInit{
         '/RelContratos',
         '/RelPatrimonios',
         '/RelPoliciais',
-        '/RelPoliciaisAtestados',
+        '/RelPoliciaisAfastamentos',
         '/RelPoliciaisFerias',
         '/RelServicos',
         '/RelVeiculos',
