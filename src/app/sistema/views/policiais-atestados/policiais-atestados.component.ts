@@ -106,6 +106,7 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
           || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
           || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
           || data.policial.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.afastamento_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
           || !pesq
         }else{
           return  data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
@@ -113,6 +114,7 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
           || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
           || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
           || data.policial.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
+          || data.afastamento_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1
           || !pesq
         }
         

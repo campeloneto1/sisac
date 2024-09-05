@@ -99,9 +99,18 @@
                 <td>{{ row.km_final }}</td>
                 
                 <td>
+                  <a
+                      class="options point"
+                      title="Ver Empréstimo"
+                      (click)="showEmprestimo(row)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalshow"
+                    >
+                      <i class="fa fa-search text-primary" aria-hidden="true"></i>
+                    </a>
                   @if(row.data_final){
                     <a
-                      class="options point"
+                      class="options point ml-1"
                       title="Imprimir Empréstimo"
                       target="_blank"
                       [routerLink]="['/VeiculosEmprestimosImprimir', encodeId(row.id)]"
@@ -113,7 +122,7 @@
                   @if(!row.data_final){
                       @if(user.perfil.veiculos_policiais_cad){
                           <a
-                            class="options point"
+                            class="options point ml-1"
                             title="Receber"
                             (click)="receber(row)"
                             data-bs-toggle="modal"
@@ -281,5 +290,36 @@
       </div>
     </div>
     <!--FIM MODAL exclusao-->
+     <!-- INICIO MODAL SHOW-->
+     <div
+     class="modal fade"
+     id="modalshow"
+     style="display: none"
+     aria-hidden="true"
+   >
+     <div class="modal-dialog modal-xl">
+       <div class="modal-content">
+         <div class="modal-header border-0">
+           <h4 class="modal-title">Empréstimo</h4>
+           <button
+             type="button"
+             class="close"
+             data-bs-dismiss="modal"
+             aria-label="Close"
+           >
+             <span aria-hidden="true">×</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           @if(emprestado){
+
+            <app-veiculos-policiais-show [data$]="emprestado" />
+
+           }
+         </div>
+       </div>
+     </div>
+   </div>
+   <!--FIM MODAL SHOW-->
   </div>
   

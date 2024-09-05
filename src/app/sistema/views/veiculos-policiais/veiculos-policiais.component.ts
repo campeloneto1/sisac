@@ -12,6 +12,8 @@ import { VeiculosPoliciaisFormReceberComponent  } from './formulario-receber/vei
 import { User } from '../users/user';
 import { RouterModule } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { VeiculosPoliciaisShow } from './show/veiculos-policiais-show.component';
 @Component({
   selector: 'app-veiculos-policiais',
   templateUrl: './veiculos-policiais.component.html',
@@ -22,10 +24,16 @@ import { SharedService } from '../../shared/shared.service';
     TitleComponent, 
     VeiculosPoliciaisFormComponent,
     VeiculosPoliciaisFormReceberComponent,
+    VeiculosPoliciaisShow,
     DataTableModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    NgxMaskDirective, 
+        NgxMaskPipe,
   ],
+  providers: [
+    provideNgxMask(),
+]
 })
 export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
   protected data$!: VeiculosPoliciais;
@@ -36,6 +44,7 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
   protected subscription: any;
   protected recebveiculo!: VeiculoPolicial;
   protected cadastrando:boolean = false;
+  protected emprestado!: VeiculoPolicial;
 
   protected user!: User;
 
@@ -170,6 +179,10 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
   encodeId(id: any){
     var encoded = this.sharedService.encodeId(id);
     return encoded;
+  }
+
+  showEmprestimo(data: VeiculoPolicial){
+    this.emprestado = data;
   }
 
 }

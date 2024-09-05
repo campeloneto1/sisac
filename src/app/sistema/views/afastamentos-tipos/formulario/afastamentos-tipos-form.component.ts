@@ -38,7 +38,14 @@ export class AfastamentosTiposFormComponent implements OnInit{
                 Validators.minLength(5),
                 Validators.maxLength(100)
             ])],
-            'atestado': [null]
+            'atestado': [null],
+            'maternidade': [null],
+            'paternidade': [null],
+            'luto': [null],
+            'lts': [null],
+            'ltip': [null],
+            'ltsd': [null],
+            'dias': [null]
           
         });
 

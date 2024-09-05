@@ -16,6 +16,7 @@ import { InputTextareaComponent } from '../../components/input-textarea/input-te
 import { ArmamentosEmprestimosFormReceberComponent } from './formulario-receber/armamentos-emprestimos-form-receber.component';
 import { RouterModule } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
+import { ArmamentosEmprestimosShow } from './show/armamentos-emprestimos-show.component';
 @Component({
   selector: 'app-armamentos-emprestimos',
   templateUrl: './armamentos-emprestimos.component.html',
@@ -27,6 +28,7 @@ import { SharedService } from '../../shared/shared.service';
     ArmamentosEmprestimosFormComponent,
     ArmamentosEmprestimosFormReceberComponent,
     ArmamentosEmprestimosItensFormComponent,
+    ArmamentosEmprestimosShow,
     DataTableModule,
     FormsModule,
     NgxMaskDirective, 
@@ -50,6 +52,8 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   protected cadastrando: boolean = false;
 
   protected cadarmamento:boolean = false;
+
+  protected emprestado!: ArmamentoEmprestimo;
 
   protected user!: User;
 
@@ -202,6 +206,10 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   encodeId(id: any){
     var encoded = this.sharedService.encodeId(id);
     return encoded;
+  }
+
+  showEmprestado(data: ArmamentoEmprestimo){
+    this.emprestado = data;
   }
 
 }

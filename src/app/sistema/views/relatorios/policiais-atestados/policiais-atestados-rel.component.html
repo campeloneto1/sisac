@@ -40,13 +40,13 @@
               [data$]="afastamentosTipos$"
               formControlName="afastamento_tipo"
             />
-            <input-text
+            <!-- <input-text
             class="col-sm-2"
             label="Ano"
             id="ano"
             type="text"
             formControlName="ano"
-            />
+            /> -->
             <div class="col-sm-2">
               <div class="form-check">
                 <input
@@ -85,6 +85,7 @@
               <th>Numeral</th>
               <th>Nome Guerra</th>
               <th>Matrícula</th>
+              <th>Tipo</th>
               <th>Data Inicial</th>
               <th>Data Dias</th>
               <th>Data Final</th>
@@ -100,6 +101,7 @@
               <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
               <td>{{ row.policial.nome_guerra }}</td>
               <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
+              <td>{{ row.afastamento_tipo.nome }}</td>
               <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
               <td>{{ row.data_final | date: 'dd/MM/yyyy'}}</td>
               <td>{{ row.dias }}</td>

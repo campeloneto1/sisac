@@ -126,8 +126,8 @@
                     </li>
                     } @if(user.perfil.policiais_atestados){
                   <li class="nav-item">
-                    <a class="nav-link" (click)="getPolAtestados()" href="#atestados" data-bs-toggle="tab"
-                      >Atestados</a
+                    <a class="nav-link" (click)="getPolAtestados()" href="#afastamentos" data-bs-toggle="tab"
+                      >Afastamentos</a
                     >
                   </li>
                   } @if(user.perfil.policiais_cursos){
@@ -485,7 +485,7 @@
                     <!--FIM TAB VEICULOS-->
                     } @if(user.perfil.policiais_atestados){
                   <!--INICIO TAB ATESTADOS-->
-                  <div class="tab-pane" id="atestados">
+                  <div class="tab-pane" id="afastamentos">
                     <!-- INICIO TABLE-->
                     @if(policiaisatestados$ | async; as policiaisatestados){
                         <table
@@ -498,6 +498,11 @@
                           <thead>
                             <tr>
                               <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
+                              <th>
+                                <mfDefaultSorter by="afastamento_tipo.nome"
+                                  >Tipo</mfDefaultSorter
+                                >
+                              </th>
                               <th>
                                 <mfDefaultSorter by="data_inicial"
                                   >Data Inicial</mfDefaultSorter
@@ -519,6 +524,7 @@
                             @for(row of atestados.data; track row){
                             <tr class="optionshover">
                               <td>{{ row.id }}</td>
+                              <td>{{ row.afastamento_tipo.nome }}</td>
                               <td>{{ row.data_inicial | date : "dd/MM/yyyy" }}</td>
                               <td>{{ row.dias }}</td>
                               <td>{{ row.data_final | date : "dd/MM/yyyy" }}</td>

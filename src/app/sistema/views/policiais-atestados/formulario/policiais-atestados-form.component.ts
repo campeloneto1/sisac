@@ -136,6 +136,7 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
     editar(data: PolicialAtestado){
         this.form.patchValue(data);
         this.form.get('policial')?.patchValue(data.policial.id);
+        this.form.get('afastamento_tipo')?.patchValue(data.afastamento_tipo.id);
     }
 
     dataFinal(data: Date, dias:number): string{
@@ -150,6 +151,11 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
             data.forEach(value => {
                 if(this.form.value.afastamento_tipo == value.id ){
                    this.isAtestado = value.atestado ? true : false;
+                   if(value.dias){
+                    this.form.get('dias')?.patchValue(value.dias);
+                   }else{
+                    this.form.get('dias')?.patchValue(null);
+                   }
                 }
             })
         }

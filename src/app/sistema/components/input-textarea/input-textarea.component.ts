@@ -109,7 +109,11 @@ export class InputTextareaComponent implements ControlValueAccessor {
       toolbarHiddenButtons: [
         ['strikeThrough',
         'subscript',
-        'superscript',],
+        'superscript',
+        'insertImage',
+        'insertVideo',
+        'toggleEditorMode'
+      ],
       ]
   };
   

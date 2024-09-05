@@ -53,6 +53,14 @@
             <tr>
               <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
               <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="dias">Dias</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="atestado">Atestado</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="lts">LTS</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="paternidade">Paternidade</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="maternidade">Maternidade</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="luto">Luto</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="ltsd">LTSD</mfDefaultSorter></th>
+              <th><mfDefaultSorter by="ltip">LTIP</mfDefaultSorter></th>
               <th>Opções</th>
             </tr>
           </thead>
@@ -62,6 +70,28 @@
             <tr class="optionshover">
               <td>{{ row.id }}</td>
               <td>{{ row.nome }}</td>
+              <td>{{ row.dias }}</td>
+              <td>
+                @if(row.atestado){<i class="fa fa-check" aria-hidden="true"></i>}
+              </td>
+              <td>
+                @if(row.lts){<i class="fa fa-check" aria-hidden="true"></i>}
+              </td>
+              <td>
+                @if(row.paternidade){<i class="fa fa-check" aria-hidden="true"></i>}
+              </td>
+              <td>
+                @if(row.maternidade){<i class="fa fa-check" aria-hidden="true"></i>}
+              </td>
+              <td>
+                @if(row.luto){<i class="fa fa-check" aria-hidden="true"></i>}
+              </td>
+              <td>
+                @if(row.ltsd){<i class="fa fa-check" aria-hidden="true"></i>}
+              </td>
+              <td>
+                @if(row.ltip){<i class="fa fa-check" aria-hidden="true"></i>}
+              </td>
               <td>
                 <a
                   class="options point"

@@ -17,6 +17,8 @@ import { Contrato, Contratos } from "../contratos/contrato";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { RouterModule } from "@angular/router";
 import { VeiculosPoliciaisService } from "../veiculos-policiais/veiculos-policiais.service";
+import { ArmamentosEmprestimosShow } from "../armamentos-emprestimos/show/armamentos-emprestimos-show.component";
+import { VeiculosPoliciaisShow } from "../veiculos-policiais/show/veiculos-policiais-show.component";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -28,6 +30,8 @@ import { VeiculosPoliciaisService } from "../veiculos-policiais/veiculos-policia
         RouterModule,
         NgxMaskDirective,
         NgxMaskPipe,
+        ArmamentosEmprestimosShow,
+        VeiculosPoliciaisShow
     ],
     providers: [
         provideNgxMask()
