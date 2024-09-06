@@ -5,7 +5,6 @@ import { ArmamentosService } from './armamentos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ArmamentosFormComponent } from './formulario/armamentos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
@@ -13,6 +12,9 @@ import { RouterModule } from '@angular/router';
 import { ArmamentosFormQuantidadeComponent } from './formulario-quantidade/armamentos-form-quantidade.component';
 import { ArmamentosFormAjusteComponent } from './formulario-ajuste/armamentos-form-ajuste.component';
 import { SharedService } from '../../shared/shared.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-armamentos',
   templateUrl: './armamentos.component.html',
@@ -24,13 +26,13 @@ import { SharedService } from '../../shared/shared.service';
     ArmamentosFormComponent,
     ArmamentosFormQuantidadeComponent,
     ArmamentosFormAjusteComponent,
-    DataTableModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    DataTablesModule
   ],
 })
 export class ArmamentosComponent implements OnInit, OnDestroy {
-  protected data$!: Armamentos;
+  protected data$!: Observable<Armamentos>;
   protected excluir!: Armamento;
   protected pesquisa!: string;
   protected temp!: Armamentos;
@@ -40,6 +42,9 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   protected altarm!: Armamento;
   protected user!: User;
   protected cadastrando:boolean = false;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ArmamentosFormComponent) child!: ArmamentosFormComponent;
   @ViewChild(ArmamentosFormQuantidadeComponent) childQuant!: ArmamentosFormQuantidadeComponent;
@@ -56,12 +61,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('armamentos');
-    this.subscription = this.armamentosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.data$ = this.armamentosService.index();
   }
 
   ngOnDestroy(): void {
@@ -72,11 +72,7 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.cadastrando = false;
-    this.armamentosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.armamentosService.index();
   }
 
   cadastrar(){
@@ -123,20 +119,6 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
    
     this.altarm = data;
    }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.serial.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.armamento_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }
-  }
 
   encodeId(id: any){
     var encoded = this.sharedService.encodeId(id);

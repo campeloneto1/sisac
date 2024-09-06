@@ -5,13 +5,16 @@ import { ServicosService } from './servicos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ServicosFormComponent } from './formulario/servicos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { RouterModule } from '@angular/router';
 import { ContratosLancamentosFormComponent } from '../contratos-lancamentos/formulario/contratos-lancamentos-form.component';
 import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-lancamentos.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
+import { User } from '../users/user';
 @Component({
   selector: 'app-servicos',
   templateUrl: './servicos.component.html',
@@ -22,7 +25,7 @@ import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-
     TitleComponent, 
     ServicosFormComponent,
     ContratosLancamentosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     RouterModule,
     NgxMaskDirective,
@@ -33,7 +36,7 @@ import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-
   ]
 })
 export class ServicosComponent implements OnInit, OnDestroy {
-  protected data$!: Servicos;
+  protected data$!: Observable<Servicos>;
   protected excluir!: Servico;
   protected pesquisa!: string;
   protected temp!: Servicos;
@@ -41,7 +44,12 @@ export class ServicosComponent implements OnInit, OnDestroy {
   protected subscription: any;
   protected contrato!: Servico;
 
+  protected user!: User;
+
   protected cadlancamento: boolean = false;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ServicosFormComponent) child!: ServicosFormComponent;
 
@@ -54,13 +62,13 @@ export class ServicosComponent implements OnInit, OnDestroy {
  
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('servicos');
-    this.subscription = this.servicosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.servicosService.index();
   }
 
   ngOnDestroy(): void {
@@ -70,11 +78,7 @@ export class ServicosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.servicosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.servicosService.index();
   }
 
   editar(data: Servico) {
@@ -96,18 +100,4 @@ export class ServicosComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.empresa.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.empresa.cnpj.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.servico_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }    
-  }
-
 }

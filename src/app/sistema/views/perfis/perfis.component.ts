@@ -5,9 +5,11 @@ import { PerfisService } from './perfis.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PerfisFormComponent } from './formulario/perfis-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { Observable } from 'rxjs';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-perfis',
   templateUrl: './perfis.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     PerfisFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class PerfisComponent implements OnInit, OnDestroy {
-  protected data$!: Perfis;
+  protected data$!: Observable<Perfis>;
   protected excluir!: Perfil;
   protected pesquisa!: string;
   protected temp!: Perfis;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PerfisFormComponent) child!: PerfisFormComponent;
 
@@ -40,12 +45,11 @@ export class PerfisComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.perfisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ =  this.perfisService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class PerfisComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.perfisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.perfisService.index();
   }
 
   editar(data: Perfil) {
@@ -80,16 +80,6 @@ export class PerfisComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
-      });
-    }
   }
 
 }

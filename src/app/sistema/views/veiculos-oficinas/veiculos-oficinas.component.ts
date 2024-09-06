@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { VeiculosOficinasFormReceberComponent } from './formulario-receber/veiculos-oficinas-form-receber.component';
 import { User } from '../users/user';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-veiculos-oficinas',
   templateUrl: './veiculos-oficinas.component.html',
@@ -20,12 +23,12 @@ import { User } from '../users/user';
     TitleComponent, 
     VeiculosOficinasFormComponent,
     VeiculosOficinasFormReceberComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class VeiculosOficinasComponent implements OnInit, OnDestroy {
-  protected data$!: VeiculosOficinas;
+  protected data$!: Observable<VeiculosOficinas>;
   protected excluir!: VeiculoOficina;
   protected pesquisa!: string;
   protected temp!: VeiculosOficinas;
@@ -34,6 +37,9 @@ export class VeiculosOficinasComponent implements OnInit, OnDestroy {
   protected recebveiculo!: VeiculoOficina;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(VeiculosOficinasFormComponent) child!: VeiculosOficinasFormComponent;
 
@@ -47,12 +53,11 @@ export class VeiculosOficinasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sessionService.checkPermission('veiculos_oficinas');
     this.user = this.sessionService.getUser();
-    this.subscription = this.veiculosOficinasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.veiculosOficinasService.index();
   }
 
   ngOnDestroy(): void {
@@ -62,11 +67,7 @@ export class VeiculosOficinasComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.veiculosOficinasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.veiculosOficinasService.index();
   }
 
   editar(data: VeiculoOficina) {
@@ -91,32 +92,6 @@ export class VeiculosOficinasComponent implements OnInit, OnDestroy {
 
   receber(data: VeiculoOficina){
     this.recebveiculo = data;
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.veiculo.placa_especial){
-            return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.placa_especial.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.oficina.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.manutencao_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || !pesq
-        }else{
-            return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.oficina.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.manutencao_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || !pesq
-        }
-        
-      });
-    }
   }
 
 }

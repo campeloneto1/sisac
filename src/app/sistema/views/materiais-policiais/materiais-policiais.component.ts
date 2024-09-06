@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TitleComponent } from '../../components/title/title.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SessionService } from '../../session.service';
@@ -16,6 +15,9 @@ import { MateriaisPoliciais, MaterialPolicial } from './material-policial';
 import { MateriaisPoliciaisService } from './materiais-policiais.service';
 import { MateriaisPoliciaisItensService } from '../materiais-policiais-itens/materiais-policiais-itens.service';
 import { SharedService } from '../../shared/shared.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-materiais-policiais',
   templateUrl: './materiais-policiais.component.html',
@@ -27,7 +29,7 @@ import { SharedService } from '../../shared/shared.service';
     MateriaisPoliciaisFormComponent,
     MateriaisPoliciaisFormReceberComponent,
     MateriaisPoliciaisItensFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
@@ -39,7 +41,7 @@ import { SharedService } from '../../shared/shared.service';
   ]
 })
 export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
-  protected data$!: MateriaisPoliciais;
+  protected data$!: Observable<MateriaisPoliciais>;
   protected excluir!: MaterialPolicial;
   protected pesquisa!: string;
   protected temp!: MateriaisPoliciais;
@@ -52,6 +54,9 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
   protected caditem:boolean = false;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(MateriaisPoliciaisFormComponent) child!: MateriaisPoliciaisFormComponent;
   @ViewChild(MateriaisPoliciaisFormReceberComponent) childreceber!: MateriaisPoliciaisFormReceberComponent;
@@ -69,12 +74,11 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('materiais_policiais');
-    this.subscription = this.materiaisPoliciaisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.materiaisPoliciaisService.index();
   }
 
   ngOnDestroy(): void {
@@ -84,11 +88,7 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.materiaisPoliciaisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.materiaisPoliciaisService.index();
   }
 
 
@@ -128,29 +128,6 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.policial.numeral){
-          return data.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1         
-          || !pesq
-        }else{
-          return data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1     
-          || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1    
-          || !pesq
-        }
-      });
-    }
   }
 
   encodeId(id: any){

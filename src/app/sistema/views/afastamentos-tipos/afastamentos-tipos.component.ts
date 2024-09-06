@@ -5,9 +5,11 @@ import { AfastamentosTiposService } from './afastamentos-tipos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { AfastamentosTiposFormComponent } from './formulario/afastamentos-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-afastamentos-tipos',
   templateUrl: './afastamentos-tipos.component.html',
@@ -17,17 +19,21 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     AfastamentosTiposFormComponent,
-    DataTableModule,
-    FormsModule
+    FormsModule,
+    DataTablesModule
   ],
 })
 export class AfastamentosTiposComponent implements OnInit, OnDestroy {
-  protected data$!: AfastamentosTipos;
+  protected data$!: Observable<AfastamentosTipos>;
   protected excluir!: AfastamentoTipo;
   protected pesquisa!: string;
   protected temp!: AfastamentosTipos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
+
 
   @ViewChild(AfastamentosTiposFormComponent) child!: AfastamentosTiposFormComponent;
 
@@ -40,12 +46,8 @@ export class AfastamentosTiposComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.afastamentosTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    
+    this.data$ = this.afastamentosTiposService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +57,8 @@ export class AfastamentosTiposComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.afastamentosTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    
+    this.data$ = this.afastamentosTiposService.index();
   }
 
   editar(data: AfastamentoTipo) {
@@ -80,17 +79,6 @@ export class AfastamentosTiposComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }
   }
 
 }

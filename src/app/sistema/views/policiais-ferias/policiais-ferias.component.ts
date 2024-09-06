@@ -12,6 +12,9 @@ import { SessionService } from '../../session.service';
 import { User } from '../users/user';
 import { RouterModule } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-policiais-ferias',
   templateUrl: './policiais-ferias.component.html',
@@ -21,7 +24,7 @@ import { SharedService } from '../../shared/shared.service';
     CommonModule, 
     TitleComponent, 
     PoliciaisFeriasFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
@@ -32,7 +35,7 @@ import { SharedService } from '../../shared/shared.service';
   ]
 })
 export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
-  protected data$!: PoliciaisFerias;
+  protected data$!: Observable<PoliciaisFerias>;
   protected excluir!: PolicialFerias;
   protected pesquisa!: string;
   protected temp!: PoliciaisFerias;
@@ -40,6 +43,9 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PoliciaisFeriasFormComponent) child!: PoliciaisFeriasFormComponent;
 
@@ -54,12 +60,11 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('policiais_ferias');
-    this.subscription = this.policiaisFeriasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.policiaisFeriasService.index();
   }
 
   ngOnDestroy(): void {
@@ -69,11 +74,7 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.policiaisFeriasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.policiaisFeriasService.index();
   }
 
   editar(data: PolicialFerias) {
@@ -94,34 +95,6 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.policial.numeral){
-          return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
-          || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.ano
-          || data.boletim
-          || !pesq
-        }else{
-            return  data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.ano
-            || data.boletim
-            || !pesq
-        }
-      });
-    }
-    
   }
 
   encodeId(id: any){

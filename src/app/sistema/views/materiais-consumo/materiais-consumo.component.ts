@@ -5,11 +5,13 @@ import { MateriaisConsumoService } from './materiais-consumo.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { MateriaisConsumoFormComponent } from './formulario/materiais-consumo-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
 import { RouterModule } from '@angular/router';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-materiais-consumo',
   templateUrl: './materiais-consumo.component.html',
@@ -19,13 +21,13 @@ import { RouterModule } from '@angular/router';
     CommonModule, 
     TitleComponent, 
     MateriaisConsumoFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     RouterModule
   ],
 })
 export class MateriaisConsumoComponent implements OnInit, OnDestroy {
-  protected data$!: MateriaisConsumo;
+  protected data$!: Observable<MateriaisConsumo>;
   protected excluir!: MaterialConsumo;
   protected pesquisa!: string;
   protected temp!: MateriaisConsumo;
@@ -35,6 +37,9 @@ export class MateriaisConsumoComponent implements OnInit, OnDestroy {
   protected cadastrando: boolean = false;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(MateriaisConsumoFormComponent) child!: MateriaisConsumoFormComponent;
 
@@ -48,12 +53,11 @@ export class MateriaisConsumoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('materiais_consumo');
-    this.subscription = this.materiaisConsumoService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.materiaisConsumoService.index();
   }
 
   ngOnDestroy(): void {
@@ -63,11 +67,7 @@ export class MateriaisConsumoComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.materiaisConsumoService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ =  this.materiaisConsumoService.index();
   }
 
   editar(data: MaterialConsumo) {
@@ -103,27 +103,6 @@ export class MateriaisConsumoComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.serial){
-            return data.serial.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.material_consumo_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-        }else{
-            return data.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.material_consumo_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-        }
-      });
-    }
   }
 
 }

@@ -25,6 +25,7 @@ export interface Policial{
     telefone1?: string;
     telefone2?: string;
     data_nascimento?: Date;
+    user?: User;
 
     rua?: string;
     numero?: string;

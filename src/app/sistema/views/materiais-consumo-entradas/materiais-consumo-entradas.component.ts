@@ -5,7 +5,6 @@ import { MateriaisConsumoEntradasService } from './materiais-consumo-entradas.se
 import { TitleComponent } from '../../components/title/title.component';
 import { MateriaisConsumoEntradasFormComponent } from './formulario/materiais-consumo-entradas-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
@@ -17,6 +16,9 @@ import { MateriaisConsumoEntradasItensFormComponent } from '../materiais-consumo
 import { MateriaisConsumoEntradasItensService } from '../materiais-consumo-entradas-itens/materiais-consumo-entradas-itens.service';
 import { format } from 'date-fns';
 import { SharedService } from '../../shared/shared.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-materiais-consumo-entradas',
   templateUrl: './materiais-consumo-entradas.component.html',
@@ -27,7 +29,7 @@ import { SharedService } from '../../shared/shared.service';
     TitleComponent, 
     MateriaisConsumoEntradasFormComponent,
     MateriaisConsumoEntradasItensFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
@@ -39,7 +41,7 @@ import { SharedService } from '../../shared/shared.service';
   ]
 })
 export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
-  protected data$!: MateriaisConsumoEntradas;
+  protected data$!: Observable<MateriaisConsumoEntradas>;
   protected excluir!: MaterialConsumoEntrada;
   protected pesquisa!: string;
   protected temp!: MateriaisConsumoEntradas;
@@ -50,6 +52,9 @@ export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
   protected cadmaterial:boolean = false;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(MateriaisConsumoEntradasFormComponent) child!: MateriaisConsumoEntradasFormComponent;
   @ViewChild(MateriaisConsumoEntradasItensFormComponent) childmaterial!: MateriaisConsumoEntradasItensFormComponent;
@@ -66,12 +71,11 @@ export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('materiais_consumo_saidas');
-    this.subscription = this.materiaisConsumoEntradasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.materiaisConsumoEntradasService.index();
   }
 
   ngOnDestroy(): void {
@@ -81,11 +85,7 @@ export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.materiaisConsumoEntradasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ =  this.materiaisConsumoEntradasService.index();
   }
 
   editar(data: MaterialConsumoEntrada) {
@@ -107,39 +107,6 @@ export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.user.policial){
-            if(data.user.policial.numeral){
-              return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || !pesq
-            }else{
-              return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || data.user.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-              || !pesq
-            }
-        }else{
-            return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-        }
-      });
-    }
   }
 
   encodeId(id: any){

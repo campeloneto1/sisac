@@ -5,9 +5,11 @@ import { EstadosService } from './estados.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { EstadosFormComponent } from './formulario/estados-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-estados',
   templateUrl: './estados.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     EstadosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class EstadosComponent implements OnInit, OnDestroy {
-  protected data$!: Estados;
+  protected data$!: Observable<Estados>;
   protected excluir!: Estado;
   protected pesquisa!: string;
   protected temp!: Estados;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(EstadosFormComponent) child!: EstadosFormComponent;
 
@@ -40,12 +45,11 @@ export class EstadosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.estadosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.estadosService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class EstadosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.estadosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.estadosService.index();
   }
 
   editar(data: Estado) {
@@ -80,20 +80,6 @@ export class EstadosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.pais.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.pais.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }
   }
 
 }

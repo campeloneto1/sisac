@@ -11,6 +11,9 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SessionService } from '../../session.service';
 import { UsersSubunidadesService } from '../users-subunidades/users-subunidades.service';
 import { UsersSubunidadesFormComponent } from '../users-subunidades/formulario/users-subunidades-form.component';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -21,7 +24,7 @@ import { UsersSubunidadesFormComponent } from '../users-subunidades/formulario/u
     TitleComponent, 
     UsersFormComponent,
     UsersSubunidadesFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
         NgxMaskPipe,
@@ -31,7 +34,7 @@ import { UsersSubunidadesFormComponent } from '../users-subunidades/formulario/u
   ]
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  protected data$!: Users;
+  protected data$!: Observable<Users>;
   protected usuario!: User;
   protected excluir!: User;
   protected pesquisa!: string;
@@ -42,6 +45,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   protected cadsubunidade: boolean = false;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(UsersFormComponent) child!: UsersFormComponent;
   @ViewChild(UsersSubunidadesFormComponent) child2!: UsersSubunidadesFormComponent;
@@ -57,12 +63,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('usuarios');
-    this.subscription = this.usersService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.usersService.index();
   }
 
   ngOnDestroy(): void {
@@ -72,11 +77,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.usersService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.usersService.index();
   }
 
   editar(data: User) {
@@ -149,20 +150,6 @@ export class UsersComponent implements OnInit, OnDestroy {
         }
       });
     }
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || 
-        data.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 ||
-        data.perfil.nome.toLocaleLowerCase().indexOf(pesq) !== -1 ||
-        !pesq
-      });
-    }
-    
   }
 
 }

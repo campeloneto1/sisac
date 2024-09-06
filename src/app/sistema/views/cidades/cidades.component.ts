@@ -5,9 +5,11 @@ import { CidadesService } from './cidades.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { CidadesFormComponent } from './formulario/cidades-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-cidades',
   templateUrl: './cidades.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     CidadesFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class CidadesComponent implements OnInit, OnDestroy {
-  protected data$!: Cidades;
+  protected data$!: Observable<Cidades>;
   protected excluir!: Cidade;
   protected pesquisa!: string;
   protected temp!: Cidades;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(CidadesFormComponent) child!: CidadesFormComponent;
 
@@ -40,12 +45,7 @@ export class CidadesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.cidadesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.data$ = this.cidadesService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +55,7 @@ export class CidadesComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.cidadesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.cidadesService.index();
   }
 
   editar(data: Cidade) {
@@ -80,20 +76,6 @@ export class CidadesComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.estado.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.estado.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }
   }
 
 }

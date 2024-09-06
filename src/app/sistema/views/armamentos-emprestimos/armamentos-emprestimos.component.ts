@@ -5,7 +5,6 @@ import { ArmamentosEmprestimosService } from './armamentos-emprestimos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ArmamentosEmprestimosFormComponent } from './formulario/armamentos-emprestimos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ArmamentosEmprestimosItensService } from '../armamentos-emprestimos-itens/armamentos-emprestimos-itens.service';
@@ -17,6 +16,9 @@ import { ArmamentosEmprestimosFormReceberComponent } from './formulario-receber/
 import { RouterModule } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
 import { ArmamentosEmprestimosShow } from './show/armamentos-emprestimos-show.component';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-armamentos-emprestimos',
   templateUrl: './armamentos-emprestimos.component.html',
@@ -29,7 +31,7 @@ import { ArmamentosEmprestimosShow } from './show/armamentos-emprestimos-show.co
     ArmamentosEmprestimosFormReceberComponent,
     ArmamentosEmprestimosItensFormComponent,
     ArmamentosEmprestimosShow,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
@@ -41,7 +43,7 @@ import { ArmamentosEmprestimosShow } from './show/armamentos-emprestimos-show.co
   ]
 })
 export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
-  protected data$!: ArmamentosEmprestimos;
+  protected data$!: Observable<ArmamentosEmprestimos>;
   protected excluir!: ArmamentoEmprestimo;
   protected pesquisa!: string;
   protected temp!: ArmamentosEmprestimos;
@@ -56,6 +58,9 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   protected emprestado!: ArmamentoEmprestimo;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ArmamentosEmprestimosFormComponent) child!: ArmamentosEmprestimosFormComponent;
   @ViewChild(ArmamentosEmprestimosFormReceberComponent) childreceber!: ArmamentosEmprestimosFormReceberComponent;
@@ -74,12 +79,7 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('armamentos_emprestimos');
-    this.subscription = this.armamentosEmprestimosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.data$ = this.armamentosEmprestimosService.index();
   }
 
   ngOnDestroy(): void {
@@ -89,11 +89,7 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.armamentosEmprestimosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.armamentosEmprestimosService.index();
   }
 
   editar(data: ArmamentoEmprestimo) {
@@ -132,29 +128,6 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-       if(data.policial.numeral){
-        return data.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1  
-        || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1         
-        || !pesq
-       }else{
-        return data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1  
-        || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1         
-        || !pesq
-       }
-      });
-    }
   }
 
   showArms(data: ArmamentoEmprestimo){

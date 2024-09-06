@@ -20,56 +20,37 @@
           }
         </h3>
         <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 250px">
-            <select style="width: 50px"  class="form-control float-right" [(ngModel)]="quant">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-           
-            <input
-            style="width: 200px"
-              type="text"
-              name="table_search"
-              class="form-control float-right"
-              placeholder="Pesquisar..."
-              [(ngModel)]="pesquisa"
-              (ngModelChange)="pesquisar()"
-            />
-           
-          </div>
+          
         </div>
       </div>
       <!-- FIM CARD HEADER-->
       <!-- INICIO CARD BODY-->
       <div class="card-body table-responsive p-1">
-        <!-- INICIO TABLE-->
-        <table
-          [mfData]="data$"
-          #mf="mfDataTable"
-          [mfRowsOnPage]="quant"
-          [mfSortBy]="'nome'" [mfSortOrder]="'asc'"
-          class="table table-hover table-head-fixed text-nowrap"
-        >
-          <thead>
-            <tr>
-              <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-              <!-- <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th> -->
-              <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="cpf">CPF</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="telefone">Telefone</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="policial.id">Policial</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="perfil.nome">Perfil</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="users_subunidades">Subunidades</mfDefaultSorter></th>
-              <th>Opções</th>
-            </tr>
-          </thead>
-          @if(data$){
-          <tbody>
-            @for(row of mf.data; track row){
-            <tr class="optionshover">
-              <td>{{ row.id }}</td>
+
+        @if(data$ | async; as data){
+          <!--INICIO TABLE-->
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            class="table table-hover table-head-fixed text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Policial</th>
+                <th>Perfil</th>
+                <th>Subunidades</th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              @for(row of data; track row){
+              <tr class="optionshover2">
+                <td>{{ row.id }}</td>
               <!-- <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td> -->
               <td>{{ row.nome }}</td>
               <td>{{ row.cpf | mask: '000.000.000-00' }}</td>
@@ -90,65 +71,55 @@
                 <i class="fa fa-eye" aria-hidden="true"></i> Ver Subunidades
                 </button>
               </td>
-              <td>
-                @if(user.perfil.usuarios_edt){
-                  <a
-                    class="options point"
-                    title="Resetar Senha"
-                    (click)="reset(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalreset"
-                  >
-                    <i class="fa fa-refresh text-primary" aria-hidden="true"></i>
-                  </a>
-                }
-                @if(user.perfil.usuarios_edt){
-                  <a
-                    class="options point ml-1"
-                    title="Editar"
-                    (click)="editar(row)"
+                <td class="options2">
+                  @if(user.perfil.usuarios_edt){
+                    <div class="btn-group">
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-xs"
+                        (click)="editar(row)"
                     data-bs-toggle="modal"
                     data-bs-target="#modalcad"
-                  >
-                    <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                  </a>
+                    title="Editar"
+                      >
+                      Editar
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-xs dropdown-toggle dropdown-hover dropdown-icon"
+                        data-bs-toggle="dropdown"
+                      >
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <div class="dropdown-menu" role="menu">
+                        <a
+                            class="dropdown-item point"
+                            title="Resetar Senha"
+                            (click)="reset(row)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalreset"
+                            >Resetar Senha</a
+                          >
+                        @if(user.perfil.usuarios_del){
+                          <a
+                            class="dropdown-item point"
+                            (click)="delete(row)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modaldel"
+                            title="Excluir"
+                            >Excluir</a
+                          >
+                        }
+                      </div>
+                    </div>
                 }
-                @if(user.perfil.usuarios_del){
-                  <a
-                    class="options point ml-1"
-                    title="Excluir"
-                    (click)="delete(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modaldel"
-                  >
-                    <i
-                      class="fa fa-trash text-danger "
-                      aria-hidden="true"
-                    ></i>
-                  </a>
-                }
-              </td>
-            </tr>
-            } @empty {
-            <tr>
-              <td colspan="100%">Sem informação</td>
-            </tr>
-            }
-          </tbody>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+          <!--FIM TABLE-->
           }
-          <tfoot>
-            <tr>
-              <td colspan="100%">
-                <div style="display: flex; align-items: center; justify-content: center;">
-                  <mfBootstrapPaginator
-                ></mfBootstrapPaginator>
-                </div>
-               
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-        <!-- FIM TABLE-->
       </div>
       <!-- FIM CARD BODY-->
     </div>
@@ -194,7 +165,7 @@
    <div class="modal-dialog">
      <div class="modal-content">
        <div class="modal-header border-0">
-         <h4 class="modal-title">Excluir</h4>
+         <h4 class="modal-title">Resetar senha</h4>
          <button
            type="button"
            class="close"

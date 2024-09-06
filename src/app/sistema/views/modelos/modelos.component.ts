@@ -5,9 +5,11 @@ import { ModelosService } from './modelos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ModelosFormComponent } from './formulario/modelos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-modelos',
   templateUrl: './modelos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     ModelosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class ModelosComponent implements OnInit, OnDestroy {
-  protected data$!: Modelos;
+  protected data$!: Observable<Modelos>;
   protected excluir!: Modelo;
   protected pesquisa!: string;
   protected temp!: Modelos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ModelosFormComponent) child!: ModelosFormComponent;
 
@@ -40,12 +45,11 @@ export class ModelosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.modelosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.modelosService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class ModelosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.modelosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.modelosService.index();
   }
 
   editar(data: Modelo) {
@@ -80,20 +80,6 @@ export class ModelosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.abreviatura?.toLocaleLowerCase().indexOf(pesq) !== -1
-        || data.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-        || data.marca.abreviatura?.toLocaleLowerCase().indexOf(pesq) !== -1
-        || !pesq
-      });
-    }
   }
 
 }

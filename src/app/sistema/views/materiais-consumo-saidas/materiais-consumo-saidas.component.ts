@@ -16,6 +16,9 @@ import { RouterModule } from '@angular/router';
 import { MateriaisConsumoSaidasItensFormComponent } from '../materiais-consumo-saidas-itens/formulario/materiais-consumo-saidas-itens-form.component';
 import { MateriaisConsumoSaidasItensService } from '../materiais-consumo-saidas-itens/materiais-consumo-saidas-itens.service';
 import { format } from 'date-fns';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-materiais-consumo-saidas',
   templateUrl: './materiais-consumo-saidas.component.html',
@@ -26,7 +29,7 @@ import { format } from 'date-fns';
     TitleComponent, 
     MateriaisConsumoSaidasFormComponent,
     MateriaisConsumoSaidasItensFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
@@ -38,7 +41,7 @@ import { format } from 'date-fns';
   ]
 })
 export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
-  protected data$!: MateriaisConsumoSaidas;
+  protected data$!: Observable<MateriaisConsumoSaidas>;
   protected excluir!: MaterialConsumoSaida;
   protected pesquisa!: string;
   protected temp!: MateriaisConsumoSaidas;
@@ -51,6 +54,9 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
   protected cadmaterial:boolean = false;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(MateriaisConsumoSaidasFormComponent) child!: MateriaisConsumoSaidasFormComponent;
   @ViewChild(MateriaisConsumoSaidasItensFormComponent) childmaterial!: MateriaisConsumoSaidasItensFormComponent;
@@ -67,12 +73,11 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('materiais_consumo_saidas');
-    this.subscription = this.materiaisConsumoSaidasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.materiaisConsumoSaidasService.index();
   }
 
   ngOnDestroy(): void {
@@ -82,11 +87,7 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.materiaisConsumoSaidasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.materiaisConsumoSaidasService.index();
   }
 
   editar(data: MaterialConsumoSaida) {
@@ -125,42 +126,6 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.user.policial){
-          if(data.user.policial.numeral){
-            return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.user.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-          }else{
-            return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.user.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-          }
-        }else{
-            return data.user.nome?.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.user.cpf.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.materiais_consumo.material_consumo_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.materiais_consumo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1   
-        || data.materiais_consumo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1         
-        || !pesq
-        }
-      });
-    }
   }
 
   showMat(data: MaterialConsumoSaida){

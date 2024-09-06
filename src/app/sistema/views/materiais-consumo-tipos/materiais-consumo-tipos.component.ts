@@ -5,9 +5,11 @@ import { MateriaisConsumoTiposService } from './materiais-consumo-tipos.service'
 import { TitleComponent } from '../../components/title/title.component';
 import { MateriaisConsumoTiposFormComponent } from './formulario/materiais-consumo-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-materiais-consumo-tipos',
   templateUrl: './materiais-consumo-tipos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     MateriaisConsumoTiposFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class MateriaisConsumoTiposComponent implements OnInit, OnDestroy {
-  protected data$!: MateriaisConsumoTipos;
+  protected data$!: Observable<MateriaisConsumoTipos>;
   protected excluir!: MaterialConsumoTipo;
   protected pesquisa!: string;
   protected temp!: MateriaisConsumoTipos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(MateriaisConsumoTiposFormComponent) child!: MateriaisConsumoTiposFormComponent;
 
@@ -40,12 +45,11 @@ export class MateriaisConsumoTiposComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.materiaisConsumoTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.materiaisConsumoTiposService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class MateriaisConsumoTiposComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.materiaisConsumoTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.materiaisConsumoTiposService.index();
   }
 
   editar(data: MaterialConsumoTipo) {
@@ -80,16 +80,6 @@ export class MateriaisConsumoTiposComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
-      });
-    }
   }
 
 }

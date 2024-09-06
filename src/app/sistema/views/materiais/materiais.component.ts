@@ -11,6 +11,9 @@ import { User } from '../users/user';
 import { SessionService } from '../../session.service';
 import { RouterModule } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-materiais',
   templateUrl: './materiais.component.html',
@@ -20,13 +23,13 @@ import { SharedService } from '../../shared/shared.service';
     CommonModule, 
     TitleComponent, 
     MateriaisFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     RouterModule
   ],
 })
 export class MateriaisComponent implements OnInit, OnDestroy {
-  protected data$!: Materiais;
+  protected data$!: Observable<Materiais>;
   protected excluir!: Material;
   protected pesquisa!: string;
   protected temp!: Materiais;
@@ -34,6 +37,9 @@ export class MateriaisComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   protected cadastrando:boolean = false;
 
@@ -50,26 +56,19 @@ export class MateriaisComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('materiais');
-    this.subscription = this.materiaisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.materiaisService.index();
   }
 
   ngOnDestroy(): void {
-    if(this.subscription){
-      this.subscription.unsubscribe()
-    }
+   
   }
 
   refresh() {
-    this.materiaisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.materiaisService.index();
   }
 
   cadastrar(){
@@ -105,27 +104,6 @@ export class MateriaisComponent implements OnInit, OnDestroy {
   resetForm(){
     this.child.resetForm();
     this.cadastrando = false;
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-       if(data.serial){
-        return data.serial.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.material_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-       }else{
-        return  data.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.material_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-       }
-      });
-    }
   }
 
   encodeId(id: any){

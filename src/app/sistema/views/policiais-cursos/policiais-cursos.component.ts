@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SessionService } from '../../session.service';
 import { User } from '../users/user';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-policiais-cursos',
   templateUrl: './policiais-cursos.component.html',
@@ -19,7 +22,7 @@ import { User } from '../users/user';
     CommonModule, 
     TitleComponent, 
     PoliciaisCursosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
@@ -29,7 +32,7 @@ import { User } from '../users/user';
   ]
 })
 export class PoliciaisCursosComponent implements OnInit, OnDestroy {
-  protected data$!: PoliciaisCursos;
+  protected data$!: Observable<PoliciaisCursos>;
   protected excluir!: PolicialCurso;
   protected pesquisa!: string;
   protected temp!: PoliciaisCursos;
@@ -37,6 +40,9 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PoliciaisCursosFormComponent) child!: PoliciaisCursosFormComponent;
 
@@ -50,12 +56,11 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('policiais_cursos');
-    this.subscription = this.policiaisCursosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.policiaisCursosService.index();
   }
 
   ngOnDestroy(): void {
@@ -65,11 +70,7 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.policiaisCursosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.policiaisCursosService.index();
   }
 
   editar(data: PolicialCurso) {
@@ -90,33 +91,6 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.policial.numeral){
-            return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.curso.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-        }else{
-            return  data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.curso.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-        }
-        
-      });
-    }
-    
   }
 
 }

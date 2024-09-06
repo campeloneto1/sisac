@@ -5,9 +5,11 @@ import { ServicosTiposService } from './servicos-tipos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ServicosTiposFormComponent } from './formulario/servicos-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-servicos-tipos',
   templateUrl: './servicos-tipos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     ServicosTiposFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class ServicosTiposComponent implements OnInit, OnDestroy {
-  protected data$!: ServicosTipos;
+  protected data$!: Observable<ServicosTipos>;
   protected excluir!: ServicoTipo;
   protected pesquisa!: string;
   protected temp!: ServicosTipos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ServicosTiposFormComponent) child!: ServicosTiposFormComponent;
 
@@ -40,12 +45,11 @@ export class ServicosTiposComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.servicosTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.subscription = this.servicosTiposService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class ServicosTiposComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.servicosTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.servicosTiposService.index();
   }
 
   editar(data: ServicoTipo) {
@@ -80,16 +80,6 @@ export class ServicosTiposComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
-      });
-    }
   }
 
 }

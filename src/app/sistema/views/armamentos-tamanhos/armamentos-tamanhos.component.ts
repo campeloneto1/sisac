@@ -5,9 +5,11 @@ import { ArmamentosTamanhosService } from './armamentos-tamanhos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ArmamentosTamanhosFormComponent } from './formulario/armamentos-tamanhos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-armamentos-tamanhos',
   templateUrl: './armamentos-tamanhos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     ArmamentosTamanhosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class ArmamentosTamanhosComponent implements OnInit, OnDestroy {
-  protected data$!: ArmamentosTamanhos;
+  protected data$!: Observable<ArmamentosTamanhos>;
   protected excluir!: ArmamentoTamanho;
   protected pesquisa!: string;
   protected temp!: ArmamentosTamanhos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ArmamentosTamanhosFormComponent) child!: ArmamentosTamanhosFormComponent;
 
@@ -40,12 +45,7 @@ export class ArmamentosTamanhosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.armamentosTamanhosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.data$ = this.armamentosTamanhosService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +55,7 @@ export class ArmamentosTamanhosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.armamentosTamanhosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.armamentosTamanhosService.index();
   }
 
   editar(data: ArmamentoTamanho) {
@@ -80,17 +76,6 @@ export class ArmamentosTamanhosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }
   }
 
 }

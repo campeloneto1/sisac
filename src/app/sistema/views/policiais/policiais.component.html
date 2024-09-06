@@ -20,151 +20,116 @@
           }
         </h3>
         <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 250px">
-            <select style="width: 50px"  class="form-control float-right" [(ngModel)]="quant">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-           
-            <input
-            style="width: 200px"
-              type="text"
-              name="table_search"
-              class="form-control float-right"
-              placeholder="Pesquisar..."
-              [(ngModel)]="pesquisa"
-              (ngModelChange)="pesquisar()"
-            />
-           
-          </div>
+         
         </div>
       </div>
       <!-- FIM CARD HEADER-->
       <!-- INICIO CARD BODY-->
       <div class="card-body table-responsive p-1">
-        <!-- INICIO TABLE-->
-        <table
-          [mfData]="data$"
-          #mf="mfDataTable"
-          [mfRowsOnPage]="quant"
-          [mfSortBy]="'nome'" [mfSortOrder]="'asc'"
-          class="table table-hover table-head-fixed text-nowrap"
-        >
-          <thead>
-            <tr>
-              <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="setor.nome">Setor</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="funcao.nome">Função</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="graduacao.nome">Graduação</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="numeral">Numeral</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="nome_guerra">Nome Guerra</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="matricula">Matrícula</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="telefone1">Telefone 1</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="boletim_transferencia">BCG Transferência</mfDefaultSorter></th>
-              <th>Foto</th>
-              <th>Opções</th>
-            </tr>
-          </thead>
-          @if(data$){
-          <tbody>
-            @for(row of mf.data; track row){
-            <tr class="optionshover">
-              <td>{{ row.id }}</td>
-              <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }} - {{ row.setor.subunidade.unidade.abreviatura }}</td>
-              <td>@if(row.funcao){{{ row.funcao.nome }}}</td>
-              <td>{{ row.graduacao.nome }}</td>
-              <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
-              <td><a [routerLink]="['/Policial', encodeId(row.id)]">{{ row.nome }}</a></td>
-              <td>{{row.nome_guerra}}</td>
-              <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
-              <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
-              <td>{{row.boletim_transferencia}}</td>
-              <td>
-                <a
-                    class=" point"
-                    title="Foto"
-                    (click)="showfoto(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalfoto"
-                  >
-                    @if(row.foto){
-                      <i class="fa fa-id-badge text-success" aria-hidden="true"></i>
-                    }@else{
-                      <i class="fa fa-id-badge text-danger" aria-hidden="true"></i>
-                    }
-                    
-                  </a>
-              </td>
-              <td>
-                <a
-                class="options point"
-                title="Get file"
-                (click)="getfile(row)"
-              
-              >
-                <i class="fa fa-user text-success" aria-hidden="true"></i>
-              </a>
-                @if(user.perfil.gestor && !row.user){
+        @if(data$ | async; as data){
+          <!--INICIO TABLE-->
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            class="table table-hover table-head-fixed text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Setor</th>
+                <th>Função</th>
+                <th>Graduação</th>
+                <th>Numeral</th>
+                <th>Nome</th>
+                <th>Nome Guerra</th>
+                <th>Matrícula</th>
+                <th>Telefone</th>
+                <th>BCG Transferência</th>
+                <th>Foto</th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              @for(row of data; track row){
+              <tr class="optionshover2">
+                <td>{{ row.id }}</td>
+                <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }} - {{ row.setor.subunidade.unidade.abreviatura }}</td>
+                <td>@if(row.funcao){{{ row.funcao.nome }}}</td>
+                <td>{{ row.graduacao.nome }}</td>
+                <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
+                <td><a [routerLink]="['/Policial', encodeId(row.id)]">{{ row.nome }}</a></td>
+                <td>{{row.nome_guerra}}</td>
+                <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
+                <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
+                <td>{{row.boletim_transferencia}}</td>
+                <td>
                   <a
-                    class="options point"
-                    title="Gerar Usuário"
-                    (click)="usuario(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modaluser"
-                  >
-                    <i class="fa fa-user text-primary" aria-hidden="true"></i>
-                  </a>
-                }                
-                @if(user.perfil.policiais_edt){
-                  <a
-                    class="options point ml-1"
-                    title="Editar"
-                    (click)="editar(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalcad"
-                  >
-                    <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                  </a>
-                }
-                @if(user.perfil.policiais_del){
-                  <a
-                    class="options point ml-1"
-                    title="Excluir"
-                    (click)="delete(row)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modaldel"
-                  >
-                    <i
-                      class="fa fa-trash text-danger "
-                      aria-hidden="true"
-                    ></i>
-                  </a>
-                }
-              </td>
-            </tr>
-            } @empty {
-            <tr>
-              <td colspan="100%">Sem informação</td>
-            </tr>
-            }
-          </tbody>
+                      class=" point"
+                      title="Foto"
+                      (click)="showfoto(row)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalfoto"
+                    >
+                      @if(row.foto){
+                        <i class="fa fa-id-badge text-success" aria-hidden="true"></i>
+                      }@else{
+                        <i class="fa fa-id-badge text-danger" aria-hidden="true"></i>
+                      }
+                      
+                    </a>
+                </td>
+                <td class="options2">
+                  @if(user.perfil.policiais_edt){
+                    <div class="btn-group">
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-xs"
+                        (click)="editar(row)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalcad"
+                        title="Editar"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-xs dropdown-toggle dropdown-hover dropdown-icon"
+                        data-bs-toggle="dropdown"
+                      >
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <div class="dropdown-menu" role="menu">
+                        @if(user.perfil.gestor && !row.user){
+                          <a
+                            class="dropdown-item point"
+                            title="Gerar Usuário"
+                            (click)="usuario(row)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modaluser"
+                            >Gerar Usuário</a
+                          >
+                        }
+                        @if(user.perfil.policiais_del){
+                          <a
+                            class="dropdown-item point"
+                            (click)="delete(row)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modaldel"
+                            title="Excluir"
+                            >Excluir</a
+                          >
+                        }
+                      </div>
+                    </div>
+                  }
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+          <!--FIM TABLE-->
           }
-          <tfoot>
-            <tr>
-              <td colspan="100%">
-                <div style="display: flex; align-items: center; justify-content: center;">
-                  <mfBootstrapPaginator
-                ></mfBootstrapPaginator>
-                </div>
-               
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-        <!-- FIM TABLE-->
       </div>
       <!-- FIM CARD BODY-->
     </div>

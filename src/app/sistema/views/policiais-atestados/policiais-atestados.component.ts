@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-policiais-atestados',
   templateUrl: './policiais-atestados.component.html',
@@ -19,7 +22,7 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     PoliciaisAtestadosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
         NgxMaskPipe,
@@ -29,7 +32,7 @@ import { SessionService } from '../../session.service';
   ]
 })
 export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
-  protected data$!: PoliciaisAtestados;
+  protected data$!: Observable<PoliciaisAtestados>;
   protected excluir!: PolicialAtestado;
   protected pesquisa!: string;
   protected temp!: PoliciaisAtestados;
@@ -37,6 +40,9 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PoliciaisAtestadosFormComponent) child!: PoliciaisAtestadosFormComponent;
 
@@ -50,12 +56,11 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('policiais_atestados');
-    this.subscription = this.policiaisAtestadosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.policiaisAtestadosService.index();
   }
 
   ngOnDestroy(): void {
@@ -65,11 +70,7 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.policiaisAtestadosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.policiaisAtestadosService.index();
   }
 
   editar(data: PolicialAtestado) {
@@ -91,35 +92,4 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.policial.numeral){
-          return data.policial.numeral?.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.afastamento_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || !pesq
-        }else{
-          return  data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.afastamento_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-          || !pesq
-        }
-        
-      });
-    }
-  }
-
 }

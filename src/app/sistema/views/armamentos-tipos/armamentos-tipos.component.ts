@@ -5,9 +5,11 @@ import { ArmamentosTiposService } from './armamentos-tipos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ArmamentosTiposFormComponent } from './formulario/armamentos-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-armamentos-tipos',
   templateUrl: './armamentos-tipos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     ArmamentosTiposFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class ArmamentosTiposComponent implements OnInit, OnDestroy {
-  protected data$!: ArmamentosTipos;
+  protected data$!: Observable<ArmamentosTipos>;
   protected excluir!: ArmamentoTipo;
   protected pesquisa!: string;
   protected temp!: ArmamentosTipos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ArmamentosTiposFormComponent) child!: ArmamentosTiposFormComponent;
 
@@ -40,12 +45,7 @@ export class ArmamentosTiposComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.armamentosTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.data$ = this.armamentosTiposService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +55,7 @@ export class ArmamentosTiposComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.armamentosTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.armamentosTiposService.index();
   }
 
   editar(data: ArmamentoTipo) {
@@ -80,17 +76,6 @@ export class ArmamentosTiposComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }
   }
 
 }

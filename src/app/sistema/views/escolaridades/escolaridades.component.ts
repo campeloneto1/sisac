@@ -8,6 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-escolaridades',
   templateUrl: './escolaridades.component.html',
@@ -17,17 +20,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     EscolaridadesFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class EscolaridadesComponent implements OnInit, OnDestroy {
-  protected data$!: Escolaridades;
+  protected data$!: Observable<Escolaridades>;
   protected excluir!: Escolaridade;
   protected pesquisa!: string;
   protected temp!: Escolaridades;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(EscolaridadesFormComponent) child!: EscolaridadesFormComponent;
 
@@ -40,12 +46,11 @@ export class EscolaridadesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.escolaridadesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.escolaridadesService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +60,7 @@ export class EscolaridadesComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.escolaridadesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.escolaridadesService.index();
   }
 
   editar(data: Escolaridade) {
@@ -80,17 +81,6 @@ export class EscolaridadesComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }
   }
 
 }

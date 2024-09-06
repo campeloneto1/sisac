@@ -5,9 +5,11 @@ import { SetoresService } from './setores.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { SetoresFormComponent } from './formulario/setores-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-setores',
   templateUrl: './setores.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     SetoresFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class SetoresComponent implements OnInit, OnDestroy {
-  protected data$!: Setores;
+  protected data$!: Observable<Setores>;
   protected excluir!: Setor;
   protected pesquisa!: string;
   protected temp!: Setores;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(SetoresFormComponent) child!: SetoresFormComponent;
 
@@ -40,12 +45,11 @@ export class SetoresComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.setoresService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.setoresService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class SetoresComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.setoresService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.setoresService.index();
   }
 
   editar(data: Setor) {
@@ -80,20 +80,6 @@ export class SetoresComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.abreviatura?.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.subunidade.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.subunidade.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }
   }
 
 }

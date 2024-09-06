@@ -5,9 +5,11 @@ import { CursosService } from './cursos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { CursosFormComponent } from './formulario/cursos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-cursos',
   templateUrl: './cursos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     CursosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class CursosComponent implements OnInit, OnDestroy {
-  protected data$!: Cursos;
+  protected data$!: Observable<Cursos>;
   protected excluir!: Curso;
   protected pesquisa!: string;
   protected temp!: Cursos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(CursosFormComponent) child!: CursosFormComponent;
 
@@ -40,26 +45,19 @@ export class CursosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.cursosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.subscription = this.cursosService.index();
   }
 
   ngOnDestroy(): void {
-    if(this.subscription){
-      this.subscription.unsubscribe()
-    }
+   
   }
 
   refresh() {
-    this.cursosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.cursosService.index();
   }
 
   editar(data: Curso) {
@@ -80,23 +78,6 @@ export class CursosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-       if(data.abreviatura){
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1
-        || !pesq
-       }else{
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-       }
-      });
-    }
   }
 
 }

@@ -4,9 +4,11 @@ import { Log, Logs } from './log';
 import { LogsService } from './logs.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-logs',
   templateUrl: './logs.component.html',
@@ -15,17 +17,20 @@ import { SessionService } from '../../session.service';
   imports: [
     CommonModule, 
     TitleComponent, 
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class LogsComponent implements OnInit, OnDestroy {
-  protected data$!: Logs;
+  protected data$!: Observable<Logs>;
   protected excluir!: Log;
   protected pesquisa!: string;
   protected temp!: Logs;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   constructor(
     private logsService: LogsService,
@@ -36,12 +41,11 @@ export class LogsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.logsService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.logsService.index();
   }
 
   ngOnDestroy(): void {
@@ -51,11 +55,7 @@ export class LogsComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.logsService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.logsService.index();
   }
 
   delete(data: Log) {
@@ -72,18 +72,6 @@ export class LogsComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.mensagem.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.table?.toLocaleLowerCase().indexOf(pesq) !== -1
-        || !pesq
-      });
-    }
   }
 
 }

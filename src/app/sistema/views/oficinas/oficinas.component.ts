@@ -9,6 +9,9 @@ import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-oficinas',
   templateUrl: './oficinas.component.html',
@@ -18,7 +21,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     CommonModule, 
     TitleComponent, 
     OficinasFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
@@ -28,12 +31,15 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
   ]
 })
 export class OficinasComponent implements OnInit, OnDestroy {
-  protected data$!: Oficinas;
+  protected data$!: Observable<Oficinas>;
   protected excluir!: Oficina;
   protected pesquisa!: string;
   protected temp!: Oficinas;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(OficinasFormComponent) child!: OficinasFormComponent;
 
@@ -46,12 +52,11 @@ export class OficinasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('gestor');
-    this.subscription = this.oficinasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.oficinasService.index();
   }
 
   ngOnDestroy(): void {
@@ -61,11 +66,7 @@ export class OficinasComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.oficinasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.oficinasService.index();
   }
 
   editar(data: Oficina) {
@@ -86,17 +87,6 @@ export class OficinasComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1         
-        || !pesq
-      });
-    }    
   }
 
 }

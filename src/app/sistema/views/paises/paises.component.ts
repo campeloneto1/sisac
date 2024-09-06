@@ -8,6 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-paises',
   templateUrl: './paises.component.html',
@@ -17,17 +20,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     PaisesFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class PaisesComponent implements OnInit, OnDestroy {
-  protected data$!: Paises;
+  protected data$!: Observable<Paises>;
   protected excluir!: Pais;
   protected pesquisa!: string;
   protected temp!: Paises;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PaisesFormComponent) child!: PaisesFormComponent;
 
@@ -40,12 +46,11 @@ export class PaisesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.paisesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.paisesService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +60,7 @@ export class PaisesComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.paisesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.paisesService.index();
   }
 
   editar(data: Pais) {
@@ -81,17 +82,4 @@ export class PaisesComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1
-        || !pesq
-      });
-    }
-  }
-
 }

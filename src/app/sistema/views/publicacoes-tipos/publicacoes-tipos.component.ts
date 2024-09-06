@@ -5,9 +5,11 @@ import { PublicacoesTiposService } from './publicacoes-tipos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PublicacoesTiposFormComponent } from './formulario/publicacoes-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-publicacoes-tipos',
   templateUrl: './publicacoes-tipos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     PublicacoesTiposFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class PublicacoesTiposComponent implements OnInit, OnDestroy {
-  protected data$!: PublicacoesTipos;
+  protected data$!: Observable<PublicacoesTipos>;
   protected excluir!: PublicacaoTipo;
   protected pesquisa!: string;
   protected temp!: PublicacoesTipos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PublicacoesTiposFormComponent) child!: PublicacoesTiposFormComponent;
 
@@ -40,12 +45,11 @@ export class PublicacoesTiposComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.publicacoesTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.publicacoesTiposService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class PublicacoesTiposComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.publicacoesTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.publicacoesTiposService.index();
   }
 
   editar(data: PublicacaoTipo) {
@@ -80,16 +80,6 @@ export class PublicacoesTiposComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
-      });
-    }
   }
 
 }

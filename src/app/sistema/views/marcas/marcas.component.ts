@@ -5,9 +5,11 @@ import { MarcasService } from './marcas.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { MarcasFormComponent } from './formulario/marcas-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-marcas',
   templateUrl: './marcas.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     MarcasFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class MarcasComponent implements OnInit, OnDestroy {
-  protected data$!: Marcas;
+  protected data$!: Observable<Marcas>;
   protected excluir!: Marca;
   protected pesquisa!: string;
   protected temp!: Marcas;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(MarcasFormComponent) child!: MarcasFormComponent;
 
@@ -40,12 +45,11 @@ export class MarcasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.marcasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.marcasService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class MarcasComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.marcasService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.marcasService.index();
   }
 
   editar(data: Marca) {
@@ -80,18 +80,6 @@ export class MarcasComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.abreviatura?.toLocaleLowerCase().indexOf(pesq) !== -1
-        || !pesq
-      });
-    }
   }
 
 }

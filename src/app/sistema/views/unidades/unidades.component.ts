@@ -5,9 +5,11 @@ import { UnidadesService } from './unidades.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { UnidadesFormComponent } from './formulario/unidades-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-unidades',
   templateUrl: './unidades.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     UnidadesFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class UnidadesComponent implements OnInit, OnDestroy {
-  protected data$!: Unidades;
+  protected data$!: Observable<Unidades>;
   protected excluir!: Unidade;
   protected pesquisa!: string;
   protected temp!: Unidades;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(UnidadesFormComponent) child!: UnidadesFormComponent;
 
@@ -40,12 +45,11 @@ export class UnidadesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.unidadesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.unidadesService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class UnidadesComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.unidadesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.unidadesService.index();
   }
 
   editar(data: Unidade) {
@@ -81,17 +81,4 @@ export class UnidadesComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }    
-  }
-
 }

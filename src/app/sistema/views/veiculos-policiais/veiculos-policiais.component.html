@@ -21,166 +21,135 @@
             }
           </h3>
           <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 250px">
-              <select style="width: 50px"  class="form-control float-right" [(ngModel)]="quant">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-             
-              <input
-              style="width: 200px"
-                type="text"
-                name="table_search"
-                class="form-control float-right"
-                placeholder="Pesquisar..."
-                [(ngModel)]="pesquisa"
-                (ngModelChange)="pesquisar()"
-              />
-             
-            </div>
+          
           </div>
         </div>
         <!-- FIM CARD HEADER-->
         <!-- INICIO CARD BODY-->
         <div class="card-body table-responsive p-1">
-          <!-- INICIO TABLE-->
-          <table
-            [mfData]="data$"
-            #mf="mfDataTable"
-            [mfRowsOnPage]="quant"
-            [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-            class="table table-hover table-head-fixed text-nowrap"
-          >
-            <thead>
-              <tr>
-                <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-                <!-- <th><mfDefaultSorter by="subunidade.abreviatura">Subunidade</mfDefaultSorter></th> -->
-                <th><mfDefaultSorter by="veiculo.modelo.marca.nome">Marca</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="veiculo.modelo.nome">Modelo</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="veiculo.placa">Placa</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="veiculo.placa_especial">Placa Especial</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.graduacao.abreviatura">Graduação</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.numeral">Numeral</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.nome_guerra">Nome Guerra</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="policial.matricula">Matrícula</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="km_inicial">KM Inicial</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="cidade.nome">Cidade</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
-                <th><mfDefaultSorter by="km_final">KM Final</mfDefaultSorter></th>
-                <th>Opções</th>
-              </tr>
-            </thead>
-            @if(data$){
-            <tbody>
-              @for(row of mf.data; track row){
-              <tr class="optionshover">
-                <td>{{ row.id }}</td>
-                <!-- <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td> -->
-                <td>{{ row.veiculo.modelo.marca.nome }}</td>
-                <td>{{ row.veiculo.modelo.nome }}</td>
-                <td>{{ row.veiculo.placa }}</td>
-                <td>{{ row.veiculo.placa_especial }}</td>
-                <td>{{ row.policial.graduacao.abreviatura }}</td>
-                <td>{{ row.policial.numeral }}</td>
-                <td>{{ row.policial.nome_guerra }}</td>
-                <td>{{ row.policial.matricula }}</td>
-                <td>{{ row.data_inicial | date: 'dd/MM/yyyy HH:mm' }}</td>
-                <td>{{ row.km_inicial }}</td>
-                <td>
-                  @if(row.cidade){
-                    {{ row.cidade.nome }}
-                  }
-                </td>
-                <td>{{ row.data_final | date: 'dd/MM/yyyy HH:mm' }}</td>
-                
-                <td>{{ row.km_final }}</td>
-                
-                <td>
-                  <a
-                      class="options point"
+          @if(data$ | async; as data){
+            <!--INICIO TABLE-->
+            <table
+              datatable
+              [dtOptions]="dtOptions"
+              class="table table-hover table-head-fixed text-nowrap"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Placa</th>
+                  <th>Placa Esp.</th>
+                  <th>Graduação</th>
+                  <th>Numeral</th>
+                  <th>Nome Guerra</th>
+                  <th>Matrícula</th>
+                  <th>Dt Inicial</th>
+                  <th>KM Inicial</th>
+                  <th>Cidade</th>
+                  <th>Dt Final</th>
+                  <th>KM Final</th>
+                  <th>Opções</th>
+                </tr>
+              </thead>
+    
+              <tbody>
+                @for(row of data; track row){
+                <tr class="optionshover2">
+                  <td>{{ row.id }}</td>
+                  <!-- <td>{{ row.subunidade.abreviatura }} - {{ row.subunidade.unidade.abreviatura }}</td> -->
+                  <td>{{ row.veiculo.modelo.marca.nome }}</td>
+                  <td>{{ row.veiculo.modelo.nome }}</td>
+                  <td>{{ row.veiculo.placa }}</td>
+                  <td>{{ row.veiculo.placa_especial }}</td>
+                  <td>{{ row.policial.graduacao.abreviatura }}</td>
+                  <td>{{ row.policial.numeral }}</td>
+                  <td>{{ row.policial.nome_guerra }}</td>
+                  <td>{{ row.policial.matricula }}</td>
+                  <td>{{ row.data_inicial | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ row.km_inicial }}</td>
+                  <td>
+                    @if(row.cidade){
+                      {{ row.cidade.nome }}
+                    }
+                  </td>
+                  <td>{{ row.data_final | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  
+                  <td>{{ row.km_final }}</td>
+                  <td class="options2">
+                    <a
+                      class="btn btn-outline-primary btn-xs point showbtn"
                       title="Ver Empréstimo"
                       (click)="showEmprestimo(row)"
                       data-bs-toggle="modal"
                       data-bs-target="#modalshow"
                     >
-                      <i class="fa fa-search text-primary" aria-hidden="true"></i>
+                      Ver Empréstimo
                     </a>
-                  @if(row.data_final){
-                    <a
-                      class="options point ml-1"
-                      title="Imprimir Empréstimo"
-                      target="_blank"
-                      [routerLink]="['/VeiculosEmprestimosImprimir', encodeId(row.id)]"
-                    >
-                      <i class="fa fa-print text-primary" aria-hidden="true"></i>
-                    </a>
-  
-                  }
-                  @if(!row.data_final){
-                      @if(user.perfil.veiculos_policiais_cad){
-                          <a
-                            class="options point ml-1"
-                            title="Receber"
-                            (click)="receber(row)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalreceb"
-                          >
-                            <i class="fa fa-download text-primary" aria-hidden="true"></i>
-                          </a>
-                        }
+                    @if(row.data_final){
+                      <a
+                        class="btn btn-outline-primary btn-xs point ml-1 showbtn"
+                        title="Imprimir Empréstimo"
+                        target="_blank"
+                        [routerLink]="['/VeiculosEmprestimosImprimir', encodeId(row.id)]"
+                      >
+                        Imp. Empréstimo
+                      </a>
+    
+                    }@else{
                       @if(user.perfil.veiculos_policiais_edt){
-                        <a
-                          class="options point ml-1"
-                          title="Editar"
-                          (click)="editar(row)"
-                          data-bs-toggle="modal"
-                          data-bs-target="#modalcad"
-                        >
-                          <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                        </a>
-                      }
-                      @if(user.perfil.veiculos_policiais_del){
-                        <a
-                          class="options point ml-1"
-                          title="Excluir"
-                          (click)="delete(row)"
-                          data-bs-toggle="modal"
-                          data-bs-target="#modaldel"
-                        >
-                          <i
-                            class="fa fa-trash text-danger "
-                            aria-hidden="true"
-                          ></i>
-                        </a>
+                        <div class="btn-group ml-1">
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary btn-xs"
+                            title="Receber"
+                              (click)="receber(row)"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalreceb"
+                          >
+                            Receber
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary btn-xs dropdown-toggle dropdown-hover dropdown-icon"
+                            data-bs-toggle="dropdown"
+                          >
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <div class="dropdown-menu" role="menu">
+                            @if(user.perfil.veiculos_policiais_edt){
+                              <a
+                                class="dropdown-item point"
+                                (click)="editar(row)"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalcad"
+                                title="Editar"
+                                >Editar</a
+                              >
+                            }
+                            @if(user.perfil.veiculos_policiais_del){
+                              <a
+                                class="dropdown-item point"
+                                (click)="delete(row)"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modaldel"
+                                title="Excluir"
+                                >Excluir</a
+                              >
+                            }
+                          </div>
+                        </div>
                       }
                     }
                    
-                  
-                </td>
-              </tr>
-              } @empty {
-              <tr>
-                <td colspan="100%">Sem informação</td>
-              </tr>
-              }
-            </tbody>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            <!--FIM TABLE-->
             }
-            <tfoot>
-              <tr>
-                <td colspan="100%">
-                  <div style="display: flex; align-items: center; justify-content: center;">
-                    <mfBootstrapPaginator
-                  ></mfBootstrapPaginator>
-                  </div>
-                 
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-          <!-- FIM TABLE-->
         </div>
         <!-- FIM CARD BODY-->
       </div>

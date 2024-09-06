@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SessionService } from '../../session.service';
 import { User } from '../users/user';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-policiais-publicacoes',
   templateUrl: './policiais-publicacoes.component.html',
@@ -19,7 +22,7 @@ import { User } from '../users/user';
     CommonModule, 
     TitleComponent, 
     PoliciaisPublicacoesFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     NgxMaskDirective, 
     NgxMaskPipe,
@@ -29,7 +32,7 @@ import { User } from '../users/user';
   ]
 })
 export class PoliciaisPublicacoesComponent implements OnInit, OnDestroy {
-  protected data$!: PoliciaisPublicacoes;
+  protected data$!: Observable<PoliciaisPublicacoes>;
   protected excluir!: PolicialPublicacao;
   protected pesquisa!: string;
   protected temp!: PoliciaisPublicacoes;
@@ -37,6 +40,9 @@ export class PoliciaisPublicacoesComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PoliciaisPublicacoesFormComponent) child!: PoliciaisPublicacoesFormComponent;
 
@@ -50,12 +56,11 @@ export class PoliciaisPublicacoesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('policiais_publicacoes');
-    this.subscription = this.policiaisPublicacoesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.policiaisPublicacoesService.index();
   }
 
   ngOnDestroy(): void {
@@ -65,11 +70,7 @@ export class PoliciaisPublicacoesComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.policiaisPublicacoesService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.policiaisPublicacoesService.index();
   }
 
   editar(data: PolicialPublicacao) {
@@ -90,34 +91,6 @@ export class PoliciaisPublicacoesComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.policial.numeral){
-          return data.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
-          || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.publicacao_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.boletim
-          || !pesq
-        }else{
-            return data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.publicacao_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.boletim
-            || !pesq
-        }
-      });
-    }
-    
   }
 
 }

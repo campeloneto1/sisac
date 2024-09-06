@@ -10,3 +10,20 @@
 .optionshover:hover td a{
     display: inline;
 }
+
+
+.options2 .btn-group{
+    display: none;
+}
+
+.options2 .showbtn{
+    display: none;
+}
+
+.optionshover2:hover td .btn-group{
+    display: inline;
+}
+
+.optionshover2:hover td .showbtn{
+    display: inline;
+}

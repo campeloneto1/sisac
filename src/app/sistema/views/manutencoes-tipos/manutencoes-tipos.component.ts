@@ -5,9 +5,11 @@ import { ManutencoesTiposService } from './manutencoes-tipos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ManutencoesTiposFormComponent } from './formulario/manutencoes-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-manutencoes-tipos',
   templateUrl: './manutencoes-tipos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     ManutencoesTiposFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class ManutencoesTiposComponent implements OnInit, OnDestroy {
-  protected data$!: ManutencoesTipos;
+  protected data$!: Observable<ManutencoesTipos>;
   protected excluir!: ManutencaoTipo;
   protected pesquisa!: string;
   protected temp!: ManutencoesTipos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ManutencoesTiposFormComponent) child!: ManutencoesTiposFormComponent;
 
@@ -40,12 +45,11 @@ export class ManutencoesTiposComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.manutencoesTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.manutencoesTiposService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class ManutencoesTiposComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.manutencoesTiposService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.manutencoesTiposService.index();
   }
 
   editar(data: ManutencaoTipo) {
@@ -80,16 +80,6 @@ export class ManutencoesTiposComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
-      });
-    }
   }
 
 }

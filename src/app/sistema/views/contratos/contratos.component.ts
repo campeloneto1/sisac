@@ -5,7 +5,6 @@ import { ContratosService } from './contratos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ContratosFormComponent } from './formulario/contratos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
@@ -15,6 +14,9 @@ import { ContratosLancamentosService } from '../contratos-lancamentos/contratos-
 import { ContratosFormAditivarComponent } from './formulario-aditivar/contratos-form-aditivar.component';
 import { SharedService } from '../../shared/shared.service';
 import { User } from '../users/user';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-contratos',
   templateUrl: './contratos.component.html',
@@ -26,7 +28,7 @@ import { User } from '../users/user';
     ContratosFormComponent,
     ContratosFormAditivarComponent,
     ContratosLancamentosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     RouterModule,
     NgxMaskDirective,
@@ -37,7 +39,7 @@ import { User } from '../users/user';
   ]
 })
 export class ContratosComponent implements OnInit, OnDestroy {
-  protected data$!: Contratos;
+  protected data$!: Observable<Contratos>;
   protected excluir!: Contrato;
   protected pesquisa!: string;
   protected temp!: Contratos;
@@ -49,6 +51,9 @@ export class ContratosComponent implements OnInit, OnDestroy {
   protected user!: User;
 
   protected cadlancamento: boolean = false;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ContratosFormComponent) child!: ContratosFormComponent;
   @ViewChild(ContratosFormAditivarComponent) childaditivar!: ContratosFormAditivarComponent;
@@ -66,12 +71,12 @@ export class ContratosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('contratos');
-    this.subscription = this.contratosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.contratosService.index();
   }
 
   ngOnDestroy(): void {
@@ -81,11 +86,7 @@ export class ContratosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.contratosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ =  this.contratosService.index();
   }
 
   editar(data: Contrato) {
@@ -106,22 +107,6 @@ export class ContratosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.empresa.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.empresa.cnpj.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.numero_contrato.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.numero_sacc.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.contrato_objeto.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || data.contrato_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-        || !pesq
-      });
-    }    
   }
 
   returnPercentUsado(data: Contrato){

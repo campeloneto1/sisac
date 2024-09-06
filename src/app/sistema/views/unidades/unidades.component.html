@@ -18,97 +18,71 @@
           </button>
         </h3>
         <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 250px">
-            <select style="width: 50px"  class="form-control float-right" [(ngModel)]="quant">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-           
-            <input
-            style="width: 200px"
-              type="text"
-              name="table_search"
-              class="form-control float-right"
-              placeholder="Pesquisar..."
-              [(ngModel)]="pesquisa"
-              (ngModelChange)="pesquisar()"
-            />
-           
-          </div>
+          
         </div>
       </div>
       <!-- FIM CARD HEADER-->
       <!-- INICIO CARD BODY-->
       <div class="card-body table-responsive p-1">
-        <!-- INICIO TABLE-->
-        <table
-          [mfData]="data$"
-          #mf="mfDataTable"
-          [mfRowsOnPage]="quant"
-          class="table table-hover table-head-fixed text-nowrap"
-        >
-          <thead>
-            <tr>
-              <th><mfDefaultSorter  by="id">#</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="nome">Nome</mfDefaultSorter></th>
-              <th><mfDefaultSorter by="abreviatura">Abreviatura</mfDefaultSorter></th>
-              <th>Opções</th>
-            </tr>
-          </thead>
-          @if(data$){
-          <tbody>
-            @for(row of mf.data; track row){
-            <tr class="optionshover">
-              <td>{{ row.id }}</td>
-              <td>{{ row.nome }}</td>
-              <td>{{ row.abreviatura }}</td>
-              <td>
-                <a
-                  class="options point"
-                  title="Editar"
-                  (click)="editar(row)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalcad"
-                >
-                  <i class="fa fa-edit text-primary" aria-hidden="true"></i>
-                </a>
-                <a
-                  class="options point"
-                  title="Excluir"
-                  (click)="delete(row)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modaldel"
-                >
-                  <i
-                    class="fa fa-trash text-danger ml-1"
-                    aria-hidden="true"
-                  ></i>
-                </a>
-              </td>
-            </tr>
-            } @empty {
-            <tr>
-              <td colspan="100%">Sem informação</td>
-            </tr>
-            }
-          </tbody>
+        @if(data$ | async; as data){
+          <!--INICIO TABLE-->
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            class="table table-hover table-head-fixed text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Abreviatura</th>
+                <th>Opções</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              @for(row of data; track row){
+              <tr class="optionshover2">
+                <td>{{ row.id }}</td>
+                <td>{{ row.nome }}</td>
+                <td>{{ row.abreviatura }}</td>
+                <td class="options2">
+                  <div class="btn-group">
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary btn-xs"
+                      (click)="editar(row)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalcad"
+                      title="Editar"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary btn-xs dropdown-toggle dropdown-hover dropdown-icon"
+                      data-bs-toggle="dropdown"
+                    >
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                      <a
+                        class="dropdown-item point"
+                        (click)="delete(row)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modaldel"
+                        title="Excluir"
+                        >Excluir</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+          <!--FIM TABLE-->
           }
-          <tfoot>
-            <tr>
-              <td colspan="100%">
-                <div style="display: flex; align-items: center; justify-content: center;">
-                  <mfBootstrapPaginator
-                  [rowsOnPageSet]="[5, 10, 25]"
-                ></mfBootstrapPaginator>
-                </div>
-               
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-        <!-- FIM TABLE-->
       </div>
       <!-- FIM CARD BODY-->
     </div>

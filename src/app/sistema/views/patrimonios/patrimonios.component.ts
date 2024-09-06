@@ -5,10 +5,12 @@ import { PatrimoniosService } from './patrimonios.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PatrimoniosFormComponent } from './formulario/patrimonios-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { User } from '../users/user';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-patrimonios',
   templateUrl: './patrimonios.component.html',
@@ -18,12 +20,12 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     PatrimoniosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class PatrimoniosComponent implements OnInit, OnDestroy {
-  protected data$!: Patrimonios;
+  protected data$!: Observable<Patrimonios>;
   protected excluir!: Patrimonio;
   protected pesquisa!: string;
   protected temp!: Patrimonios;
@@ -31,6 +33,9 @@ export class PatrimoniosComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PatrimoniosFormComponent) child!: PatrimoniosFormComponent;
 
@@ -44,26 +49,19 @@ export class PatrimoniosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('patrimonios');
-    this.subscription = this.patrimoniosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.patrimoniosService.index();
   }
 
   ngOnDestroy(): void {
-    if(this.subscription){
-      this.subscription.unsubscribe()
-    }
+    
   }
 
   refresh() {
-    this.patrimoniosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.patrimoniosService.index();
   }
 
   editar(data: Patrimonio) {
@@ -84,40 +82,6 @@ export class PatrimoniosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.nome && data.serial){
-          return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.serial.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.tombo.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.patrimonio_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || !pesq
-      }else if(data.nome){
-            return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.tombo.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.patrimonio_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-        }else if(data.serial){
-            return data.serial.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.tombo.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.patrimonio_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-        }else{
-            return data.tombo.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.patrimonio_tipo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || !pesq
-        }
-      });
-    }
   }
 
 }

@@ -5,9 +5,11 @@ import { ContratosObjetosService } from './contratos-objetos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { ContratosObjetosFormComponent } from './formulario/contratos-objetos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Observable } from 'rxjs';
+import { Config } from 'datatables.net';
 @Component({
   selector: 'app-contratos-objetos',
   templateUrl: './contratos-objetos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     ContratosObjetosFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule
   ],
 })
 export class ContratosObjetosComponent implements OnInit, OnDestroy {
-  protected data$!: ContratosObjetos;
+  protected data$!: Observable<ContratosObjetos>;
   protected excluir!: ContratoObjeto;
   protected pesquisa!: string;
   protected temp!: ContratosObjetos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(ContratosObjetosFormComponent) child!: ContratosObjetosFormComponent;
 
@@ -40,12 +45,11 @@ export class ContratosObjetosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.contratosObjetosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.contratosObjetosService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class ContratosObjetosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.contratosObjetosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.contratosObjetosService.index();
   }
 
   editar(data: ContratoObjeto) {
@@ -80,16 +80,6 @@ export class ContratosObjetosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
-      });
-    }
   }
 
 }

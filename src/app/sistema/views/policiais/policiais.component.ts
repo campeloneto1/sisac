@@ -14,6 +14,9 @@ import { User } from '../users/user';
 import { UsersService } from '../users/users.service';
 import { SharedService } from '../../shared/shared.service';
 import { environment } from "../../../../environments/environments";
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-policiais',
   templateUrl: './policiais.component.html',
@@ -23,7 +26,7 @@ import { environment } from "../../../../environments/environments";
     CommonModule, 
     TitleComponent, 
     PoliciaisFormComponent,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     RouterModule,
     NgxMaskDirective, 
@@ -34,7 +37,7 @@ import { environment } from "../../../../environments/environments";
   ]
 })
 export class PoliciaisComponent implements OnInit, OnDestroy {
-  protected data$!: Policiais;
+  protected data$!: Observable<Policiais>;
   protected excluir!: Policial;
   protected policial!: Policial;
   protected pesquisa!: string;
@@ -47,6 +50,9 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
 
   protected user!: User;
   protected foto!: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(PoliciaisFormComponent) child!: PoliciaisFormComponent;
 
@@ -62,12 +68,11 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('policiais');
-    this.subscription = this.policiaisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.policiaisService.index();
   }
 
   ngOnDestroy(): void {
@@ -77,11 +82,7 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.policiaisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.policiaisService.index();
   }
 
   editar(data: Policial) {
@@ -163,34 +164,6 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
       })
     }
   }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        if(data.numeral){
-          return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.numeral.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || !pesq
-        }else{
-          return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.matricula.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.graduacao.abreviatura.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || data.setor.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-          || !pesq
-        }
-      });
-    }    
-  }
-
 
   encodeId(id: any){
     var encoded = this.sharedService.encodeId(id);

@@ -5,7 +5,6 @@ import { VeiculosPoliciaisService } from './veiculos-policiais.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { VeiculosPoliciaisFormComponent } from './formulario/veiculos-policiais-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { VeiculosPoliciaisFormReceberComponent  } from './formulario-receber/veiculos-policiais-form-receber.component';
@@ -14,6 +13,9 @@ import { RouterModule } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { VeiculosPoliciaisShow } from './show/veiculos-policiais-show.component';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-veiculos-policiais',
   templateUrl: './veiculos-policiais.component.html',
@@ -25,7 +27,7 @@ import { VeiculosPoliciaisShow } from './show/veiculos-policiais-show.component'
     VeiculosPoliciaisFormComponent,
     VeiculosPoliciaisFormReceberComponent,
     VeiculosPoliciaisShow,
-    DataTableModule,
+    DataTablesModule,
     FormsModule,
     RouterModule,
     NgxMaskDirective, 
@@ -36,7 +38,7 @@ import { VeiculosPoliciaisShow } from './show/veiculos-policiais-show.component'
 ]
 })
 export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
-  protected data$!: VeiculosPoliciais;
+  protected data$!: Observable<VeiculosPoliciais>;
   protected excluir!: VeiculoPolicial;
   protected pesquisa!: string;
   protected temp!: VeiculosPoliciais;
@@ -47,6 +49,9 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
   protected emprestado!: VeiculoPolicial;
 
   protected user!: User;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(VeiculosPoliciaisFormComponent) child!: VeiculosPoliciaisFormComponent;
 
@@ -61,12 +66,11 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sessionService.checkPermission('veiculos_policiais');
     this.user = this.sessionService.getUser();
-    this.subscription = this.veiculosPoliciaisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.veiculosPoliciaisService.index();
   }
 
   ngOnDestroy(): void {
@@ -76,11 +80,7 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.veiculosPoliciaisService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.veiculosPoliciaisService.index();
   }
 
 
@@ -124,56 +124,6 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
 
   receber(data: VeiculoPolicial){
     this.recebveiculo = data;
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data:any) => {
-         if(data.veiculo.placa_especial && data.policial.numeral){
-          return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.placa_especial.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || !pesq
-         }else if(data.veiculo.placa_especial){
-          return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.placa_especial.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || !pesq
-         }else if(data.policial.numeral){
-          return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.numeral.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || !pesq
-         }else{
-            return data.veiculo.placa.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.marca.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.veiculo.modelo.nome.toLocaleLowerCase().indexOf(pesq) !== -1 
-            || data.policial.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.nome_guerra.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.matricula.toLocaleLowerCase().indexOf(pesq) !== -1
-            || data.policial.graduacao.nome.toLocaleLowerCase().indexOf(pesq) !== -1
-            || !pesq
-         }
-      });
-    }
   }
 
   encodeId(id: any){

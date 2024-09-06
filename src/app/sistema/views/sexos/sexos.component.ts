@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Sexo, Sexos} from './sexo';
 import { SexosService } from './sexos.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { SexosFormComponent } from './formulario/sexos-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { Config } from 'datatables.net';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-sexos',
   templateUrl: './sexos.component.html',
@@ -17,17 +19,20 @@ import { SessionService } from '../../session.service';
     CommonModule, 
     TitleComponent, 
     SexosFormComponent,
-    DataTableModule,
-    FormsModule
+    FormsModule,
+    DataTablesModule
   ],
 })
 export class SexosComponent implements OnInit, OnDestroy {
-  protected data$!: Sexos;
+  protected data$!: Observable<Sexos>;
   protected excluir!: Sexo;
   protected pesquisa!: string;
   protected temp!: Sexos;
   protected quant: number = 10;
   protected subscription: any;
+
+  @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+  protected dtOptions: Config = {};
 
   @ViewChild(SexosFormComponent) child!: SexosFormComponent;
 
@@ -40,12 +45,11 @@ export class SexosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.subscription = this.sexosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-        this.temp = data;
-      }
-    });
+    this.dtOptions = {
+      pageLength: 10,
+    };
+
+    this.data$ = this.sexosService.index();
   }
 
   ngOnDestroy(): void {
@@ -55,11 +59,7 @@ export class SexosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.sexosService.index().subscribe({
-      next: (data) => {
-        this.data$ = data;
-      }
-    });
+    this.data$ = this.sexosService.index();
   }
 
   editar(data: Sexo) {
@@ -80,16 +80,6 @@ export class SexosComponent implements OnInit, OnDestroy {
         this.toastr.error('Erro ao excluir, tente novamente mais tarde!');
       },
     });
-  }
-
-  pesquisar(){
-    this.data$ = this.temp;
-    if(this.pesquisa.length > 0){
-      var pesq = this.pesquisa.toLocaleLowerCase();
-      this.data$ = this.data$.filter((data) => {
-        return data.nome.toLocaleLowerCase().indexOf(pesq) !== -1 || !pesq
-      });
-    }
   }
 
 }
