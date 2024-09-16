@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { ArmamentoEmprestimo } from "../armamento-emprestimo";
 import { User } from "../../users/user";
 import { SessionService } from "../../../session.service";
@@ -22,7 +22,7 @@ import { Observable } from "rxjs";
         provideNgxMask(),
     ]
 })
-export class ArmamentosEmprestimosShow implements OnInit, OnDestroy{
+export class ArmamentosEmprestimosShow implements OnInit, OnDestroy, OnChanges{
 
     @Input() armamentoemp!: ArmamentoEmprestimo;
     protected data$!: Observable<ArmamentoEmprestimo>;
@@ -38,6 +38,7 @@ export class ArmamentosEmprestimosShow implements OnInit, OnDestroy{
         private sessionService: SessionService,
         private amrmamentosEmprestimosService: ArmamentosEmprestimosService
     ){}
+   
     
     
     ngOnInit(): void {
@@ -45,11 +46,16 @@ export class ArmamentosEmprestimosShow implements OnInit, OnDestroy{
         this.user = this.sessionService.getUser();
         this.sessionService.checkPermission('armamentos_emprestimos');
 
-        if(this.armamentoemp.id){
-            this.data$ = this.amrmamentosEmprestimosService.find(this.armamentoemp.id);
-        }
+       this.refresh();
        
     }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['armamentoemp']) {
+            this.refresh();
+          }
+    }
+
     ngOnDestroy(): void {
         if(this.subscription){
             this.subscription.unsubscribe();
@@ -57,6 +63,12 @@ export class ArmamentosEmprestimosShow implements OnInit, OnDestroy{
 
         if(this.subscription2){
             this.subscription2.unsubscribe();
+        }
+    }
+
+    refresh(){
+        if(this.armamentoemp.id){
+            this.data$ = this.amrmamentosEmprestimosService.find(this.armamentoemp.id);
         }
     }
 

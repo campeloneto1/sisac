@@ -1,17 +1,17 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
-import { VeiculoPolicial } from "../veiculo-policial";
-import { VeiculosPoliciaisService } from "../veiculos-policiais.service";
 import { User } from "../../users/user";
 import { SessionService } from "../../../session.service";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { Subunidade } from "../../subunidades/subunidade";
 import { Observable } from "rxjs";
+import { VeiculoOficina } from "../veiculo-oficina";
+import { VeiculosOficinasService } from "../veiculos-oficinas.service";
 
 @Component({
-    selector: 'app-veiculos-policiais-show',
-    templateUrl: './veiculos-policiais-show.component.html',
-    styleUrl: './veiculos-policiais-show.component.css',
+    selector: 'app-veiculos-oficinas-show',
+    templateUrl: './veiculos-oficinas-show.component.html',
+    styleUrl: './veiculos-oficinas-show.component.css',
     standalone: true,
     imports: [
         CommonModule,
@@ -22,10 +22,10 @@ import { Observable } from "rxjs";
         provideNgxMask(),
     ]
 })
-export class VeiculosPoliciaisShow implements OnInit, OnDestroy, OnChanges{
+export class VeiculosOficinasShow implements OnInit, OnDestroy, OnChanges{
 
-   @Input() veiculopolicial!: VeiculoPolicial;
-   protected data$!: Observable<VeiculoPolicial>;
+   @Input() veiculooficina!: VeiculoOficina;
+   protected data$!: Observable<VeiculoOficina>;
     protected id!:number;
     protected user!: User;
     protected datahj!: Date;
@@ -35,7 +35,7 @@ export class VeiculosPoliciaisShow implements OnInit, OnDestroy, OnChanges{
     private subscription2: any;
 
     constructor(
-        private veiculoPolicialService: VeiculosPoliciaisService,
+        private veiculoOficinaService: VeiculosOficinasService,
         private sessionService: SessionService,
     ){}
    
@@ -44,13 +44,13 @@ export class VeiculosPoliciaisShow implements OnInit, OnDestroy, OnChanges{
     ngOnInit(): void {
         this.datahj = new Date;
         this.user = this.sessionService.getUser();
-        this.sessionService.checkPermission('veiculos_policiais');
+        this.sessionService.checkPermission('veiculos_oficinas');
 
         this.refresh();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['veiculopolicial']) {
+        if (changes['veiculooficina']) {
             this.refresh();
           }
     }
@@ -66,8 +66,8 @@ export class VeiculosPoliciaisShow implements OnInit, OnDestroy, OnChanges{
     }
 
     refresh(){
-        if(this.veiculopolicial.id){
-            this.data$ = this.veiculoPolicialService.find(this.veiculopolicial.id);
+        if(this.veiculooficina.id){
+            this.data$ = this.veiculoOficinaService.find(this.veiculooficina.id);
         }
     }
 

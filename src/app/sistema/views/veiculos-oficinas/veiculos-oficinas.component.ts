@@ -55,6 +55,7 @@ export class VeiculosOficinasComponent implements OnInit, OnDestroy {
     this.user = this.sessionService.getUser();
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.veiculosOficinasService.index();

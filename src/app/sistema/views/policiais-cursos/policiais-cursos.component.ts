@@ -58,6 +58,7 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('policiais_cursos');
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.policiaisCursosService.index();

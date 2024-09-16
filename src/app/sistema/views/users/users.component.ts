@@ -65,6 +65,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('usuarios');
     this.dtOptions = {
       pageLength: 10,
+      order: [1, 'asc']
     };
 
     this.data$ = this.usersService.index();

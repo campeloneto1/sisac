@@ -71,7 +71,7 @@
                         }
                   </ul>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive p-2">
                   <div class="tab-content">
                     <!--INICIO TAB INFORMACOES-->
                     <div class="active tab-pane" id="informacoes">
@@ -112,67 +112,75 @@
                       <!--INICIO TAB CONTRATOS-->
                       <div class="tab-pane" id="contratos">
                         <!-- -------------------------------------------- -->
-                        <table
-                          [mfData]="empresa.contratos"
-                          #four="mfDataTable"
-                          [mfRowsOnPage]="10"
-                          [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                          class="table table-hover table-head-fixed text-wrap"
-                        >
-                          <thead>
-                            <tr>
-                                <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="contrato_objeto.nome">Objeto do Contrato</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="numero_contrato">Número do Contrato</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="numero_sacc">Número do SACC</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="valor_global">Valor Global</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="valor_usado">Valor Usado</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="utilizacao">Utilização</mfDefaultSorter></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @for(row of four.data; track row){
-                            <tr data-widget="expandable-table" aria-expanded="false">
+                        <!--INICIO TABLE-->
+                            <table
+                            datatable
+                            [dtOptions]="dtOptions"
+                            class="table table-hover table-head-fixed text-nowrap"
+                          >
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Empresa</th>
+                                <th>Objeto</th>
+                                <th>Número</th>
+                                <th>Dt Inicial</th>
+                                <th>Dt Final</th>
+                                <th>Valor Global</th>
+                                <th>Valor Usado</th>
+                                <th>Aditivado</th>
+                                <th>Saldo Diárias</th>
+                                <th>Utilização</th>
+                                <th>Prorrogação</th>
+                              </tr>
+                            </thead>
+                  
+                            <tbody>
+                              @for(row of empresa.contratos; track row){
+                              <tr class="optionshover2">
                                 <td>{{ row.id }}</td>
-                                <td>{{ row.objeto }}</td>
-                                <td>{{ row.numero_contrato }}</td>
-                                <td>{{ row.numero_sacc }}</td>
-                                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
-                                <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
-                                <td>R$ {{ row.valor_global | mask: 'separator.2' }}</td>
-                                <td>R$ {{ row.valor_usado | mask: 'separator.2' }}</td>
-                                <td class="text-center">
-                                    <span class="badge {{returnCorUsado(row)}}">{{returnPercentUsado(row)}}%</span>
-                                </td>
-                            </tr>
-                            <tr class="expandable-body d-none">
-                              <td colspan="9">
-                                <div
-                                  style="display: none"
-                                  [innerHTML]="row.observacoes"
-                                ></div>
+                              <td>{{ row.objeto }}</td>
+                              <!-- <td>{{ row.contrato_tipo.nome }}</td> -->
+                              <td>{{ row.numero_contrato }}</td>
+                              <td>{{ row.numero_sacc }}</td>
+                              <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                              <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
+                              <td>R$ {{ row.valor_global | mask: 'separator.2' }}</td>
+                              <td>R$ {{ row.valor_usado | mask: 'separator.2' }}</td>
+                              <td>
+                                @if(row.porcentagem_aditivado){
+                                  {{row.porcentagem_aditivado}} %
+                                }
                               </td>
-                            </tr>
-                            }
-                          </tbody>
-                          <tfoot>
-                            <tr>
-                              <td colspan="100%">
-                                <div
-                                  style="
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                  "
-                                >
-                                  <mfBootstrapPaginator></mfBootstrapPaginator>
-                                </div>
+                              <td>
+                                @if(getSaldoDiarias(row)){
+                                  {{getSaldoDiarias(row)}}
+                                }
                               </td>
-                            </tr>
-                          </tfoot>
-                        </table>
+                              <td class="text-center">
+                                <span class="badge {{returnCorUsado(row)}}">{{returnPercentUsado(row)}}%</span>
+                              </td>
+                              <td>
+                                @if(row.numero_porrogacao == 1){
+                                  1º prorrogação
+                                }
+                                @if(row.numero_porrogacao == 2){
+                                  2º prorrogação
+                                }
+                                @if(row.numero_porrogacao == 3){
+                                  3º prorrogação
+                                }
+                                @if(row.numero_porrogacao == 4){
+                                  4º prorrogação
+                                }
+                              </td>
+                              </tr>
+                              }
+                            </tbody>
+                          </table>
+                          <!--FIM TABLE-->
+
+                        
                         <!--------------------------------------------------->
                       </div>
                       <!--FIM TAB CONTRATOS-->
@@ -181,55 +189,34 @@
                         <!--INICIO TAB SERVIÇOS-->
                         <div class="tab-pane" id="servicos">
                           <!-- -------------------------------------------- -->
-                          <table
-                            [mfData]="empresa.servicos"
-                            #five="mfDataTable"
-                            [mfRowsOnPage]="10"
-                            [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                            class="table table-hover table-head-fixed text-wrap"
-                          >
-                            <thead>
-                              <tr>
-                                <th><mfDefaultSorter by="id">#</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="servico_tipo.nome">Tipo do Serviço</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="data_inicial">Data Inicial</mfDefaultSorter></th>
-                                <th><mfDefaultSorter by="data_final">Data Final</mfDefaultSorter></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              @for(row of five.data; track row){
-                              <tr data-widget="expandable-table" aria-expanded="false">
-                                  <td>{{ row.id }}</td>
-                                  <td>{{ row.servico_tipo.nome }}</td> 
-                                  <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
-                                  <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
-                              </tr>
-                              <tr class="expandable-body d-none">
-                                <td colspan="9">
-                                  <div
-                                    style="display: none"
-                                    [innerHTML]="row.observacoes"
-                                  ></div>
-                                </td>
-                              </tr>
-                              }
-                            </tbody>
-                            <tfoot>
-                              <tr>
-                                <td colspan="100%">
-                                  <div
-                                    style="
-                                      display: flex;
-                                      align-items: center;
-                                      justify-content: center;
-                                    "
-                                  >
-                                    <mfBootstrapPaginator></mfBootstrapPaginator>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tfoot>
-                          </table>
+                           <!--INICIO TABLE-->
+                           <table
+                           datatable
+                           [dtOptions]="dtOptions"
+                           class="table table-hover table-head-fixed text-nowrap"
+                         >
+                           <thead>
+                             <tr>
+                               <th>#</th>
+                               <th>Tipo</th>
+                               <th>Data Inicial</th>
+                               <th>Data Final</th>
+                             </tr>
+                           </thead>
+                 
+                           <tbody>
+                             @for(row of empresa.servicos; track row){
+                             <tr class="optionshover2">
+                              <td>{{ row.id }}</td>
+                              <td>{{ row.servico_tipo.nome }}</td> 
+                              <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                              <td>{{ row.data_final | date: 'dd/MM/yyyy' }}</td>
+                             </tr>
+                             }
+                           </tbody>
+                         </table>
+                         <!--FIM TABLE-->
+                        
                           <!--------------------------------------------------->
                         </div>
                         <!--FIM TAB SERVIÇOS-->

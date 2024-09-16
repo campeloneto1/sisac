@@ -81,7 +81,7 @@
                     }
                   </ul>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive p-1">
                   <div class="tab-content">
                     <!--INICIO TAB INFORMACOES-->
                     <div class="active tab-pane" id="informacoes">
@@ -131,106 +131,91 @@
                       <!--INICIO TAB EMPRESTIMOS-->
                       <div class="tab-pane" id="emprestimos">
                         <!-- -------------------------------------------- -->
-                        <table
-                          [mfData]="armamento.armamentos_emprestimos_itens"
-                          #four="mfDataTable"
-                          [mfRowsOnPage]="10"
-                          [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                          class="table table-hover table-head-fixed text-wrap"
-                        >
+                        <!--INICIO TABLE-->
+                        <table datatable
+                        [dtOptions]="dtOptions"
+                        class="table table-hover table-head-fixed text-nowrap">
                           <thead>
                             <tr>
-                              <th>
-                                <mfDefaultSorter by="id"
-                                  >#</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="armamento_emprestimo.policial.graduacao.abreviatura"
-                                  >Graduação</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="armamento_emprestimo.policial.numeral"
-                                  >Numeral</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="armamento_emprestimo.policial.nome_guerra"
-                                  >Nome Guerra</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="armamento_emprestimo.policial.matricula"
-                                  >Matrícula</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="armamento_emprestimo.data_emprestimo"
-                                  >Data Empréstimo</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="armamento_emprestimo.data_devolucao"
-                                  >Data Devolução</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="quantidade"
-                                  >Quantidade</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="quantidade_devolucao"
-                                  >Quantidade Devolução</mfDefaultSorter
-                                >
-                              </th>
+                              <th>#</th>
+                              <th>Graduação</th>
+                              <th>Numeral</th>
+                              <th>Nome de Guerra</th>
+                              <th>Matrícula</th>
+                              <th>Setor</th>
+                              <th>Data Empréstimo</th>
+                              <th>Quantidade</th>
+                              <th>Data Devolução</th>
+                              <th>Quant. Devolução</th>
+                              <th>Ver Empréstimo</th>
                             </tr>
                           </thead>
                           <tbody>
-                            @for(row of four.data; track row){
-                            <tr data-widget="expandable-table" aria-expanded="false">
-                              <td>{{ row.armamento_emprestimo.id }}</td>
-                              <td>{{ row.armamento_emprestimo.policial.graduacao.abreviatura }}</td>
-                              <td>{{ row.armamento_emprestimo.policial.numeral }}</td>
-                              <td>{{ row.armamento_emprestimo.policial.nome_guerra }}</td>
-                              <td>{{ row.armamento_emprestimo.policial.matricula }}</td>
+                            @for(item of
+                            armamento.armamentos_emprestimos_itens; track item){
+                            <tr class="optionshover2">
+                              <td>{{ item.armamento_emprestimo.id }}</td>
+                              <td>{{ item.armamento_emprestimo.policial.graduacao.abreviatura }}</td>
+                              <td>{{ item.armamento_emprestimo.policial.numeral }}</td>
+                              <td>{{ item.armamento_emprestimo.policial.nome_guerra }}</td>
+                              <td>{{ item.armamento_emprestimo.policial.matricula }}</td>
+                              <td>{{ item.armamento_emprestimo.policial.setor.nome }}</td>
                               <td>
-                                {{ row.armamento_emprestimo.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
+                                {{ item.armamento_emprestimo.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
                               </td>
+                              <td>{{ item.quantidade }}</td>
                               <td>
-                                {{ row.armamento_emprestimo.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
+                                {{ item.armamento_emprestimo.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
                               </td>
-                              <td>{{ row.quantidade }}</td>
-                              <td>{{ row.quantidade_devolucao }}</td>
-                            </tr>
-                            <tr class="expandable-body d-none">
-                                
-                              <td colspan="9">
-                                <div
-                                  style="display: none"
-                                  [innerHTML]="row.armamento_emprestimo.observacoes"
-                                ></div>
+                              <td>{{ item.quantidade_devolucao }}</td>
+                              <td class="options2">
+                                <a
+                                  class="point btn btn-outline-primary btn-xs showbtn"
+                                  title="Ver Empréstimo"
+                                        (click)="showEmprestado(item)"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalshowarmemp"
+                                >
+                                Ver Empréstimo
+                                </a>
                               </td>
                             </tr>
                             }
                           </tbody>
-                          <tfoot>
-                            <tr>
-                              <td colspan="100%">
-                                <div
-                                  style="
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                  "
-                                >
-                                  <mfBootstrapPaginator></mfBootstrapPaginator>
-                                </div>
-                              </td>
-                            </tr>
-                          </tfoot>
                         </table>
+                        <!--FIM TABLE-->
+
+
+                          <!-- INICIO MODAL SHOW EMP ARMAMENTO-->
+                            <div
+                            class="modal fade"
+                            id="modalshowarmemp"
+                            style="display: none"
+                            aria-hidden="true"
+                          >
+                            <div class="modal-dialog modal-xl">
+                              <div class="modal-content">
+                                <div class="modal-header border-0">
+                                  <h4 class="modal-title">Empréstimo</h4>
+                                  <button
+                                    type="button"
+                                    class="close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                  >
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  @if(armEmrpestimo){ 
+                                    <app-armamento-emprestimo-show [armamentoemp]="armEmrpestimo" />
+                                  
+                                  }
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- FIM MODAL SHOW EMP ARMAMENTO-->
                         <!--------------------------------------------------->
                       </div>
                       <!--FIM TAB ARMAMENTOS-->

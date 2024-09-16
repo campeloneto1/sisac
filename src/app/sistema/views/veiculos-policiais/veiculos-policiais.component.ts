@@ -68,6 +68,7 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
     this.user = this.sessionService.getUser();
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.veiculosPoliciaisService.index();

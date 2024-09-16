@@ -1,0 +1,74 @@
+@if(data$ | async; as data){
+    <div >
+        <div class="noprint text-center">
+          <h4 style="margin-top: 20px">
+            Empréstimo de Material Nº {{ data.id }}
+          </h4>
+        </div>
+        
+        <div class="row mt-4" >
+          <div class="col-sm-5 offset-sm-1">
+            <h4>Policial</h4>
+            {{ data.policial.graduacao.abreviatura }}
+            @if(data.policial.numeral){ {{ data.policial.numeral | mask: "00.000" }} }
+            {{ data.policial.nome }}<br />
+            <b>Mat.:</b> {{ data.policial.matricula | mask: "000.000-0-A" }}
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-sm-3 offset-sm-3">
+            <div class="description-block border-right">
+              <h5 class="description-header">{{ data.data_emprestimo | date: "dd/MM/yyyy HH:mm" }}</h5>
+              <span class="description-text">Data Empréstimo</span>
+            </div>
+          </div>
+          
+          <div class="col-sm-3 ">
+            <div class="description-block border-right">
+              <h5 class="description-header">{{ data.data_devolucao | date: "dd/MM/yyyy HH:mm" }}</h5>
+              <span class="description-text">Data Devolução</span>
+            </div>
+          </div>
+          
+        </div>
+        
+        <div class="row" style="margin-top: 20px">
+          <div class="col-sm-12">
+            <table class="table table-hover table-head-fixed text-nowrap">
+              <thead>
+                <tr>
+                  <th>TIPO</th>
+                  <th>MARCA</th>
+                  <th>MODELO</th>
+                  <th>SERIAL</th>
+                  <th>QUANTIDADE</th>
+                  <th>QUANT. DEVOLVIDO</th>
+                </tr>
+              </thead>
+              <tbody>
+                  @for(arm of data.materiais_policiais_itens; track arm){
+                      <tr
+                          class="hovers"
+                      >
+                          <td>{{ arm.material.material_tipo.nome }}</td>
+                          <td>{{ arm.material.modelo.marca.nome }}</td>
+                          <td>{{ arm.material.modelo.nome }}</td>
+                          <td>@if(arm.material.serial){{{ arm.material.serial }}}</td>
+                          <td>{{ arm.quantidade }}</td>
+                          <td>{{ arm.quantidade_devolucao }}</td>
+                      </tr>
+                  }
+              </tbody>
+            </table>
+          </div>
+        </div>
+    
+        <div style="margin-top: 30px" [innerHTML]="data.observacoes"></div>
+        <!-- <div style="margin-top: 30px" class="text-center">
+          <b>{{ data$.policial.nome }}</b> - {{ data$.policial.graduacao.abreviatura
+          }}<br />
+          Mat.: {{ data$.policial.matricula | mask: "000.000-0-A" }}<br />
+        </div> -->
+      </div>
+      <!-- FIM PAGE-->
+}

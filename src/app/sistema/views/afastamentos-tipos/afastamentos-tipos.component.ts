@@ -46,6 +46,10 @@ export class AfastamentosTiposComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
+    this.dtOptions = {
+      pageLength: 10,
+      order: [0, 'desc']
+    };
     
     this.data$ = this.afastamentosTiposService.index();
   }

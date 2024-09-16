@@ -86,7 +86,7 @@
                     }
                   </ul>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive p-2">
                   <div class="tab-content">
                     <!--INICIO TAB INFORMACOES-->
                     <div class="active tab-pane" id="informacoes">
@@ -137,106 +137,90 @@
                       <!--INICIO TAB EMPRESTIMOS-->
                       <div class="tab-pane" id="emprestimos">
                         <!-- -------------------------------------------- -->
-                        <table
-                          [mfData]="material.materiais_policiais_itens"
-                          #four="mfDataTable"
-                          [mfRowsOnPage]="10"
-                          [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                          class="table table-hover table-head-fixed text-wrap"
-                        >
-                          <thead>
-                            <tr>
-                              <th>
-                                <mfDefaultSorter by="id"
-                                  >#</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_policial.policial.graduacao.abreviatura"
-                                  >Graduação</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_policial.policial.numeral"
-                                  >Numeral</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_policial.policial.nome_guerra"
-                                  >Nome Guerra</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_policial.policial.matricula"
-                                  >Matrícula</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_policial.data_emprestimo"
-                                  >Data Empréstimo</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_policial.data_devolucao"
-                                  >Data Devolução</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="quantidade"
-                                  >Quantidade</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="quantidade_devolucao"
-                                  >Quantidade Devolução</mfDefaultSorter
-                                >
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @for(row of four.data; track row){
-                            <tr data-widget="expandable-table" aria-expanded="false">
+                         <!--INICIO TABLE-->
+                         <table datatable
+                         [dtOptions]="dtOptions"
+                         class="table table-hover table-head-fixed text-nowrap">
+                           <thead>
+                             <tr>
+                               <th>#</th>
+                               <th>Graduação</th>
+                               <th>Numeral</th>
+                               <th>Nome de Guerra</th>
+                               <th>Matrícula</th>
+                               <th>Setor</th>
+                               <th>Data Empréstimo</th>
+                               <th>Quantidade</th>
+                               <th>Data Devolução</th>
+                               <th>Quant. Devolução</th>
+                               <th>Ver Empréstimo</th>
+                             </tr>
+                           </thead>
+                           <tbody>
+                             @for(row of
+                             material.materiais_policiais_itens; track row){
+                             <tr class="optionshover2">
                               <td>{{ row.material_policial.id }}</td>
                               <td>{{ row.material_policial.policial.graduacao.abreviatura }}</td>
                               <td>{{ row.material_policial.policial.numeral }}</td>
                               <td>{{ row.material_policial.policial.nome_guerra }}</td>
                               <td>{{ row.material_policial.policial.matricula }}</td>
+                              <td>{{ row.material_policial.policial.setor.nome }}</td>
                               <td>
                                 {{ row.material_policial.data_emprestimo | date : "dd/MM/yyyy HH:mm" }}
                               </td>
+                              <td>{{ row.quantidade }}</td>
                               <td>
                                 {{ row.material_policial.data_devolucao | date : "dd/MM/yyyy HH:mm" }}
                               </td>
-                              <td>{{ row.quantidade }}</td>
                               <td>{{ row.quantidade_devolucao }}</td>
-                            </tr>
-                            <tr class="expandable-body d-none">
-                                
-                              <td colspan="9">
-                                @if(row.material_policial.observacoes){<div
-                                  style="display: none"
-                                  [innerHTML]="row.material_policial.observacoes"
-                                ></div>}
-                              </td>
-                            </tr>
-                            }
-                          </tbody>
-                          <tfoot>
-                            <tr>
-                              <td colspan="100%">
-                                <div
-                                  style="
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                  "
-                                >
-                                  <mfBootstrapPaginator></mfBootstrapPaginator>
-                                </div>
-                              </td>
-                            </tr>
-                          </tfoot>
-                        </table>
+                               <td class="options2">
+                                 <a
+                                   class="point btn btn-outline-primary btn-xs showbtn"
+                                   title="Ver Empréstimo"
+                                         (click)="showEmprestado(row)"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#modalshowmatemp"
+                                 >
+                                 Ver Empréstimo
+                                 </a>
+                               </td>
+                             </tr>
+                             }
+                           </tbody>
+                         </table>
+                         <!--FIM TABLE-->
+ 
+ 
+                           <!-- INICIO MODAL SHOW EMP ARMAMENTO-->
+                             <div
+                             class="modal fade"
+                             id="modalshowmatemp"
+                             style="display: none"
+                             aria-hidden="true"
+                           >
+                             <div class="modal-dialog modal-xl">
+                               <div class="modal-content">
+                                 <div class="modal-header border-0">
+                                   <h4 class="modal-title">Empréstimo</h4>
+                                   <button
+                                     type="button"
+                                     class="close"
+                                     data-bs-dismiss="modal"
+                                     aria-label="Close"
+                                   >
+                                     <span aria-hidden="true">×</span>
+                                   </button>
+                                 </div>
+                                 <div class="modal-body">
+                                  
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+                           <!-- FIM MODAL SHOW EMP ARMAMENTO-->
+
+                        
                         <!--------------------------------------------------->
                       </div>
                       <!--FIM TAB ARMAMENTOS-->

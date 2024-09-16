@@ -66,6 +66,7 @@ export class ServicosComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('servicos');
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.servicosService.index();

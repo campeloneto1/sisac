@@ -51,6 +51,7 @@ export class PatrimoniosComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('patrimonios');
     this.dtOptions = {
       pageLength: 10,
+      order: [5, 'asc']
     };
 
     this.data$ = this.patrimoniosService.index();

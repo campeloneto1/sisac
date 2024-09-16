@@ -76,13 +76,13 @@ export class ArmamentosEmprestimosFormComponent implements OnInit, OnDestroy{
             'assinatura_emprestimo': [null]              
         });
 
-        this.subscription = this.policiaisService.disponiveis().subscribe({
+        this.subscription = this.policiaisService.getAll().subscribe({
             next: (data) => {
                 data.forEach(element => {
                     if(element.numeral){
-                        element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}`;
+                        element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}, ${element.setor.subunidade.abreviatura}`;
                     }else{
-                        element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}`;
+                        element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}, ${element.setor.subunidade.abreviatura}`;
                     }
                     
                 });

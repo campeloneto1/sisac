@@ -74,6 +74,7 @@ export class ContratosComponent implements OnInit, OnDestroy {
 
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.contratosService.index();

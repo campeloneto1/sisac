@@ -47,6 +47,7 @@ export class GraduacoesComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('administrador');
     this.dtOptions = {
       pageLength: 10,
+      order: [1, 'asc']
     };
 
     this.data$ = this.graduacoesService.index();

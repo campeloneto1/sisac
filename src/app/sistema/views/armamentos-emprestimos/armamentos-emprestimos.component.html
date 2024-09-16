@@ -63,7 +63,7 @@
                 </td>
                 <td>{{ row.policial.nome_guerra }}</td>
                 <td>{{ row.policial.matricula | mask : "000.000-0-A" }}</td>
-                <td>{{ row.policial.setor.nome }} </td>
+                <td>{{ row.policial.setor.nome }} - {{ row.policial.setor.subunidade.abreviatura }}</td>
                 <td class="">
                   @if(row.cautela){<i class="fa fa-check" aria-hidden="true"></i>}
                 </td>

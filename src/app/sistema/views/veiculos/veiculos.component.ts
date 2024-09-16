@@ -56,6 +56,7 @@ export class VeiculosComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('veiculos');
     this.dtOptions = {
       pageLength: 10,
+      order: [6, 'asc']
     };
 
     this.data$ = this.veiculosService.index();

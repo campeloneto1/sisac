@@ -58,6 +58,7 @@ export class PoliciaisPublicacoesComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('policiais_publicacoes');
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.policiaisPublicacoesService.index();

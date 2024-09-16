@@ -58,6 +58,7 @@ export class PoliciaisRequeridasComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('policiais_requeridas');
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.PoliciaisRequeridasService.index();

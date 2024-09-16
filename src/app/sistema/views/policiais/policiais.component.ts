@@ -70,6 +70,7 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('policiais');
     this.dtOptions = {
       pageLength: 10,
+      order: [5, 'asc']
     };
 
     this.data$ = this.policiaisService.index();

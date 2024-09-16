@@ -131,7 +131,7 @@
                   }
                 </ul>
               </div>
-              <div class="card-body">
+              <div class="card-body table-responsive p-2">
                 <div class="tab-content">
                   <!--INICIO TAB INFORMACOES-->
                   <div class="active tab-pane" id="informacoes">
@@ -202,105 +202,91 @@
                   <!--INICIO TAB EMPRESTIMOS-->
                   <div class="tab-pane" id="emprestimos">
                     <!-- -------------------------------------------- -->
-                    <table
-                      [mfData]="veiculo.veiculos_policiais"
-                      #four="mfDataTable"
-                      [mfRowsOnPage]="10"
-                      [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                      class="table table-hover table-head-fixed text-wrap"
-                    >
-                      <thead>
-                        <tr>
-                          <th>
-                            <mfDefaultSorter by="id"
-                              >#</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="policial.graduacao.abreviatura"
-                              >Graduação</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="policial.numeral"
-                              >Numeral</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="policial.nome_guerra"
-                              >Nome Guerra</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="policial.matricula"
-                              >Matrícula</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="data_inicial"
-                              >Data Inicial</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="data_final"
-                              >Data Final</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="km_inicial"
-                              >KM Inicial</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="km_final"
-                              >KM Final</mfDefaultSorter
-                            >
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @for(row of four.data; track row){
-                        <tr data-widget="expandable-table" aria-expanded="false">
+
+                     <!--INICIO TABLE-->
+                     <table datatable
+                     [dtOptions]="dtOptions"
+                     class="table table-hover table-head-fixed text-nowrap">
+                       <thead>
+                         <tr>
+                           <th>#</th>
+                           <th>Graduação</th>
+                           <th>Numeral</th>
+                           <th>Nome de Guerra</th>
+                           <th>Matrícula</th>
+                           <th>Setor</th>
+                           <th>Data Inicial</th>
+                           <th>Km Inicial</th>
+                           <th>Data Final</th>
+                           <th>Km Final</th>
+                           <th>Ver Empréstimo</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         @for(row of
+                         veiculo.veiculos_policiais; track row){
+                         <tr class="optionshover2">
                           <td>{{ row.id }}</td>
                           <td>{{ row.policial.graduacao.abreviatura }}</td>
                           <td>{{ row.policial.numeral }}</td>
                           <td>{{ row.policial.nome_guerra }}</td>
                           <td>{{ row.policial.matricula }}</td>
+                          <td>{{ row.policial.setor.nome }}</td>
                           <td>
                             {{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}
                           </td>
+                          <td>{{ row.km_inicial }}</td>
                           <td>
                             {{ row.data_final | date : "dd/MM/yyyy HH:mm" }}
                           </td>
-                          <td>{{ row.km_inicial }}</td>
                           <td>{{ row.km_final }}</td>
-                        </tr>
-                        <tr class="expandable-body d-none">
-                          <td colspan="9">
-                            <div
-                              style="display: none"
-                              [innerHTML]="row.observacoes"
-                            ></div>
-                          </td>
-                        </tr>
-                        }
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <td colspan="100%">
-                            <div
-                              style="
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                              "
-                            >
-                              <mfBootstrapPaginator></mfBootstrapPaginator>
-                            </div>
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                           <td class="options2">
+                             <a
+                               class="point btn btn-outline-primary btn-xs showbtn"
+                               title="Ver Empréstimo"
+                                     (click)="showVeiculoPolicial(row)"
+                                     data-bs-toggle="modal"
+                                     data-bs-target="#modalshowveipol"
+                             >
+                             Ver Empréstimo
+                             </a>
+                           </td>
+                         </tr>
+                         }
+                       </tbody>
+                     </table>
+                     <!--FIM TABLE-->
+
+
+                       <!-- INICIO MODAL SHOW EMP ARMAMENTO-->
+                         <div
+                         class="modal fade"
+                         id="modalshowveipol"
+                         style="display: none"
+                         aria-hidden="true"
+                       >
+                         <div class="modal-dialog modal-xl">
+                           <div class="modal-content">
+                             <div class="modal-header border-0">
+                               <h4 class="modal-title">Empréstimo</h4>
+                               <button
+                                 type="button"
+                                 class="close"
+                                 data-bs-dismiss="modal"
+                                 aria-label="Close"
+                               >
+                                 <span aria-hidden="true">×</span>
+                               </button>
+                             </div>
+                             <div class="modal-body">
+                                @if(veiPolicial){
+                                  <app-veiculos-policiais-show [veiculopolicial]="veiPolicial" />
+                                }
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                       <!-- FIM MODAL SHOW EMP ARMAMENTO-->
                     <!--------------------------------------------------->
                   </div>
                   <!--FIM TAB ARMAMENTOS-->
@@ -308,93 +294,87 @@
                   <!--INICIO TAB OFICINAS-->
                   <div class="tab-pane" id="manutencoes">
                     <!-- -------------------------------------------- -->
-                    <table
-                      [mfData]="veiculo.veiculos_oficinas"
-                      #two="mfDataTable"
-                      [mfRowsOnPage]="10"
-                      [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                      class="table table-hover table-head-fixed text-wrap"
-                    >
-                      <thead>
-                        <tr>
-                          <th>
-                            <mfDefaultSorter by="id"
-                              >#</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="oficina.nome"
-                              >Oficina</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="manutencao_tipo.nome"
-                              >Manutenção</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="data_inicial"
-                              >Data Inicial</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="data_final"
-                              >Data Final</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="km_inicial"
-                              >KM Inicial</mfDefaultSorter
-                            >
-                          </th>
-                          <th>
-                            <mfDefaultSorter by="km_final"
-                              >KM Final</mfDefaultSorter
-                            >
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @for(row of two.data; track row){
-                        <tr data-widget="expandable-table" aria-expanded="false">
-                          <td>{{ row.id }}</td>
-                          <td>{{ row.oficina.nome }}</td>
-                          <td>{{ row.manutencao_tipo.nome }}</td>
-                          <td>
-                            {{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}
-                          </td>
-                          <td>
-                            {{ row.data_final | date : "dd/MM/yyyy HH:mm" }}
-                          </td>
-                          <td>{{ row.km_inicial }}</td>
-                          <td>{{ row.km_final }}</td>
-                        </tr>
-                        <tr class="expandable-body d-none">
-                          <td colspan="7">
-                            <div
-                              style="display: none"
-                              [innerHTML]="row.observacoes"
-                            ></div>
-                          </td>
-                        </tr>
-                        }
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <td colspan="100%">
-                            <div
-                              style="
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                              "
-                            >
-                              <mfBootstrapPaginator></mfBootstrapPaginator>
+                      <!--INICIO TABLE-->
+                      <table datatable
+                      [dtOptions]="dtOptions2"
+                      class="table table-hover table-head-fixed text-nowrap">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Oficina</th>
+                            <th>Tipo</th>
+                            <th>Data Inicial</th>
+                            <th>Km Inicial</th>
+                            <th>Data Final</th>
+                            <th>Km Final</th>
+                            <th>Ver Empréstimo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for(row of
+                          veiculo.veiculos_oficinas; track row){
+                          <tr class="optionshover2">
+                            <td>{{ row.id }}</td>
+                            <td>{{ row.oficina.nome }}</td>
+                            <td>{{ row.manutencao_tipo.nome }}</td>
+                            <td>
+                              {{ row.data_inicial | date : "dd/MM/yyyy HH:mm" }}
+                            </td>
+                            <td>{{ row.km_inicial }}</td>
+                            <td>
+                              {{ row.data_final | date : "dd/MM/yyyy HH:mm" }}
+                            </td>
+                           
+                            <td>{{ row.km_final }}</td>
+                            <td class="options2">
+                              <a
+                                class="point btn btn-outline-primary btn-xs showbtn"
+                                title="Ver Empréstimo"
+                                      (click)="showVeiculoOficina(row)"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#modalshowveiofi"
+                              >
+                              Ver Empréstimo
+                              </a>
+                            </td>
+                          </tr>
+                          }
+                        </tbody>
+                      </table>
+                      <!--FIM TABLE-->
+ 
+ 
+                        <!-- INICIO MODAL SHOW EMP ARMAMENTO-->
+                          <div
+                          class="modal fade"
+                          id="modalshowveiofi"
+                          style="display: none"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                              <div class="modal-header border-0">
+                                <h4 class="modal-title">Empréstimo</h4>
+                                <button
+                                  type="button"
+                                  class="close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                 @if(veiOficina){
+                                   <app-veiculos-oficinas-show [veiculooficina]="veiOficina" />
+                                 }
+                              </div>
                             </div>
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                          </div>
+                        </div>
+                        <!-- FIM MODAL SHOW EMP ARMAMENTO-->
+
+                   
                     <!--------------------------------------------------->
                   </div>
                   <!--FIM TAB MANUTENCOES-->

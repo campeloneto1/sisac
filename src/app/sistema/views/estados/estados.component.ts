@@ -47,6 +47,7 @@ export class EstadosComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('administrador');
     this.dtOptions = {
       pageLength: 10,
+      order: [2, 'asc']
     };
 
     this.data$ = this.estadosService.index();

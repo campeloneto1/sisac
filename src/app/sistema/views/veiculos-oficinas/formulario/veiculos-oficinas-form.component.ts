@@ -68,7 +68,9 @@ export class VeiculosOficinasFormComponent implements OnInit, OnDestroy{
 
             'data_inicial': [null],
             'data_final': [null],
-            'km_inicial': [null],
+            'km_inicial': [null, Validators.compose([
+                Validators.required,
+            ])],
             'km_final': [null],
             'observacoes': [null],
             'subunidade': [null],

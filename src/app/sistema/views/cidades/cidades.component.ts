@@ -45,6 +45,10 @@ export class CidadesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
+    this.dtOptions = {
+      pageLength: 10,
+      order: [1, 'asc']
+    };
     this.data$ = this.cidadesService.index();
   }
 

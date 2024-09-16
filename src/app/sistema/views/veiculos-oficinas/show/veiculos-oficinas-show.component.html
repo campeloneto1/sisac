@@ -2,17 +2,22 @@
   <div class="page">
     <div class="noprint text-center">
       <h4 style="margin-top: 20px">
-        Empréstimo de Veículo Nº {{ data.id }}
+        Manutenção de Veículo Nº {{ data.id }}
       </h4>
     </div>
 
     <div class="row mt-4">
       <div class="col-sm-5 offset-sm-1">
-        <h4>Policial</h4>
-        {{ data.policial.graduacao.abreviatura }}
-        @if(data.policial.numeral){ {{ data.policial.numeral | mask: "00.000" }} }
-        {{ data.policial.nome }}<br />
-        <b>Mat.:</b> {{ data.policial.matricula | mask: "000.000-0-A" }}
+        <h4>Oficina</h4>
+        {{ data.oficina.nome }} <br />
+        @if(data.oficina.cnpj){
+        <b>CNPJ:</b> {{ data.oficina.cnpj | mask: '00.000.000/0000-00' }} <br />
+        }
+        <b>Gerente:</b> {{ data.oficina.gerente }} <br />
+        @if(data.oficina.telefone1){
+          <b>Telefone:</b> {{ data.oficina.telefone1 | mask: '(00) 00000-0000' }}
+        }
+        
       
       </div>
       <div class="col-sm-5">
@@ -34,7 +39,7 @@
       <div class="col-sm-3 ">
         <div class="description-block border-right">
           <h5 class="description-header">{{ data.data_inicial | date: "dd/MM/yyyy HH:mm" }}</h5>
-          <span class="description-text">Data Empréstimo</span>
+          <span class="description-text">Data Inicial</span>
         </div>
       </div>
       <div class="col-sm-3 ">
@@ -46,7 +51,7 @@
       <div class="col-sm-3 ">
         <div class="description-block border-right">
           <h5 class="description-header">{{ data.data_final | date: "dd/MM/yyyy HH:mm" }}</h5>
-          <span class="description-text">Data Devolução</span>
+          <span class="description-text">Data Final</span>
         </div>
       </div>
       <div class="col-sm-3 ">
@@ -55,16 +60,15 @@
           <span class="description-text">KM Final</span>
         </div>
       </div>
-    </div>
+    </div>    
 
     <div class="row mt-3">
-      @if(data.cidade){
-        <div class="col-sm-4">
-          <b>Destino: </b> {{data.cidade.nome}}, {{data.cidade.estado.nome}}
+     
+        <div class="col-sm-6">
+          <b>Tipo de manutenção: </b> {{ data.manutencao_tipo.nome }}
         </div>
-      }
+     
   </div>
-    
 
     <div style="margin-top: 30px" [innerHTML]="data.observacoes"></div>
    

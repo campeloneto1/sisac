@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { TitleComponent } from "../../../components/title/title.component";
 import { Policial } from "../policial";
 import { PoliciaisService } from "../policiais.service";
@@ -9,10 +9,10 @@ import { DataTableModule } from "@pascalhonegger/ng-datatable";
 import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
 import { environment } from "../../../../../environments/environments";
-import { Observable } from "rxjs";
-import { VeiculosPoliciais } from "../../veiculos-policiais/veiculo-policial";
-import { ArmamentosEmprestimos } from "../../armamentos-emprestimos/armamento-emprestimo";
-import { MateriaisPoliciais } from "../../materiais-policiais/material-policial";
+import { Observable, tap } from "rxjs";
+import { VeiculoPolicial, VeiculosPoliciais } from "../../veiculos-policiais/veiculo-policial";
+import { ArmamentoEmprestimo, ArmamentosEmprestimos } from "../../armamentos-emprestimos/armamento-emprestimo";
+import { MateriaisPoliciais, MaterialPolicial } from "../../materiais-policiais/material-policial";
 import { PoliciaisAtestados } from "../../policiais-atestados/policial-atestado";
 import { PoliciaisCursos } from "../../policiais-cursos/policial-curso";
 import { PoliciaisFerias } from "../../policiais-ferias/policial-ferias";
@@ -26,6 +26,11 @@ import { PoliciaisFeriasService } from "../../policiais-ferias/policiais-ferias.
 import { PoliciaisPublicacoesService } from "../../policiais-publicacoes/policiais-publicacoes.service";
 import { SharedService } from "../../../shared/shared.service";
 import { RouterModule } from '@angular/router';
+import { DataTableDirective, DataTablesModule } from "angular-datatables";
+import { Config } from "datatables.net";
+import { ArmamentosEmprestimosShow } from "../../armamentos-emprestimos/show/armamentos-emprestimos-show.component";
+import { MateriaisPoliciaisShow } from "../../materiais-policiais/show/materiais-policiais-show.component";
+import { VeiculosPoliciaisShow } from "../../veiculos-policiais/show/veiculos-policiais-show.component";
 
 @Component({
     selector: 'app-policial',
@@ -38,7 +43,11 @@ import { RouterModule } from '@angular/router';
         NgxMaskDirective, 
         NgxMaskPipe,
         DataTableModule,
-        RouterModule
+        RouterModule,
+        DataTablesModule,
+        ArmamentosEmprestimosShow,
+        MateriaisPoliciaisShow,
+        VeiculosPoliciaisShow
     ],
     providers: [
         provideNgxMask(),
@@ -46,7 +55,7 @@ import { RouterModule } from '@angular/router';
 })
 export class PolicialComponent implements OnInit, OnDestroy{
 
-    protected policial!: Policial;
+    protected policial$!: Observable<Policial>;
     protected id!:number;
     private subscription:any;
 
@@ -56,6 +65,9 @@ export class PolicialComponent implements OnInit, OnDestroy{
 
     protected foto: any;
 
+    @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+    protected dtOptions: Config = {};
+
     protected armamentosemprestimos$!: Observable<ArmamentosEmprestimos>;
     protected materiaispoliciais$!: Observable<MateriaisPoliciais>;
     protected veiculospoliciais$!: Observable<VeiculosPoliciais>;
@@ -63,6 +75,12 @@ export class PolicialComponent implements OnInit, OnDestroy{
     protected policiaiscursos$!: Observable<PoliciaisCursos>;
     protected policiaisferias$!: Observable<PoliciaisFerias>;
     protected policiaispublicacoes$!: Observable<PoliciaisPublicacoes>;
+
+    protected armamentoEmprestado!: ArmamentoEmprestimo;
+    protected materialPolicial!: MaterialPolicial;
+    protected veiculoPolicial!: VeiculoPolicial;
+
+    @ViewChild(MateriaisPoliciaisShow) componentmatpolshow!: MateriaisPoliciaisShow;
 
     constructor(
         private policiaisService: PoliciaisService,
@@ -82,16 +100,19 @@ export class PolicialComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
         this.sessionService.checkPermission('policiais');
+        this.dtOptions = {
+            pageLength: 10,
+            order: [0, 'desc']
+        };
+
         try {
             this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
 
-            this.subscription =  this.policiaisService.find(this.id).subscribe({
-                next: (data) => {
-                    if(!data){this.sessionService.redirect()}
-                    this.policial = data;
-                    this.getfile();
+            this.policial$ =  this.policiaisService.find(this.id).pipe(tap((data) => {
+                    this.getfile(data.foto||'');
                 }
-            });
+            ));
+            
         }
         catch(e:any){
             this.sessionService.redirect()
@@ -111,45 +132,45 @@ export class PolicialComponent implements OnInit, OnDestroy{
         return result;
       }
 
-    getEmpArmamentos(){
+    getEmpArmamentos(data: number){
         if(!this.armamentosemprestimos$){
-            this.armamentosemprestimos$ = this.armamentosEmprestimosService.wherePol(this.policial.id||0);
+            this.armamentosemprestimos$ = this.armamentosEmprestimosService.wherePol(data||0);
         }
     }
 
-    getEmpMateriais(){
+    getEmpMateriais(data: number){
         if(!this.materiaispoliciais$){
-            this.materiaispoliciais$ = this.materiaisPoliciaisService.wherePol(this.policial.id||0);
+            this.materiaispoliciais$ = this.materiaisPoliciaisService.wherePol(data||0);
         }
     }
 
-    getEmpVeiculos(){
+    getEmpVeiculos(data: number){
         if(!this.veiculospoliciais$){
-            this.veiculospoliciais$ = this.veiculosPoliciaisService.wherePol(this.policial.id||0);
+            this.veiculospoliciais$ = this.veiculosPoliciaisService.wherePol(data||0);
         }
     }
 
-    getPolAtestados(){
+    getPolAtestados(data: number){
         if(!this.policiaisatestados$){
-            this.policiaisatestados$ = this.policiaisAtestadosService.wherePol(this.policial.id||0);
+            this.policiaisatestados$ = this.policiaisAtestadosService.wherePol(data||0);
         }
     }
 
-    getPolCursos(){
+    getPolCursos(data: number){
         if(!this.policiaiscursos$){
-            this.policiaiscursos$ = this.policiaisCursosService.wherePol(this.policial.id||0);
+            this.policiaiscursos$ = this.policiaisCursosService.wherePol(data||0);
         }
     }
 
-    getPolFerias(){
+    getPolFerias(data: number){
         if(!this.policiaisferias$){
-            this.policiaisferias$ = this.policiaisFeriasService.wherePol(this.policial.id||0);
+            this.policiaisferias$ = this.policiaisFeriasService.wherePol(data||0);
         }
     }
 
-    getPolPublicacoes(){
+    getPolPublicacoes(data: number){
         if(!this.policiaispublicacoes$){
-            this.policiaispublicacoes$ = this.policiaisPublicacoesService.wherePol(this.policial.id||0);
+            this.policiaispublicacoes$ = this.policiaisPublicacoesService.wherePol(data||0);
         }
     }
 
@@ -158,9 +179,9 @@ export class PolicialComponent implements OnInit, OnDestroy{
         return encoded;
     }
 
-    getfile(){
+    getfile(data: string){
         var obj = {
-            file: this.policial.foto
+            file: data
         }
         this.sharedService.getFile(obj).subscribe({
             next: (data) => {
@@ -168,5 +189,17 @@ export class PolicialComponent implements OnInit, OnDestroy{
             this.foto = url;
             }
         })
+    }
+
+    showArmEmprestado(data: ArmamentoEmprestimo){
+        this.armamentoEmprestado = {...data};
+    }
+
+    showMatEmprestado(data: MaterialPolicial){
+        this.materialPolicial = data;
+    }
+
+    showVeiculosEmprestado(data: VeiculoPolicial){
+        this.veiculoPolicial = data;
     }
 }

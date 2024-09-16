@@ -58,6 +58,7 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('policiais_atestados');
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.policiaisAtestadosService.index();

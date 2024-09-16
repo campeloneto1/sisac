@@ -45,6 +45,7 @@
                   <th>Numeral</th>
                   <th>Nome Guerra</th>
                   <th>Matrícula</th>
+                  <th>Setor</th>
                   <th>Dt Inicial</th>
                   <th>KM Inicial</th>
                   <th>Cidade</th>
@@ -67,6 +68,7 @@
                   <td>{{ row.policial.numeral }}</td>
                   <td>{{ row.policial.nome_guerra }}</td>
                   <td>{{ row.policial.matricula }}</td>
+                  <td>{{ row.policial.setor.nome }} - {{ row.policial.setor.subunidade.abreviatura }}</td>
                   <td>{{ row.data_inicial | date: 'dd/MM/yyyy HH:mm' }}</td>
                   <td>{{ row.km_inicial }}</td>
                   <td>
@@ -282,7 +284,7 @@
          <div class="modal-body">
            @if(emprestado){
 
-            <app-veiculos-policiais-show [data$]="emprestado" />
+            <app-veiculos-policiais-show [veiculopolicial]="emprestado" />
 
            }
          </div>

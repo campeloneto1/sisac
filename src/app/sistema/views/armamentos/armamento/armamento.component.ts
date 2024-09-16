@@ -1,13 +1,17 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { TitleComponent } from "../../../components/title/title.component";
 import { Armamento } from "../armamento";
 import { ArmamentosService } from "../armamentos.service";
 import { ActivatedRoute } from '@angular/router';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
-import { DataTableModule } from "@pascalhonegger/ng-datatable";
 import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
+import { DataTableDirective, DataTablesModule } from "angular-datatables";
+import { Config } from "datatables.net";
+import { ArmamentoEmprestimo } from "../../armamentos-emprestimos/armamento-emprestimo";
+import { ArmamentoEmprestimoItem } from "../../armamentos-emprestimos-itens/armamento-emprestimo-item";
+import { ArmamentosEmprestimosShow } from "../../armamentos-emprestimos/show/armamentos-emprestimos-show.component";
 
 @Component({
     selector: 'app-armamento',
@@ -19,7 +23,8 @@ import { User } from "../../users/user";
         TitleComponent,
         NgxMaskDirective, 
         NgxMaskPipe,
-        DataTableModule
+        DataTablesModule,
+        ArmamentosEmprestimosShow
     ],
     providers: [
         provideNgxMask(),
@@ -33,6 +38,11 @@ export class ArmamentoComponent implements OnInit, OnDestroy{
 
     protected user!: User;
 
+    protected armEmrpestimo!: ArmamentoEmprestimo;
+
+    @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+    protected dtOptions: Config = {};
+
     constructor(
         private armamentosService: ArmamentosService,
         private sessionService: SessionService,
@@ -42,6 +52,10 @@ export class ArmamentoComponent implements OnInit, OnDestroy{
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
         this.sessionService.checkPermission('armamentos');
+        this.dtOptions = {
+            pageLength: 10,
+            order: [0, 'desc']
+        };
 
         try {
             this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
@@ -70,5 +84,10 @@ export class ArmamentoComponent implements OnInit, OnDestroy{
         let result = new Date(data);
         result.setDate(result.getDate() + dias);
         return result;
+      }
+
+
+      showEmprestado(data: ArmamentoEmprestimoItem){
+        this.armEmrpestimo = data.armamento_emprestimo;
       }
 }

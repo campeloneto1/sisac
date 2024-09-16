@@ -61,6 +61,10 @@ export class ArmamentosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('armamentos');
+    this.dtOptions = {
+      pageLength: 10,
+      order: [6, 'asc']
+    };
     this.data$ = this.armamentosService.index();
   }
 

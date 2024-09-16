@@ -1,3 +1,24 @@
+<div class="row">
+  <div class="col-sm-4">
+    <b>Marca:</b> {{veiculooficina.veiculo.modelo.marca.nome}}
+  </div>
+  <div class="col-sm-4">
+    <b>Modelo:</b> {{veiculooficina.veiculo.modelo.nome}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4">
+    <b>Placa:</b> {{veiculooficina.veiculo.placa}}
+  </div>
+  @if(veiculooficina.veiculo.placa_especial){
+    <div class="col-sm-4">
+      <b>Placa Especial:</b> {{veiculooficina.veiculo.placa_especial}}
+    </div>
+  }
+  <div class="col-sm-4">
+    <b>KM Inicial:</b> {{veiculooficina.km_inicial}}
+  </div>
+</div>
 <form [formGroup]="form">
     <div class="row">
       <input-text

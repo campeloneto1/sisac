@@ -54,6 +54,7 @@ export class OficinasComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('gestor');
     this.dtOptions = {
       pageLength: 10,
+      order: [1, 'asc']
     };
 
     this.data$ = this.oficinasService.index();

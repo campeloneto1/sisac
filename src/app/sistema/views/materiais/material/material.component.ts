@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { TitleComponent } from "../../../components/title/title.component";
 import { Material } from "../material";
 import { MateriaisService } from "../materiais.service";
@@ -8,6 +8,10 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { DataTableModule } from "@pascalhonegger/ng-datatable";
 import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
+import { DataTableDirective, DataTablesModule } from "angular-datatables";
+import { Config } from "datatables.net";
+import { MaterialPolicial } from "../../materiais-policiais/material-policial";
+import { MaterialPolicialItem } from "../../materiais-policiais-itens/material-policial-item";
 
 @Component({
     selector: 'app-material',
@@ -19,7 +23,8 @@ import { User } from "../../users/user";
         TitleComponent,
         NgxMaskDirective, 
         NgxMaskPipe,
-        DataTableModule
+        DataTableModule,
+        DataTablesModule
     ],
     providers: [
         provideNgxMask(),
@@ -32,6 +37,11 @@ export class MaterialComponent implements OnInit, OnDestroy{
     private subscription:any;
 
     protected user!: User;
+
+    @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+    protected dtOptions: Config = {};
+
+    protected matPolicial!: MaterialPolicial;
 
     constructor(
         private materiaisService: MateriaisService,
@@ -69,5 +79,9 @@ export class MaterialComponent implements OnInit, OnDestroy{
         let result = new Date(data);
         result.setDate(result.getDate() + dias);
         return result;
+    }
+
+    showEmprestado(data: MaterialPolicialItem){
+        this.matPolicial = data.material_policial;
       }
 }

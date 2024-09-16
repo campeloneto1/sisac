@@ -73,6 +73,7 @@ export class MateriaisConsumoEntradasComponent implements OnInit, OnDestroy {
     this.sessionService.checkPermission('materiais_consumo_saidas');
     this.dtOptions = {
       pageLength: 10,
+      order: [0, 'desc']
     };
 
     this.data$ = this.materiaisConsumoEntradasService.index();
