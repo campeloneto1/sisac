@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantAtestados!: any;
     protected quantFerias!: any;
     protected quantRequeridas!: any;
+    protected quantVeiculos!: any;
     protected armamentosVencendo$!: Observable<Armamentos>;
     protected armamentosEmprestimos$!: Observable<ArmamentosEmprestimos>;
     protected contratosAcabando$!: Observable<Contratos>;
@@ -65,7 +66,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected subscription: any;
     protected subscription2: any;
     protected subscription3: any;
-    
+    protected subscription4: any;
 
     constructor(
         private sessionService: SessionService,
@@ -119,6 +120,12 @@ export class HomeComponent implements OnInit, OnDestroy{
             }
             if(this.user.perfil.veiculos){
                 this.veiculosRevisao$ = this.homeService.getVeiculosRevisao();
+                this.subscription4 = this.homeService.getVeiculos().subscribe({
+                    next: (data) => {
+                        this.quantVeiculos = data;
+                    }
+                });
+                
             }
             if(this.user.perfil.policiais){
                 this.policiaisSetores$ = this.homeService.getPoliciaisSetores();
@@ -170,7 +177,9 @@ export class HomeComponent implements OnInit, OnDestroy{
         if(this.subscription3){
             this.subscription3.unsubscribe();
         }
-        
+        if(this.subscription4){
+            this.subscription4.unsubscribe();
+        }
     }
 
     returnPercentUsado(data: Contrato){

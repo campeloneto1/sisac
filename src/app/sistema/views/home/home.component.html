@@ -98,6 +98,17 @@
           />
         </div>
       }
+      @if(user.perfil.veiculos){
+        <div class="col-sm-2">
+          <app-info-box
+            titulo="Veículos"
+            [subtitulo]="quantVeiculos"
+            route="/Veiculos"
+            icon="fa-car"
+            class="bg-info"
+          />
+        </div>
+      }
     </div>
     <!--FIM DIV INFOBOX-->
 
@@ -108,8 +119,9 @@
       @if(user.perfil.policiais){
         <div class="col-sm-4 maxheight" >
           <div class="card maxcarheight">
-            <div class="card-header border-0">
+            <div class="card-header border-0 ">
               <h3 class="card-title">Policiais por Graduação</h3>
+              <a class="link float-right" [routerLink]="['/Policiais']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -140,6 +152,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Policiais por Setor</h3>
+              <a class="link float-right" [routerLink]="['/Policiais']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -170,6 +183,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Armamentos Emprestados</h3>
+              <a class="link float-right" [routerLink]="['/ArmamentosEmprestimos']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -207,6 +221,7 @@
         <div class="card maxcarheight">
           <div class="card-header border-0">
             <h3 class="card-title">Armamentos próx. do Vencimento</h3>
+            <a class="link float-right" [routerLink]="['/Armamentos']">Ver mais</a>
           </div>
           <div class="card-body table-responsive p-0">
             <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -245,6 +260,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Materiais Emprestados</h3>
+              <a class="link float-right" [routerLink]="['/MateriaisPoliciais']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -280,6 +296,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Materiais Vencendo</h3>
+              <a class="link float-right" [routerLink]="['/Materiais']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -316,6 +333,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Mat Consumo próx. de Acabar</h3>
+              <a class="link float-right" [routerLink]="['/MateriaisConsumo']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -354,6 +372,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Mat Consumo próx. do Vencimento</h3>
+              <a class="link float-right" [routerLink]="['/MateriaisConsumo']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -392,6 +411,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Veículos Emprestados</h3>
+              <a class="link float-right" [routerLink]="['/VeiculosPoliciais']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -437,6 +457,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Veículos em manutenção</h3>
+              <a class="link float-right" [routerLink]="['/VeiculosOficinas']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -479,6 +500,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Veículos próx. da Revisão</h3>
+              <a class="link float-right" [routerLink]="['/Veiculos']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -521,6 +543,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Veículos próx. da Troca Óleo</h3>
+              <a class="link float-right" [routerLink]="['/Veiculos']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
@@ -561,6 +584,7 @@
           <div class="card maxcarheight">
             <div class="card-header border-0">
               <h3 class="card-title">Contratos próx. de acabar</h3>
+              <a class="link float-right" [routerLink]="['/Contratos']">Ver mais</a>
             </div>
             <div class="card-body table-responsive p-0">
               <table class="table table-striped table-hover table-valign-middle table-head-fixed">
