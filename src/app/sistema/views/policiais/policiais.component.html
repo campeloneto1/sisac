@@ -100,6 +100,14 @@
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <div class="dropdown-menu" role="menu">
+                        @if(user.perfil.policiais_del){
+                          <a
+                            class="dropdown-item point"
+                            [routerLink]="['/PolicialFichaFinanceira', encodeId(row.id)]"
+                            title="Ficha Financeira"
+                            >Ficha Financeira</a
+                          >
+                        }
                         @if(user.perfil.gestor && !row.user){
                           <a
                             class="dropdown-item point"

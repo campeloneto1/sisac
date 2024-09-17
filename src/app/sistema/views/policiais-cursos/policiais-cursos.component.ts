@@ -13,6 +13,7 @@ import { User } from '../users/user';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Observable } from 'rxjs';
 import { Config } from 'datatables.net';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-policiais-cursos',
   templateUrl: './policiais-cursos.component.html',
@@ -50,16 +51,15 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
     private policiaisCursosService: PoliciaisCursosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
   ) {}
  
 
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('policiais_cursos');
-    this.dtOptions = {
-      pageLength: 10,
-      order: [0, 'desc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
     this.data$ = this.policiaisCursosService.index();
   }

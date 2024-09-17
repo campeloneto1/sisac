@@ -153,6 +153,8 @@ export class PoliciaisAtestadosFormComponent implements OnInit, OnDestroy{
                    this.isAtestado = value.atestado ? true : false;
                    if(value.dias){
                     this.form.get('dias')?.patchValue(value.dias);
+                   }else if(this.form.value.dias){
+                  
                    }else{
                     this.form.get('dias')?.patchValue(null);
                    }

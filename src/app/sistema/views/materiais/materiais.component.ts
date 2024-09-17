@@ -56,10 +56,8 @@ export class MateriaisComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('materiais');
-    this.dtOptions = {
-      pageLength: 10,
-      order: [1, 'asc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [1, 'asc']};
 
     this.data$ = this.materiaisService.index();
   }

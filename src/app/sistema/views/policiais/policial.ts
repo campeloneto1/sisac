@@ -1,4 +1,5 @@
 import { ArmamentosEmprestimos } from "../armamentos-emprestimos/armamento-emprestimo";
+import { Banco } from "../bancos/banco";
 import { Cidade } from "../cidades/cidade";
 import { Escolaridade } from "../escolaridades/escolaridade";
 import { Funcao } from "../funcoes/funcao";
@@ -55,6 +56,13 @@ export interface Policial{
     materiais_policiais: MateriaisPoliciais;
 
     usuario?: User;
+
+    banco?: Banco;
+    agencia?: string;
+    conta?: string;
+
+    pai?: string;
+    mae?: string;
 
     created_by?: User;
     updated_by?: User;

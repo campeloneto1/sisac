@@ -54,10 +54,8 @@ export class VeiculosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('veiculos');
-    this.dtOptions = {
-      pageLength: 10,
-      order: [6, 'asc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [6, 'asc']};
 
     this.data$ = this.veiculosService.index();
   }

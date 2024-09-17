@@ -72,10 +72,8 @@ export class ContratosComponent implements OnInit, OnDestroy {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('contratos');
 
-    this.dtOptions = {
-      pageLength: 10,
-      order: [0, 'desc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
     this.data$ = this.contratosService.index();
   }

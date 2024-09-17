@@ -2,7 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Config } from 'datatables.net';
 import { environment } from "../../../environments/environments";
-
+import 'pdfmake/build/pdfmake'; // Importa pdfmake
+import 'pdfmake/build/vfs_fonts'; // Importa as fontes do pdfmake
 const URL = environment.url;
 
 @Injectable({
@@ -16,10 +17,43 @@ export class SharedService{
   ){}
 
     protected dtOptions: Config = {
-        pagingType: 'full_numbers',
         pageLength: 10,
-        processing: true,
-        paging: true
+        order: [0, 'desc'],
+        dom: 'Bfrtip',
+        //@ts-ignore
+        buttons: [
+          {
+            extend: 'colvis',
+            className: 'btn btn-info'
+          },
+          {
+            extend: 'copy',
+            className: 'btn btn-info' // Adiciona a classe do Bootstrap ao botão
+          },
+          {
+            extend: 'csv',
+            text: 'CSV',
+            fieldSeparator: ';',
+            exportOptions: [1, 2, 3],
+            className: 'btn btn-info'
+          },
+          {
+            extend: 'excel',
+            className: 'btn btn-info' // Adiciona a classe do Bootstrap ao botão
+          },
+          {
+            extend: 'pdfHtml5',
+            text: 'PDF',
+            title: 'Relatório PDF - SISAC', // Título do PDF
+            orientation: 'landscape', // Orientação da página
+            pageSize: 'A4', // Tamanho da página
+             className: 'btn btn-info',
+            exportOptions: {
+              // Configura quais colunas incluir na exportação
+              columns: ':visible'
+            }
+          }
+        ]
       };    
 
       getDtOptions(){

@@ -66,10 +66,8 @@ export class VeiculosPoliciaisComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sessionService.checkPermission('veiculos_policiais');
     this.user = this.sessionService.getUser();
-    this.dtOptions = {
-      pageLength: 10,
-      order: [0, 'desc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
     this.data$ = this.veiculosPoliciaisService.index();
   }

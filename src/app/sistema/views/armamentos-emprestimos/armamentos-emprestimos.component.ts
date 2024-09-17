@@ -79,10 +79,8 @@ export class ArmamentosEmprestimosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('armamentos_emprestimos');
-    this.dtOptions = {
-      pageLength: 10,
-      order: [0, 'desc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
     this.data$ = this.armamentosEmprestimosService.index();
   }
 

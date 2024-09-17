@@ -27,6 +27,7 @@ export class SidebarComponent implements OnInit{
         '/ArmamentosCalibres',
         '/ArmamentosTamanhos',
         '/ArmamentosTipos',
+        '/Bancos',
         '/Cidades',
         '/ContratosObjetos',
         '/ContratosTipos',

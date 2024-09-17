@@ -107,6 +107,11 @@ export const routes: Routes = [
               import('./sistema/views/policiais-atestados/policiais-atestados.component').then((c) => c.PoliciaisAtestadosComponent),
           },
           {
+            path: 'Bancos',
+            loadComponent: () =>
+              import('./sistema/views/bancos/bancos.component').then((c) => c.BancosComponent),
+          },
+          {
             path: 'Cidades',
             loadComponent: () =>
               import('./sistema/views/cidades/cidades.component').then((c) => c.CidadesComponent),
@@ -310,6 +315,11 @@ export const routes: Routes = [
             path: 'Policial/:id',
             loadComponent: () =>
               import('./sistema/views/policiais/policial/policial.component').then((c) => c.PolicialComponent),
+          },
+          {
+            path: 'PolicialFichaFinanceira/:id',
+            loadComponent: () =>
+              import('./sistema/views/policiais/ficha-financeira/policiais-ficha-financeira.component').then((c) => c.PoliciaisFichaFinanceiraComponent),
           },
           {
             path: 'Policiais',

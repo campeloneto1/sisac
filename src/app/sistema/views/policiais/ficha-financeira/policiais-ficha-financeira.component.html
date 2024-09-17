@@ -1,0 +1,197 @@
+<div
+  class="page-header"
+  style="text-align: center; "
+  *ngIf="data$"
+>
+  <img src="assets/cabecalho.png" class="cabecalho" />
+  <br />
+  <!-- <h4>
+    Ficha Financeira -
+    {{ subunidade.abreviatura }}/{{
+      subunidade.unidade.abreviatura
+    }}
+  </h4> -->
+</div>
+
+<div class="page-footer" *ngIf="data$">
+  <div class="row rodape2" *ngIf="user">
+    <div class="col-sm-3 text-center">
+      <!-- <qrcode
+        [qrdata]="qrcod"
+        [allowEmptyString]="true"
+        [cssClass]="'center'"
+        [elementType]="'canvas'"
+        [errorCorrectionLevel]="'M'"
+        [scale]="1"
+        [width]="120"
+      ></qrcode> -->
+    </div>
+    <div class="col-sm-6 text-center">
+      <p>
+        {{ subunidade.nome }} – {{ subunidade.unidade.nome }}<br />
+        {{ subunidade.rua }}, {{ subunidade.numero }} -
+        {{ subunidade.bairro }} | CEP:
+        @if(subunidade.cep){
+        {{ subunidade.cep | mask: "00.000-00" }}
+        }
+        {{ subunidade.cidade?.nome }} /
+        {{ subunidade.cidade?.estado?.abreviatura }} <br />
+        @if(subunidade.telefone){
+            Fones: {{ subunidade.telefone | mask: "(00) 0000-0000" }} 
+        }   |
+        E-mail: {{ subunidade.email }}<br />
+        <b>“Raça de Fortes, Povo de Bravos”</b>
+      </p>
+    </div>
+    <div class="col-sm-3">
+      <p>
+        <b>Usuário:</b> 
+        @if(user.policial){
+          {{ user.policial.graduacao.abreviatura }} {{ user.policial.nome_guerra }}
+        }@else{
+          {{ user.nome }}
+        }<br />
+        <b>Data:</b> {{ datahj | date: "dd/MM/yyyy HH:mm" }}
+      </p>
+    </div>
+  </div>
+  <img src="assets/rodape.png" class="rodape" />
+</div>
+
+<table style="width: 100%; min-width: 100%" *ngIf="data$">
+  <thead class="thead">
+    <tr>
+      <td>
+        <!--place holder for the fixed-position header-->
+        <div class="page-header-space"></div>
+      </td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        <!--*** CONTENT GOES HERE ***
+          <div class="page">PAGE 1</div>
+          <div class="page">PAGE 2</div>-->
+        <div class="page">
+
+            <!-- --------------------------------------------------------- -->
+              
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; ">
+            <h3>GOVERNO DO ESTADO DO CEARÁ</h3>
+            <h3>CASA CIVIL</h3>
+            <h3>RECURSOS HUMANOS</h3>
+            <h4>FICHA DE CADASTRO DE SERVIDOR MILITAR</h4>
+          </div>
+          <div class="text-center mt-5">
+            @if(data$.foto){
+              <img
+                crossorigin='anonymous'
+                class="profile-user-img img-fluid  point"
+                [src]="foto"
+                alt="Foto policial"
+                style="height: 200px; width: 180px;"
+              />
+            }
+          </div>
+          <div class="row mt-5">
+            <div class="col-sm-12">
+              <strong>Nome: </strong>{{ data$.nome }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3">
+              <strong>Post./Grad.: </strong>{{ data$.graduacao.nome }}
+            </div>
+            <div class="col-sm-3">
+              <strong>Dt. Inclusão: </strong>{{ data$.data_inclusao | date: 'dd/MM/yyyy' }}
+            </div>
+            <div class="col-sm-3">
+              <strong>Matrícula: </strong>{{ data$.matricula | mask: '000.000-0-A' }}
+            </div>
+            <div class="col-sm-3">
+              <strong>Dt. Apresentação: </strong>{{ data$.data_apresentacao | date: 'dd/MM/yyyy' }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <strong>Transferência para a Casa Militar pelo BCG ou DOE: </strong>{{ data$.boletim_apresentacao }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3">
+              <strong>Dt. Nascimento: </strong>{{ data$.data_nascimento | date: 'dd/MM/yyyy' }}
+            </div>
+            <div class="col-sm-3">
+              <strong>CPF: </strong>{{ data$.cpf | mask: '000.000.000-00' }}
+            </div>
+            <div class="col-sm-3">
+              <strong>Grau Instrução: </strong>{{ data$.escolaridade.nome }}
+            </div>
+            @if(data$.telefone1){
+              <div class="col-sm-3">
+                <strong>Telefone: </strong>{{ data$.telefone1 | mask: '(00) 0 0000-00000' }}
+              </div>
+            }
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <strong>E-mail: </strong>{{ data$.email }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <strong>Endereço: </strong>
+              {{ data$.rua }}, {{ data$.numero }}, {{ data$.bairro }}, 
+              @if(data$.cidade){
+                {{ data$.cidade.nome }},  {{ data$.cidade.estado.abreviatura }}
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <strong>Mãe: </strong> {{ data$.mae }}
+            </div>
+            <div class="col-sm-4">
+              <strong>Pai: </strong> {{ data$.pai }}
+            </div>
+          </div>
+          <div class="row mt-2">
+            @if(data$.banco){
+              <div class="col-sm-4">
+                <strong>Banco: </strong> {{ data$.banco.nome }}
+              </div>
+            }
+            
+            <div class="col-sm-4">
+              <strong>Agência: </strong> {{ data$.agencia }}
+            </div>
+            <div class="col-sm-4">
+              <strong>Conta: </strong> {{ data$.conta }}
+            </div>
+          </div>
+
+
+          <div style="margin-top: 100px;" class="text-center" >
+            <b>{{data$.nome}} - {{data$.graduacao.abreviatura}}</b><br />
+            Mat.: {{data$.matricula | mask:'000.000-0-A'}}<br />
+            
+          </div>
+            <!-- --------------------------------------------------------- -->
+
+        </div>
+        <!-- FIM PAGE-->
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot class="tfoot">
+    <tr>
+      <td>
+        <!--place holder for the fixed-position footer-->
+        <div class="page-footer-space"></div>
+      </td>
+    </tr>
+  </tfoot>
+</table>

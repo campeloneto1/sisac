@@ -15,6 +15,7 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Observable } from 'rxjs';
 import { Config } from 'datatables.net';
 import { User } from '../users/user';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-servicos',
   templateUrl: './servicos.component.html',
@@ -58,16 +59,15 @@ export class ServicosComponent implements OnInit, OnDestroy {
     private contratosLancamentosService: ContratosLancamentosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService,
   ) {}
  
 
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('servicos');
-    this.dtOptions = {
-      pageLength: 10,
-      order: [0, 'desc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
     this.data$ = this.servicosService.index();
   }

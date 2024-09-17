@@ -28,6 +28,8 @@ import { Escolaridades } from "../../escolaridades/escolaridade";
 import { EscolaridadesService } from "../../escolaridades/escolaridades.service";
 import { Funcoes } from "../../funcoes/funcao";
 import { FuncoesService } from "../../funcoes/funcoes.service";
+import { Bancos } from "../../bancos/banco";
+import { BancosService } from "../../bancos/bancos.service";
 
 
 @Component({
@@ -56,6 +58,7 @@ export class PoliciaisFormComponent implements OnInit{
     protected sexos$!: Observable<Sexos>;
     protected escolaridades$!: Observable<Escolaridades>;
     protected funcoes$!: Observable<Funcoes>;
+    protected bancos$!: Observable<Bancos>;
 
     @Output('refresh') refresh: EventEmitter<Policial> = new EventEmitter();
     
@@ -72,6 +75,7 @@ export class PoliciaisFormComponent implements OnInit{
         private cidadesService:CidadesService,
         private escolaridadesService:EscolaridadesService,
         private funcoesService:FuncoesService,
+        private bancosService:BancosService,
         private toastr: ToastrService,
     ){}
 
@@ -164,6 +168,11 @@ export class PoliciaisFormComponent implements OnInit{
                 Validators.required,
             ])],
             'boletim_transferencia': [null],
+            'banco': [null],
+            'agencia': [null],
+            'conta': [null],
+            'pai': [null],
+            'mae': [null],
         });
         this.unidades$ = this.unidadesService.index();
         this.paises$ = this.paisesService.index();
@@ -171,6 +180,7 @@ export class PoliciaisFormComponent implements OnInit{
         this.sexos$ = this.sexosService.index();
         this.escolaridades$ = this.escolaridadesService.index();
         this.funcoes$ = this.funcoesService.index();
+        this.bancos$ = this.bancosService.index();
     }
 
     cadastrar(){
@@ -221,6 +231,9 @@ export class PoliciaisFormComponent implements OnInit{
         }
         if(data.escolaridade){
             this.form.get('escolaridade')?.patchValue(data.escolaridade.id);
+        }
+        if(data.banco){
+            this.form.get('banco')?.patchValue(data.banco.id);
         }
         if(data.setor){
             this.form.get('setor')?.patchValue(data.setor.id);

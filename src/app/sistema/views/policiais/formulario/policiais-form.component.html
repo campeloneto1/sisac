@@ -179,6 +179,47 @@
     </div>
 
     <div class="row">
+      <input-select
+        class="col-sm-2"
+        label="Banco"
+        id="banco"
+        [data$]="bancos$"
+        formControlName="banco"
+      />
+      <input-text
+            class="col-sm-2"
+            formControlName="agencia"
+            label="Agência"
+            id="agencia"
+            tipo="text"
+        />
+        <input-text
+            class="col-sm-2"
+            formControlName="conta"
+            label="Conta"
+            id="conta"
+            tipo="text"
+        />
+    </div>
+
+    <div class="row">
+      <input-text
+            class="col-sm-4"
+            formControlName="mae"
+            label="Mãe"
+            id="mae"
+            tipo="text"
+        />
+        <input-text
+            class="col-sm-4"
+            formControlName="pai"
+            label="Pai"
+            id="pai"
+            tipo="text"
+        />
+    </div>
+
+    <div class="row">
         <input-text
           class="col-sm-4"
           formControlName="rua"

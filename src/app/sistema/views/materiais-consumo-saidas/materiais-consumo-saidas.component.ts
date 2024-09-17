@@ -19,6 +19,7 @@ import { format } from 'date-fns';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
 import { Observable } from 'rxjs';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-materiais-consumo-saidas',
   templateUrl: './materiais-consumo-saidas.component.html',
@@ -66,17 +67,15 @@ export class MateriaisConsumoSaidasComponent implements OnInit, OnDestroy {
     private materiaisConsumoSaidasItensService: MateriaisConsumoSaidasItensService,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    
+    private sharedService: SharedService
   ) {}
  
 
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('materiais_consumo_saidas');
-    this.dtOptions = {
-      pageLength: 10,
-      order: [0, 'desc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
     this.data$ = this.materiaisConsumoSaidasService.index();
   }

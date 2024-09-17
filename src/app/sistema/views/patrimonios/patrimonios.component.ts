@@ -11,6 +11,7 @@ import { SessionService } from '../../session.service';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
 import { Observable } from 'rxjs';
+import { SharedService } from '../../shared/shared.service';
 @Component({
   selector: 'app-patrimonios',
   templateUrl: './patrimonios.component.html',
@@ -43,16 +44,15 @@ export class PatrimoniosComponent implements OnInit, OnDestroy {
     private patrimoniosService: PatrimoniosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
+    private sharedService: SharedService
   ) {}
  
 
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('patrimonios');
-    this.dtOptions = {
-      pageLength: 10,
-      order: [5, 'asc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [5, 'asc']};
 
     this.data$ = this.patrimoniosService.index();
   }

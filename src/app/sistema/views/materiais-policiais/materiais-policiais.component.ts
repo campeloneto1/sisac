@@ -74,10 +74,8 @@ export class MateriaisPoliciaisComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.sessionService.getUser();
     this.sessionService.checkPermission('materiais_policiais');
-    this.dtOptions = {
-      pageLength: 10,
-      order: [0, 'desc']
-    };
+    this.dtOptions = this.sharedService.getDtOptions();
+    this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
     this.data$ = this.materiaisPoliciaisService.index();
   }

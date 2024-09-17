@@ -1,78 +1,77 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Marca, Marcas } from './marca';
-import { MarcasService } from './marcas.service';
+import { Banco, Bancos } from './banco';
+import { BancosService } from './bancos.service';
 import { TitleComponent } from '../../components/title/title.component';
-import { MarcasFormComponent } from './formulario/marcas-form.component';
+import { BancosFormComponent } from './formulario/bancos-form.component';
 import { ToastrService } from 'ngx-toastr';
+import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { Config } from 'datatables.net';
 import { Observable } from 'rxjs';
-import { SharedService } from '../../shared/shared.service';
+import { Config } from 'datatables.net';
 @Component({
-  selector: 'app-marcas',
-  templateUrl: './marcas.component.html',
-  styleUrl: './marcas.component.css',
+  selector: 'app-bancos',
+  templateUrl: './bancos.component.html',
+  styleUrl: './bancos.component.css',
   standalone: true,
   imports: [
     CommonModule, 
     TitleComponent, 
-    MarcasFormComponent,
+    BancosFormComponent,
     DataTablesModule,
     FormsModule
   ],
 })
-export class MarcasComponent implements OnInit, OnDestroy {
-  protected data$!: Observable<Marcas>;
-  protected excluir!: Marca;
+export class BancosComponent implements OnInit, OnDestroy {
+  protected data$!: Observable<Bancos>;
+  protected excluir!: Banco;
   protected pesquisa!: string;
-  protected temp!: Marcas;
+  protected temp!: Bancos;
   protected quant: number = 10;
   protected subscription: any;
 
   @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
   protected dtOptions: Config = {};
 
-  @ViewChild(MarcasFormComponent) child!: MarcasFormComponent;
+  @ViewChild(BancosFormComponent) child!: BancosFormComponent;
 
   constructor(
-    private marcasService: MarcasService,
+    private bancosService: BancosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    private sharedService: SharedService
   ) {}
  
 
   ngOnInit(): void {
     this.sessionService.checkPermission('administrador');
-    this.dtOptions = this.sharedService.getDtOptions();
-    this.dtOptions =  {...this.dtOptions, order: [1, 'asc']};
+    this.dtOptions = {
+      pageLength: 10,
+      order: [1, 'asc']
+    };
 
-    this.data$ = this.marcasService.index();
+    this.data$ = this.bancosService.index();
   }
 
   ngOnDestroy(): void {
-    if(this.subscription){
-      this.subscription.unsubscribe()
-    }
+    
   }
 
   refresh() {
-    this.data$ = this.marcasService.index();
+    this.data$ = this.bancosService.index();
   }
 
-  editar(data: Marca) {
+  editar(data: Banco) {
     this.child.editar(data);
   }
 
-  delete(data: Marca) {
+  delete(data: Banco) {
     this.excluir = data;
   }
 
   confirm() {
-    this.marcasService.remove(this.excluir.id || 0).subscribe({
+    this.bancosService.remove(this.excluir.id || 0).subscribe({
       next: (data: any) => {
         this.toastr.success('Exclusão realizada com sucesso!');
         this.refresh();
@@ -82,5 +81,4 @@ export class MarcasComponent implements OnInit, OnDestroy {
       },
     });
   }
-
 }
