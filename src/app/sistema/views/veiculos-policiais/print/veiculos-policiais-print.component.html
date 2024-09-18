@@ -150,11 +150,24 @@
           
 
           <div style="margin-top: 30px" [innerHTML]="data$.observacoes"></div>
+
           <div style="margin-top: 30px" class="text-center">
             <b>{{ data$.policial.nome }}</b> - {{ data$.policial.graduacao.abreviatura
             }}<br />
             Mat.: {{ data$.policial.matricula | mask: "000.000-0-A" }}<br />
           </div>
+
+
+          @if(data$.veiculos_policiais_alteracoes){
+            <div class="row mt-4">
+              @for(row of fotos; track row){
+                <div class="card mb-2 bg-gradient-dark col-sm-3">
+                 <img class="card-img-top" height="200px" [src]="row.foto" alt="Dist Photo 1">
+                  <p class="card-text text-white pb-2 pt-1" [innerHtml]="row.observacoes"></p>
+                </div>
+              }
+            </div>
+          }
         </div>
         <!-- FIM PAGE-->
       </td>

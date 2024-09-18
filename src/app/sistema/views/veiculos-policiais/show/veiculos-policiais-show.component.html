@@ -67,6 +67,17 @@
     
 
     <div style="margin-top: 30px" [innerHTML]="data.observacoes"></div>
+
+    @if(data.veiculos_policiais_alteracoes){
+      <div class="row mt-4">
+        @for(row of fotos; track row){
+          <div class="card mb-2 bg-gradient-dark col-sm-3">
+           <img class="card-img-top" height="200px" [src]="row.foto" alt="Dist Photo 1">
+            <p class="card-text text-white pb-2 pt-1" [innerHtml]="row.observacoes"></p>
+          </div>
+        }
+      </div>
+    }
    
   </div>
 }

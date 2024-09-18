@@ -106,4 +106,9 @@ export class MateriaisConsumoComponent implements OnInit, OnDestroy {
     });
   }
 
+  encodeId(id: any){
+    var encoded = this.sharedService.encodeId(id);
+    return encoded;
+  }
+
 }

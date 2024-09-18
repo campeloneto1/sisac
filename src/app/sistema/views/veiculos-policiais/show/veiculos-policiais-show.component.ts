@@ -6,7 +6,8 @@ import { User } from "../../users/user";
 import { SessionService } from "../../../session.service";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { Subunidade } from "../../subunidades/subunidade";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
+import { SharedService } from "../../../shared/shared.service";
 
 @Component({
     selector: 'app-veiculos-policiais-show',
@@ -31,12 +32,15 @@ export class VeiculosPoliciaisShow implements OnInit, OnDestroy, OnChanges{
     protected datahj!: Date;
     protected subunidade!: Subunidade;
 
+    protected fotos: Array<any> = [];
+
     private subscription: any;
     private subscription2: any;
 
     constructor(
         private veiculoPolicialService: VeiculosPoliciaisService,
         private sessionService: SessionService,
+        private sharedService: SharedService
     ){}
    
     
@@ -52,7 +56,8 @@ export class VeiculosPoliciaisShow implements OnInit, OnDestroy, OnChanges{
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['veiculopolicial']) {
             this.refresh();
-          }
+            this.loadFotos();
+        }
     }
 
     ngOnDestroy(): void {
@@ -68,7 +73,34 @@ export class VeiculosPoliciaisShow implements OnInit, OnDestroy, OnChanges{
     refresh(){
         if(this.veiculopolicial.id){
             this.data$ = this.veiculoPolicialService.find(this.veiculopolicial.id);
+            
         }
     }
+
+    loadFotos(){
+        this.fotos = [];
+        this.data$.subscribe({
+            next: (data) => {
+                data.veiculos_policiais_alteracoes?.map(data => {
+                    var obj = {
+                        file: data.foto
+                    }
+                    this.sharedService.getFile(obj).subscribe({
+                        next: (data2) => {
+                            const url = window.URL.createObjectURL(data2);
+                            this.fotos.push(
+                                {
+                                    //@ts-ignore
+                                    foto: url,
+                                    observacoes: data.observacoes,
+                                    id: data.id
+                                }
+                            );
+                        }
+                    });
+                });
+            }
+        })
+      }
 
 }

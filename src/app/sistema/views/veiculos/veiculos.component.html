@@ -81,6 +81,9 @@
                   @if(row.nao_disponivel){
                     <i class="fa fa-ban text-danger" title="Não disponível" aria-hidden="true"></i>
                   }
+                  @if(row.disponivel_viagem){
+                    <i class="fa fa-plane text-success" title="Disponível viagem" aria-hidden="true"></i>
+                  }
                 </td>
                 <td>{{ row.data_baixa | date: 'dd/MM/yyyy' }}</td>
                   <td class="options2">

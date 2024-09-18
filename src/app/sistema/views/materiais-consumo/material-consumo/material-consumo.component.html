@@ -143,67 +143,37 @@
                       <!--INICIO TAB ENTRADAS-->
                       <div class="tab-pane" id="entradas">
                         <!-- -------------------------------------------- -->
+                         <!-- INICO TABLE-->
                         <table
-                          [mfData]="materialconsumo.materiais_consumo_entradas_itens"
-                          #entradas="mfDataTable"
-                          [mfRowsOnPage]="10"
-                          [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                          class="table table-hover table-head-fixed text-wrap"
-                        >
-                          <thead>
-                            <tr>
-                              <th>
-                                <mfDefaultSorter by="id"
-                                  >#</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_consumo_entrada.user.policial.graduacao.abreviatura"
-                                  >Graduação</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_consumo_entrada.user.policial.numeral"
-                                  >Numeral</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_consumo_entrada.user.policial.nome_guerra"
-                                  >Nome Guerra</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_consumo_entrada.user.policial.matricula"
-                                  >Matrícula</mfDefaultSorter
-                                >
-                              </th>
-                              <th>
-                                <mfDefaultSorter by="material_consumo_entrada.data_entrada"
-                                  >Data Entrada</mfDefaultSorter
-                                >
-                              </th>
-                              
-                              <th>
-                                <mfDefaultSorter by="quantidade"
-                                  >Quantidade</mfDefaultSorter
-                                >
-                              </th>
-                              
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @for(row of entradas.data; track row){
-                            <tr data-widget="expandable-table" aria-expanded="false">
-                              <td>{{ row.material_consumo_entrada.id }}</td>
+                        datatable
+                        [dtOptions]="dtOptions"
+                        class="table table-hover table-head-fixed text-nowrap"
+                      >
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Graduação</th>
+                            <th>Numeral</th>
+                            <th>Nome</th>
+                            <th>Matrícula</th>
+                            <th>Data Entrada</th>
+                            <th>Quantidade</th>
+                          </tr>
+                        </thead>
+              
+                        <tbody>
+                          @for(row of materialconsumo.materiais_consumo_entradas_itens; track row){
+                          <tr class="optionshover2">
+                            <td>{{ row.material_consumo_entrada.id }}</td>
                               <td>
                                 @if(row.material_consumo_entrada.user.policial){
                                   {{ row.material_consumo_entrada.user.policial.graduacao.abreviatura }}
                                 }
                               </td>
                               <td>
-                                @if(row.material_consumo_entrada.user.policial){
+                                <!-- @if(row.material_consumo_entrada.user.policial.numeral){
                                   {{ row.material_consumo_entrada.user.policial.numeral | mask: '00.000' }}
-                                }
+                                } -->
                               </td>
                               <td>
                                 @if(row.material_consumo_entrada.user.policial){
@@ -223,34 +193,13 @@
                                 {{ row.material_consumo_entrada.data_entrada | date : "dd/MM/yyyy HH:mm" }}
                               </td>
                               <td>{{ row.quantidade }}</td>
-                            </tr>
-                            <tr class="expandable-body d-none">
-                                
-                              <td colspan="9">
-                                @if(row.material_consumo_entrada.observacoes){<div
-                                  style="display: none"
-                                  [innerHTML]="row.material_consumo_entrada.observacoes"
-                                ></div>}
-                              </td>
-                            </tr>
-                            }
-                          </tbody>
-                          <tfoot>
-                            <tr>
-                              <td colspan="100%">
-                                <div
-                                  style="
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                  "
-                                >
-                                  <mfBootstrapPaginator></mfBootstrapPaginator>
-                                </div>
-                              </td>
-                            </tr>
-                          </tfoot>
-                        </table>
+                            
+                          </tr>
+                          }
+                        </tbody>
+                      </table>
+                      <!-- FIM TABLE-->
+                       
                         <!--------------------------------------------------->
                       </div>
                       <!--FIM TAB ENTRADAS-->
@@ -259,114 +208,62 @@
                         <!--INICIO TAB SAIDAS-->
                         <div class="tab-pane" id="saidas">
                           <!-- -------------------------------------------- -->
-                          <table
-                            [mfData]="materialconsumo.materiais_consumo_saidas_itens"
-                            #saidas="mfDataTable"
-                            [mfRowsOnPage]="10"
-                            [mfSortBy]="'id'" [mfSortOrder]="'desc'"
-                            class="table table-hover table-head-fixed text-wrap"
+                           <!-- INICO TABLE-->
+                        <table
+                            datatable
+                            [dtOptions]="dtOptions"
+                            class="table table-hover table-head-fixed text-nowrap"
                           >
                             <thead>
                               <tr>
-                                <th>
-                                  <mfDefaultSorter by="id"
-                                    >#</mfDefaultSorter
-                                  >
-                                </th>
-                                <th>
-                                  <mfDefaultSorter by="material_consumo_saida.user.policial.graduacao.abreviatura"
-                                    >Graduação</mfDefaultSorter
-                                  >
-                                </th>
-                                <th>
-                                  <mfDefaultSorter by="material_consumo_saida.user.policial.numeral"
-                                    >Numeral</mfDefaultSorter
-                                  >
-                                </th>
-                                <th>
-                                  <mfDefaultSorter by="material_consumo_saida.user.policial.nome_guerra"
-                                    >Nome Guerra</mfDefaultSorter
-                                  >
-                                </th>
-                                <th>
-                                  <mfDefaultSorter by="material_consumo_saida.user.policial.matricula"
-                                    >Matrícula</mfDefaultSorter
-                                  >
-                                </th>
-                                <th>
-                                  <mfDefaultSorter by="material_consumo_saida.data_saida"
-                                    >Data Saída</mfDefaultSorter
-                                  >
-                                </th>
-                                
-                                <th>
-                                  <mfDefaultSorter by="quantidade"
-                                    >Quantidade</mfDefaultSorter
-                                  >
-                                </th>
-                                
+                                <th>#</th>
+                                <th>Graduação</th>
+                                <th>Numeral</th>
+                                <th>Nome</th>
+                                <th>Matrícula</th>
+                                <th>Data Saída</th>
+                                <th>Quantidade</th>
                               </tr>
                             </thead>
+                  
                             <tbody>
-                              @for(row of saidas.data; track row){
-                              <tr data-widget="expandable-table" aria-expanded="false">
+                              @for(row of materialconsumo.materiais_consumo_saidas_itens; track row){
+                              <tr class="optionshover2">
                                 <td>{{ row.material_consumo_saida.id }}</td>
-                                <td>
-                                  @if(row.material_consumo_saida.user.policial){
-                                    {{ row.material_consumo_saida.user.policial.graduacao.abreviatura }}
-                                  }
-                                </td>
-                                <td>
-                                  @if(row.material_consumo_saida.user.policial){
-                                    {{ row.material_consumo_saida.user.policial.numeral | mask: '00.000' }}
-                                  }
-                                </td>
-                                <td>
-                                  @if(row.material_consumo_saida.user.policial){
-                                    {{ row.material_consumo_saida.user.policial.nome_guerra }}
-                                  }@else{
-                                    {{ row.material_consumo_saida.user.nome }}
-                                  }
-                                </td>
-                                <td>
-                                  @if(row.material_consumo_saida.user.policial){
-                                    {{ row.material_consumo_saida.user.policial.matricula | mask: '000.000-0-A'}}
-                                  }@else{
-                                    {{ row.material_consumo_saida.user.cpf | mask: '000.000.000-00' }}
-                                  }
-                                </td>
-                                <td>
-                                  {{ row.material_consumo_saida.data_saida | date : "dd/MM/yyyy HH:mm" }}
-                                </td>
-                                <td>{{ row.quantidade }}</td>
-                              </tr>
-                              <tr class="expandable-body d-none">
-                                  
-                                <td colspan="9">
-                                  @if(row.material_consumo_saida.observacoes){<div
-                                    style="display: none"
-                                    [innerHTML]="row.material_consumo_saida.observacoes"
-                                  ></div>}
-                                </td>
+                                  <td>
+                                    @if(row.material_consumo_saida.user.policial){
+                                      {{ row.material_consumo_saida.user.policial.graduacao.abreviatura }}
+                                    }
+                                  </td>
+                                  <td>
+                                    <!-- @if(row.material_consumo_saida.user.policial.numeral){
+                                      {{ row.material_consumo_saida.user.policial.numeral | mask: '00.000' }}
+                                    } -->
+                                  </td>
+                                  <td>
+                                    @if(row.material_consumo_saida.user.policial){
+                                      {{ row.material_consumo_saida.user.policial.nome_guerra }}
+                                    }@else{
+                                      {{ row.material_consumo_saida.user.nome }}
+                                    }
+                                  </td>
+                                  <td>
+                                    @if(row.material_consumo_saida.user.policial){
+                                      {{ row.material_consumo_saida.user.policial.matricula | mask: '000.000-0-A'}}
+                                    }@else{
+                                      {{ row.material_consumo_saida.user.cpf | mask: '000.000.000-00' }}
+                                    }
+                                  </td>
+                                  <td>
+                                    {{ row.material_consumo_saida.data_saida | date : "dd/MM/yyyy HH:mm" }}
+                                  </td>
+                                  <td>{{ row.quantidade }}</td>
+                                
                               </tr>
                               }
                             </tbody>
-                            <tfoot>
-                              <tr>
-                                <td colspan="100%">
-                                  <div
-                                    style="
-                                      display: flex;
-                                      align-items: center;
-                                      justify-content: center;
-                                    "
-                                  >
-                                    <mfBootstrapPaginator></mfBootstrapPaginator>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tfoot>
                           </table>
+                          <!-- FIM TABLE-->
                           <!--------------------------------------------------->
                         </div>
                         <!--FIM TAB ENTRADAS-->

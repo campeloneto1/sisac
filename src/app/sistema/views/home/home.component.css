@@ -5,3 +5,11 @@
 .maxcarheight{
     max-height: 350px;
 }
+
+.hide{
+    display: none;
+}
+
+.divlink:hover .hide{
+    display: inline;
+}

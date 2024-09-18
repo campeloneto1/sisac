@@ -8,6 +8,7 @@ import { SessionService } from "../../../session.service";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { Subunidade } from "../../subunidades/subunidade";
 import { SubunidadesService } from "../../subunidades/subunidades.service";
+import { SharedService } from "../../../shared/shared.service";
 
 @Component({
     selector: 'app-veiculos-policiais-print',
@@ -31,6 +32,8 @@ export class VeiculosPoliciaisPrint implements OnInit, OnDestroy{
     protected datahj!: Date;
     protected subunidade!: Subunidade;
 
+    protected fotos: Array<any> = [];
+
     private subscription: any;
     private subscription2: any;
 
@@ -38,7 +41,8 @@ export class VeiculosPoliciaisPrint implements OnInit, OnDestroy{
         private veiculoPolicialService: VeiculosPoliciaisService,
         private activatedRoute: ActivatedRoute,
         private sessionService: SessionService,
-        private subunidadesService: SubunidadesService
+        private subunidadesService: SubunidadesService,
+        private sharedService: SharedService
     ){}
     
     
@@ -52,6 +56,7 @@ export class VeiculosPoliciaisPrint implements OnInit, OnDestroy{
             this.subscription =  this.veiculoPolicialService.find(this.id).subscribe({
                 next: (data) => {
                     this.data$ = data;
+                    this.loadFotos();
                 }
             });
     
@@ -77,4 +82,26 @@ export class VeiculosPoliciaisPrint implements OnInit, OnDestroy{
         }
     }
 
+    loadFotos(){
+        this.fotos = [];
+        
+        this.data$.veiculos_policiais_alteracoes?.map(data => {
+            var obj = {
+                file: data.foto
+            }
+            this.sharedService.getFile(obj).subscribe({
+                next: (data2) => {
+                    const url = window.URL.createObjectURL(data2);
+                    this.fotos.push(
+                        {
+                            //@ts-ignore
+                            foto: url,
+                            observacoes: data.observacoes,
+                            id: data.id
+                        }
+                    );
+                }
+            });
+        });
+      }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { TitleComponent } from "../../../components/title/title.component";
 import { MaterialConsumo } from "../material-consumo";
 import { MateriaisConsumoService } from "../materiais-consumo.service";
@@ -8,6 +8,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
 import { DataTableModule } from "@pascalhonegger/ng-datatable";
 import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
+import { DataTableDirective, DataTablesModule } from "angular-datatables";
+import { Config } from "datatables.net";
 
 @Component({
     selector: 'app-material-consumo',
@@ -19,7 +21,8 @@ import { User } from "../../users/user";
         TitleComponent,
         NgxMaskDirective, 
         NgxMaskPipe,
-        DataTableModule
+        DataTableModule,
+        DataTablesModule
     ],
     providers: [
         provideNgxMask(),
@@ -33,10 +36,14 @@ export class MaterialConsumoComponent implements OnInit, OnDestroy{
 
     protected user!: User;
 
+    @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
+    protected dtOptions: Config = {};
+
     constructor(
         private materiaisConsumoService: MateriaisConsumoService,
         private sessionService: SessionService,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+
     ){}
 
     ngOnInit(): void {
@@ -44,12 +51,26 @@ export class MaterialConsumoComponent implements OnInit, OnDestroy{
         this.sessionService.checkPermission('materiais_consumo');
         this.id = this.activatedRoute.snapshot.params['id'];
 
-       this.subscription =  this.materiaisConsumoService.find(this.id).subscribe({
-            next: (data) => {
-                if(!data){this.sessionService.redirect()}
-                this.materialconsumo = data;
-            }
-        });
+        try {
+            this.id = Number(window.atob(this.activatedRoute.snapshot.params['id']));
+
+            this.subscription =  this.materiaisConsumoService.find(this.id).subscribe({
+                next: (data) => {
+                    if(!data){this.sessionService.redirect()}
+                    this.materialconsumo = data;
+                }
+            });
+        }
+        catch(e:any){
+            this.sessionService.redirect()
+        }
+
+    //    this.subscription =  this.materiaisConsumoService.find(this.id).subscribe({
+    //         next: (data) => {
+    //             if(!data){this.sessionService.redirect()}
+    //             this.materialconsumo = data;
+    //         }
+    //     });
     }
 
     ngOnDestroy(): void {

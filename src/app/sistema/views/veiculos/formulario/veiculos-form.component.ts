@@ -85,6 +85,7 @@ export class VeiculosFormComponent implements OnInit{
                 Validators.required
             ])],
             'blindado': [null],
+            'disponivel_viagem': [null],
             'organico': ['0', Validators.compose([
                 Validators.required,
             ])],
@@ -133,6 +134,9 @@ export class VeiculosFormComponent implements OnInit{
         
         if(!this.form.value.nao_disponivel){
             this.form.get('nao_disponivel')?.patchValue(null);
+        }
+        if(!this.form.value.disponivel_viagem){
+            this.form.get('disponivel_viagem')?.patchValue(null);
         }
         if(!this.form.value.data_baixa){
             this.form.get('data_baixa')?.patchValue(null);

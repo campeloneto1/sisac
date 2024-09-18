@@ -46,6 +46,8 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantFerias!: any;
     protected quantRequeridas!: any;
     protected quantVeiculos!: any;
+    protected quantVeiculosViagem!: any;
+    protected quantVeiculosDispViagem$!: Observable<Veiculos>;
     protected armamentosVencendo$!: Observable<Armamentos>;
     protected armamentosEmprestimos$!: Observable<ArmamentosEmprestimos>;
     protected contratosAcabando$!: Observable<Contratos>;
@@ -117,20 +119,23 @@ export class HomeComponent implements OnInit, OnDestroy{
             }
             if(this.user.perfil.veiculos){
                 this.veiculosTrocaOleo$ = this.homeService.getVeiculosTrocaOleo();
-            }
-            if(this.user.perfil.veiculos){
                 this.veiculosRevisao$ = this.homeService.getVeiculosRevisao();
+                this.quantVeiculosDispViagem$ = this.homeService.getVeiculosDispViagem();
                 this.subscription4 = this.homeService.getVeiculos().subscribe({
                     next: (data) => {
                         this.quantVeiculos = data;
+                    }
+                });
+                this.subscription4 = this.homeService.getVeiculosViagem().subscribe({
+                    next: (data) => {
+                        this.quantVeiculosViagem = data;
                     }
                 });
                 
             }
             if(this.user.perfil.policiais){
                 this.policiaisSetores$ = this.homeService.getPoliciaisSetores();
-            }
-            if(this.user.perfil.policiais){
+           
                 this.policiaisGraduacoes$ = this.homeService.getPoliciaisGraduacoes();
                }
             if(this.user.perfil.veiculos_policiais){
@@ -139,9 +144,6 @@ export class HomeComponent implements OnInit, OnDestroy{
     
             if(this.user.perfil.materiais_consumo){
                 this.materiaisConsumoAlerta$ = this.homeService.getMateriaisConsumoAlerta();
-            }
-    
-            if(this.user.perfil.materiais_consumo){
                 this.materiaisConsumoVencendo$ = this.homeService.getMateriaisConsumoVencendo();
             }
             if(this.user.perfil.materiais_policiais){

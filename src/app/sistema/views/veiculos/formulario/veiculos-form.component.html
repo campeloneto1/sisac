@@ -107,6 +107,8 @@
           id="data_revisao"
           tipo="date"
         />
+        </div>
+      <div class="row">
         <div class="col-sm-2">
             <label for="organico">Proprietário</label>
             <!-- <div class="form-check">
@@ -130,12 +132,19 @@
         </div> 
         <div class="col-sm-2">
           <div class="form-check">
+              <input class="form-check-input" type="checkbox" checked="" id="disponivel_viagem" formControlName="disponivel_viagem">
+              <label class="form-check-label" for="disponivel_viagem">Disponível Viagem</label>
+          </div>
+        </div> 
+        <div class="col-sm-2">
+          <div class="form-check">
               <input class="form-check-input" type="checkbox" checked="" id="nao_disponivel" formControlName="nao_disponivel">
               <label class="form-check-label" for="nao_disponivel">Não Disponível</label>
           </div>
-      </div> 
+        </div> 
+      
     </div>
-    <div class="row">
+    <div class="row mt-3">
       <input-text
           class="col-sm-2"
           formControlName="data_baixa"

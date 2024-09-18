@@ -188,7 +188,7 @@ export class PolicialComponent implements OnInit, OnDestroy{
             const url = window.URL.createObjectURL(data);
             this.foto = url;
             }
-        })
+        });
     }
 
     showArmEmprestado(data: ArmamentoEmprestimo){

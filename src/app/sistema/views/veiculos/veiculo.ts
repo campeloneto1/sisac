@@ -17,6 +17,8 @@ export interface Veiculo{
     organico?: boolean;
     data_baixa?: Date;
 
+    disponivel_viagem?: boolean;
+
     km_inicial: number;
     km_atual:number;
     km_troca_oleo?: number;

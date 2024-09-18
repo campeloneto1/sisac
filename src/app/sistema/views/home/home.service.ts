@@ -98,4 +98,12 @@ export class HomeService{
         return this.http.get<number>(`${URL}/${endPoint}/veiculos`);
     }
 
+    getVeiculosViagem(): Observable<number>{
+        return this.http.get<number>(`${URL}/${endPoint}/veiculos-viagem`);
+    }
+
+    getVeiculosDispViagem(): Observable<Veiculos>{
+        return this.http.get<Veiculos>(`${URL}/${endPoint}/veiculos-dispviagem`);
+    }
+
 }

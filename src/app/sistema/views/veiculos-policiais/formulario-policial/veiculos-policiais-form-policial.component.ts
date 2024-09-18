@@ -20,6 +20,10 @@ import { SessionService } from "../../../session.service";
 import { User } from "../../users/user";
 import { VeiculosPoliciaisService } from "../veiculos-policiais.service";
 import { VeiculoPolicial } from "../veiculo-policial";
+import { SharedService } from "../../../shared/shared.service";
+import { VeiculosPoliciaisAlteracoesService } from "../../veiculos-policiais-alteracoes/veiculos-policiais-alteracoes.service";
+import { VeiculoPolicialAlteracao } from "../../veiculos-policiais-alteracoes/veiculo-policial-alteracao";
+import { environment } from "../../../../../environments/environments";
 
 @Component({
     selector: '',
@@ -37,8 +41,11 @@ import { VeiculoPolicial } from "../veiculo-policial";
 })
 export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
 
+    private url = environment.image;
+
     protected form!: FormGroup;
     protected formdev!: FormGroup;
+    protected formfoto!: FormGroup;
 
     protected policiais$!: Observable<Policiais>;
     protected veiculos$!: Observable<Veiculos>;
@@ -50,6 +57,9 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
 
     private user!: User;
 
+    protected fotos: Array<any> = [];
+    protected foto!: any;
+
     private subscription!: any;
     private subscription2!: any;
     private subscription3!: any;
@@ -59,10 +69,12 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
     constructor(
         private formBuilder: FormBuilder,
         private toastr: ToastrService,
+        private sharedService: SharedService,
         private policiaisService: PoliciaisService,
         private sessionService: SessionService,
         private veiculosService: VeiculosService,
         private veiculosPoliciaisService: VeiculosPoliciaisService,
+        private veiculosPoliciaisAlteracoesService: VeiculosPoliciaisAlteracoesService,
         private paisesService: PaisesService,
         private estadosService: EstadosService,
         private cidadesService: CidadesService
@@ -104,15 +116,30 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
             'observacoes': [null],
         });
 
+        this.formfoto = this.formBuilder.group({
+            'veiculo_policial': [null],
+            'foto': [null, Validators.compose([
+                Validators.required,
+            ])],
+            'file': [null, Validators.compose([
+                Validators.required,
+            ])],
+            'observacoes': [null],
+        });
+
         this.subscription3 = this.veiculosPoliciaisService.veiculoPolicial().subscribe({
             next: (data) => {
                 if(data){
                     this.exibir = 2;
                     this.veiculoemprestado = data;
+                    
                 }else{
                     this.exibir = 1;
                 }
                
+            },
+            complete: () => {
+                this.loadFotos();
             }
         });
         
@@ -132,20 +159,6 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
                 this.veiculos$ = of(data);
             }
         });
-
-        // this.subscription2 = this.policiaisService.disponiveis().subscribe({
-        //     next: (data) => {
-        //         data.forEach(element => {
-        //             if(element.numeral){
-        //                 element.nome = `${element.graduacao.abreviatura} ${element.numeral} ${element.nome_guerra}, ${element.matricula}`;
-        //             }else{
-        //                 element.nome = `${element.graduacao.abreviatura} ${element.nome_guerra}, ${element.matricula}`;
-        //             }
-                    
-        //         });
-        //         this.policiais$ = of(data);
-        //     }
-        // });
         this.paises$ = this.paisesService.index();
     }
 
@@ -162,6 +175,24 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
         if(this.subscription4){
             this.subscription4.unsubscribe();
         }
+    }
+
+    refresh(){
+        this.subscription3 = this.veiculosPoliciaisService.veiculoPolicial().subscribe({
+            next: (data) => {
+                if(data){
+                    this.exibir = 2;
+                    this.veiculoemprestado = data;
+                    
+                }else{
+                    this.exibir = 1;
+                }
+               
+            },
+            complete: () => {
+                this.loadFotos();
+            }
+        });
     }
 
     reset(){
@@ -186,6 +217,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
                         next: (data) => {
                             this.exibir = 2;
                             this.veiculoemprestado = data;
+                            this.formfoto.get('veiculo_policial')?.patchValue(data.id)
                         }
                     });
                 },
@@ -202,6 +234,26 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
 
     getCidades(){
         this.cidades$ = this.cidadesService.whereEstado(this.form.get('estado')?.value);
+    }
+
+    enviarFotos(){
+        this.formfoto.get('veiculo_policial')?.patchValue(this.veiculoemprestado.id)
+        this.exibir = 4;
+    }
+
+    cancelarFotos(){
+        this.formfoto.get('veiculo_policial')?.patchValue(null)
+        this.exibir = 2;
+        this.refresh();
+    }
+
+    cadastrarFoto(){
+        this.formfoto.get('veiculo_policial')?.patchValue(this.veiculoemprestado.id)
+        this.veiculosPoliciaisAlteracoesService.create(this.formfoto.value).subscribe({
+            next: (data) => {
+                this.formfoto.reset();
+            }
+        });
     }
 
     devolver(){
@@ -233,4 +285,50 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
         this.formdev.reset()
         this.exibir = 2;
     }
+
+    uploadFoto(event: any){
+        var fileName = "";
+        const formData = new FormData();
+        const file:File = event.target.files[0];
+        if (file) {
+          fileName = file.name;
+          formData.append("file", file);
+          //formData.append("id", this.policial.id+'');
+          this.sharedService.uploadFoto(formData).subscribe({
+            next: (data) => {
+                //console.log(data);
+                //@ts-ignore
+                this.formfoto.get('foto')?.patchValue(data.data)
+            }
+          })
+        }
+      }
+
+      showFoto(data:any){
+        this.foto = data;
+      }
+
+      loadFotos(){
+        this.fotos = [];
+        this.veiculoemprestado.veiculos_policiais_alteracoes?.map(data => {
+            var obj = {
+                file: data.foto
+            }
+            this.sharedService.getFile(obj).subscribe({
+                next: (data2) => {
+                    const url = window.URL.createObjectURL(data2);
+                    this.fotos.push(
+                        {
+                            //@ts-ignore
+                            foto: url,
+                            observacoes: data.observacoes,
+                            id: data.id
+                        }
+                    );
+                }
+            });
+        });
+      }
+
+      
 }
