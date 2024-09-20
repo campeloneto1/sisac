@@ -19,6 +19,7 @@ import { RouterModule } from "@angular/router";
 import { VeiculosPoliciaisService } from "../veiculos-policiais/veiculos-policiais.service";
 import { ArmamentosEmprestimosShow } from "../armamentos-emprestimos/show/armamentos-emprestimos-show.component";
 import { VeiculosPoliciaisShow } from "../veiculos-policiais/show/veiculos-policiais-show.component";
+import { StorageService } from "../../storage.service";
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -65,6 +66,8 @@ export class HomeComponent implements OnInit, OnDestroy{
 
     protected subunidade!: any;
 
+    protected show:number = 0;
+
     protected subscription: any;
     protected subscription2: any;
     protected subscription3: any;
@@ -73,12 +76,33 @@ export class HomeComponent implements OnInit, OnDestroy{
     constructor(
         private sessionService: SessionService,
         private homeService: HomeService,
-        private veiculosPoliciaisService: VeiculosPoliciaisService
+        private veiculosPoliciaisService: VeiculosPoliciaisService,
+        private storageService: StorageService,
     ){}
 
     ngOnInit(): void {
         this.user = this.sessionService.getUser();
         this.subunidade = this.sessionService.getSubunidade();
+
+        if(localStorage.getItem('showhome')){
+           
+            this.show = Number(this.storageService.getItem('showhome'));
+        }else{
+            if(this.user.perfil.policiais){
+                this.show = 1;
+            }else if(this.user.perfil.materiais || this.user.perfil.materiais_consumo){
+                this.show = 1;
+            }else if(this.user.perfil.veiculos){
+                this.show = 3;
+            }else if(this.user.perfil.armamentos){
+                this.show = 4;
+            }else if(this.user.perfil.contratos){
+                this.show = 5;
+            }
+        }
+
+       
+
         if(this.user){
             if(this.user.perfil.policiais){
                 this.subscription = this.homeService.getPoliciais().subscribe({
@@ -200,5 +224,10 @@ export class HomeComponent implements OnInit, OnDestroy{
           color = 'bg-danger'
         }
         return color;
+      }
+
+      changeShow(num: number){
+        this.show = num;
+        this.storageService.setItem('showhome', num+'');
       }
 }

@@ -97,6 +97,7 @@ export class VeiculosPoliciaisPrint implements OnInit, OnDestroy{
                             //@ts-ignore
                             foto: url,
                             observacoes: data.observacoes,
+                            created_at: data.created_at,
                             id: data.id
                         }
                     );

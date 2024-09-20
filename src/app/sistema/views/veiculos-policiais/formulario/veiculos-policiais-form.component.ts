@@ -64,6 +64,7 @@ export class VeiculosPoliciaisFormComponent implements OnInit{
     ){}
 
     ngOnInit() {
+        this.estados$ = this.estadosService.wherePais(1);
         this.form = this.formBuilder.group({
             'id': [null],
             'veiculo': [null, Validators.compose([
@@ -80,9 +81,7 @@ export class VeiculosPoliciaisFormComponent implements OnInit{
             ])],
             'km_final': [null],
             'observacoes': [null],
-            'pais': [null, Validators.compose([
-                Validators.required,
-            ])],
+            'pais': [null],
             'estado': [null, Validators.compose([
                 Validators.required,
             ])],
@@ -122,7 +121,7 @@ export class VeiculosPoliciaisFormComponent implements OnInit{
                 this.policiais$ = of(data);
             }
         });
-        this.paises$ = this.paisesService.index();
+        //this.paises$ = this.paisesService.index();
     }
 
     cadastrar(){

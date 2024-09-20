@@ -2,10 +2,19 @@
   <section class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <h1>Início</h1>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4 text-center">
+          <div class="btn-group">
+            <button type="button" [ngClass]="{'active': show === 1, 'disabled hide': !user.perfil.policiais}" (click)="changeShow(1)" class="btn btn-info">Sargenteação</button>
+            <button type="button" [ngClass]="{'active': show === 2, 'disabled hide': !user.perfil.materiais}" (click)="changeShow(2)" class="btn btn-info">Logística</button>
+            <button type="button" [ngClass]="{'active': show === 3, 'disabled hide': !user.perfil.veiculos}" (click)="changeShow(3)" class="btn btn-info">Transporte</button>
+            <button type="button" [ngClass]="{'active': show === 4, 'disabled hide': !user.perfil.armamentos}" (click)="changeShow(4)" class="btn btn-info">Reserva</button>
+            <button type="button" [ngClass]="{'active': show === 5, 'disabled hide': !user.perfil.contratos}" (click)="changeShow(5)" class="btn btn-info">Contratos</button>
+          </div>
+        </div>
+        <div class="col-sm-4">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item active">Início</li>
           </ol>
@@ -21,18 +30,6 @@
       
       @if(user.policial){
         @if(user.perfil.usuario && user.policial.setor.subunidade.id == subunidade){
-           <!-- <div class="col-sm-2 mb-3">
-            <a [routerLink]="['/VeiculoEmprestimo']" class="btn btn-info btn-block pt-4 pb-4">
-              <i class="fa fa-car fa-1x"></i>  
-              <b style="font-size: 18px;">
-                @if(temEmprestimo){
-                  Devolver Veículo
-                }@else{
-                  Assumir veículo
-                }
-              </b>
-            </a>
-          </div>  -->
           <div class="col-sm-2 ">
             <a [routerLink]="['/VeiculoEmprestimo']" class="">
               <div class="small-box bg-info" style="height: 80px;">
@@ -56,7 +53,7 @@
         }
       }
      
-      @if(user.perfil.policiais){
+      @if(user.perfil.policiais && show == 1){
       <div class="col-sm-2">
         <app-info-box
           titulo="Policiais"
@@ -66,7 +63,7 @@
           class="bg-info"
         />
       </div>
-      } @if(user.perfil.policiais_ferias){
+      } @if(user.perfil.policiais_ferias && show == 1){
       <div class="col-sm-2">
         <app-info-box
           titulo="Férias"
@@ -76,7 +73,7 @@
           class="bg-success"
         />
       </div>
-      } @if(user.perfil.policiais_atestados){
+      } @if(user.perfil.policiais_atestados && show == 1){
       <div class="col-sm-2">
         <app-info-box
           titulo="Afastamentos"
@@ -87,7 +84,7 @@
         />
       </div>
       }
-      @if(user.perfil.policiais_requeridas){
+      @if(user.perfil.policiais_requeridas && show == 1){
         <div class="col-sm-2">
           <app-info-box
             titulo="Requeridas"
@@ -98,7 +95,7 @@
           />
         </div>
       }
-      @if(user.perfil.veiculos){
+      @if(user.perfil.veiculos && show == 3){
         <div class="col-sm-2">
           <app-info-box
             titulo="Veículos"
@@ -109,7 +106,7 @@
           />
         </div>
       }
-      @if(user.perfil.veiculos){
+      @if(user.perfil.veiculos && show == 3){
         <div class="col-sm-2">
           <app-info-box
             titulo="Veículos de Viagem"
@@ -127,7 +124,7 @@
     <div class="row">
 
       <!--INICIO CARD POLICIAIS GRADUACOES-->
-      @if(user.perfil.policiais){
+      @if(user.perfil.policiais && show == 1){
         <div class="col-sm-4 maxheight" >
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -158,7 +155,7 @@
         <!--FIM CARD POLICIAIS GRADUACOES-->
 
       <!--INICIO CARD POLICIAIS SETOR-->
-      @if(user.perfil.policiais){
+      @if(user.perfil.policiais && show == 1){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -189,7 +186,7 @@
         <!--FIM CARD POLICIAIS SETOR-->
 
          <!-- INICIO CARD ARMAMENTOS EMPRESTIMOS-->
-      @if(user.perfil.armamentos_emprestimos){
+      @if(user.perfil.armamentos_emprestimos && show == 4){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -227,7 +224,7 @@
       <!--FIM CARD ARMAMENTOS EMPRESTIMOS-->
 
       <!--INICIO CAR ARMAMENTOS VENCIMENTO-->
-      @if(user.perfil.armamentos){
+      @if(user.perfil.armamentos && show == 4){
       <div class="col-sm-4 maxheight">
         <div class="card maxcarheight">
           <div class="card-header border-0 divlink">
@@ -266,7 +263,7 @@
       <!--FIM CAR ARMAMENTOS VENCIMENTO-->
 
       <!-- INICIO CARD materiais EMPRESTIMOS-->
-      @if(user.perfil.materiais_policiais){
+      @if(user.perfil.materiais_policiais && show == 2){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -302,7 +299,7 @@
       <!--FIM CARD materiais EMPRESTIMOS-->
 
       <!-- INICIO CARD materiais VENCENDO-->
-      @if(user.perfil.materiais){
+      @if(user.perfil.materiais && show == 2){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -339,7 +336,7 @@
       <!--FIM CARD materiais VENCENDO-->
 
       <!--INICIO CAR MATERIAIS CONSUMO ALERTA-->
-      @if(user.perfil.materiais_consumo){
+      @if(user.perfil.materiais_consumo && show == 2){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -378,7 +375,7 @@
         <!--FIM CAR MATERIAIS CONSUMO ALERTA-->
 
          <!--INICIO CAR MATERIAIS CONSUMO VENCIMENTO-->
-      @if(user.perfil.materiais_consumo){
+      @if(user.perfil.materiais_consumo && show == 2){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -417,7 +414,7 @@
         <!--FIM CAR MATERIAIS CONSUMO VENCIMENTO-->
 
       <!-- INICIO CARD VEICULOS POLICIAIS-->
-      @if(user.perfil.veiculos_policiais){
+      @if(user.perfil.veiculos_policiais && show == 3){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -463,7 +460,7 @@
       <!--FIM CARD VEICULOS POLICIAIS-->
 
       <!-- INICIO CARD VEICULOS MANUTENCAO-->
-      @if(user.perfil.veiculos_oficinas){
+      @if(user.perfil.veiculos_oficinas && show == 3){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -506,7 +503,7 @@
       <!--FIM CARD VEICULOS MANUTENCAO-->
 
       <!-- INICIO CARD VEICULOS DISP VIAGEM-->
-      @if(user.perfil.veiculos){
+      @if(user.perfil.veiculos && show == 3){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -545,7 +542,7 @@
       <!--FIM CARD VEICULOS DISP VIAGEM-->
 
       <!-- INICIO CARD VEICULOS REVISAO-->
-      @if(user.perfil.veiculos){
+      @if(user.perfil.veiculos && show == 3){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -588,7 +585,7 @@
       <!--FIM CARD VEICULOS REVISAO-->
 
         <!-- INICIO CARD VEICULOS TROCA OLEO-->
-      @if(user.perfil.veiculos){
+      @if(user.perfil.veiculos && show == 3){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">
@@ -629,7 +626,7 @@
       <!--FIM CARD VEICULOS TROCA OLEO-->
 
       <!-- INICIO CARD CONTRATOS ACABANDO-->
-      @if(user.perfil.contratos){
+      @if(user.perfil.contratos && show == 5){
         <div class="col-sm-4 maxheight">
           <div class="card maxcarheight">
             <div class="card-header border-0 divlink">

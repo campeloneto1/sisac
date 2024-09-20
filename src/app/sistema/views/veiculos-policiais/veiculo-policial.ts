@@ -14,6 +14,7 @@ export interface VeiculoPolicial{
     data_inicial: Date;
     data_final?: Date;
     observacoes?: string;
+    observacoes_devolucao?: string;
     cidade: Cidade;
     subunidade: Subunidade;
     veiculos_policiais_alteracoes?: VeiculosPoliciaisAlteracoes;

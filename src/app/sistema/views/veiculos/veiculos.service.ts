@@ -19,7 +19,6 @@ export class VeiculosService{
 
     index(): Observable<Veiculos>{
         return this.http.get<Veiculos>(`${URL}/${endPoint}`);
-        //return this.http.get<Veiculos>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
 
     find(id: number): Observable<Veiculo>{
@@ -40,7 +39,10 @@ export class VeiculosService{
 
     disponiveis(): Observable<Veiculos>{
         return this.http.get<Veiculos>(`${URL}/${endPoint}/disponiveis`);
-        //return this.http.get<Veiculos>(`${URL}/${endPoint}/disponiveis?subunidade=${this.sessionService.getSubunidade()}`);
+    }
+
+    getAll(): Observable<Veiculos>{
+        return this.http.get<Veiculos>(`${URL}/${endPoint}/all`);
     }
    
 }

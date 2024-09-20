@@ -43,7 +43,7 @@ export class VeiculosPoliciaisFormReceberComponent implements OnInit{
             'km_final': [null, Validators.compose([
                 Validators.required,
             ])],
-            'observacoes': [this.veiculopolicial.observacoes],
+            'observacoes_devolucao': [null],
         });
 
       

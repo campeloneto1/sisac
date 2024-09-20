@@ -93,6 +93,7 @@ export class VeiculosPoliciaisShow implements OnInit, OnDestroy, OnChanges{
                                     //@ts-ignore
                                     foto: url,
                                     observacoes: data.observacoes,
+                                    created_at: data.created_at,
                                     id: data.id
                                 }
                             );

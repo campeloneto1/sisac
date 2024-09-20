@@ -81,7 +81,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
     ){}
 
     ngOnInit(): void {
-        
+        this.estados$ = this.estadosService.wherePais(1);
 
         this.form = this.formBuilder.group({
             'id': [null],
@@ -97,9 +97,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
             ])],
             'km_final': [null],
             'observacoes': [null],
-            'pais': [null, Validators.compose([
-                Validators.required,
-            ])],
+            'pais': [null],
             'estado': [null, Validators.compose([
                 Validators.required,
             ])],
@@ -113,7 +111,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
             'km_final': [null, Validators.compose([
                 Validators.required,
             ])],
-            'observacoes': [null],
+            'observacoes_devolucao': [null],
         });
 
         this.formfoto = this.formBuilder.group({
@@ -121,9 +119,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
             'foto': [null, Validators.compose([
                 Validators.required,
             ])],
-            'file': [null, Validators.compose([
-                Validators.required,
-            ])],
+            'file': [null],
             'observacoes': [null],
         });
 
@@ -144,7 +140,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
         });
         
         this.user = this.sessionService.getUser();
-        this.subscription = this.veiculosService.disponiveis().subscribe({
+        this.subscription = this.veiculosService.getAll().subscribe({
             next: (data) => {
                 data.forEach(element => {
                     if(element.placa_especial){
@@ -159,7 +155,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
                 this.veiculos$ = of(data);
             }
         });
-        this.paises$ = this.paisesService.index();
+        //this.paises$ = this.paisesService.index();
     }
 
     ngOnDestroy(): void {
@@ -252,13 +248,15 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
         this.veiculosPoliciaisAlteracoesService.create(this.formfoto.value).subscribe({
             next: (data) => {
                 this.formfoto.reset();
+                this.exibir = 2;
+                this.refresh();
             }
         });
     }
 
     devolver(){
         this.formdev.get('id')?.patchValue(this.veiculoemprestado.id);
-        this.formdev.get('observacoes')?.patchValue(this.veiculoemprestado.observacoes);
+        //this.formdev.get('observacoes')?.patchValue(this.veiculoemprestado.observacoes);
         this.exibir = 3;
 
     }
@@ -269,11 +267,8 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
                 this.toastr.success('Edição realizada com sucesso!');
                 this.formdev.reset();
                 this.exibir = 2;
-                this.veiculosPoliciaisService.find(this.veiculoemprestado.id || 0).subscribe({
-                    next: (data) => {
-                        this.veiculoemprestado = data;
-                    }
-                })
+                this.fotos = [];
+                this.refresh();
             },
             error: (error:any) => {
                 this.toastr.error('Erro ao cadastrar, tente novamente mais tarde!');
@@ -322,6 +317,7 @@ export class VeiculosPoliciaisFormPolicial implements OnInit, OnDestroy{
                             //@ts-ignore
                             foto: url,
                             observacoes: data.observacoes,
+                            created_at: data.created_at,
                             id: data.id
                         }
                     );

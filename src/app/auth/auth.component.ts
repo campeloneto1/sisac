@@ -58,14 +58,14 @@ export class AuthComponent implements OnInit {
         });
 
         if(localStorage.getItem('usuario')){
-            this.form.get('cpf')?.patchValue('usuario');
+            this.form.get('cpf')?.patchValue(this.storageService.getItem('usuario'));
         }
     }
 
     async entrar(){
        //console.log(this.form.value)
        if(this.form.value.lembrarme){
-            localStorage.setItem('usuario', this.form.value.cpf);
+            this.storageService.setItem('usuario', this.form.value.cpf);
         }
 
         this.authService.entrar(this.form.value).subscribe({
