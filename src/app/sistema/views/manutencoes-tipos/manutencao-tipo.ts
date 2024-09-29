@@ -3,6 +3,8 @@ import { User } from "../users/user";
 export interface ManutencaoTipo{
     id?: number;
     nome: string;
+    revisao?: boolean;
+    troca_oleo?: boolean;
 
     created_by: User;
     updated_by: User;

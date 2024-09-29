@@ -38,7 +38,8 @@ export class ManutencoesTiposFormComponent implements OnInit{
                 Validators.minLength(5),
                 Validators.maxLength(100)
             ])],
-          
+            'revisao': [null],
+            'troca_oleo': [null],
         });
 
     }

@@ -2,6 +2,20 @@
     <div class="row">
         <input-text class="col-sm-4" formControlName="nome" label="Nome" id="nome" tipo="text" />
     </div>    
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked="" id="revisao" formControlName="revisao">
+                <label class="form-check-label" for="revisao">Revisão</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked="" id="troca_oleo" formControlName="troca_oleo">
+                <label class="form-check-label" for="troca_oleo">Troca de Óleo</label>
+            </div>
+        </div>
+    </div>
     
     <div class="d-flex justify-content-end">
         <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>

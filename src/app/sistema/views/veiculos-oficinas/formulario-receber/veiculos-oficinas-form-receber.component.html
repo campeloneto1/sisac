@@ -5,6 +5,9 @@
   <div class="col-sm-4">
     <b>Modelo:</b> {{veiculooficina.veiculo.modelo.nome}}
   </div>
+  <div class="col-sm-4">
+    <b>Tipo:</b> {{veiculooficina.manutencao_tipo.nome}}
+  </div>
 </div>
 <div class="row">
   <div class="col-sm-4">
@@ -29,7 +32,15 @@
         tipo="number"
         [min]="veiculooficina.km_inicial"
       />
-      
+      @if(veiculooficina.manutencao_tipo.revisao || veiculooficina.manutencao_tipo.troca_oleo){
+         <input-select
+              class="col-sm-2"
+              label="Km Troca/Revisão"
+              id="km_troca"
+              [data$]="kms$"
+              formControlName="km_troca"
+            />
+      }
     </div>
    
     <div class="row" style="height: 350px;">

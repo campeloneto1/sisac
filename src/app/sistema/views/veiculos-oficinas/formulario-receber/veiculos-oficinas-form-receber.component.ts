@@ -8,6 +8,7 @@ import { VeiculoOficina } from "../veiculo-oficina";
 import { ToastrService } from "ngx-toastr";
 
 import { InputTextareaComponent } from "../../../components/input-textarea/input-textarea.component";
+import { of } from "rxjs";
 
 @Component({
     selector: "app-veiculos-oficinas-form-receber",
@@ -30,6 +31,12 @@ export class VeiculosOficinasFormReceberComponent implements OnInit{
     @Input() veiculooficina!: VeiculoOficina;
 
     @Output('refresh') refresh: EventEmitter<VeiculoOficina> = new EventEmitter();
+
+    protected kms$ = of([
+        {id: 1000, nome: 1000},
+        {id: 5000, nome: 5000},
+        {id: 10000, nome: 10000},
+    ])
     
     constructor(
         private formBuilder: FormBuilder,
@@ -43,6 +50,7 @@ export class VeiculosOficinasFormReceberComponent implements OnInit{
             'km_final': [null, Validators.compose([
                 Validators.required,
             ])],
+            'km_troca': [null],
             'observacoes': [null],
         });
 

@@ -35,6 +35,8 @@
                 <tr>
                   <th>#</th>
                   <th>Nome</th>
+                  <th>Revisão</th>
+                  <th>Troca de Óleo</th>
                   <th>Opções</th>
                 </tr>
               </thead>
@@ -44,6 +46,12 @@
                 <tr class="optionshover2">
                   <td>{{ row.id }}</td>
                   <td>{{ row.nome }}</td>
+                  <td>
+                    @if(row.revisao){<i class="fa fa-check" aria-hidden="true"></i>}
+                  </td>
+                  <td>
+                    @if(row.troca_oleo){<i class="fa fa-check" aria-hidden="true"></i>}
+                  </td>
                   <td class="options2">
                     <div class="btn-group">
                       <button
