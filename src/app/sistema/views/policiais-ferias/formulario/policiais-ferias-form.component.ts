@@ -63,6 +63,14 @@ export class PoliciaisFeriasFormComponent implements OnInit, OnDestroy{
             'boletim': [null, Validators.compose([
                 Validators.maxLength(30),
                 Validators.required,
+            ])], 
+            'boletim_inicio': [null, Validators.compose([
+                Validators.maxLength(30),
+               
+            ])], 
+            'boletim_retorno': [null, Validators.compose([
+                Validators.maxLength(30),
+                
             ])],        
         });
 

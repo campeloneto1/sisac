@@ -44,9 +44,10 @@
             <tbody>
               @for(row of data; track row){
               <tr class="optionshover2">
+                <td>{{ row.id }}</td>
                 <td>{{ row.subunidade.abreviatura }} - {{row.subunidade.unidade.abreviatura}}</td>
-              <td>{{ row.nome }}</td>
-              <td>{{ row.abreviatura }}</td>
+                <td>{{ row.nome }}</td>
+                <td>{{ row.abreviatura }}</td>
                 <td class="options2">
                   <div class="btn-group">
                     <button

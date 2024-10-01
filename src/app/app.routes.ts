@@ -157,6 +157,21 @@ export const routes: Routes = [
               import('./sistema/views/cursos/cursos.component').then((c) => c.CursosComponent),
           },
           {
+            path: 'Documentos',
+            loadComponent: () =>
+              import('./sistema/views/documentos/documentos.component').then((c) => c.DocumentosComponent),
+          },
+          {
+            path: 'Documentos/:id',
+            loadComponent: () =>
+              import('./sistema/views/documentos/print/documentos-print.component').then((c) => c.DocumentosPrint),
+          },
+          {
+            path: 'DocumentosTipos',
+            loadComponent: () =>
+              import('./sistema/views/documentos-tipos/documentos-tipos.component').then((c) => c.DocumentosTiposComponent),
+          },
+          {
             path: 'Empresa/:id',
             loadComponent: () =>
               import('./sistema/views/empresas/empresa/empresa.component').then((c) => c.EmpresaComponent),

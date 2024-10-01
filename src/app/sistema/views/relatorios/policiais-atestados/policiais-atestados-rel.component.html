@@ -87,7 +87,7 @@
               <th>Matrícula</th>
               <th>Tipo</th>
               <th>Data Inicial</th>
-              <th>Data Dias</th>
+              <th>Dias</th>
               <th>Data Final</th>
               <th>CID</th>
             </tr>
@@ -103,8 +103,9 @@
               <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
               <td>{{ row.afastamento_tipo.nome }}</td>
               <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
-              <td>{{ row.data_final | date: 'dd/MM/yyyy'}}</td>
               <td>{{ row.dias }}</td>
+              <td>{{ row.data_final | date: 'dd/MM/yyyy'}}</td>
+              
               <td>{{ row.cid }}</td>
             </tr>
             }

@@ -33,6 +33,7 @@ export class SidebarComponent implements OnInit{
         '/ContratosTipos',
         '/Cores',
         '/Cursos',
+        '/DocumentosTipos',
         '/Escolaridades',
         '/Estados',
         

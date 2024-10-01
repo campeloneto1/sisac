@@ -12,8 +12,13 @@
         <input-text class="col-sm-2" formControlName="ano" label="Ano Ref." id="ano" tipo="number" />
         <input-text class="col-sm-2" formControlName="data_inicial" label="Data Inicial" id="data_inicial" tipo="date" />
         <input-text class="col-sm-2" formControlName="dias" label="Dias" id="dias" tipo="number" />
-        <input-text class="col-sm-4" formControlName="boletim" label="Boletim" id="boletim" tipo="text" />
+        
     </div>    
+    <div class="row">
+        <input-text class="col-sm-4" formControlName="boletim" label="Boletim Publicação" id="boletim" tipo="text" />
+        <input-text class="col-sm-4" formControlName="boletim_inicio" label="Boletim Início" id="boletim_inicio" tipo="text" />
+        <input-text class="col-sm-4" formControlName="boletim_retorno" label="Boletim Retorno" id="boletim_retorno" tipo="text" />
+    </div>
     
     <div class="d-flex justify-content-end">
         <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>
