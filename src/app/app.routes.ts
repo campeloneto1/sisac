@@ -346,15 +346,26 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./sistema/views/relatorios/policiais/policiais-rel.component').then((c) => c.PoliciaisRelComponent),
           },
+          
           {
             path: 'RelPoliciaisAfastamentos',
             loadComponent: () =>
               import('./sistema/views/relatorios/policiais-atestados/policiais-atestados-rel.component').then((c) => c.PoliciaisAtestadosRelComponent),
           },
           {
+            path: 'RelPoliciaisCursos',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/policiais-cursos/policiais-cursos-rel.component').then((c) => c.PoliciaisCursosRelComponent),
+          },
+          {
             path: 'RelPoliciaisFerias',
             loadComponent: () =>
               import('./sistema/views/relatorios/policiais-ferias/policiais-ferias-rel.component').then((c) => c.PoliciaisFeriasRelComponent),
+          },
+          {
+            path: 'RelPoliciaisRequeridas',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/policiais-requeridas/policiais-requeridas-rel.component').then((c) => c.PoliciaisRequeridasRelComponent),
           },
           {
             path: 'Publicacoes',

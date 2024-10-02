@@ -1,0 +1,118 @@
+<div class="content-wrapper">
+  <app-title titulo="Relatório de Requeridas de Policiais" />
+
+  <!--INICIO SECTION content-->
+  <section class="content">
+    <!--INICIO CARD -->
+    <div class="card">
+      <div class="card-header border-0">
+        <h3 class="card-title noprint">Filtro</h3>
+        <h3 class="card-title print">Relatório de Requeridas de Policiais</h3>
+      </div>
+      <div class="card-body table-responsive">
+        <form [formGroup]="form" class="noprint">
+          <div class="row">
+            <input-select
+              class="col-sm-2"
+              label="Setor"
+              id="setor"
+              [data$]="setores$"
+              formControlName="setor"
+            />
+            <input-select
+            class="col-sm-2"
+            label="Policial"
+            id="policial"
+            [data$]="policiais$"
+            formControlName="policial"
+          />
+            <input-select
+            class="col-sm-2"
+            label="Graduação"
+            id="graduacao"
+            [data$]="graduacoes$"
+            formControlName="graduacao"
+            />
+           
+            <div class="col-sm-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  checked=""
+                  id="vigente"
+                  formControlName="vigente"
+                />
+                <label class="form-check-label" for="vigente"
+                  >Em Andamento</label
+                >
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  checked=""
+                  id="publicado"
+                  formControlName="publicado"
+                />
+                <label class="form-check-label" for="publicado"
+                  >Publicado</label
+                >
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <button
+              [disabled]="form.invalid"
+              type="button"
+              (click)="pesquisar()"
+              class="btn btn-primary btn-block"
+            >
+              Pesquisar
+            </button>
+          </div>
+        </form>
+
+        @if(data$){
+        <table class="table table-hover table-head-fixed text-wrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Graduação</th>
+              <th>Numeral</th>
+              <th>Nome de Guerra</th>
+              <th>Matrícula</th>
+              <th>Setor</th>
+              <th>Data</th>
+              <th>NUP</th>
+              <th>Boletim Entrada</th>
+              <th>Boletim Publicação</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(row of data$ | async; track row){
+            <tr>
+              <td>{{ row.id }}</td>
+              <td>{{ row.policial.graduacao.nome }}</td>
+              <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
+              <td>{{ row.policial.nome_guerra }}</td>
+              <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
+              <td>{{ row.policial.setor.nome }} - {{ row.policial.setor.subunidade.abreviatura }} - {{ row.policial.setor.subunidade.unidade.abreviatura }}</td>
+              <td>{{ row.data | date: 'dd/MM/yyyy'}}</td>
+              <td>{{ row.nup }}</td>
+              <td>{{ row.boletim_entrada }}</td>
+              <td>{{ row.boletim_publicacao }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+    </div>
+    <!--FIM CARD -->
+  </section>
+  <!--FIM SECTION content-->
+</div>

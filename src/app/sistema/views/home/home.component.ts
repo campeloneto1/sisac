@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected quantAtestados!: any;
     protected quantFerias!: any;
     protected quantRequeridas!: any;
+    protected quantCursos!: any;
     protected quantVeiculos!: any;
     protected quantVeiculosViagem!: any;
     protected quantVeiculosDispViagem$!: Observable<Veiculos>;
@@ -72,6 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected subscription2: any;
     protected subscription3: any;
     protected subscription4: any;
+    protected subscription5: any;
 
     constructor(
         private sessionService: SessionService,
@@ -118,15 +120,22 @@ export class HomeComponent implements OnInit, OnDestroy{
                     }
                 });
             }
+            if(this.user.perfil.policiais_cursos){
+                this.subscription3 = this.homeService.getCursos().subscribe({
+                    next: (data) => {
+                        this.quantCursos = data;
+                    }
+                });
+            }
             if(this.user.perfil.policiais_ferias){
-                this.subscription3 = this.homeService.getFerias().subscribe({
+                this.subscription4 = this.homeService.getFerias().subscribe({
                     next: (data) => {
                         this.quantFerias = data;
                     }
                 });
             }
             if(this.user.perfil.policiais_requeridas){
-                this.subscription3 = this.homeService.getRequeridas().subscribe({
+                this.subscription5 = this.homeService.getRequeridas().subscribe({
                     next: (data) => {
                         this.quantRequeridas = data;
                     }
@@ -206,6 +215,13 @@ export class HomeComponent implements OnInit, OnDestroy{
         if(this.subscription4){
             this.subscription4.unsubscribe();
         }
+        if(this.subscription5){
+            this.subscription5.unsubscribe();
+        }
+    }
+
+    disponiveis(){
+        return `${this.quantPoliciais - this.quantAtestados - this.quantFerias - this.quantCursos}`;
     }
 
     returnPercentUsado(data: Contrato){

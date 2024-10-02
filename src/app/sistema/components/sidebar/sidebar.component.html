@@ -698,6 +698,18 @@
                 </a>
               </li>
             }
+            @if(user.perfil.policiais_cursos){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelPoliciaisCursos']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Cursos de Policiais</p>
+                </a>
+              </li>
+            }
             @if(user.perfil.armamentos_emprestimos){
               <li class="nav-item">
                 <a
@@ -722,6 +734,7 @@
                 </a>
               </li>
             }
+           
             @if(user.perfil.policiais_ferias){
               <li class="nav-item">
                 <a
@@ -767,6 +780,18 @@
                 >
                   <i class="fa fa-circle nav-icon"></i>
                   <p>Policiais</p>
+                </a>
+              </li>
+            }
+            @if(user.perfil.policiais_requeridas){
+              <li class="nav-item">
+                <a
+                  [routerLink]="['RelPoliciaisRequeridas']"
+                  routerLinkActive="active"
+                  class="nav-link"
+                >
+                  <i class="fa fa-circle nav-icon"></i>
+                  <p>Requiridas de Policiais</p>
                 </a>
               </li>
             }

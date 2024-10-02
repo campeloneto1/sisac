@@ -63,16 +63,36 @@
           class="bg-info"
         />
       </div>
-      } @if(user.perfil.policiais_ferias && show == 1){
-      <div class="col-sm-2">
-        <app-info-box
-          titulo="Férias"
-          [subtitulo]="quantFerias"
-          route="/Ferias"
-          icon="fa-plane"
-          class="bg-success"
-        />
-      </div>
+      }@if(user.perfil.policiais && show == 1){
+        <div class="col-sm-2">
+          <app-info-box
+            titulo="Disponíveis"
+            [subtitulo]="disponiveis()"
+            route="/Policiais"
+            icon="fa-users"
+            class="bg-success"
+          />
+        </div>
+        } @if(user.perfil.policiais && show == 1){
+          <div class="col-sm-2">
+            <app-info-box
+              titulo="Cursos"
+              [subtitulo]="quantCursos"
+              route="/PoliciaisCursos"
+              icon="fa-book"
+              class="bg-info"
+            />
+          </div>
+          }@if(user.perfil.policiais_ferias && show == 1){
+        <div class="col-sm-2">
+          <app-info-box
+            titulo="Férias"
+            [subtitulo]="quantFerias"
+            route="/Ferias"
+            icon="fa-plane"
+            class="bg-info"
+          />
+        </div>
       } @if(user.perfil.policiais_atestados && show == 1){
       <div class="col-sm-2">
         <app-info-box

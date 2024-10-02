@@ -61,6 +61,10 @@ export class HomeService{
         return this.http.get<number>(`${URL}/${endPoint}/atestados`);
     }
 
+    getCursos(): Observable<number>{
+        return this.http.get<number>(`${URL}/${endPoint}/cursos`);
+    }
+
     getFerias(): Observable<number>{
         return this.http.get<number>(`${URL}/${endPoint}/ferias`);
     }
