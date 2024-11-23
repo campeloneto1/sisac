@@ -1,0 +1,93 @@
+<div class="content-wrapper">
+    <app-title titulo="Quadro de fotos" />
+  
+    <!--INICIO SECTION content-->
+    <section class="content" >
+      <!-- INICIO CARD-->
+      <div class="card" style="min-height: 80vh; ">
+        <!-- INICIO CARD HEADER-->
+        <div class="card-header border-0">
+          <h3 class="card-title">
+            Quadro de fotos
+          </h3>
+          <div class="card-tools">
+            
+          </div>
+        </div>
+        <!-- FIM CARD HEADER-->
+        <!-- INICIO CARD BODY-->
+        <div class="card-body table-responsive p-1">
+          
+            <form class="row " [formGroup]="form" >
+                <input-select
+                class="col-sm-4 offset-sm-4"
+                label="Setor"
+                id="setor"
+                [data$]="setores$"
+                (ngModelChange)="getPoliciais()"
+                formControlName="id"
+            />
+            </form>
+
+            @if(data$ | async; as data){
+                <div class="row">
+
+                    @for(row of data; track row){
+                        <div class="col-sm-3  d-flex align-items-stretch flex-column">
+                            <div class="card bg-light d-flex flex-fill">
+                            <div class="card-header text-muted border-bottom-0">
+                                {{row.funcao.nome}}
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="lead">
+                                            <b>
+                                                {{row.graduacao.abreviatura}}
+                                                @if(row.numeral){ 
+                                                    {{row.numeral | mask: "00.000"}} 
+                                                }
+                                                {{row.nome_guerra}}
+                                            </b>
+                                        </h2>
+                                        <p class="text-muted text-sm"><b>Matrícula:</b> {{row.matricula | mask: "000.000-0-0"}}</p>
+                                        <p class="text-muted text-sm"><b>Telefone:</b> {{row.telefone1}}</p>
+                                    </div>
+                                    <div class="col-5 text-center">
+                                        @if(row.foto){
+                                        <img
+                                            crossorigin='anonymous'
+                                            class=" img-fluid"
+                                            [src]="row.foto"
+                                            alt="Foto policial"
+                                           
+                                        />
+                                        }@else{
+                                            <img
+                                            class="profile-user-img img-fluid img-circle"
+                                            src="assets/casamil.png"
+                                            alt="User profile picture"
+                                          />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="text-right">
+                                    <a [routerLink]="['/Policial', encodeId(row.id)]" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-user"></i> Ver perfil
+                                    </a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                
+            }
+        </div>
+        <!-- FIM CARD BODY-->
+      </div>
+      <!--FIM CARD-->
+    </section>
+    <!--FIM SECTION content-->

@@ -62,6 +62,7 @@ export class PoliciaisRelComponent implements OnInit, OnDestroy{
             'graduacao': [null],
             'setor': [null],
             'sexo': [null],
+            'inativo': [null],
             'transferido': [null],
             'subunidade': [null],
            

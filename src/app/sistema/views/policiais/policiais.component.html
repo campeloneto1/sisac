@@ -46,6 +46,7 @@
                 <th>Telefone</th>
                 <th>BCG Transferência</th>
                 <th>Foto</th>
+                <th>Inativo</th>
                 <th>Opções</th>
               </tr>
             </thead>
@@ -79,6 +80,7 @@
                       
                     </a>
                 </td>
+                <td>@if(row.inativo){<i class="fa fa-check" aria-hidden="true"></i>}</td>
                 <td class="options2">
                   @if(user.perfil.policiais_edt){
                     <div class="btn-group">

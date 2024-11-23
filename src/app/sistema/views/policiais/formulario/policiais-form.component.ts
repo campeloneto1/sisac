@@ -173,6 +173,7 @@ export class PoliciaisFormComponent implements OnInit{
             'conta': [null],
             'pai': [null],
             'mae': [null],
+            'inativo': [null],
         });
         this.unidades$ = this.unidadesService.index();
         this.paises$ = this.paisesService.index();
@@ -186,6 +187,9 @@ export class PoliciaisFormComponent implements OnInit{
     cadastrar(){
         if(!this.form.value.boletim_transferencia){
             this.form.get('boletim_transferencia')?.patchValue(null);
+        }
+        if(!this.form.value.inativo){
+            this.form.get('inativo')?.patchValue(null);
         }
         delete this.form.value.pais;
         delete this.form.value.estado;

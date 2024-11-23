@@ -59,6 +59,7 @@
           titulo="Policiais"
           [subtitulo]="quantPoliciais"
           route="/Policiais"
+          [params]="{ativo:true}"
           icon="fa-users"
           class="bg-info"
         />
@@ -115,6 +116,18 @@
           />
         </div>
       }
+      @if(user.perfil.policiais && show == 1){
+        <div class="col-sm-2">
+          <app-info-box
+            titulo="Inativos"
+            [subtitulo]="quantPoliciaisInativos"
+            route="/Policiais"
+            [params]="{inativo:true}"
+            icon="fa-ban"
+            class="bg-danger"
+          />
+        </div>
+        }
       @if(user.perfil.veiculos && show == 3){
         <div class="col-sm-2">
           <app-info-box

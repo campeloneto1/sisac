@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
 @Component({
@@ -9,12 +9,16 @@ import { RouterModule } from "@angular/router";
     standalone: true,
     imports: [CommonModule, RouterModule,]
 })
-export class InfoBox{
+export class InfoBox implements OnInit{
     @Input() titulo!:string;
     @Input() subtitulo!:string;
     @Input() icon!:string;
     @Input() class!:string;
     @Input() route!:string;
+    @Input() params!:object;
+
 
     constructor(){}
+    ngOnInit(): void {
+    }
 }

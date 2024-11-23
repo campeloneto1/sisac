@@ -336,6 +336,7 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./sistema/views/policiais/ficha-financeira/policiais-ficha-financeira.component').then((c) => c.PoliciaisFichaFinanceiraComponent),
           },
+         
           {
             path: 'Policiais',
             loadComponent: () =>
@@ -386,6 +387,11 @@ export const routes: Routes = [
             path: 'PublicacoesTipos',
             loadComponent: () =>
               import('./sistema/views/publicacoes-tipos/publicacoes-tipos.component').then((c) => c.PublicacoesTiposComponent),
+          },
+          {
+            path: 'QuadroFotos',
+            loadComponent: () =>
+              import('./sistema/views/quadro-fotos/quadro-fotos.component').then((c) => c.QuadoFotosComponent),
           },
           {
             path: 'Requeridas',

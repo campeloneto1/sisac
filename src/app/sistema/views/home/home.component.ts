@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected user!: User;
 
     protected quantPoliciais!: any;
+    protected quantPoliciaisInativos!: any;
     protected quantAtestados!: any;
     protected quantFerias!: any;
     protected quantRequeridas!: any;
@@ -110,6 +111,11 @@ export class HomeComponent implements OnInit, OnDestroy{
                 this.subscription = this.homeService.getPoliciais().subscribe({
                     next: (data) => {
                         this.quantPoliciais = data;
+                    }
+                });
+                this.subscription = this.homeService.getPoliciaisInativos().subscribe({
+                    next: (data) => {
+                        this.quantPoliciaisInativos = data;
                     }
                 });
             }
@@ -221,7 +227,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     }
 
     disponiveis(){
-        return `${this.quantPoliciais - this.quantAtestados - this.quantFerias - this.quantCursos}`;
+        return `${this.quantPoliciais - this.quantAtestados - this.quantFerias - this.quantCursos - this.quantPoliciaisInativos}`;
     }
 
     returnPercentUsado(data: Contrato){

@@ -55,6 +55,8 @@ export interface Policial{
     policiais_cursos: PoliciaisCursos;
     materiais_policiais: MateriaisPoliciais;
 
+    inativo?: boolean;
+
     usuario?: User;
 
     banco?: Banco;

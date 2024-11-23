@@ -17,6 +17,8 @@ import { environment } from "../../../../environments/environments";
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
 import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-policiais',
   templateUrl: './policiais.component.html',
@@ -51,6 +53,8 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   protected user!: User;
   protected foto!: any;
 
+  protected params!: any; 
+
   @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
   protected dtOptions: Config = {};
 
@@ -61,7 +65,8 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private sessionService: SessionService,
     private sharedService: SharedService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private route: ActivatedRoute
   ) {}
  
 
@@ -71,7 +76,13 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
     this.dtOptions = this.sharedService.getDtOptions();
     this.dtOptions =  {...this.dtOptions, order: [5, 'asc']};
 
-    this.data$ = this.policiaisService.index();
+    this.route.queryParamMap.subscribe(params => {
+      if (params.has('inativo')) {
+        this.params = {inativo:params.get('inativo')};
+      }
+    });
+
+    this.data$ = this.policiaisService.index(this.params);
   }
 
   ngOnDestroy(): void {
@@ -81,7 +92,7 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.data$ = this.policiaisService.index();
+    this.data$ = this.policiaisService.index(this.params);
   }
 
   editar(data: Policial) {

@@ -4,6 +4,7 @@ import { environment } from "../../../../environments/environments";
 import { Setor, Setores } from "./setor";
 import { Observable } from "rxjs";
 import { SessionService } from "../../session.service";
+import { Policiais } from "../policiais/policial";
 
 const URL = environment.url;
 const endPoint = 'setores';
@@ -41,6 +42,10 @@ export class SetoresService{
 
     whereSubunidade(id: number): Observable<Setores>{
         return this.http.get<Setores>(`${URL}/${endPoint}/${id}/whereSubunidade`);
+    }
+
+    getPoliciais(id:number): Observable<Policiais>{
+        return this.http.get<Policiais>(`${URL}/${endPoint}/${id}/policiais`);
     }
    
 }

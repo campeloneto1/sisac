@@ -32,6 +32,11 @@
                 <p class="text-muted text-center">
                   {{ policial.graduacao.nome }}
                 </p>
+                @if(policial.inativo){
+                  <p class="text-muted text-center">
+                    Inativo
+                  </p>
+                }
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
                     <b>Nome de Guerra</b>

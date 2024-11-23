@@ -218,6 +218,19 @@
           </a>
         </li>
         } 
+
+        @if(user.perfil.policiais){
+          <li class="nav-item">
+            <a
+              [routerLink]="['QuadroFotos']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-camera-retro"></i>
+              <p>Quadro de fotos</p>
+            </a>
+          </li>
+          } 
        
         @if(user.perfil.policiais_requeridas){
           <li class="nav-item">

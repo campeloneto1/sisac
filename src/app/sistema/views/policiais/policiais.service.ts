@@ -7,6 +7,11 @@ import { Observable } from "rxjs";
 const URL = environment.url;
 const endPoint = 'policiais';
 
+interface PolParams{
+    inativo?: boolean,
+    ativo?: boolean,
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -16,7 +21,17 @@ export class PoliciaisService{
         private http: HttpClient,
     ){}
 
-    index(): Observable<Policiais>{
+    index(params?:PolParams|null): Observable<Policiais>{
+        if(params){
+            let queryParams:Array<string> = [];
+            if (params.inativo) {
+                queryParams.push(`inativo=${params.inativo}`);
+            }
+            if (params.ativo) {
+                queryParams.push(`ativo=${params.ativo}`);
+            }
+            return this.http.get<Policiais>(`${URL}/${endPoint}?${queryParams.join("&")}`);
+        }
         return this.http.get<Policiais>(`${URL}/${endPoint}`);
     }
 

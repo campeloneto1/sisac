@@ -57,6 +57,10 @@ export class HomeService{
         return this.http.get<number>(`${URL}/${endPoint}/policiais`);
     }
 
+    getPoliciaisInativos(): Observable<number>{
+        return this.http.get<number>(`${URL}/${endPoint}/policiais-inativos`);
+    }
+
     getAtestados(): Observable<number>{
         return this.http.get<number>(`${URL}/${endPoint}/atestados`);
     }
