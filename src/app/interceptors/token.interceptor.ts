@@ -11,21 +11,19 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   
   const authToken = setorageService.getItem('token');
   const subunidade = setorageService.getItem('subunidade');
-  var authReq;
+  let authReq;
   // Clone the request and add the authorization header
-  if(req.method == "GET"){
-     authReq = req.clone({
-      setParams: {
-        //@ts-ignore
-        subunidade: subunidade
-      },
+  if (req.method === "GET") {
+    // Ensure we are using the proper HttpParams format
+    const params = req.params.set('subunidade', subunidade);
+    authReq = req.clone({
+      params: params,  // Update the params using HttpParams
       setHeaders: {
         Authorization: `Bearer ${authToken}`
       }
     });
-  }else{
-     authReq = req.clone({
-   
+  } else {
+    authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${authToken}`
       }
@@ -55,5 +53,5 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
       // Re-throw the error to propagate it further
       return throwError(() => err); 
     })
-  );;;
+  );
 };

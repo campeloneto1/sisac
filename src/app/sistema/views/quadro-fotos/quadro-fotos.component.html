@@ -33,44 +33,40 @@
                 <div class="row">
 
                     @for(row of data; track row){
-                        <div class="col-sm-3  d-flex align-items-stretch flex-column">
+                        <div class="col-sm-2  d-flex align-items-stretch flex-column">
                             <div class="card bg-light d-flex flex-fill">
                             <div class="card-header text-muted border-bottom-0">
                                 {{row.funcao.nome}}
                             </div>
                             <div class="card-body pt-0">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <h2 class="lead">
-                                            <b>
-                                                {{row.graduacao.abreviatura}}
-                                                @if(row.numeral){ 
-                                                    {{row.numeral | mask: "00.000"}} 
-                                                }
-                                                {{row.nome_guerra}}
-                                            </b>
-                                        </h2>
-                                        <p class="text-muted text-sm"><b>Matrícula:</b> {{row.matricula | mask: "000.000-0-0"}}</p>
-                                        <p class="text-muted text-sm"><b>Telefone:</b> {{row.telefone1}}</p>
-                                    </div>
-                                    <div class="col-5 text-center">
-                                        @if(row.foto){
+                                <div class="text-center">
+                                    @if(row.foto){
                                         <img
                                             crossorigin='anonymous'
                                             class=" img-fluid"
                                             [src]="row.foto"
                                             alt="Foto policial"
-                                           
+                                           style="max-height: 150px;"
                                         />
-                                        }@else{
-                                            <img
-                                            class="profile-user-img img-fluid img-circle"
-                                            src="assets/casamil.png"
-                                            alt="User profile picture"
-                                          />
-                                        }
-                                    </div>
+                                    }@else{
+                                        <img
+                                        class="profile-user-img img-fluid img-circle"
+                                        src="assets/casamil.png"
+                                        alt="User profile picture"
+                                        />
+                                    }
                                 </div>
+                                <h2 class="lead">
+                                    <b>
+                                        {{row.graduacao.abreviatura}}
+                                        @if(row.numeral){ 
+                                            {{row.numeral | mask: "00.000"}} 
+                                        }
+                                        {{row.nome_guerra}}
+                                    </b>
+                                </h2>
+                                <p class="text-muted text-sm p0 m0"><b>Matrícula:</b> {{row.matricula | mask: "000.000-0-0"}}</p>
+                                <p class="text-muted text-sm p0 m0"><b>Telefone:</b> @if(row.telefone1){{{row.telefone1 | mask: "(00) 00000-0000"}}}</p>
                             </div>
                             <div class="card-footer">
                                 <div class="text-right">

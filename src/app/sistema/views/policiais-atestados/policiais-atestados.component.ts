@@ -16,6 +16,7 @@ import { Config } from 'datatables.net';
 
 import 'datatables.net-buttons';
 import { SharedService } from '../../shared/shared.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-policiais-atestados',
   templateUrl: './policiais-atestados.component.html',
@@ -43,6 +44,7 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+  protected params!: any; 
 
   @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
   protected dtOptions: Config = {};
@@ -53,7 +55,8 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
     private policiaisAtestadosService: PoliciaisAtestadosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private route: ActivatedRoute
   ) {}
  
 
@@ -63,7 +66,14 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
     this.dtOptions = this.sharedService.getDtOptions();
     this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
-    this.data$ = this.policiaisAtestadosService.index();
+    this.route.queryParamMap.subscribe(params => {
+     
+      if (params.has('ativo')) {
+        this.params = {ativo:params.get('ativo')};
+      }
+    });
+
+    this.data$ = this.policiaisAtestadosService.index(this.params);
   }
 
   ngOnDestroy(): void {
@@ -73,7 +83,7 @@ export class PoliciaisAtestadosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.data$ = this.policiaisAtestadosService.index();
+    this.data$ = this.policiaisAtestadosService.index(this.params);
   }
 
   editar(data: PolicialAtestado) {

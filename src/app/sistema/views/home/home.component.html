@@ -80,6 +80,7 @@
               titulo="Cursos"
               [subtitulo]="quantCursos"
               route="/PoliciaisCursos"
+              [params]="{ativo:true}"
               icon="fa-book"
               class="bg-info"
             />
@@ -89,6 +90,7 @@
           <app-info-box
             titulo="Férias"
             [subtitulo]="quantFerias"
+            [params]="{ativo:true}"
             route="/Ferias"
             icon="fa-plane"
             class="bg-info"
@@ -99,6 +101,7 @@
         <app-info-box
           titulo="Afastamentos"
           [subtitulo]="quantAtestados"
+          [params]="{ativo:true}"
           route="/Afastamentos"
           icon="fa-ambulance"
           class="bg-danger"
@@ -111,6 +114,7 @@
             titulo="Requeridas"
             [subtitulo]="quantRequeridas"
             route="/Requeridas"
+            [params]="{ativo:true}"
             icon="fa-trophy"
             class="bg-warning"
           />

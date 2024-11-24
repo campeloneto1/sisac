@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SessionService } from '../../session.service';
 import { User } from '../users/user';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Observable } from 'rxjs';
@@ -43,6 +43,7 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+  protected params!: any; 
 
   @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
   protected dtOptions: Config = {};
@@ -53,7 +54,8 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
     private policiaisFeriasService: PoliciaisFeriasService,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private route: ActivatedRoute
   ) {}
  
 
@@ -63,7 +65,15 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
     this.dtOptions = this.sharedService.getDtOptions();
     this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
-    this.data$ = this.policiaisFeriasService.index();
+    this.route.queryParamMap.subscribe(params => {
+     
+      if (params.has('ativo')) {
+        this.params = {ativo:params.get('ativo')};
+      }
+    });
+
+
+    this.data$ = this.policiaisFeriasService.index(this.params);
   }
 
   ngOnDestroy(): void {
@@ -73,7 +83,7 @@ export class PoliciaisFeriasComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.data$ = this.policiaisFeriasService.index();
+    this.data$ = this.policiaisFeriasService.index(this.params);
   }
 
   editar(data: PolicialFerias) {

@@ -17,7 +17,14 @@ export class PoliciaisAtestadosService{
        // private sessionService: SessionService,
     ){}
 
-    index(): Observable<PoliciaisAtestados>{
+    index(params:any): Observable<PoliciaisAtestados>{
+        if(params){
+            let queryParams:Array<string> = [];
+            if (params.ativo) {
+                queryParams.push(`ativo=${params.ativo}`);
+            }
+            return this.http.get<PoliciaisAtestados>(`${URL}/${endPoint}?${queryParams.join("&")}`);
+        }
         return this.http.get<PoliciaisAtestados>(`${URL}/${endPoint}`);
         //return this.http.get<PoliciaisAtestados>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }

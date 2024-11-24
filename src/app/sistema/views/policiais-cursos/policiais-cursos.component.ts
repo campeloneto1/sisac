@@ -14,6 +14,7 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Observable } from 'rxjs';
 import { Config } from 'datatables.net';
 import { SharedService } from '../../shared/shared.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-policiais-cursos',
   templateUrl: './policiais-cursos.component.html',
@@ -41,6 +42,7 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
   protected subscription: any;
 
   protected user!: User;
+  protected params!: any; 
 
   @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
   protected dtOptions: Config = {};
@@ -51,7 +53,8 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
     private policiaisCursosService: PoliciaisCursosService,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private route: ActivatedRoute
   ) {}
  
 
@@ -61,7 +64,14 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
     this.dtOptions = this.sharedService.getDtOptions();
     this.dtOptions =  {...this.dtOptions, order: [0, 'desc']};
 
-    this.data$ = this.policiaisCursosService.index();
+    this.route.queryParamMap.subscribe(params => {
+     
+      if (params.has('ativo')) {
+        this.params = {ativo:params.get('ativo')};
+      }
+    });
+
+    this.data$ = this.policiaisCursosService.index(this.params);
   }
 
   ngOnDestroy(): void {
@@ -71,7 +81,7 @@ export class PoliciaisCursosComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.data$ = this.policiaisCursosService.index();
+    this.data$ = this.policiaisCursosService.index(this.params);
   }
 
   editar(data: PolicialCurso) {

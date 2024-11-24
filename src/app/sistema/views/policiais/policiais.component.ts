@@ -80,6 +80,9 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
       if (params.has('inativo')) {
         this.params = {inativo:params.get('inativo')};
       }
+      if (params.has('ativo')) {
+        this.params = {ativo:params.get('ativo')};
+      }
     });
 
     this.data$ = this.policiaisService.index(this.params);

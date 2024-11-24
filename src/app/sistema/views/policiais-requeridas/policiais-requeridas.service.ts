@@ -17,7 +17,14 @@ export class PoliciaisRequeridasService{
         //private sessionService: SessionService,
     ){}
 
-    index(): Observable<PoliciaisRequeridas>{
+    index(params:any): Observable<PoliciaisRequeridas>{
+        if(params){
+            let queryParams:Array<string> = [];
+            if (params.ativo) {
+                queryParams.push(`ativo=${params.ativo}`);
+            }
+            return this.http.get<PoliciaisRequeridas>(`${URL}/${endPoint}?${queryParams.join("&")}`);
+        }
         return this.http.get<PoliciaisRequeridas>(`${URL}/${endPoint}`);
         //return this.http.get<PoliciaisRequeridas>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }

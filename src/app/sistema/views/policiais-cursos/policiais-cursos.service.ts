@@ -17,7 +17,14 @@ export class PoliciaisCursosService{
         //private sessionService: SessionService,
     ){}
 
-    index(): Observable<PoliciaisCursos>{
+    index(params:any): Observable<PoliciaisCursos>{
+        if(params){
+            let queryParams:Array<string> = [];
+            if (params.ativo) {
+                queryParams.push(`ativo=${params.ativo}`);
+            }
+            return this.http.get<PoliciaisCursos>(`${URL}/${endPoint}?${queryParams.join("&")}`);
+        }
         return this.http.get<PoliciaisCursos>(`${URL}/${endPoint}`);
         //return this.http.get<PoliciaisCursos>(`${URL}/${endPoint}?subunidade=${this.sessionService.getSubunidade()}`);
     }
