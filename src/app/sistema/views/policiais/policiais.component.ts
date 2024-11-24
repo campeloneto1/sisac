@@ -5,10 +5,9 @@ import { PoliciaisService } from './policiais.service';
 import { TitleComponent } from '../../components/title/title.component';
 import { PoliciaisFormComponent } from './formulario/policiais-form.component';
 import { ToastrService } from 'ngx-toastr';
-import {DataTableModule} from "@pascalhonegger/ng-datatable";
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { Router, RouterModule } from '@angular/router';
+import {  RouterModule } from '@angular/router';
 import { SessionService } from '../../session.service';
 import { User } from '../users/user';
 import { UsersService } from '../users/users.service';
@@ -18,6 +17,7 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { PoliciaisFormTransferComponent } from './formulario-transfer/formulario-transfer.component';
 
 @Component({
   selector: 'app-policiais',
@@ -28,6 +28,7 @@ import { ActivatedRoute } from '@angular/router';
     CommonModule, 
     TitleComponent, 
     PoliciaisFormComponent,
+    PoliciaisFormTransferComponent,
     DataTablesModule,
     FormsModule,
     RouterModule,
@@ -59,6 +60,8 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
   protected dtOptions: Config = {};
 
   @ViewChild(PoliciaisFormComponent) child!: PoliciaisFormComponent;
+
+  @ViewChild(PoliciaisFormTransferComponent) childformtransf!: PoliciaisFormTransferComponent;
 
   constructor(
     private policiaisService: PoliciaisService,
@@ -194,4 +197,9 @@ export class PoliciaisComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  transferir(data: Policial) {
+    this.childformtransf.editar(data);
+  }
+
 }

@@ -1,28 +1,30 @@
 <form [formGroup]="form">
     <div class="row">
-      <input-select
-        class="col-sm-2"
-        label="Unidade"
-        id="unidade"
-        [data$]="unidades$"
-        formControlName="unidade"
-        (ngModelChange)="getSubunidades()"
-      />
-      <input-select
-        class="col-sm-4"
-        label="Subunidade"
-        id="subunidade"
-        [data$]="subunidades$"
-        formControlName="subunidade"
-        (ngModelChange)="getSetores()"
+      @if(!form.value.id){
+        <input-select
+          class="col-sm-2"
+          label="Unidade"
+          id="unidade"
+          [data$]="unidades$"
+          formControlName="unidade"
+          (ngModelChange)="getSubunidades()"
         />
         <input-select
-        class="col-sm-2"
-        label="Setor"
-        id="setor"
-        [data$]="setores$"
-        formControlName="setor"
-        />
+          class="col-sm-4"
+          label="Subunidade"
+          id="subunidade"
+          [data$]="subunidades$"
+          formControlName="subunidade"
+          (ngModelChange)="getSetores()"
+          />
+          <input-select
+          class="col-sm-2"
+          label="Setor"
+          id="setor"
+          [data$]="setores$"
+          formControlName="setor"
+          />
+        }
         <input-select
         class="col-sm-4"
         label="Função"

@@ -31,6 +31,8 @@ import { Config } from "datatables.net";
 import { ArmamentosEmprestimosShow } from "../../armamentos-emprestimos/show/armamentos-emprestimos-show.component";
 import { MateriaisPoliciaisShow } from "../../materiais-policiais/show/materiais-policiais-show.component";
 import { VeiculosPoliciaisShow } from "../../veiculos-policiais/show/veiculos-policiais-show.component";
+import { PoliciaisHistoricos } from "../../policiais-historico/policial-historico";
+import { PoliciaisHistoricoService } from "../../policiais-historico/policiais-historico.service";
 
 @Component({
     selector: 'app-policial',
@@ -75,6 +77,7 @@ export class PolicialComponent implements OnInit, OnDestroy{
     protected policiaiscursos$!: Observable<PoliciaisCursos>;
     protected policiaisferias$!: Observable<PoliciaisFerias>;
     protected policiaispublicacoes$!: Observable<PoliciaisPublicacoes>;
+    protected policiaishistorico$!: Observable<PoliciaisHistoricos>;
 
     protected armamentoEmprestado!: ArmamentoEmprestimo;
     protected materialPolicial!: MaterialPolicial;
@@ -93,7 +96,8 @@ export class PolicialComponent implements OnInit, OnDestroy{
         private policiaisAtestadosService: PoliciaisAtestadosService,
         private policiaisCursosService: PoliciaisCursosService,
         private policiaisFeriasService: PoliciaisFeriasService,
-        private policiaisPublicacoesService: PoliciaisPublicacoesService
+        private policiaisPublicacoesService: PoliciaisPublicacoesService,
+        private policiaisHistoricoService: PoliciaisHistoricoService
         
     ){}
 
@@ -171,6 +175,12 @@ export class PolicialComponent implements OnInit, OnDestroy{
     getPolPublicacoes(data: number){
         if(!this.policiaispublicacoes$){
             this.policiaispublicacoes$ = this.policiaisPublicacoesService.wherePol(data||0);
+        }
+    }
+
+    getPolHistorico(data: number){
+        if(!this.policiaishistorico$){
+            this.policiaishistorico$ = this.policiaisHistoricoService.wherePol(data||0)
         }
     }
 

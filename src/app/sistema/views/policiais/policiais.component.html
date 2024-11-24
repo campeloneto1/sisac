@@ -102,12 +102,23 @@
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <div class="dropdown-menu" role="menu">
-                        @if(user.perfil.policiais_del){
+                        
+                        @if(user.perfil.policiais_edt){
                           <a
                             class="dropdown-item point"
                             [routerLink]="['/PolicialFichaFinanceira', encodeId(row.id)]"
                             title="Ficha Financeira"
                             >Ficha Financeira</a
+                          >
+                        }
+                        @if(user.perfil.policiais_edt){
+                          <a
+                          class="dropdown-item point"
+                          title="Transferir"
+                          (click)="transferir(row)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modaltransf"
+                            >Transferir</a
                           >
                         }
                         @if(user.perfil.gestor && !row.user){
@@ -174,6 +185,34 @@
     </div>
   </div>
   <!--FIM MODAL CADASTRO-->
+
+  <!-- INICIO MODAL TRANSFERIR-->
+  <div
+    class="modal fade"
+    id="modaltransf"
+    style="display: none"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h4 class="modal-title">Transferir</h4>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-formulario-transfer (refresh)="refresh()" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL TRANSFERIR-->
 
    <!-- INICIO MODAL GERAR USUARIO-->
    <div

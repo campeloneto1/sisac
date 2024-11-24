@@ -154,6 +154,13 @@
                     >
                   </li>
                   }
+                  @if(user.perfil.policiais){
+                    <li class="nav-item">
+                      <a class="nav-link" (click)="getPolHistorico(policial.id||0)" href="#historico" data-bs-toggle="tab"
+                        >Histórico</a
+                      >
+                    </li>
+                    }
                 </ul>
               </div>
               <div class="card-body table-responsive p-2">
@@ -678,7 +685,45 @@
                     }
                   </div>
                   <!--FIM TAB PUBLICACOES-->
-                  }
+                  }@if(user.perfil.policiais){
+                    <!--INICIO TAB HISTORICO-->
+                    <div class="tab-pane" id="historico">
+                      
+                      @if(policiaishistorico$ | async; as policiaishistorico){
+                        <!--INICIO TABLE-->
+                        <table
+                            id="policiaishistorico"
+                            datatable
+                            [dtOptions]="dtOptions"
+                            class="table table-hover table-head-fixed text-nowrap"
+                          >
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Setor Origem</th>
+                                <th>Setor Destino</th>
+                                <th>Data</th>
+                              </tr>
+                            </thead>
+  
+                            <tbody>
+                              @for(row of policiaishistorico; track row){
+                              
+                                <tr class="optionshover2">
+                                  <td>{{ row.id }}</td>
+                                  <td>{{ row.setor_origem.nome }}, {{ row.setor_origem.subunidade.abreviatura }}</td>
+                                  <td>{{ row.setor_destino.nome }}, {{ row.setor_destino.subunidade.abreviatura }}</td>
+                                  <td>{{row.created_at | date: 'dd/MM/yyyy HH:mm'}}</td>
+                                </tr>
+                              }
+                            </tbody>
+                          </table>
+                          <!--FIM TABLE-->
+                          
+                      }
+                    </div>
+                    <!--FIM TAB HISTORICO-->
+                    }
                 </div>
               </div>
             </div>
