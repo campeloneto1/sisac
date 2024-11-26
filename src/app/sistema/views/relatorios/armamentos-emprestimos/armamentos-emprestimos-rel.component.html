@@ -9,7 +9,7 @@
         <h3 class="card-title noprint">Filtro</h3>
         <h3 class="card-title print">Relatório de Empréstimos de Armamentos</h3>
       </div>
-      <div class="card-body table-responsive">
+      <div class="card-body table-responsive" style="overflow: visible;">
         <form [formGroup]="form" class="noprint">
           <div class="row">
             <input-text
@@ -35,6 +35,7 @@
               id="policial"
               [data$]="policiais$"
               formControlName="policial"
+              [multiple]="true"
             />
             
                 <input-select
@@ -44,6 +45,7 @@
                 [data$]="armamentos$"
                 formControlName="armamento"
                 optionname="serial"
+                [multiple]="true"
                 />
             
                 <div class="col-sm-2">

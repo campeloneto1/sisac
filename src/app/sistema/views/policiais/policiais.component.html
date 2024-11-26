@@ -45,8 +45,9 @@
                 <th>Matrícula</th>
                 <th>Telefone</th>
                 <th>BCG Transferência</th>
-                <th>Foto</th>
                 <th>Inativo</th>
+                <th>Foto</th>
+               
                 <th>Opções</th>
               </tr>
             </thead>
@@ -64,6 +65,7 @@
                 <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
                 <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
                 <td>{{row.boletim_transferencia}}</td>
+                <td>@if(row.inativo){<i class="fa fa-check" aria-hidden="true"></i>}</td>
                 <td>
                   <a
                       class=" point"
@@ -80,7 +82,7 @@
                       
                     </a>
                 </td>
-                <td>@if(row.inativo){<i class="fa fa-check" aria-hidden="true"></i>}</td>
+               
                 <td class="options2">
                   @if(user.perfil.policiais_edt){
                     <div class="btn-group">

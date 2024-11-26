@@ -1,15 +1,15 @@
-<div class="content-wrapper">
+<div class="content-wrapper" >
   <app-title titulo="Relatório de Policiais" />
 
   <!--INICIO SECTION content-->
-  <section class="content">
+  <section class="content" >
     <!--INICIO CARD -->
     <div class="card">
       <div class="card-header border-0">
         <h3 class="card-title noprint">Filtro</h3>
         <h3 class="card-title print">Relatório de Policiais</h3>
       </div>
-      <div class="card-body table-responsive">
+      <div class="card-body table-responsive" style="overflow: visible;">
         <form [formGroup]="form" class="noprint">
           <div class="row">
             <input-select
@@ -18,6 +18,7 @@
               id="setor"
               [data$]="setores$"
               formControlName="setor"
+              [multiple]="true"
             />
             <input-select
             class="col-sm-2"
@@ -25,6 +26,7 @@
             id="graduacao"
             [data$]="graduacoes$"
             formControlName="graduacao"
+            [multiple]="true"
             />
             <input-select
             class="col-sm-2"
@@ -58,43 +60,79 @@
           </div>
         </form>
 
-        @if(data$){
-        <table class="table table-hover table-head-fixed text-wrap">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Setor</th>
-              <th>Graduação</th>
-              <th>Numeral</th>
-              <th>Nome</th>
-              <th>Nome Guerra</th>
-              <th>Matrícula</th>
-              <th>Telefone 1</th>
-              <th>Transferência</th>
+
+        <table style="width: 100%;">
+          <thead >
+            <tr class="print">
+              <th class="text-center">
+                <img src="assets/cabecalho.png" class="cabecalho text-center" />
+              </th>
+            </tr>
+            <tr class="print">
+              <th >
+                <h3 class="text-center">
+                  Relatório de policiais da @if(subunidade.abreviatura){{{subunidade.abreviatura}} - {{subunidade.unidade.abreviatura}}}
+                </h3>
+              </th>
             </tr>
           </thead>
-          <tbody>
-            @for(row of data$ | async; track row){
+          <tbody >
             <tr>
-              <td>{{ row.id }}</td>
-              <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }}</td>
-              <td>{{ row.graduacao.nome }}</td>
-              <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
-              <td>
-                {{ row.nome }}
-                @if(row.policiais_cursos){
-                  <i class="nav-icon fa fa-book"></i>
-                }
+              <td colspan="100%">
+
+                <!--INICIO DADOS-->
+                @if(data$){
+                  <table class="table table-hover table-head-fixed text-wrap" style="width: 100%; min-width: 100%;">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Setor</th>
+                        <th>Graduação</th>
+                        <th>Numeral</th>
+                        <th>Nome</th>
+                        <th>Nome Guerra</th>
+                        <th>Matrícula</th>
+                        <th>Telefone 1</th>
+                        <th>Transferência</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(row of data$ | async; track row){
+                      <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.setor.nome }} - {{ row.setor.subunidade.abreviatura }}</td>
+                        <td>{{ row.graduacao.nome }}</td>
+                        <td>@if(row.numeral){{{ row.numeral | mask: '00.000' }}}</td>
+                        <td>
+                          {{ row.nome }}
+                          @if(row.policiais_cursos){
+                            <i class="nav-icon fa fa-book"></i>
+                          }
+                        </td>
+                        <td>{{row.nome_guerra}}</td>
+                        <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
+                        <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
+                        <td>{{row.boletim_transferencia}}</td>
+                      </tr>
+                      }
+                    </tbody>
+                  </table>
+                  }
+                <!--FIM DADOS-->
+
               </td>
-              <td>{{row.nome_guerra}}</td>
-              <td>{{ row.matricula | mask: '000.000-0-A' }}</td>
-              <td>@if(row.telefone1){{{ row.telefone1 | mask: '(00) 00000-0000' }}}</td>
-              <td>{{row.boletim_transferencia}}</td>
             </tr>
-            }
           </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <img src="assets/rodape.png" class="rodape print" />
+              </td>
+            </tr>
+          </tfoot>
         </table>
-        }
+
+        
       </div>
     </div>
     <!--FIM CARD -->

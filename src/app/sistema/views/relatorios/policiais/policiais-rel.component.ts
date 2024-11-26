@@ -15,6 +15,9 @@ import { GraduacoesService } from "../../graduacoes/graduacoes.service";
 import { SexosService } from "../../sexos/sexos.service";
 import { SetoresService } from "../../setores/setores.service";
 import { SessionService } from "../../../session.service";
+import { Subunidade } from "../../subunidades/subunidade";
+import { SubunidadesService } from "../../subunidades/subunidades.service";
+import { User } from "../../users/user";
 
 @Component({
     selector: 'app-policiais-rel',
@@ -43,7 +46,8 @@ export class PoliciaisRelComponent implements OnInit, OnDestroy{
     protected graduacoes$!: Observable<Graduacoes>;
     protected setores$!: Observable<Setores>;
     protected sexos$!: Observable<Sexos>;
-
+    protected subunidade!: Subunidade;
+    protected user!: User;
     private subscription: any;
     private subscription2: any;
 
@@ -54,10 +58,12 @@ export class PoliciaisRelComponent implements OnInit, OnDestroy{
         private sexosService: SexosService,
         private setoresService: SetoresService,
         private sessionService: SessionService,
+        private subunidadesService: SubunidadesService
     ){}
 
     ngOnInit(): void {
         this.sessionService.checkPermission('relatorios');
+        this.user = this.sessionService.getUser();
         this.form = this.formBuilder.group({
             'graduacao': [null],
             'setor': [null],
@@ -67,6 +73,12 @@ export class PoliciaisRelComponent implements OnInit, OnDestroy{
             'subunidade': [null],
            
         });
+
+        this.subscription2 =  this.subunidadesService.find(this.user.subunidade.id || 0).subscribe({
+            next: (data) => {
+                this.subunidade = data;
+            }
+        })
 
         this.graduacoes$ = this.graduacoesService.index();
         this.setores$ = this.setoresService.index();
