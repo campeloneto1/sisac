@@ -49,7 +49,6 @@ export class InputTextComponent implements ControlValueAccessor{
   change() {
     this.markAsTouched();
     if (!this.disabled) {     
-      //console.log(this.inputvalor)
       this.onChange(this.inputvalor);      
     }
   }
@@ -79,6 +78,5 @@ export class InputTextComponent implements ControlValueAccessor{
 
   validate(control: AbstractControl): ValidationErrors | void  {
     this.control = control;
-    //console.log(control)
   }
 }

@@ -154,6 +154,13 @@
                     >
                   </li>
                   }
+                  @if(user.perfil.policiais_diarias){
+                    <li class="nav-item">
+                      <a class="nav-link" (click)="getPolDiarias(policial.id||0)" href="#diarias" data-bs-toggle="tab"
+                        >Diárias</a
+                      >
+                    </li>
+                    }
                   @if(user.perfil.policiais){
                     <li class="nav-item">
                       <a class="nav-link" (click)="getPolHistorico(policial.id||0)" href="#historico" data-bs-toggle="tab"
@@ -685,7 +692,72 @@
                     }
                   </div>
                   <!--FIM TAB PUBLICACOES-->
-                  }@if(user.perfil.policiais){
+                  }@if(user.perfil.policiais_diarias){
+                    <!--INICIO TAB DIARIAS-->
+                    <div class="tab-pane" id="diarias">
+                      
+                      @if(policiaisdiarias$ | async; as policiaisdiarias){
+                        <!--INICIO TABLE-->
+                        <table
+                            id="policiaisdiarias"
+                            datatable
+                            [dtOptions]="dtOptions"
+                            class="table table-hover table-head-fixed text-nowrap"
+                          >
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Graduação</th>
+                                <th>Numeral</th>
+                                <th>Nome de Guerra</th>
+                                <th>Matrícula</th>
+                                <th>Setor</th>
+                                <th>Cidade</th>
+                                <th>Dt Inicial</th>
+                                <th>Dt Final</th>
+                                <th>Quant. Diárias</th>
+                                <th>Valor</th>
+                                <th>Ajuda Custo</th>
+                              
+                                <th>Acrescimo</th>
+                                <th>Valor Total</th>
+                                <th>DOE</th>
+                                <th>NUP</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+  
+                            <tbody>
+                              @for(row of policiaisdiarias; track row){
+                              
+                                <tr class="optionshover2">
+                                  <td>{{ row.id }}</td>
+                <td>{{ row.policial.graduacao.nome }}</td>
+                <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
+                <td>{{ row.policial.nome_guerra }}</td>
+                <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
+                <td>{{ row.policial.setor.nome }}</td>
+                <td>{{ row.cidade.nome }} - {{ row.cidade.estado.abreviatura }}</td>
+                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                <td>@if(row.data_final){{{ row.data_final | date: 'dd/MM/yyyy' }}}</td>
+                <td>{{ row.quant_diarias }}</td>
+                <td>@if(row.valor){R$ {{ row.valor | mask: 'separator.2' }}}</td>
+                <td>@if(row.ajuda_custo){R$ {{ row.ajuda_custo | mask: 'separator.2' }}}</td>
+                <td>@if(row.acrescimo){{{ row.acrescimo }} %}</td>
+                <td>@if(row.valor_total){R$ {{ row.valor_total | mask: 'separator.2' }}}</td>
+                <td>{{ row.doe }}</td>
+                <td>{{ row.nup }}</td>
+                <td>{{ row.diaria_status.nome }}</td>
+                                </tr>
+                              }
+                            </tbody>
+                          </table>
+                          <!--FIM TABLE-->
+                          
+                      }
+                    </div>
+                    <!--FIM TAB DIARIAS-->
+                    }@if(user.perfil.policiais){
                     <!--INICIO TAB HISTORICO-->
                     <div class="tab-pane" id="historico">
                       

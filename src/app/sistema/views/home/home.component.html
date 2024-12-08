@@ -12,6 +12,7 @@
             <button type="button" [ngClass]="{'active': show === 3, 'disabled hide': !user.perfil.veiculos}" (click)="changeShow(3)" class="btn btn-info">Transporte</button>
             <button type="button" [ngClass]="{'active': show === 4, 'disabled hide': !user.perfil.armamentos}" (click)="changeShow(4)" class="btn btn-info">Reserva</button>
             <button type="button" [ngClass]="{'active': show === 5, 'disabled hide': !user.perfil.contratos}" (click)="changeShow(5)" class="btn btn-info">Contratos</button>
+            <button type="button" [ngClass]="{'active': show === 6, 'disabled hide': !user.perfil.policiais_diarias}" (click)="changeShow(6)" class="btn btn-info">Diárias</button>
           </div>
         </div>
         <div class="col-sm-4">
@@ -151,6 +152,28 @@
             route="/Veiculos"
             icon="fa-plane"
             class="bg-success"
+          />
+        </div>
+      }
+
+      @if(user.perfil.policiais_diarias && show == 6){
+        <div class="col-sm-2">
+          <app-info-box
+            titulo="Diárias"
+            [subtitulo]="quantDiarias"
+            route="/PoliciaisDiarias"
+            icon="fa-calendar"
+            class="bg-success"
+          />
+        </div>
+
+        <div class="col-sm-2">
+          <app-info-box
+            titulo="Em aberto"
+            [subtitulo]="quantDiariasAberto"
+            route="/PoliciaisDiarias"
+            icon="fa-bell"
+            class="bg-danger"
           />
         </div>
       }
@@ -704,6 +727,43 @@
         </div>
         }
       <!--FIM CARD CONTRATOS ACABANDO-->
+
+      <!-- INICIO CARD DIARIAS POR POL-->
+      @if(user.perfil.policiais_diarias && show == 6){
+        <div class="col-sm-6 maxheight">
+          <div class="card maxcarheight">
+            <div class="card-header border-0 divlink">
+              <h3 class="card-title">Diárias em aberto</h3>
+              <a class="float-right hide" [routerLink]="['/PoliciaisDiarias']">Ver mais</a>
+            </div>
+            <div class="card-body table-responsive p-0">
+              <table class="table table-striped table-hover table-valign-middle table-head-fixed">
+                <thead>
+                  <tr>
+                    <th>Graduação</th>
+                    <th>Numeral</th>
+                    <th>Nome de Guerra</th>
+                    <th>Setor</th>
+                    <th>Quant</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for(diaria of diariasPoliciais$ | async; track diaria){
+                    <tr>
+                      <td>{{diaria.graduacao}}</td>
+                      <td>{{diaria.numeral}}</td>
+                      <td>{{diaria.nome_guerra}}</td>
+                      <td>{{diaria.setor}}</td>
+                      <td>{{diaria.quantidade}}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        }
+      <!--FIM CARD DIARIAS POR POL-->
 
     </div>
 

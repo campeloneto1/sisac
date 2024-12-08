@@ -1,0 +1,174 @@
+<div class="content-wrapper">
+    <app-title titulo="Status de Diária" />
+  
+    <!--INICIO SECTION content-->
+    <section class="content">
+      <!-- INICIO CARD-->
+      <div class="card">
+        <!-- INICIO CARD HEADER-->
+        <div class="card-header border-0">
+          <h3 class="card-title">
+            <button
+              class="btn btn-outline-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modalcad"
+              title="Cadastrar"
+            >
+              <i class="fa fa-plus"></i> Cadastrar
+            </button>
+          </h3>
+          <div class="card-tools">
+            
+          </div>
+        </div>
+        <!-- FIM CARD HEADER-->
+        <!-- INICIO CARD BODY-->
+        <div class="card-body table-responsive p-1">
+          @if(data$ | async; as data){
+            <!--INICIO TABLE-->
+            <table
+              datatable
+              [dtOptions]="dtOptions"
+              class="table table-hover table-head-fixed text-nowrap"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nome</th>
+                  <th>Cadastrado</th>
+                  <th>Em Andamento</th>
+                  <th>Concluído</th>
+                  <th>Opções</th>
+                </tr>
+              </thead>
+    
+              <tbody>
+                @for(row of data; track row){
+                <tr class="optionshover2">
+                  <td>{{ row.id }}</td>
+                  <td>{{ row.nome }}</td>
+                  <td>
+                    @if(row.cadastrado){<i class="fa fa-check" aria-hidden="true"></i>}
+                  </td>
+                  <td>
+                    @if(row.em_andamento){<i class="fa fa-check" aria-hidden="true"></i>}
+                  </td>
+                  <td>
+                    @if(row.concluido){<i class="fa fa-check" aria-hidden="true"></i>}
+                  </td>
+                  <td class="options2">
+                    <div class="btn-group">
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-xs"
+                        (click)="editar(row)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalcad"
+                        title="Editar"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-xs dropdown-toggle dropdown-hover dropdown-icon"
+                        data-bs-toggle="dropdown"
+                      >
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <div class="dropdown-menu" role="menu">
+                        <a
+                          class="dropdown-item point"
+                          (click)="delete(row)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modaldel"
+                          title="Excluir"
+                          >Excluir</a
+                        >
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            <!--FIM TABLE-->
+            }
+        </div>
+        <!-- FIM CARD BODY-->
+      </div>
+      <!--FIM CARD-->
+    </section>
+    <!--FIM SECTION content-->
+  
+    <!-- INICIO MODAL CADASTRO-->
+    <div
+      class="modal fade"
+      id="modalcad"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Cadastrar</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <app-diarias-status-form (refresh)="refresh()" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL CADASTRO-->
+  
+    <!-- INICIO MODAL exclusao-->
+    <div
+      class="modal fade"
+      id="modaldel"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Excluir</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            @if(excluir){ Tem certeza que deseja excluir:
+            <b>{{ excluir.nome }}</b>
+            <div class="d-flex justify-content-end">
+              <a data-bs-dismiss="modal" class="btn btn-link text-primary"
+                >Cancelar</a
+              >
+              <button
+                type="button"
+                (click)="confirm()"
+                data-bs-dismiss="modal"
+                class="btn btn-danger"
+              >
+                Excluir
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL exclusao-->
+  </div>
+  

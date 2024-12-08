@@ -1,0 +1,170 @@
+<div class="content-wrapper" >
+    <app-title titulo="Relatório de Diárias" />
+  
+    <!--INICIO SECTION content-->
+    <section class="content" >
+      <!--INICIO CARD -->
+      <div class="card">
+        <div class="card-header border-0">
+          <h3 class="card-title noprint">Filtro</h3>
+          <h3 class="card-title print">Relatório de Diárias</h3>
+        </div>
+        <div class="card-body table-responsive" style="overflow: visible;">
+          <form [formGroup]="form" class="noprint">
+            <div class="row">
+                <input-select
+                class="col-sm-2"
+                label="Policial"
+                id="policial"
+                [data$]="policiais$"
+                formControlName="policial"
+                [multiple]="true"
+              />
+              <input-select
+                class="col-sm-2"
+                label="Setor"
+                id="setor"
+                [data$]="setores$"
+                formControlName="setor"
+                [multiple]="true"
+              />
+              <input-select
+              class="col-sm-2"
+              label="Graduação"
+              id="graduacao"
+              [data$]="graduacoes$"
+              formControlName="graduacao"
+              [multiple]="true"
+              />
+              <input-select
+              class="col-sm-2"
+              label="Tipo"
+              id="diaria_tipo"
+              [data$]="diariastipos$"
+              formControlName="diaria_tipo"
+              [multiple]="true"
+              />
+              <input-select
+              class="col-sm-2"
+              label="Status"
+              id="diaria_status"
+              [data$]="diariasstatus$"
+              formControlName="diaria_status"
+              [multiple]="true"
+              />
+              
+            </div>
+            <div>
+              <button
+                [disabled]="form.invalid"
+                type="button"
+                (click)="pesquisar()"
+                class="btn btn-primary btn-block"
+              >
+                Pesquisar
+              </button>
+            </div>
+          </form>
+  
+  
+          <table style="width: 100%;">
+            <thead >
+              <tr class="print">
+                <th class="text-center">
+                  <img src="assets/cabecalho.png" class="cabecalho text-center" />
+                </th>
+              </tr>
+              <tr class="print">
+                <th >
+                  <h3 class="text-center">
+                    Relatório de Diárias da @if(subunidade){{{subunidade.abreviatura}} - {{subunidade.unidade.abreviatura}}}
+                  </h3>
+                </th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr>
+                <td colspan="100%">
+  
+                  <!--INICIO DADOS-->
+                  @if(data$){
+                    <table class="table table-hover table-head-fixed text-wrap" style="width: 100%; min-width: 100%;">
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Graduação</th>
+                            <th>Numeral</th>
+                            <th>Nome de Guerra</th>
+                            <th>Matrícula</th>
+                            <th>Setor</th>
+                            <th>Cidade</th>
+                            <th>Dt Inicial</th>
+                            <th>Dt Final</th>
+                            <th>Quant. Diárias</th>
+                            <th>Valor</th>
+                            <th>Ajuda Custo</th>
+                            <th>Acrescimo</th>
+                            <th>Valor Total</th>
+                            <th>DOE</th>
+                            <th>NUP</th>
+                            <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for(row of data$ | async; track row){
+                        <tr>
+                            <td>{{ row.id }}</td>
+                            <td>{{ row.policial.graduacao.nome }}</td>
+                            <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
+                            <td>{{ row.policial.nome_guerra }}</td>
+                            <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
+                            <td>{{ row.policial.setor.nome }}</td>
+                            <td>{{ row.cidade.nome }} - {{ row.cidade.estado.abreviatura }}</td>
+                            <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                            <td>@if(row.data_final){{{ row.data_final | date: 'dd/MM/yyyy' }}}</td>
+                            <td>{{ row.quant_diarias }}</td>
+                            <td>@if(row.valor){R$ {{ row.valor | mask: 'separator.2' }}}</td>
+                            <td>@if(row.ajuda_custo){R$ {{ row.ajuda_custo | mask: 'separator.2' }}}</td>
+                            <td>@if(row.acrescimo){{{ row.acrescimo }} %}</td>
+                            <td>@if(row.valor_total){R$ {{ row.valor_total | mask: 'separator.2' }}}</td>
+                            <td>{{ row.doe }}</td>
+                            <td>{{ row.nup }}</td>
+                            <td>{{ row.diaria_status.nome }}</td>
+                        </tr>
+                        }
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="12"> </td>
+                          <th>Valor total: </th>
+                          <th>R$ {{valortotal}} </th>
+                          <td> </td>
+                          <td> </td>
+                          <td> </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    }
+                  <!--FIM DADOS-->
+  
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+             
+              <tr>
+                <td>
+                  <img src="assets/rodape.png" class="rodape print" />
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+  
+          
+        </div>
+      </div>
+      <!--FIM CARD -->
+    </section>
+    <!--FIM SECTION content-->
+  </div>
+  

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Cor, Cores } from './cor';
-import { CoresService } from './cores.service';
+import { DiariaStatus, DiariasStatus } from './diaria-status';
+import { DiariasStatusService } from './diarias-status.service';
 import { TitleComponent } from '../../components/title/title.component';
-import { CoresFormComponent } from './formulario/cores-form.component';
+import { DiariasStatusFormComponent } from './formulario/diarias-status-form.component';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
@@ -11,33 +11,33 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Observable } from 'rxjs';
 import { Config } from 'datatables.net';
 @Component({
-  selector: 'app-cores',
-  templateUrl: './cores.component.html',
-  styleUrl: './cores.component.css',
+  selector: 'app-diarias-status',
+  templateUrl: './diarias-status.component.html',
+  styleUrl: './diarias-status.component.css',
   standalone: true,
   imports: [
     CommonModule, 
     TitleComponent, 
-    CoresFormComponent,
+    DiariasStatusFormComponent,
     DataTablesModule,
     FormsModule
   ],
 })
-export class CoresComponent implements OnInit, OnDestroy {
-  protected data$!: Observable<Cores>;
-  protected excluir!: Cor;
+export class DiariasStatusComponent implements OnInit, OnDestroy {
+  protected data$!: Observable<DiariasStatus>;
+  protected excluir!: DiariaStatus;
   protected pesquisa!: string;
-  protected temp!: Cores;
+  protected temp!: DiariasStatus;
   protected quant: number = 10;
   protected subscription: any;
 
   @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
   protected dtOptions: Config = {};
 
-  @ViewChild(CoresFormComponent) child!: CoresFormComponent;
+  @ViewChild(DiariasStatusFormComponent) child!: DiariasStatusFormComponent;
 
   constructor(
-    private coresService: CoresService,
+    private diariasStatusService: DiariasStatusService,
     private toastr: ToastrService,
     private sessionService: SessionService,
   ) {}
@@ -50,7 +50,7 @@ export class CoresComponent implements OnInit, OnDestroy {
       order: [1, 'asc']
     };
 
-    this.data$ = this.coresService.index();
+    this.data$ = this.diariasStatusService.index();
   }
 
   ngOnDestroy(): void {
@@ -58,19 +58,19 @@ export class CoresComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.data$ = this.coresService.index();
+    this.data$ = this.diariasStatusService.index();
   }
 
-  editar(data: Cor) {
+  editar(data: DiariaStatus) {
     this.child.editar(data);
   }
 
-  delete(data: Cor) {
+  delete(data: DiariaStatus) {
     this.excluir = data;
   }
 
   confirm() {
-    this.coresService.remove(this.excluir.id || 0).subscribe({
+    this.diariasStatusService.remove(this.excluir.id || 0).subscribe({
       next: (data: any) => {
         this.toastr.success('Exclusão realizada com sucesso!');
         this.refresh();

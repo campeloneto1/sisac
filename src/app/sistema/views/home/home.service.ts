@@ -77,6 +77,18 @@ export class HomeService{
         return this.http.get<number>(`${URL}/${endPoint}/requeridas`);
     }
 
+    getPoliciaisDiarias(): Observable<any>{
+        return this.http.get<any>(`${URL}/${endPoint}/policiais-diarias`);
+    }
+
+    getPoliciaisDiariasQuant(): Observable<number>{
+        return this.http.get<any>(`${URL}/${endPoint}/policiais-diarias-quant`);
+    }
+
+    getPoliciaisDiariasQuantAberto(): Observable<number>{
+        return this.http.get<any>(`${URL}/${endPoint}/policiais-diarias-quantaberto`);
+    }
+
 
     getPoliciaisGraduacoes(): Observable<any>{
         return this.http.get<any>(`${URL}/${endPoint}/policiais-graduacoes`);

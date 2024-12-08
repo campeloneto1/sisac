@@ -33,6 +33,8 @@ import { MateriaisPoliciaisShow } from "../../materiais-policiais/show/materiais
 import { VeiculosPoliciaisShow } from "../../veiculos-policiais/show/veiculos-policiais-show.component";
 import { PoliciaisHistoricos } from "../../policiais-historico/policial-historico";
 import { PoliciaisHistoricoService } from "../../policiais-historico/policiais-historico.service";
+import { PoliciaisDiarias } from "../../policiais-diarias/policial-diaria";
+import { PoliciaisDiariasService } from "../../policiais-diarias/policiais-diarias.service";
 
 @Component({
     selector: 'app-policial',
@@ -78,6 +80,7 @@ export class PolicialComponent implements OnInit, OnDestroy{
     protected policiaisferias$!: Observable<PoliciaisFerias>;
     protected policiaispublicacoes$!: Observable<PoliciaisPublicacoes>;
     protected policiaishistorico$!: Observable<PoliciaisHistoricos>;
+    protected policiaisdiarias$!: Observable<PoliciaisDiarias>;
 
     protected armamentoEmprestado!: ArmamentoEmprestimo;
     protected materialPolicial!: MaterialPolicial;
@@ -97,7 +100,8 @@ export class PolicialComponent implements OnInit, OnDestroy{
         private policiaisCursosService: PoliciaisCursosService,
         private policiaisFeriasService: PoliciaisFeriasService,
         private policiaisPublicacoesService: PoliciaisPublicacoesService,
-        private policiaisHistoricoService: PoliciaisHistoricoService
+        private policiaisHistoricoService: PoliciaisHistoricoService,
+        private policiaisDiariasService: PoliciaisDiariasService
         
     ){}
 
@@ -181,6 +185,12 @@ export class PolicialComponent implements OnInit, OnDestroy{
     getPolHistorico(data: number){
         if(!this.policiaishistorico$){
             this.policiaishistorico$ = this.policiaisHistoricoService.wherePol(data||0)
+        }
+    }
+
+    getPolDiarias(data: number){
+        if(!this.policiaisdiarias$){
+            this.policiaisdiarias$ = this.policiaisDiariasService.wherePol(data||0)
         }
     }
 

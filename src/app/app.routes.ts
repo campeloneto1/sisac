@@ -157,6 +157,26 @@ export const routes: Routes = [
               import('./sistema/views/cursos/cursos.component').then((c) => c.CursosComponent),
           },
           {
+            path: 'PoliciaisDiarias',
+            loadComponent: () =>
+              import('./sistema/views/policiais-diarias/policiais-diarias.component').then((c) => c.PoliciaisDiariasComponent),
+          },
+          {
+            path: 'RelPoliciaisDiarias',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/policiais-diarias/policiais-diarias-rel.component').then((c) => c.PoliciaisDiariasRelComponent),
+          },
+          {
+            path: 'DiariasTipos',
+            loadComponent: () =>
+              import('./sistema/views/diarias-tipos/diarias-tipos.component').then((c) => c.DiariasTiposComponent),
+          },
+          {
+            path: 'DiariasStatus',
+            loadComponent: () =>
+              import('./sistema/views/diarias-status/diarias-status.component').then((c) => c.DiariasStatusComponent),
+          },
+          {
             path: 'Documentos',
             loadComponent: () =>
               import('./sistema/views/documentos/documentos.component').then((c) => c.DocumentosComponent),

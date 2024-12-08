@@ -1,0 +1,31 @@
+<form  [formGroup]="form" >
+    <div class="row">
+        <input-text class="col-sm-4" formControlName="nome" label="Nome" id="nome" tipo="text" />
+    </div>    
+    <div class="row" >
+
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked="" id="cadastrado" formControlName="cadastrado">
+                <label class="form-check-label" for="cadastrado">Cadastrado</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked="" id="em_andamento" formControlName="em_andamento">
+                <label class="form-check-label" for="em_andamento">Em Andamento</label>
+            </div>
+        </div>    
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked="" id="concluido" formControlName="concluido">
+                <label class="form-check-label" for="concluido">Concluído</label>
+            </div>
+        </div>   
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>
+        <button [disabled]="form.invalid" type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-primary">Cadastrar</button>
+    </div>
+</form>

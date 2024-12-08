@@ -65,6 +65,9 @@ export class HomeComponent implements OnInit, OnDestroy{
     protected veiculosRevisao$!: Observable<Veiculos>;
     protected veiculosPoliciais$!: Observable<VeiculosPoliciais>;
     protected temEmprestimo: boolean = false;
+    protected quantDiarias!: any;
+    protected quantDiariasAberto!: any;
+    protected diariasPoliciais$!: Observable<any>;
 
     protected subunidade!: any;
 
@@ -101,6 +104,8 @@ export class HomeComponent implements OnInit, OnDestroy{
                 this.show = 4;
             }else if(this.user.perfil.contratos){
                 this.show = 5;
+            }else if(this.user.perfil.policiais_diarias){
+                this.show = 6;
             }
         }
 
@@ -195,6 +200,20 @@ export class HomeComponent implements OnInit, OnDestroy{
 
             if(this.user.perfil.contratos){
                 this.contratosAcabando$ = this.homeService.getContratosAcabando();
+            }
+
+            if(this.user.perfil.policiais_diarias){
+                this.subscription = this.homeService.getPoliciaisDiariasQuant().subscribe({
+                    next: (data) => {
+                        this.quantDiarias = data;
+                    }
+                });
+                this.subscription = this.homeService.getPoliciaisDiariasQuantAberto().subscribe({
+                    next: (data) => {
+                        this.quantDiariasAberto = data;
+                    }
+                });
+                this.diariasPoliciais$ = this.homeService.getPoliciaisDiarias();
             }
 
             this.veiculosPoliciaisService.veiculoPolicial().subscribe({

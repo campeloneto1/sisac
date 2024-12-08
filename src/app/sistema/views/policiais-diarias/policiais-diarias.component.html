@@ -1,0 +1,200 @@
+<div class="content-wrapper">
+    <app-title titulo="Diárias" />
+  
+    <!--INICIO SECTION content-->
+    <section class="content">
+      <!-- INICIO CARD-->
+      <div class="card">
+        <!-- INICIO CARD HEADER-->
+        <div class="card-header border-0">
+          <h3 class="card-title">
+            @if(user.perfil.policiais_diarias_cad){
+              <button
+                class="btn btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#modalcad"
+                title="Cadastrar"
+              >
+                <i class="fa fa-plus"></i> Cadastrar
+              </button>
+            }
+          </h3>
+          <div class="card-tools">
+            
+          </div>
+        </div>
+        <!-- FIM CARD HEADER-->
+        <!-- INICIO CARD BODY-->
+        <div class="card-body table-responsive p-1">
+         
+          @if(data$ | async; as data){
+            <!--INICIO TABLE-->
+            <table
+              datatable
+              [dtOptions]="dtOptions"
+              class="table table-hover table-head-fixed text-nowrap"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Graduação</th>
+                  <th>Numeral</th>
+                  <th>Nome de Guerra</th>
+                  <th>Matrícula</th>
+                  <th>Setor</th>
+                  <th>Cidade</th>
+                  <th>Dt Inicial</th>
+                  <th>Dt Final</th>
+                  <th>Quant. Diárias</th>
+                  <th>Valor</th>
+                  <th>Ajuda Custo</th>
+                
+                  <th>Acrescimo</th>
+                  <th>Valor Total</th>
+                  <th>DOE</th>
+                  <th>NUP</th>
+                  <th>Status</th>
+                  <th>Opções</th>
+                </tr>
+              </thead>
+    
+              <tbody>
+                @for(row of data; track row){
+                <tr class="optionshover2">
+                <td>{{ row.id }}</td>
+                <td>{{ row.policial.graduacao.nome }}</td>
+                <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
+                <td>{{ row.policial.nome_guerra }}</td>
+                <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
+                <td>{{ row.policial.setor.nome }}</td>
+                <td>{{ row.cidade.nome }} - {{ row.cidade.estado.abreviatura }}</td>
+                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                <td>@if(row.data_final){{{ row.data_final | date: 'dd/MM/yyyy' }}}</td>
+                <td>{{ row.quant_diarias }}</td>
+                <td>@if(row.valor){R$ {{ row.valor | mask: 'separator.2' }}}</td>
+                <td>@if(row.ajuda_custo){R$ {{ row.ajuda_custo | mask: 'separator.2' }}}</td>
+                <td>@if(row.acrescimo){{{ row.acrescimo }} %}</td>
+                <td>@if(row.valor_total){R$ {{ row.valor_total | mask: 'separator.2' }}}</td>
+                <td>{{ row.doe }}</td>
+                <td>{{ row.nup }}</td>
+                <td>{{ row.diaria_status.nome }}</td>
+                  <td class="options2">
+                    @if(user.perfil.policiais_diarias_edt){
+                      <div class="btn-group">
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary btn-xs"
+                          (click)="editar(row)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalcad"
+                          title="Editar"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary btn-xs dropdown-toggle dropdown-hover dropdown-icon"
+                          data-bs-toggle="dropdown"
+                        >
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" role="menu">
+                          @if(user.perfil.policiais_cursos_del){
+                          <a
+                            class="dropdown-item point"
+                            (click)="delete(row)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modaldel"
+                            title="Excluir"
+                            >Excluir</a
+                          >
+                          }
+                        </div>
+                      </div>
+                    }
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            <!--FIM TABLE-->
+            }
+        </div>
+        <!-- FIM CARD BODY-->
+      </div>
+      <!--FIM CARD-->
+    </section>
+    <!--FIM SECTION content-->
+  
+    <!-- INICIO MODAL CADASTRO-->
+    <div
+      class="modal fade"
+      id="modalcad"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Cadastrar</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <app-policiais-diarias-form (refresh)="refresh()" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL CADASTRO-->
+  
+    <!-- INICIO MODAL exclusao-->
+    <div
+      class="modal fade"
+      id="modaldel"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h4 class="modal-title">Excluir</h4>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            @if(excluir){ Tem certeza que deseja excluir:
+            <b>{{ excluir.policial.nome }}</b>
+            <div class="d-flex justify-content-end">
+              <a data-bs-dismiss="modal" class="btn btn-link text-primary"
+                >Cancelar</a
+              >
+              <button
+                type="button"
+                (click)="confirm()"
+                data-bs-dismiss="modal"
+                class="btn btn-danger"
+              >
+                Excluir
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--FIM MODAL exclusao-->
+  </div>
+  

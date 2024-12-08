@@ -1,0 +1,106 @@
+/* Para visualização normal, .print fica escondido */
+.print {
+    display: none;
+}
+
+.red {
+    background-color: red;
+}
+
+@media print {
+
+
+    /* Esconde os elementos com a classe .noprint durante a impressão */
+    .noprint {
+        display: none;
+    }
+
+    /* Torna visíveis os elementos com a classe .print durante a impressão */
+    .print {
+        display: block;
+    }
+
+    /* Configurações para o corpo da página de impressão */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif; /* Garantir uma fonte compatível */
+    }
+
+    /* Evitar quebras de página antes do conteúdo principal */
+    .content-wrapper {
+        page-break-before: auto;  /* Não forçar quebra de página antes da seção */
+        page-break-after: always; /* Forçar quebra de página após o conteúdo principal */
+    }
+
+    /* Garantir que o conteúdo da tabela ou do cartão não quebre em várias páginas */
+    .card-body, table {
+        page-break-inside: avoid; /* Impede quebra dentro da tabela */
+    }
+
+    /* Ajustar o cabeçalho e rodapé */
+    .cabecalho {
+        width: 100%;
+        text-align: center;
+        page-break-before: always; /* Quebra de página antes do cabeçalho */
+    }
+
+    .rodape {
+        width: 100%;
+        text-align: center;
+        page-break-after: always; /* Garante quebra após o rodapé */
+    }
+
+    /* Certifique-se de que as imagens não estão forçando um comportamento inesperado */
+    .cabecalho img, .rodape img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Garantir que o conteúdo do formulário (filtros) não seja impresso */
+    .noprint {
+        display: none !important;
+    }
+
+    /* Ajuste de margens e padding para o conteúdo principal */
+    .card {
+        margin: 0;
+        padding: 0;
+    }
+
+    .printable-content {
+        display: block;
+        padding: 0;
+    }
+
+    /* Ajuste da tabela para garantir que ela seja exibida corretamente */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px; 
+        
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        word-wrap: break-word;
+        white-space: normal;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* Evitar a quebra da página no meio da tabela ou do conteúdo */
+    table, .card-body {
+        page-break-inside: avoid;
+    }
+
+    /* Garantir que a impressão ocupe o espaço corretamente */
+    .content-wrapper {
+        page-break-before: avoid;
+    }
+
+   
+}

@@ -1,43 +1,49 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Cor, Cores } from './cor';
-import { CoresService } from './cores.service';
+import { DiariaTipo, DiariasTipos} from './diaria-tipo';
+import { DiariasTiposService } from './diarias-tipos.service';
 import { TitleComponent } from '../../components/title/title.component';
-import { CoresFormComponent } from './formulario/cores-form.component';
+import { DiariasTiposFormComponent } from './formulario/diarias-tipos-form.component';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../session.service';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Observable } from 'rxjs';
 import { Config } from 'datatables.net';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 @Component({
-  selector: 'app-cores',
-  templateUrl: './cores.component.html',
-  styleUrl: './cores.component.css',
+  selector: 'app-diarias-tipos',
+  templateUrl: './diarias-tipos.component.html',
+  styleUrl: './diarias-tipos.component.css',
   standalone: true,
   imports: [
     CommonModule, 
     TitleComponent, 
-    CoresFormComponent,
+    DiariasTiposFormComponent,
     DataTablesModule,
-    FormsModule
+    FormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
+  providers: [
+    provideNgxMask()
+  ]
 })
-export class CoresComponent implements OnInit, OnDestroy {
-  protected data$!: Observable<Cores>;
-  protected excluir!: Cor;
+export class DiariasTiposComponent implements OnInit, OnDestroy {
+  protected data$!: Observable<DiariasTipos>;
+  protected excluir!: DiariaTipo;
   protected pesquisa!: string;
-  protected temp!: Cores;
+  protected temp!: DiariasTipos;
   protected quant: number = 10;
   protected subscription: any;
 
   @ViewChild(DataTableDirective, {static: false}) dtElement!: DataTableDirective;
   protected dtOptions: Config = {};
 
-  @ViewChild(CoresFormComponent) child!: CoresFormComponent;
+  @ViewChild(DiariasTiposFormComponent) child!: DiariasTiposFormComponent;
 
   constructor(
-    private coresService: CoresService,
+    private diariasTiposService: DiariasTiposService,
     private toastr: ToastrService,
     private sessionService: SessionService,
   ) {}
@@ -50,7 +56,7 @@ export class CoresComponent implements OnInit, OnDestroy {
       order: [1, 'asc']
     };
 
-    this.data$ = this.coresService.index();
+    this.data$ = this.diariasTiposService.index();
   }
 
   ngOnDestroy(): void {
@@ -58,19 +64,19 @@ export class CoresComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.data$ = this.coresService.index();
+    this.data$ = this.diariasTiposService.index();
   }
 
-  editar(data: Cor) {
+  editar(data: DiariaTipo) {
     this.child.editar(data);
   }
 
-  delete(data: Cor) {
+  delete(data: DiariaTipo) {
     this.excluir = data;
   }
 
   confirm() {
-    this.coresService.remove(this.excluir.id || 0).subscribe({
+    this.diariasTiposService.remove(this.excluir.id || 0).subscribe({
       next: (data: any) => {
         this.toastr.success('Exclusão realizada com sucesso!');
         this.refresh();

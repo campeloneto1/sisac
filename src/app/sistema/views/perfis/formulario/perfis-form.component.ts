@@ -63,6 +63,11 @@ export class PerfisFormComponent implements OnInit{
             'documentos_edt': [null],
             'documentos_del': [null],
 
+            'policiais_diarias': [null],
+            'policiais_diarias_cad': [null],
+            'policiais_diarias_edt': [null],
+            'policiais_diarias_del': [null],
+
             'empresas': [null],
             'empresas_cad': [null],
             'empresas_edt': [null],
