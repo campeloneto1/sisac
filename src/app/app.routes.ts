@@ -156,16 +156,7 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./sistema/views/cursos/cursos.component').then((c) => c.CursosComponent),
           },
-          {
-            path: 'PoliciaisDiarias',
-            loadComponent: () =>
-              import('./sistema/views/policiais-diarias/policiais-diarias.component').then((c) => c.PoliciaisDiariasComponent),
-          },
-          {
-            path: 'RelPoliciaisDiarias',
-            loadComponent: () =>
-              import('./sistema/views/relatorios/policiais-diarias/policiais-diarias-rel.component').then((c) => c.PoliciaisDiariasRelComponent),
-          },
+         
           {
             path: 'DiariasTipos',
             loadComponent: () =>
@@ -367,7 +358,16 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./sistema/views/relatorios/policiais/policiais-rel.component').then((c) => c.PoliciaisRelComponent),
           },
-          
+          {
+            path: 'PoliciaisDiarias',
+            loadComponent: () =>
+              import('./sistema/views/policiais-diarias/policiais-diarias.component').then((c) => c.PoliciaisDiariasComponent),
+          },
+          {
+            path: 'RelPoliciaisDiarias',
+            loadComponent: () =>
+              import('./sistema/views/relatorios/policiais-diarias/policiais-diarias-rel.component').then((c) => c.PoliciaisDiariasRelComponent),
+          },
           {
             path: 'RelPoliciaisAfastamentos',
             loadComponent: () =>
@@ -402,6 +402,11 @@ export const routes: Routes = [
             path: 'PoliciaisCursos',
             loadComponent: () =>
               import('./sistema/views/policiais-cursos/policiais-cursos.component').then((c) => c.PoliciaisCursosComponent),
+          },
+          {
+            path: 'PoliciaisPromocoes',
+            loadComponent: () =>
+              import('./sistema/views/policiais-promocoes/policiais-promocoes.component').then((c) => c.PoliciaisPromocoesComponent),
           },
           {
             path: 'PublicacoesTipos',

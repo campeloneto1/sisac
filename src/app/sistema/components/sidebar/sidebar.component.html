@@ -218,7 +218,18 @@
             <p>Policiais</p>
           </a>
         </li>
-        } @if(user.perfil.policiais_publicacoes){
+        }@if(user.perfil.policiais){
+          <li class="nav-item">
+            <a
+              [routerLink]="['PoliciaisPromocoes']"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-angle-double-up"></i>
+              <p>Promoções</p>
+            </a>
+          </li>
+          } @if(user.perfil.policiais_publicacoes){
         <li class="nav-item">
           <a
             [routerLink]="['Publicacoes']"

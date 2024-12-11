@@ -82,6 +82,8 @@ export class PoliciaisDiariasRelComponent implements OnInit, OnDestroy{
             'diaria_tipo': [null],
             'diaria_status': [null],
             'subunidade': [null],
+            'data_inicial': [null],
+            'data_final': [null],
            
         });
 

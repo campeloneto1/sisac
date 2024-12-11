@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-    <app-title titulo="Diárias" />
+    <app-title titulo="Promoções" />
   
     <!--INICIO SECTION content-->
     <section class="content">
@@ -8,7 +8,7 @@
         <!-- INICIO CARD HEADER-->
         <div class="card-header border-0">
           <h3 class="card-title">
-            @if(user.perfil.policiais_diarias_cad){
+            @if(user.perfil.policiais_edt){
               <button
                 class="btn btn-outline-primary"
                 data-bs-toggle="modal"
@@ -42,18 +42,9 @@
                   <th>Nome de Guerra</th>
                   <th>Matrícula</th>
                   <th>Setor</th>
-                  <th>Cidade</th>
-                  <th>Dt Inicial</th>
-                  <th>Dt Final</th>
-                  <th>Quant. Diárias</th>
-                  <th>Valor</th>
-                  <th>Ajuda Custo</th>
-                
-                  <th>Acréscimo</th>
-                  <th>Valor Total</th>
-                  <th>DOE</th>
-                  <th>NUP</th>
-                  <th>Status</th>
+                  <th>Promoção</th>
+                  <th>Dt Promoção</th>
+                  <th>Boletim</th>
                   <th>Opções</th>
                 </tr>
               </thead>
@@ -67,19 +58,11 @@
                 <td>{{ row.policial.nome_guerra }}</td>
                 <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
                 <td>{{ row.policial.setor.nome }}</td>
-                <td>{{ row.cidade.nome }} - {{ row.cidade.estado.abreviatura }}</td>
-                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
-                <td>@if(row.data_final){{{ row.data_final | date: 'dd/MM/yyyy' }}}</td>
-                <td>{{ row.quant_diarias }}</td>
-                <td>@if(row.valor){R$ {{ row.valor | mask: 'separator.2' }}}</td>
-                <td>@if(row.ajuda_custo){R$ {{ row.ajuda_custo | mask: 'separator.2' }}}</td>
-                <td>@if(row.acrescimo){{{ row.acrescimo }} %}</td>
-                <td>@if(row.valor_total){R$ {{ row.valor_total | mask: 'separator.2' }}}</td>
-                <td>{{ row.doe }}</td>
-                <td>{{ row.nup }}</td>
-                <td>{{ row.diaria_status.nome }}</td>
+                <td>{{ row.graduacao.nome }}</td>
+                <td>{{ row.data_promocao | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ row.boletim }}</td>
                   <td class="options2">
-                    @if(user.perfil.policiais_diarias_edt){
+                    @if(user.perfil.policiais_edt){
                       <div class="btn-group">
                         <button
                           type="button"
@@ -99,7 +82,7 @@
                           <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu" role="menu">
-                          @if(user.perfil.policiais_diarias_del){
+                          @if(user.perfil.policiais_del){
                           <a
                             class="dropdown-item point"
                             (click)="delete(row)"
@@ -147,7 +130,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <app-policiais-diarias-form (refresh)="refresh()" />
+            <app-policiais-promocoes-form (refresh)="refresh()" />
           </div>
         </div>
       </div>

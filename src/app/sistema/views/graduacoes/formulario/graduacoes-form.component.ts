@@ -43,6 +43,7 @@ export class GraduacoesFormComponent implements OnInit{
                 Validators.minLength(2),
                 Validators.maxLength(5)
             ])],
+            'intersticio': [null]
         });
 
     }

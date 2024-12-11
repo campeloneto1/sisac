@@ -12,6 +12,22 @@
         <div class="card-body table-responsive" style="overflow: visible;">
           <form [formGroup]="form" class="noprint">
             <div class="row">
+              <input-text
+                class="col-sm-2"
+                formControlName="data_inicial"
+                label="Data Inical maior ou igual a"
+                id="data_inicial"
+                tipo="date"
+              />
+              <input-text
+                class="col-sm-2"
+                formControlName="data_final"
+                label="Data Inicial menor ou igual a"
+                id="data_final"
+                tipo="date"
+              />
+            </div>
+            <div class="row">
                 <input-select
                 class="col-sm-2"
                 label="Policial"
@@ -150,7 +166,7 @@
                 </td>
               </tr>
             </tbody>
-            <tfoot>
+            <tfoot class="tfoottable">
              
               <tr>
                 <td>

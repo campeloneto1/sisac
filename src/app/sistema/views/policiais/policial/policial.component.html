@@ -707,11 +707,6 @@
                             <thead>
                               <tr>
                                 <th>#</th>
-                                <th>Graduação</th>
-                                <th>Numeral</th>
-                                <th>Nome de Guerra</th>
-                                <th>Matrícula</th>
-                                <th>Setor</th>
                                 <th>Cidade</th>
                                 <th>Dt Inicial</th>
                                 <th>Dt Final</th>
@@ -732,22 +727,17 @@
                               
                                 <tr class="optionshover2">
                                   <td>{{ row.id }}</td>
-                <td>{{ row.policial.graduacao.nome }}</td>
-                <td>@if(row.policial.numeral){{{ row.policial.numeral | mask: '00.000' }}}</td>
-                <td>{{ row.policial.nome_guerra }}</td>
-                <td>{{ row.policial.matricula | mask: '000.000-0-A' }}</td>
-                <td>{{ row.policial.setor.nome }}</td>
-                <td>{{ row.cidade.nome }} - {{ row.cidade.estado.abreviatura }}</td>
-                <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
-                <td>@if(row.data_final){{{ row.data_final | date: 'dd/MM/yyyy' }}}</td>
-                <td>{{ row.quant_diarias }}</td>
-                <td>@if(row.valor){R$ {{ row.valor | mask: 'separator.2' }}}</td>
-                <td>@if(row.ajuda_custo){R$ {{ row.ajuda_custo | mask: 'separator.2' }}}</td>
-                <td>@if(row.acrescimo){{{ row.acrescimo }} %}</td>
-                <td>@if(row.valor_total){R$ {{ row.valor_total | mask: 'separator.2' }}}</td>
-                <td>{{ row.doe }}</td>
-                <td>{{ row.nup }}</td>
-                <td>{{ row.diaria_status.nome }}</td>
+                                  <td>{{ row.cidade.nome }} - {{ row.cidade.estado.abreviatura }}</td>
+                                  <td>{{ row.data_inicial | date: 'dd/MM/yyyy' }}</td>
+                                  <td>@if(row.data_final){{{ row.data_final | date: 'dd/MM/yyyy' }}}</td>
+                                  <td>{{ row.quant_diarias }}</td>
+                                  <td>@if(row.valor){R$ {{ row.valor | mask: 'separator.2' }}}</td>
+                                  <td>@if(row.ajuda_custo){R$ {{ row.ajuda_custo | mask: 'separator.2' }}}</td>
+                                  <td>@if(row.acrescimo){{{ row.acrescimo }} %}</td>
+                                  <td>@if(row.valor_total){R$ {{ row.valor_total | mask: 'separator.2' }}}</td>
+                                  <td>{{ row.doe }}</td>
+                                  <td>{{ row.nup }}</td>
+                                  <td>{{ row.diaria_status.nome }}</td>
                                 </tr>
                               }
                             </tbody>

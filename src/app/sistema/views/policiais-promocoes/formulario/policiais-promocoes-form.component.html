@@ -1,0 +1,34 @@
+<form  [formGroup]="form" >
+    <div class="row">
+        <input-select
+            class="col-sm-4"
+            label="Policial"
+            id="policial"
+            [data$]="policiais$"
+            formControlName="policial"
+            [multiple]="true"
+        />
+        <input-select
+            class="col-sm-4"
+            label="Promoção"
+            id="graduacao"
+            [data$]="graduacoes$"
+            formControlName="graduacao"
+        />
+       
+       
+    </div>
+    <div class="row">
+        <input-text class="col-sm-2" formControlName="data_promocao" label="Data Promoção" id="data_promocao" tipo="date" />
+        <input-text class="col-sm-2" formControlName="boletim" label="Boletim" id="boletim" tipo="text" />
+        
+    </div>   
+    <div class="row" style="height: 350px;">
+        <input-textarea class="col-sm-12" formControlName="observacoes" label="Observações" id="observacoes" />
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <a (click)="form.reset()" data-bs-dismiss="modal" class="btn btn-link text-danger">Cancelar</a>
+        <button [disabled]="form.invalid" type="button" (click)="cadastrar()" data-bs-dismiss="modal" class="btn btn-primary">Cadastrar</button>
+    </div>
+</form>

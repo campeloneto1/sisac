@@ -4,7 +4,7 @@ export interface Graduacao{
     id?: number;
     nome: string;
     abreviatura: string;
-     
+    intersticio?: number;
     created_by?: User;
     updated_by?: User;
     created_at?: Date;
